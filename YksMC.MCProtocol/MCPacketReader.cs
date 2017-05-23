@@ -58,7 +58,7 @@ namespace YksMC.MCProtocol
 
         public double GetDouble()
         {
-            return BitConverter.Int64BitsToDouble(GetLong());
+            return BitConverter.ToDouble(GetBytesReversed(8), 0);
         }
 
         public float GetFloat()
@@ -73,12 +73,12 @@ namespace YksMC.MCProtocol
 
         public int GetInt()
         {
-            return (int)GetUnsignedInt();
+            return BitConverter.ToInt32(GetBytesReversed(4), 0);
         }
 
         public long GetLong()
         {
-            return (long)GetUnsignedLong();
+            return BitConverter.ToInt64(GetBytesReversed(8), 0);
         }
 
         public Position GetPosition()
@@ -88,7 +88,7 @@ namespace YksMC.MCProtocol
 
         public short GetShort()
         {
-            return (short)GetUnsignedShort();
+            return BitConverter.ToInt16(GetBytesReversed(2), 0);
         }
 
         public sbyte GetSignedByte()
@@ -103,17 +103,17 @@ namespace YksMC.MCProtocol
 
         public uint GetUnsignedInt()
         {
-            return (uint)GetUnsignedShort() << 16 | GetUnsignedShort();
+            return BitConverter.ToUInt32(GetBytesReversed(4), 0);
         }
 
         public ulong GetUnsignedLong()
         {
-            return (ulong)GetUnsignedInt() << 32 | GetUnsignedInt();
+            return BitConverter.ToUInt64(GetBytesReversed(8), 0);
         }
 
         public ushort GetUnsignedShort()
         {
-            return (ushort)((int)GetByte() << 8 | GetByte());
+            return BitConverter.ToUInt16(GetBytesReversed(2), 0);
         }
 
         public VarInt GetVarInt()
