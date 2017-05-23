@@ -7,5 +7,10 @@ namespace YksMC.MCProtocol.Models
     public class VarInt
     {
         public int Value { get; set; }
+
+        public VarInt(int value)
+        {
+            Value = value;
+        }
     }
 }

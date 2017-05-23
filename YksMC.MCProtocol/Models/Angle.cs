@@ -7,5 +7,10 @@ namespace YksMC.MCProtocol.Models
     public class Angle
     {
         public byte Value { get; set; }
+
+        public Angle(byte value)
+        {
+            Value = value;
+        }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YksMc.MCProtocol.Tests.Fakes;
 using YksMC.MCProtocol;
+using YksMC.MCProtocol.Models;
 
 namespace YksMc.MCProtocol.Tests
 {
@@ -236,6 +238,150 @@ namespace YksMc.MCProtocol.Tests
 
             Assert.AreEqual(new byte[] { 0xc0, 0x18, 0x00, 0x00 }, result0);
             Assert.AreEqual(new byte[] { 0x00, 0x04 }, result1);
+        }
+
+        [Test]
+        public async Task TestGetVarInt()
+        {
+            FakeMCPacketSource source = new FakeMCPacketSource(new byte[] {
+                0x00,
+                0x01,
+                0x7f,
+                0x80, 0x01,
+                0x80, 0x80, 0x80, 0x80, 0x08
+            });
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+
+            VarInt result0 = reader.GetVarInt();
+            VarInt result1 = reader.GetVarInt();
+            VarInt result2 = reader.GetVarInt();
+            VarInt result3 = reader.GetVarInt();
+            VarInt result4 = reader.GetVarInt();
+
+            Assert.AreEqual(0, result0.Value);
+            Assert.AreEqual(1, result1.Value);
+            Assert.AreEqual(127, result2.Value);
+            Assert.AreEqual(128, result3.Value);
+            Assert.AreEqual(-2147483648, result4.Value);
+        }
+
+        [Test]
+        public async Task TestGetVarLong()
+        {
+            FakeMCPacketSource source = new FakeMCPacketSource(new byte[] {
+                0x00,
+                0x01,
+                0x7f,
+                0x80, 0x01,
+                0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x01
+            });
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+
+            VarLong result0 = reader.GetVarLong();
+            VarLong result1 = reader.GetVarLong();
+            VarLong result2 = reader.GetVarLong();
+            VarLong result3 = reader.GetVarLong();
+            VarLong result4 = reader.GetVarLong();
+
+            Assert.AreEqual(0, result0.Value);
+            Assert.AreEqual(1, result1.Value);
+            Assert.AreEqual(127, result2.Value);
+            Assert.AreEqual(128, result3.Value);
+            Assert.AreEqual(-9223372036854775808, result4.Value);
+        }
+
+        [Test]
+        public async Task TestGetString()
+        {
+            string str = "TÄMÄ on testi持燃ク禁購ヤホキ前追にゆびト見柳フ止図主のあ。鯉メヤロヒ連降タ誌番アノキロ氏難ア問士こ仰律ぽぱ韓新セチ動呼トは意触げ深学じふたい時Lorem ipsúm dolor sit amet, his cú habeo labítur, eos gloriatur omittantur ad, ex ius solet possim indoctum. Summo vólumus añ mel, sed ex doctus nostrúd, hás eu quis diám sóleat. Eúm at legeré ígnota conclusiónemque. Et meí suavitáte principes. Et sumo éverti quo, ex apeírian mnésarchum temporibus eam. Ad minim quidam sít, verí temporibus hás in.38制ろ問権タメ持掲各ぽーろこ避防覚創ひあ。会むっリ岡都むめびく徳処ミ命6置レの格討ゆ女空をりらに渡1年て予鰒ミツ意組ドるちぼ悪2企ノタヌオ辞4水ヱニヘユ積浩つわんち。";
+            List<byte> bytes = new List<byte>();
+            bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
+            bytes.AddRange(Encoding.UTF8.GetBytes(str));
+            bytes.AddRange(new byte[] { 0 });
+            FakeMCPacketSource source = new FakeMCPacketSource(bytes.ToArray());
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+
+            string result0 = reader.GetString();
+            string result1 = reader.GetString();
+
+            Assert.AreEqual(str, result0);
+            Assert.AreEqual("", result1);
+        }
+
+        [Test]
+        public async Task TestGetChat()
+        {
+            string str = "TÄMÄ on testi持燃ク禁購ヤホキ前追にゆびト見柳フ止図主のあ。鯉メヤロヒ連降タ誌番アノキロ氏難ア問士こ仰律ぽぱ韓新セチ動呼トは意触げ深学じふたい時Lorem ipsúm dolor sit amet, his cú habeo labítur, eos gloriatur omittantur ad, ex ius solet possim indoctum. Summo vólumus añ mel, sed ex doctus nostrúd, hás eu quis diám sóleat. Eúm at legeré ígnota conclusiónemque. Et meí suavitáte principes. Et sumo éverti quo, ex apeírian mnésarchum temporibus eam. Ad minim quidam sít, verí temporibus hás in.38制ろ問権タメ持掲各ぽーろこ避防覚創ひあ。会むっリ岡都むめびく徳処ミ命6置レの格討ゆ女空をりらに渡1年て予鰒ミツ意組ドるちぼ悪2企ノタヌオ辞4水ヱニヘユ積浩つわんち。";
+            List<byte> bytes = new List<byte>();
+            bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
+            bytes.AddRange(Encoding.UTF8.GetBytes(str));
+            bytes.AddRange(new byte[] { 0 });
+            FakeMCPacketSource source = new FakeMCPacketSource(bytes.ToArray());
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+
+            Chat result0 = reader.GetChat();
+            Chat result1 = reader.GetChat();
+
+            Assert.AreEqual(str, result0.Value);
+            Assert.AreEqual("", result1.Value);
+        }
+
+        [Test]
+        public async Task TestGetPosition()
+        {
+            FakeMCPacketSource source = new FakeMCPacketSource(new byte[] {
+                0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfd
+            });
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+
+            Position result0 = reader.GetPosition();
+
+            Assert.AreEqual(0b01111111111111111111111111, result0.X);
+            Assert.AreEqual(0b111111111111, result0.Y);
+            Assert.AreEqual(0b11111111111111111111111101, result0.Z);
+        }
+
+        [Test]
+        public async Task TestGetAngle()
+        {
+            FakeMCPacketSource source = new FakeMCPacketSource(new byte[] {
+                0x8f
+            });
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+
+            Angle result0 = reader.GetAngle();
+
+            Assert.AreEqual(0x8f, result0.Value);
+        }
+
+        [Test]
+        public async Task TestGetGuid()
+        {
+            Guid expected = Guid.NewGuid();
+            FakeMCPacketSource source = new FakeMCPacketSource(
+                expected.ToByteArray()
+                    .Reverse()
+                    .ToArray()
+            );
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+
+            Guid result0 = reader.GetGuid();
+
+            Assert.AreEqual(expected, result0);
         }
     }
 }

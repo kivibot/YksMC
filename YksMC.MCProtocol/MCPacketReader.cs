@@ -21,7 +21,7 @@ namespace YksMC.MCProtocol
 
         public Angle GetAngle()
         {
-            throw new NotImplementedException();
+            return new Angle(GetByte());
         }
 
         public bool GetBool()
@@ -53,7 +53,7 @@ namespace YksMC.MCProtocol
 
         public Chat GetChat()
         {
-            throw new NotImplementedException();
+            return new Chat(GetString());
         }
 
         public double GetDouble()
@@ -68,7 +68,7 @@ namespace YksMC.MCProtocol
 
         public Guid GetGuid()
         {
-            throw new NotImplementedException();
+            return new Guid(GetBytesReversed(16));
         }
 
         public int GetInt()
@@ -83,7 +83,11 @@ namespace YksMC.MCProtocol
 
         public Position GetPosition()
         {
-            throw new NotImplementedException();
+            ulong val = GetUnsignedLong();
+            ulong x = val >> 38;
+            ulong y = (val >> 26) & 0xFFF;
+            ulong z = val << 38 >> 38;
+            return new Position((int)x, (int)y, (int)z);
         }
 
         public short GetShort()
@@ -98,7 +102,9 @@ namespace YksMC.MCProtocol
 
         public string GetString()
         {
-            throw new NotImplementedException();
+            VarInt length = GetVarInt();
+            byte[] bytes = GetBytes(length.Value);
+            return Encoding.UTF8.GetString(bytes);
         }
 
         public uint GetUnsignedInt()
@@ -118,12 +124,30 @@ namespace YksMC.MCProtocol
 
         public VarInt GetVarInt()
         {
-            throw new NotImplementedException();
+            int bytesRead = 0;
+            int value = 0;
+            byte cur;
+            do
+            {
+                cur = GetByte();
+                value |= (cur & 0b01111111) << 7 * bytesRead;
+                bytesRead++;
+            } while ((cur & 0b10000000) != 0);
+            return new VarInt(value);
         }
 
         public VarLong GetVarLong()
         {
-            throw new NotImplementedException();
+            int bytesRead = 0;
+            long value = 0;
+            byte cur;
+            do
+            {
+                cur = GetByte();
+                value |= ((long)cur & 0b01111111) << 7 * bytesRead;
+                bytesRead++;
+            } while ((cur & 0b10000000) != 0);
+            return new VarLong(value);
         }
 
         public async Task<bool> NextAsync(CancellationToken cancelToken = default(CancellationToken))
