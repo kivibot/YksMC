@@ -7,7 +7,7 @@ using YksMC.MCProtocol.Models.Types;
 namespace YksMC.MCProtocol.Models.Packets
 {
     [PacketId(0x00)]
-    public class HandshakePacket
+    public class HandshakePacket : AbstractPacket
     {
         public VarInt ProtocolVersion { get; set; }
         public string ServerAddress { get; set; }

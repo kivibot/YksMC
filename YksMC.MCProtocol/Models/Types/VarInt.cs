@@ -6,6 +6,8 @@ namespace YksMC.MCProtocol.Models.Types
 {
     public class VarInt
     {
+        public const int MaxLength = 5;
+
         public int Value { get; set; }
 
         public VarInt(int value)
