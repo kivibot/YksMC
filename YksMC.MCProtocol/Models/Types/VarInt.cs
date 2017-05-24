@@ -14,5 +14,18 @@ namespace YksMC.MCProtocol.Models.Types
         {
             Value = value;
         }
+
+        public override bool Equals(object obj)
+        {
+            VarInt other = obj as VarInt;
+            if (other == null)
+                return false;
+            return Value == other.Value;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

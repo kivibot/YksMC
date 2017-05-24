@@ -7,6 +7,6 @@ namespace YksMC.MCProtocol.Models.Packets
 {
     public abstract class AbstractPacket
     {
-        public VarInt PacketId { get; set; }
+        public VarInt Id { get; set; }
     }
 }

@@ -14,5 +14,17 @@ namespace YksMC.MCProtocol.Models.Types
         {
             Value = value;
         }
+
+        public override bool Equals(object obj)
+        {
+            VarLong other = obj as VarLong;
+            if (other == null)
+                return false;
+            return Value == other.Value;
+        }
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }
