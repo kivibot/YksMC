@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using YksMc.MCProtocol.Tests.Fakes;
 using YksMC.MCProtocol;
 using YksMC.MCProtocol.Models;
+using YksMC.MCProtocol.Models.Types;
 
 namespace YksMc.MCProtocol.Tests
 {

@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YksMC.MCProtocol.Models;
+using YksMC.MCProtocol.Models.Types;
 
 namespace YksMC.MCProtocol
 {
