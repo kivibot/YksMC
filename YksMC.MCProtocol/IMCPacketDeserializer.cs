@@ -8,8 +8,6 @@ namespace YksMC.MCProtocol
 {
     public interface IMCPacketDeserializer
     {
-        AbstractPacket Deserialize(IMCPacketReader reader);
-
-        void RegisterType<T>(int id) where T : AbstractPacket;
+        T Deserialize<T>(IMCPacketReader reader) where T : AbstractPacket;
     }
 }

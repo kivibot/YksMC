@@ -9,43 +9,30 @@ namespace YksMC.MCProtocol
 {
     public class MCPacketDeserializer : IMCPacketDeserializer
     {
-        private readonly Dictionary<int, Type> _packetTypes;
         private readonly Dictionary<Type, Func<IMCPacketReader, object>> _propertyTypes;
 
         public MCPacketDeserializer()
         {
-            _packetTypes = new Dictionary<int, Type>();
             _propertyTypes = new Dictionary<Type, Func<IMCPacketReader, object>>();
 
             RegisterPropertyTypes();
         }
 
-
-        public AbstractPacket Deserialize(IMCPacketReader reader)
-        {
-            VarInt packetId = reader.GetVarInt();
-            Type type;
-            if (!_packetTypes.TryGetValue(packetId.Value, out type))
-                throw new ArgumentException("Unsupported packet id: " + packetId.Value);
-            AbstractPacket packet = (AbstractPacket)type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
-            packet.Id = packetId;
-
-            foreach (PropertyInfo property in type.GetRuntimeProperties())
-                if (property.Name != nameof(AbstractPacket.Id))
-                    property.SetValue(packet, _propertyTypes[property.PropertyType](reader));
-
-            return packet;
-        }
-
-        public void RegisterType<T>(int id) where T : AbstractPacket
+        public T Deserialize<T>(IMCPacketReader reader) where T : AbstractPacket
         {
             Type type = typeof(T);
+            T packet = (T)type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
+
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
-                if (!_propertyTypes.ContainsKey(property.PropertyType))
+                Func<IMCPacketReader, object> deserializeProperty;
+                if (!_propertyTypes.TryGetValue(property.PropertyType, out deserializeProperty))
                     throw new ArgumentException($"Unsupported property type: {property.PropertyType}");
+
+                property.SetValue(packet, deserializeProperty(reader));
             }
-            _packetTypes.Add(id, type);
+
+            return packet;
         }
 
         private void RegisterPropertyTypes()
