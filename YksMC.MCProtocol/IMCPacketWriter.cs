@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using YksMC.MCProtocol.Models.Types;
 
@@ -8,7 +9,7 @@ namespace YksMC.MCProtocol
 {
     public interface IMCPacketWriter
     {
-        Task SendPacketAsync();
+        Task SendPacketAsync(CancellationToken cancelToken = default(CancellationToken));
 
         void PutBool(bool value);
 

@@ -10,6 +10,14 @@ namespace YksMc.MCProtocol.Tests.Fakes
 {
     public class FakeMCPacketSink : IMCPacketSink
     {
-        
+        private readonly List<byte[]> _packets = new List<byte[]>();
+
+        public IReadOnlyList<byte[]> Packets => _packets;
+
+        public Task SendPacketAsync(byte[] data, CancellationToken cancelToken = default(CancellationToken))
+        {
+            _packets.Add(data);
+            return Task.FromResult(true);
+        }
     }
 }

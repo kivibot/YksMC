@@ -2,116 +2,132 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using YksMC.MCProtocol.Models.Types;
+using YksMC.MCProtocol.Utils;
 
 namespace YksMC.MCProtocol
 {
     public class MCPacketWriter : IMCPacketWriter
     {
+        private readonly IMCPacketSink _packetSink;
+        private readonly List<byte> _data;
+
         public MCPacketWriter(IMCPacketSink packetSink)
         {
-
+            _packetSink = packetSink;
+            _data = new List<byte>();
         }
 
-        public void PutAngle(Angle value)
+        public void PutAngle(Angle angle)
         {
-            throw new NotImplementedException();
+            PutByte(angle.Value);
         }
 
         public void PutBool(bool value)
         {
-            throw new NotImplementedException();
+            PutByte(Convert.ToByte(value));
         }
 
         public void PutByte(byte value)
         {
-            throw new NotImplementedException();
+            _data.Add(value);
         }
 
         public void PutBytes(byte[] data)
         {
-            throw new NotImplementedException();
+            _data.AddRange(data);
         }
 
         public void PutChat(Chat value)
         {
-            throw new NotImplementedException();
+            PutString(value.Value);
         }
 
         public void PutDouble(double value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutFloat(float value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutGuid(Guid value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(value.ToByteArray());
         }
 
         public void PutInt(int value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutLong(long value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutPosition(Position value)
         {
-            throw new NotImplementedException();
+            PutUnsignedLong((((ulong)value.X & 0x3FFFFFF) << 38) | (((ulong)value.Y & 0xFFF) << 26) | ((ulong)value.Z & 0x3FFFFFF));
         }
 
         public void PutShort(short value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutSignedByte(sbyte value)
         {
-            throw new NotImplementedException();
+            PutByte((byte)value);
         }
 
         public void PutString(string value)
         {
-            throw new NotImplementedException();
+            byte[] encoded = Encoding.UTF8.GetBytes(value);
+            PutVarInt(new VarInt(encoded.Length));
+            PutBytes(encoded);
         }
 
         public void PutUnsignedInt(uint value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutUnsignedLong(ulong value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutUnsignedShort(ushort value)
         {
-            throw new NotImplementedException();
+            PutBytesReversed(BitConverter.GetBytes(value));
         }
 
         public void PutVarInt(VarInt value)
         {
-            throw new NotImplementedException();
+            PutBytes(VarIntUtil.EncodeVarInt(value.Value));
         }
 
         public void PutVarLong(VarLong value)
         {
-            throw new NotImplementedException();
+            PutBytes(VarIntUtil.EncodeVarLong(value.Value));
         }
 
-        public Task SendPacketAsync()
+        public async Task SendPacketAsync(CancellationToken cancelToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            await _packetSink.SendPacketAsync(_data.ToArray(), cancelToken);
+
+            _data.Clear();
+        }
+
+        private void PutBytesReversed(byte[] bytes)
+        {
+            Array.Reverse(bytes);
+            PutBytes(bytes);
         }
     }
 }
