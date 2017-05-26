@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YksMC.MCProtocol\YksMC.MCProtocol.csproj" />
+    <ProjectReference Include="..\YksMC.MCProtocol\YksMC.Protocol.csproj" />
   </ItemGroup>
 
   <ItemGroup>

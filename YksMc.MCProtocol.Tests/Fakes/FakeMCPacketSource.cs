@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YksMC.MCProtocol;
 
-namespace YksMc.MCProtocol.Tests.Fakes
+namespace YksMc.Protocol.Tests.Fakes
 {
     public class FakeMCPacketSource : IMCPacketSource
     {

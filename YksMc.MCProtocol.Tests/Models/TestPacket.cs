@@ -4,7 +4,7 @@ using System.Text;
 using YksMC.MCProtocol.Models.Packets;
 using YksMC.MCProtocol.Models.Types;
 
-namespace YksMc.MCProtocol.Tests.Models
+namespace YksMc.Protocol.Tests.Models
 {
     public class TestPacket : AbstractPacket
     {

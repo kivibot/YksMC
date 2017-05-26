@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMc.MCProtocol.IntegrationTests.Config
+namespace YksMc.Protocol.IntegrationTests.Config
 {
     public static class ConfigManager
     {

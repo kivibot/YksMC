@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using YksMc.MCProtocol.IntegrationTests.Config;
+using YksMc.Protocol.IntegrationTests.Config;
 using YksMC.MCProtocol;
 using YksMC.MCProtocol.Models.Dtos;
 
-namespace YksMc.MCProtocol.IntegrationTests
+namespace YksMc.Protocol.IntegrationTests
 {
     [TestFixture]
     public class MCStatusClientIntegrationTests

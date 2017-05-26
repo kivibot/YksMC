@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YksMc.MCProtocol.Tests.Fakes;
+using YksMc.Protocol.Tests.Fakes;
 using YksMC.MCProtocol;
 using YksMC.MCProtocol.Utils;
 
-namespace YksMc.MCProtocol.Tests
+namespace YksMc.Protocol.Tests
 {
     [TestFixture]
     public class StreamMCPacketSinkTests

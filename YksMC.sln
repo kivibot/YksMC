@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.MCProtocol", "YksMC.MCProtocol\YksMC.MCProtocol.csproj", "{35193D03-EE33-492F-BEB2-3AC0213592C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Protocol", "YksMC.MCProtocol\YksMC.Protocol.csproj", "{35193D03-EE33-492F-BEB2-3AC0213592C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMc.MCProtocol.Tests", "YksMc.MCProtocol.Tests\YksMc.MCProtocol.Tests.csproj", "{E593819C-0BE6-4DCA-9FEC-4A22749F4166}"
 EndProject
