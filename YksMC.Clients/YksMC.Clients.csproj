@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YksMC.MCProtocol\YksMC.Protocol.csproj" />
+    <ProjectReference Include="..\YksMC.Protocol\YksMC.Protocol.csproj" />
   </ItemGroup>
 
 </Project>

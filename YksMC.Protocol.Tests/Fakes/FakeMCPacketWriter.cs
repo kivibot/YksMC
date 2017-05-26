@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using YksMC.Protocol;
 using YksMC.Protocol.Models.Types;
 
-namespace YksMc.Protocol.Tests.Fakes
+namespace YksMC.Protocol.Tests.Fakes
 {
     public class FakeMCPacketWriter : IMCPacketWriter
     {

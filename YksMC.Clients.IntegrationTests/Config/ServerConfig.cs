@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMc.Protocol.IntegrationTests.Config
+namespace YksMC.Protocol.IntegrationTests.Config
 {
     public class ServerConfig
     {

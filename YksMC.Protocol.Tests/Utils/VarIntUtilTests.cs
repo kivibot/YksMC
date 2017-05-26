@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Utils;
 
-namespace YksMc.Protocol.Tests.Utils
+namespace YksMC.Protocol.Tests.Utils
 {
     [TestFixture]
     public class VarIntUtilTests

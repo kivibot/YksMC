@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace YksMc.Protocol.Tests.TestUtils
+namespace YksMC.Protocol.Tests.TestUtils
 {
     public class ComparisonUtil
     {

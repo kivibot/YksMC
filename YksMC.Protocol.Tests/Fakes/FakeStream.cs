@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace YksMc.Protocol.Tests.Fakes
+namespace YksMC.Protocol.Tests.Fakes
 {
     public class FakeStream : Stream
     {

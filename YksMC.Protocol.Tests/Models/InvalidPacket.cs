@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Models.Packets;
 
-namespace YksMc.Protocol.Tests.Models
+namespace YksMC.Protocol.Tests.Models
 {
     public class InvalidPacket : AbstractPacket
     {

@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using YksMc.Protocol.Tests.Fakes;
-using YksMc.Protocol.Tests.Models;
+using YksMC.Protocol.Tests.Fakes;
+using YksMC.Protocol.Tests.Models;
 using YksMC.Protocol;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 
-namespace YksMc.Protocol.Tests
+namespace YksMC.Protocol.Tests
 {
     [TestFixture]
     public class MCPacketSerializerTests
