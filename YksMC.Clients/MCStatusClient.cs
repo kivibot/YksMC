@@ -8,6 +8,7 @@ using YksMC.Clients.Models.Dtos;
 using YksMC.Protocol;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
+using YksMC.Protocol.Serializing;
 
 namespace YksMC.Clients
 {

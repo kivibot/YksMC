@@ -5,7 +5,7 @@ using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 using System.Reflection;
 
-namespace YksMC.Protocol
+namespace YksMC.Protocol.Serializing
 {
     public class MCPacketSerializer : IMCPacketSerializer
     {

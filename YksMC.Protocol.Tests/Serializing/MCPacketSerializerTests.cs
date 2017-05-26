@@ -8,8 +8,9 @@ using YksMC.Protocol.Tests.Models;
 using YksMC.Protocol;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
+using YksMC.Protocol.Serializing;
 
-namespace YksMC.Protocol.Tests
+namespace YksMC.Protocol.Tests.Serializing
 {
     [TestFixture]
     public class MCPacketSerializerTests

@@ -5,7 +5,7 @@ using System.Text;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 
-namespace YksMC.Protocol
+namespace YksMC.Protocol.Serializing
 {
     public class MCPacketDeserializer : IMCPacketDeserializer
     {
