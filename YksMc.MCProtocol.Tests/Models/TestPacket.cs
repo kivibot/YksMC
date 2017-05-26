@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MCProtocol.Models.Packets;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Models.Types;
 
 namespace YksMc.Protocol.Tests.Models
 {

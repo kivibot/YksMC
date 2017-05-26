@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.MCProtocol.Models.Dtos;
-using YksMC.MCProtocol.Models.Packets;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Clients.Models.Dtos;
+using YksMC.Protocol;
+using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Models.Types;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Clients
 {
     public class MCStatusClient : IMCStatusClient
     {

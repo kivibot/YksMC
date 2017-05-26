@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.MCProtocol.Models.Dtos;
+using YksMC.Clients.Models.Dtos;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Clients
 {
     public interface IMCStatusClient : IMCClient
     {   

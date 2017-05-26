@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MCProtocol.Models.Types
+namespace YksMC.Protocol.Models.Types
 {
     public class Angle
     {

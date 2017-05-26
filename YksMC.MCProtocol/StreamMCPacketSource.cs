@@ -4,11 +4,11 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.MCProtocol.Models.Exceptions;
-using YksMC.MCProtocol.Models.Types;
-using YksMC.MCProtocol.Utils;
+using YksMC.Protocol.Models.Exceptions;
+using YksMC.Protocol.Models.Types;
+using YksMC.Protocol.Utils;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Protocol
 {
     public class StreamMCPacketSource : IMCPacketSource, IDisposable
     {

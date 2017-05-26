@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MCProtocol.Models.Exceptions
+namespace YksMC.Protocol.Models.Exceptions
 {
     public class PacketSourceException : Exception
     {

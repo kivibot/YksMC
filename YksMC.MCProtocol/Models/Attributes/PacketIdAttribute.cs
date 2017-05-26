@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MCProtocol.Models.Attributes
+namespace YksMC.Protocol.Models.Attributes
 {
     public class PacketIdAttribute : Attribute
     {

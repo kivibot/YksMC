@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YksMc.Protocol.Tests.Fakes;
-using YksMC.MCProtocol;
-using YksMC.MCProtocol.Models;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol;
+using YksMC.Protocol.Models;
+using YksMC.Protocol.Models.Types;
 
 namespace YksMc.Protocol.Tests
 {

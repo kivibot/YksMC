@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol.Models.Types;
 
-namespace YksMC.MCProtocol.Models.Packets
+namespace YksMC.Protocol.Models.Packets
 {
     public abstract class AbstractPacket
     {

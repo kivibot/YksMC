@@ -4,9 +4,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.MCProtocol.Utils;
+using YksMC.Protocol.Utils;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Protocol
 {
     public class StreamMCPacketSink : IMCPacketSink, IDisposable
     {

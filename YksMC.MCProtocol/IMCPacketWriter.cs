@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol.Models.Types;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Protocol
 {
     public interface IMCPacketWriter
     {

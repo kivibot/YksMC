@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.MCProtocol;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol;
+using YksMC.Protocol.Models.Types;
 
 namespace YksMc.Protocol.Tests.Fakes
 {

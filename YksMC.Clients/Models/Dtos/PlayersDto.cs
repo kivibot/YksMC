@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MCProtocol.Models.Dtos
+namespace YksMC.Clients.Models.Dtos
 {
     public class PlayersDto
     {

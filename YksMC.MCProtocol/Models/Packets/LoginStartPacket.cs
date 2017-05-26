@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MCProtocol.Models.Attributes;
+using YksMC.Protocol.Models.Attributes;
 
-namespace YksMC.MCProtocol.Models.Packets
+namespace YksMC.Protocol.Models.Packets
 {
     [PacketId(0x00)]
     public class LoginStartPacket : AbstractPacket

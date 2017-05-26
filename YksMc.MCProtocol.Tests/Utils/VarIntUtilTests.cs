@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MCProtocol.Utils;
+using YksMC.Protocol.Utils;
 
 namespace YksMc.Protocol.Tests.Utils
 {

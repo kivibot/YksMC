@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol.Models.Types;
 
-namespace YksMC.MCProtocol.Utils
+namespace YksMC.Protocol.Utils
 {
     public static class VarIntUtil
     {

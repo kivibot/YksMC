@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using YksMC.MCProtocol.Models.Packets;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Models.Types;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Protocol
 {
     public class MCPacketDeserializer : IMCPacketDeserializer
     {

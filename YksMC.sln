@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Protocol", "YksMC.MCP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMc.MCProtocol.Tests", "YksMc.MCProtocol.Tests\YksMc.MCProtocol.Tests.csproj", "{E593819C-0BE6-4DCA-9FEC-4A22749F4166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMc.MCProtocol.IntegrationTests", "YksMc.MCProtocol.IntegrationTests\YksMc.MCProtocol.IntegrationTests.csproj", "{591402E7-FAA5-4204-8265-7AB59B89B73D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMc.Clients.IntegrationTests", "YksMc.MCProtocol.IntegrationTests\YksMc.Clients.IntegrationTests.csproj", "{591402E7-FAA5-4204-8265-7AB59B89B73D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Clients", "YksMC.Clients\YksMC.Clients.csproj", "{4D025B90-C298-410A-BE7A-E7D0B4210531}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{591402E7-FAA5-4204-8265-7AB59B89B73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{591402E7-FAA5-4204-8265-7AB59B89B73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{591402E7-FAA5-4204-8265-7AB59B89B73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D025B90-C298-410A-BE7A-E7D0B4210531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D025B90-C298-410A-BE7A-E7D0B4210531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D025B90-C298-410A-BE7A-E7D0B4210531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D025B90-C298-410A-BE7A-E7D0B4210531}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

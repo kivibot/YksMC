@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MCProtocol.Models.Packets;
-using YksMC.MCProtocol.Models.Types;
+using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Models.Types;
 using System.Reflection;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Protocol
 {
     public class MCPacketSerializer : IMCPacketSerializer
     {

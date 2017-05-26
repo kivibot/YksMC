@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Clients
 {
     public interface IMCClientBuilder
     {

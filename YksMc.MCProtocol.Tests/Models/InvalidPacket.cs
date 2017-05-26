@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MCProtocol.Models.Packets;
+using YksMC.Protocol.Models.Packets;
 
 namespace YksMc.Protocol.Tests.Models
 {

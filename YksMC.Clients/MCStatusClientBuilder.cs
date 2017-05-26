@@ -5,8 +5,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using YksMC.Protocol;
 
-namespace YksMC.MCProtocol
+namespace YksMC.Clients
 {
     public class MCStatusClientBuilder : IMCStatusClientBuilder
     {
