@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace YksMC.MCProtocol
 {
-    public interface IMCClient : IDisposable
+    public interface IMCStatusClientBuilder : IMCClientBuilder
     {
+        Task<IMCStatusClient> BuildAsync(CancellationToken cancelToken = default(CancellationToken));
     }
 }
