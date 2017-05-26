@@ -10,15 +10,14 @@ using YksMC.Protocol.Utils;
 
 namespace YksMC.Protocol
 {
-    public class StreamMCPacketSource : IMCPacketSource, IDisposable
+    public class StreamMCConnection : IMCPacketSource, IMCPacketSink, IDisposable
     {
         private readonly Stream _stream;
 
-        public StreamMCPacketSource(Stream stream)
+        public StreamMCConnection(Stream stream)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
-
             _stream = stream;
         }
 
@@ -65,6 +64,13 @@ namespace YksMC.Protocol
                 totalBytesRead += bytesRead;
             }
             return data;
+        }
+
+        public async Task SendPacketAsync(byte[] data, CancellationToken cancelToken = default(CancellationToken))
+        {
+            byte[] packetLenghtData = VarIntUtil.EncodeVarInt(data.Length);
+            await _stream.WriteAsync(packetLenghtData, 0, packetLenghtData.Length, cancelToken);
+            await _stream.WriteAsync(data, 0, data.Length);
         }
     }
 }

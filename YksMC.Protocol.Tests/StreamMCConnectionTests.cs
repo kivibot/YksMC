@@ -1,39 +1,56 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Protocol.Tests.Fakes;
-using YksMC.Protocol;
 using YksMC.Protocol.Models.Exceptions;
+using YksMC.Protocol.Tests.Fakes;
 using YksMC.Protocol.Utils;
 
 namespace YksMC.Protocol.Tests
 {
     [TestFixture]
-    public class StreamMCPacketSourceTests
+    public class StreamMCConnectionTests
     {
-
-        private StreamMCPacketSource _source;
-
-        [TearDown]
-        public void TearDown()
-        {
-            if (_source != null)
-                _source.Dispose();
-        }
-
         [Test]
         public void TestDisposeDisposesTheUnderlyingStream()
         {
             FakeStream stream = new FakeStream();
-            _source = new StreamMCPacketSource(stream);
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
-            _source.Dispose();
+            connection.Dispose();
 
             Assert.IsTrue(stream.IsDisposed);
+        }
+
+        [Test]
+        public async Task TestSendPacketAsyncWithEmptyPacket()
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamMCConnection connection = new StreamMCConnection(stream);
+
+            await connection.SendPacketAsync(new byte[0]);
+
+            Assert.AreEqual(VarIntUtil.EncodeVarInt(0), stream.ToArray());
+        }
+
+        [Test]
+        public async Task TestSendPacketAsyncSendsWholePacket()
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamMCConnection connection = new StreamMCConnection(stream);
+            List<byte> data = new List<byte>();
+            data.AddRange(new byte[500]);
+            data.Add(123);
+
+            await connection.SendPacketAsync(data.ToArray());
+
+            byte[] lengthData = VarIntUtil.EncodeVarInt(data.Count);
+            Assert.AreEqual(lengthData, stream.ToArray().Take(lengthData.Length));
+            Assert.AreEqual(data.Count + lengthData.Length, stream.ToArray().Length);
+            Assert.AreEqual(123, stream.ToArray().Last());
         }
 
         [Test]
@@ -41,7 +58,7 @@ namespace YksMC.Protocol.Tests
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new StreamMCPacketSource(null);
+                new StreamMCConnection(null);
             });
         }
 
@@ -49,9 +66,9 @@ namespace YksMC.Protocol.Tests
         public async Task TestGetNextAsyncReturnsNullOnValidEot()
         {
             MemoryStream stream = new MemoryStream();
-            _source = new StreamMCPacketSource(stream);
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
-            byte[] result = await _source.GetNextAsync();
+            byte[] result = await connection.GetNextAsync();
 
             Assert.IsNull(result);
         }
@@ -62,11 +79,11 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(255));
             MemoryStream stream = new MemoryStream(data.ToArray());
-            _source = new StreamMCPacketSource(stream);
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
             Assert.ThrowsAsync<PacketSourceException>(async () =>
             {
-                await _source.GetNextAsync();
+                await connection.GetNextAsync();
             });
         }
 
@@ -76,11 +93,11 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarLong(long.MaxValue));
             MemoryStream stream = new MemoryStream(data.ToArray());
-            _source = new StreamMCPacketSource(stream);
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
             Assert.ThrowsAsync<PacketSourceException>(async () =>
             {
-                await _source.GetNextAsync();
+                await connection.GetNextAsync();
             });
         }
 
@@ -90,11 +107,11 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.Add(0xff);
             MemoryStream stream = new MemoryStream(data.ToArray());
-            _source = new StreamMCPacketSource(stream);
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
             Assert.ThrowsAsync<PacketSourceException>(async () =>
             {
-                await _source.GetNextAsync();
+                await connection.GetNextAsync();
             });
         }
 
@@ -106,9 +123,9 @@ namespace YksMC.Protocol.Tests
             data.AddRange(new byte[254]);
             data.Add(6);
             MemoryStream stream = new MemoryStream(data.ToArray());
-            _source = new StreamMCPacketSource(stream);
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
-            byte[] result = await _source.GetNextAsync();
+            byte[] result = await connection.GetNextAsync();
 
             Assert.AreEqual(255, result.Length);
             Assert.AreEqual(6, result[result.Length - 1]);
@@ -120,9 +137,9 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(0));
             MemoryStream stream = new MemoryStream(data.ToArray());
-            _source = new StreamMCPacketSource(stream);
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
-            byte[] result = await _source.GetNextAsync();
+            byte[] result = await connection.GetNextAsync();
 
             Assert.AreEqual(0, result.Length);
         }

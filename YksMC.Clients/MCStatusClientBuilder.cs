@@ -20,8 +20,9 @@ namespace YksMC.Clients
             await tcpClient.ConnectAsync(_host, _port);
 
             Stream stream = tcpClient.GetStream();
+            StreamMCConnection connection = new StreamMCConnection(stream);
 
-            return new MCStatusClient(new MCPacketReader(new StreamMCPacketSource(stream)), new MCPacketWriter(new StreamMCPacketSink(stream)));
+            return new MCStatusClient(new MCPacketReader(connection), new MCPacketWriter(connection));
         }
 
         public IMCClientBuilder UsingServer(string host, ushort port)
