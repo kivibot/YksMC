@@ -10,13 +10,13 @@ namespace YksMC.Protocol
 {
     public class MCPacketReader : IMCPacketReader
     {
-        private readonly IMCPacketSource _packetSource;
+        private readonly IMCConnection _connection;
         private byte[] _data;
         private int _index;
 
-        public MCPacketReader(IMCPacketSource packetSource)
+        public MCPacketReader(IMCConnection connection)
         {
-            _packetSource = packetSource;
+            _connection = connection;
         }
 
         public Angle GetAngle()
@@ -152,7 +152,7 @@ namespace YksMC.Protocol
 
         public async Task<bool> NextAsync(CancellationToken cancelToken = default(CancellationToken))
         {
-            _data = await _packetSource.GetNextAsync(cancelToken);
+            _data = await _connection.GetNextAsync(cancelToken);
             ResetPosition();
             return _data != null;
         }

@@ -10,7 +10,7 @@ using YksMC.Protocol.Utils;
 
 namespace YksMC.Protocol
 {
-    public class StreamMCConnection : IMCPacketSource, IMCPacketSink, IDisposable
+    public class StreamMCConnection : IMCConnection, IDisposable
     {
         private readonly Stream _stream;
 

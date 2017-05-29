@@ -11,12 +11,12 @@ namespace YksMC.Protocol
 {
     public class MCPacketWriter : IMCPacketWriter
     {
-        private readonly IMCPacketSink _packetSink;
+        private readonly IMCConnection _connection;
         private readonly List<byte> _data;
 
-        public MCPacketWriter(IMCPacketSink packetSink)
+        public MCPacketWriter(IMCConnection connection)
         {
-            _packetSink = packetSink;
+            _connection = connection;
             _data = new List<byte>();
         }
 
@@ -119,7 +119,7 @@ namespace YksMC.Protocol
 
         public async Task SendPacketAsync(CancellationToken cancelToken = default(CancellationToken))
         {
-            await _packetSink.SendPacketAsync(_data.ToArray(), cancelToken);
+            await _connection.SendPacketAsync(_data.ToArray(), cancelToken);
 
             _data.Clear();
         }
