@@ -12,5 +12,15 @@ namespace YksMC.Protocol.Models.Types
         {
             Value = value;
         }
+
+        public override bool Equals(object obj)
+        {
+            Angle other = obj as Angle;
+            if (other == null)
+                return false;
+            if (Value != other.Value)
+                return false;
+            return true;
+        }
     }
 }

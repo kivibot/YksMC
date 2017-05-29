@@ -17,7 +17,7 @@ namespace YksMC.Protocol.Tests.Serializing
     public class MCPacketDeserializerTests
     {
         [Test]
-        public void TestDeserializeHandshakePacket()
+        public void Deserialize_HandshakePacket_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             HandshakePacket expected = new HandshakePacket()
@@ -35,41 +35,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeCanDeserializeAllTypes()
-        {
-            MCPacketDeserializer deserializer = new MCPacketDeserializer();
-            TestPacket expected = new TestPacket()
-            {
-                Bool = true,
-                SignedByte = -3,
-                Byte = 200,
-                Short = -6000,
-                UnsignedShort = 60000,
-                Int = -1000000,
-                UnsignedInt = 1000000,
-                Long = long.MinValue,
-                UnsignedLong = ulong.MaxValue,
-                Float = 12.3f,
-                Double = 133.7,
-                String = "Testi",
-                Chat = new Chat("Chatti"),
-                VarInt = new VarInt(-1),
-                VarLong = new VarLong(-1),
-                Position = new Position(1, 2, 3),
-                Angle = new Angle(127),
-                Guid = Guid.NewGuid()
-            };
-            FakeMCPacketReader reader = new FakeMCPacketReader(expected.Bool, expected.SignedByte, expected.Byte, expected.Short, expected.UnsignedShort,
-                expected.Int, expected.UnsignedInt, expected.Long, expected.UnsignedLong, expected.Float, expected.Double, expected.String, expected.Chat,
-                expected.VarInt, expected.VarLong, expected.Position, expected.Angle, expected.Guid);
-
-            AbstractPacket result = deserializer.Deserialize<TestPacket>(reader);
-
-            Assert.IsTrue(ComparisonUtil.Compare(expected, result));
-        }
-
-        [Test]
-        public void TestDeserializeSupportsBool()
+        public void Deserialize_Bool_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(true);
@@ -80,7 +46,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsSignedByte()
+        public void Deserialize_SignedByte_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader((sbyte)-5);
@@ -91,7 +57,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsByte()
+        public void Deserialize_Byte_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader((byte)200);
@@ -102,7 +68,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsShort()
+        public void Deserialize_Short_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader((short)-5200);
@@ -113,7 +79,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsUnsignedShort()
+        public void Deserialize_UnsignedShort_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader((ushort)5200);
@@ -124,7 +90,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsInt()
+        public void Deserialize_Int_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(int.MinValue);
@@ -135,7 +101,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsUnsignedInt()
+        public void Deserialize_UnsignedInt_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(uint.MaxValue);
@@ -146,7 +112,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsLong()
+        public void Deserialize_Long_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(long.MinValue);
@@ -157,7 +123,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsUnsignedLong()
+        public void Deserialize_UnsignedLong_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(ulong.MaxValue);
@@ -168,7 +134,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsFloat()
+        public void Deserialize_Float_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(13.42355f);
@@ -179,7 +145,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void TestDeserializeSupportsDouble()
+        public void Deserialize_Double_Works()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(232146.123);
@@ -189,9 +155,87 @@ namespace YksMC.Protocol.Tests.Serializing
             Assert.AreEqual(232146.123, result.Value);
         }
 
+        [Test]
+        public void Deserialize_String_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader("Test");
+
+            GenericPacket<string> result = deserializer.Deserialize<GenericPacket<string>>(reader);
+
+            Assert.AreEqual("Test", result.Value);
+        }
 
         [Test]
-        public void TestDeserializeDoesNotAcceptUnsupportedProperties()
+        public void Deserialize_Chat_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new Chat("Test"));
+
+            GenericPacket<Chat> result = deserializer.Deserialize<GenericPacket<Chat>>(reader);
+
+            Assert.AreEqual(new Chat("Test"), result.Value);
+        }
+
+        [Test]
+        public void Deserialize_VarInt_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new VarInt(5));
+
+            GenericPacket<VarInt> result = deserializer.Deserialize<GenericPacket<VarInt>>(reader);
+
+            Assert.AreEqual(new VarInt(5), result.Value);
+        }
+
+        [Test]
+        public void Deserialize_VarLong_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new VarLong(-5));
+
+            GenericPacket<VarLong> result = deserializer.Deserialize<GenericPacket<VarLong>>(reader);
+
+            Assert.AreEqual(new VarLong(-5), result.Value);
+        }
+
+        [Test]
+        public void Deserialize_Position_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new Position(1, 2, 3));
+
+            GenericPacket<Position> result = deserializer.Deserialize<GenericPacket<Position>>(reader);
+
+            Assert.AreEqual(new Position(1, 2, 3), result.Value);
+        }
+
+        [Test]
+        public void Deserialize_Angle_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new Angle(200));
+
+            GenericPacket<Angle> result = deserializer.Deserialize<GenericPacket<Angle>>(reader);
+
+            Assert.AreEqual(new Angle(200), result.Value);
+        }
+
+        [Test]
+        public void Deserialize_Guid_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            Guid guid = Guid.NewGuid();
+            FakeMCPacketReader reader = new FakeMCPacketReader(guid);
+
+            GenericPacket<Guid> result = deserializer.Deserialize<GenericPacket<Guid>>(reader);
+
+            Assert.AreEqual(guid, result.Value);
+        }
+
+
+        [Test]
+        public void Deserialize_UnsupportedPropertyType_Throws()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader();

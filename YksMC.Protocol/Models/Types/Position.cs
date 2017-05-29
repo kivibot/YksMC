@@ -16,5 +16,19 @@ namespace YksMC.Protocol.Models.Types
             Y = y;
             Z = z;
         }
+
+        public override bool Equals(object obj)
+        {
+            Position other = obj as Position;
+            if (other == null)
+                return false;
+            if (X != other.X)
+                return false;
+            if (Y != other.Y)
+                return false;
+            if (Z != other.Z)
+                return false;
+            return true;
+        }
     }
 }
