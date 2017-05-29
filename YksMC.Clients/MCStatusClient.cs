@@ -29,30 +29,35 @@ namespace YksMC.Clients
                 StreamMCConnection connection = new StreamMCConnection(tcpClient.GetStream());
                 MCPacketClient client = new MCPacketClient(new MCPacketReader(connection), new MCPacketWriter(connection), new MCPacketDeserializer(), new MCPacketSerializer());
 
-                await client.SendAsync(new HandshakePacket()
-                {
-                    ProtocolVersion = ProtocolVersion.Unknown,
-                    ServerAddress = host,
-                    ServerPort = port,
-                    NextState = SubProtocol.Status
-                }, cancelToken);
-                await client.SendAsync(new StatusRequestPacket(), cancelToken);
-
-                StatusResponsePacket responsePacket = await client.ReceiveAsync<StatusResponsePacket>(cancelToken);
-
-                await client.SendAsync(new PingPacket()
-                {
-                    Payload = DateTimeOffset.UtcNow.Ticks
-                }, cancelToken);
-
-                PongPacket pongPacket = await client.ReceiveAsync<PongPacket>(cancelToken);
-                TimeSpan ping = TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - pongPacket.Payload);
-
-                ServerStatus status = JsonConvert.DeserializeObject<ServerStatus>(responsePacket.JsonData);
-                status.Ping = ping;
-
-                return status;
+                return await GetStatusInternalAsync(host, port, client, cancelToken);
             }
+        }
+
+        private async Task<ServerStatus> GetStatusInternalAsync(string host, ushort port, IMCPacketClient client, CancellationToken cancelToken)
+        {
+            await client.SendAsync(new HandshakePacket()
+            {
+                ProtocolVersion = ProtocolVersion.Unknown,
+                ServerAddress = host,
+                ServerPort = port,
+                NextState = SubProtocol.Status
+            }, cancelToken);
+            await client.SendAsync(new StatusRequestPacket(), cancelToken);
+
+            StatusResponsePacket responsePacket = await client.ReceiveAsync<StatusResponsePacket>(cancelToken);
+
+            await client.SendAsync(new PingPacket()
+            {
+                Payload = DateTimeOffset.UtcNow.Ticks
+            }, cancelToken);
+
+            PongPacket pongPacket = await client.ReceiveAsync<PongPacket>(cancelToken);
+            TimeSpan ping = TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - pongPacket.Payload);
+
+            ServerStatus status = JsonConvert.DeserializeObject<ServerStatus>(responsePacket.JsonData);
+            status.Ping = ping;
+
+            return status;
         }
     }
 }
