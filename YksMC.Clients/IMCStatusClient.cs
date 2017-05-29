@@ -9,7 +9,6 @@ namespace YksMC.Clients
 {
     public interface IMCStatusClient
     {
-        Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
-        Task<ServerStatus> GetStatusAsync(CancellationToken cancelToken = default(CancellationToken));
+        Task<ServerStatus> GetStatusAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
     }
 }

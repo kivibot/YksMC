@@ -15,14 +15,12 @@ namespace YksMC.Clients.IntegrationTests
         [Test]
         public async Task MCStatusClient_WithRealServer_ReturnsValidValues()
         {
-            using (MCStatusClient client = new MCStatusClient())
-            {
-                await client.ConnectAsync("localhost", 25565);
-                ServerStatus status = await client.GetStatusAsync();
+            MCStatusClient client = new MCStatusClient();
 
-                Assert.AreEqual(20, status.Players.Max);
-                Assert.AreNotEqual(0, status.Ping.Ticks);
-            }            
+            ServerStatus status = await client.GetStatusAsync("localhost", 25565);
+
+            Assert.AreEqual(20, status.Players.Max);
+            Assert.AreNotEqual(0, status.Ping.Ticks);
         }
 
 
