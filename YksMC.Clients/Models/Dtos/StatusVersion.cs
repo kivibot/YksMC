@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.Clients.Models.Dtos
 {
-    public class VersionDto
+    public class StatusVersion
     {
         public string Name { get; set; }
         public int Protocol { get; set; }

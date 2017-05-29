@@ -9,6 +9,7 @@ using YksMC.Protocol;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Serializing;
+using YksMC.Protocol.Models.Constants;
 
 namespace YksMC.Protocol.Tests.Serializing
 {
@@ -22,17 +23,18 @@ namespace YksMC.Protocol.Tests.Serializing
             MCPacketSerializer serializer = new MCPacketSerializer();
             HandshakePacket packet = new HandshakePacket()
             {
-                ProtocolVersion = new VarInt(0x12),
+                Id = new VarInt(0x00),
+                ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,
-                NextState = new VarInt(0x01)
+                NextState = SubProtocol.Status
             };
             FakeMCPacketWriter writer = new FakeMCPacketWriter();
 
             serializer.Serialize(packet, writer);
             await writer.SendPacketAsync();
 
-            Assert.AreEqual(new object[] { new VarInt(0x12), "ABC", (ushort)1234, new VarInt(0x01) }, writer.Objects);
+            Assert.AreEqual(new object[] { new VarInt(0x00), new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01) }, writer.Objects);
         }
 
         [Test]
@@ -41,6 +43,7 @@ namespace YksMC.Protocol.Tests.Serializing
             MCPacketSerializer serializer = new MCPacketSerializer();
             TestPacket packet = new TestPacket()
             {
+                Id = new VarInt(16),
                 Bool = true,
                 SignedByte = -3,
                 Byte = 200,
@@ -65,7 +68,7 @@ namespace YksMC.Protocol.Tests.Serializing
             serializer.Serialize(packet, writer);
             await writer.SendPacketAsync();
 
-            Assert.AreEqual(new object[] { packet.Bool, packet.SignedByte, packet.Byte, packet.Short, packet.UnsignedShort,
+            Assert.AreEqual(new object[] { new VarInt(16), packet.Bool, packet.SignedByte, packet.Byte, packet.Short, packet.UnsignedShort,
                 packet.Int, packet.UnsignedInt, packet.Long, packet.UnsignedLong, packet.Float, packet.Double, packet.String, packet.Chat,
                 packet.VarInt, packet.VarLong, packet.Position, packet.Angle, packet.Guid }, writer.Objects);
         }
@@ -83,5 +86,42 @@ namespace YksMC.Protocol.Tests.Serializing
             });
         }
 
+        [Test]
+        public async Task Serialize_VarIntEnum_Works()
+        {
+            MCPacketSerializer serializer = new MCPacketSerializer();
+            GenericPacket<ProtocolVersion> packet = new GenericPacket<ProtocolVersion>() { Value = ProtocolVersion.Unknown };
+            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+
+            serializer.Serialize(packet, writer);
+            await writer.SendPacketAsync();
+
+            Assert.AreEqual(new object[] { new VarInt((int)ProtocolVersion.Unknown) }, writer.Objects);
+        }
+
+        [Test]
+        public async Task Serialize_NullValue_Throws()
+        {
+            MCPacketSerializer serializer = new MCPacketSerializer();
+            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                serializer.Serialize(null, writer);
+            });
+        }
+
+        [Test]
+        public async Task Serialize_NullProperty_Throws()
+        {
+            MCPacketSerializer serializer = new MCPacketSerializer();
+            GenericPacket<string> packet = new GenericPacket<string>() { Value = null };
+            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                serializer.Serialize(packet, writer);
+            });
+        }
     }
 }

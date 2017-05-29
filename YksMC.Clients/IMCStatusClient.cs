@@ -7,9 +7,9 @@ using YksMC.Clients.Models.Dtos;
 
 namespace YksMC.Clients
 {
-    public interface IMCStatusClient : IMCClient
-    {   
-        Task<StatusDto> GetStatusAsync(CancellationToken cancelToken = default(CancellationToken));
-        Task<TimeSpan> GetPingAsync(CancellationToken cancelToken = default(CancellationToken));
+    public interface IMCStatusClient
+    {
+        Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
+        Task<ServerStatus> GetStatusAsync(CancellationToken cancelToken = default(CancellationToken));
     }
 }

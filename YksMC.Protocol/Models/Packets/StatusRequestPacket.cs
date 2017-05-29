@@ -5,11 +5,11 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Models.Packets
 {
-    public class StatusResponsePacket : IPacket
+    public class StatusRequestPacket : IPacket
     {
         public VarInt Id { get; set; }
-        public String JsonData { get; set; }
-        public StatusResponsePacket()
+
+        public StatusRequestPacket()
         {
             Id = new VarInt(0x00);
         }

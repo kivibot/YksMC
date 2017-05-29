@@ -117,6 +117,11 @@ namespace YksMC.Protocol.Tests.Fakes
             return Task.FromResult(_queue.Count > 0);
         }
 
+        public void ResetPosition()
+        {
+            throw new NotImplementedException();
+        }
+
         private T Get<T>()
         {
             return (T)_queue.Dequeue();

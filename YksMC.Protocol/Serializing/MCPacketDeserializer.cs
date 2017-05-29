@@ -18,7 +18,7 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyTypes();
         }
 
-        public T Deserialize<T>(IMCPacketReader reader) where T : AbstractPacket
+        public T Deserialize<T>(IMCPacketReader reader)
         {
             Type type = typeof(T);
             T packet = (T)type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
@@ -26,7 +26,10 @@ namespace YksMC.Protocol.Serializing
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
                 Func<IMCPacketReader, object> deserializeProperty;
-                if (!_propertyTypes.TryGetValue(property.PropertyType, out deserializeProperty))
+
+                if (property.PropertyType.GetTypeInfo().IsEnum)
+                    deserializeProperty = (r) => DeserializeEnum(r, property.PropertyType);
+                else if (!_propertyTypes.TryGetValue(property.PropertyType, out deserializeProperty))
                     throw new ArgumentException($"Unsupported property type: {property.PropertyType}");
 
                 property.SetValue(packet, deserializeProperty(reader));
@@ -60,6 +63,14 @@ namespace YksMC.Protocol.Serializing
         private void RegisterPropertyType<T>(Func<IMCPacketReader, T> func)
         {
             _propertyTypes[typeof(T)] = (r) => (T)func(r);
+        }
+
+        private object DeserializeEnum(IMCPacketReader reader, Type type)
+        {
+            int value = reader.GetVarInt().Value;
+            if (!Enum.IsDefined(type, value))
+                throw new ArgumentException($"Unknown enum value! type: {type.Name}, value: {value}");
+            return value;
         }
     }
 }

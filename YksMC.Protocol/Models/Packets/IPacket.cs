@@ -5,7 +5,8 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Models.Packets
 {
-    public abstract class AbstractPacket
+    public interface IPacket 
     {
+        VarInt Id { get; set; }
     }
 }

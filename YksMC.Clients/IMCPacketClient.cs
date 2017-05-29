@@ -9,7 +9,7 @@ namespace YksMC.Clients
 {
     public interface IMCPacketClient
     {
-        Task SendAsync(AbstractPacket packet, CancellationToken cancelToken = default(CancellationToken));
-        Task<T> ReceiveAsync<T>(CancellationToken cancelToken = default(CancellationToken)) where T : AbstractPacket;
+        Task SendAsync(IPacket packet, CancellationToken cancelToken = default(CancellationToken));
+        Task<T> ReceiveAsync<T>(CancellationToken cancelToken = default(CancellationToken)) where T : IPacket;
     }
 }

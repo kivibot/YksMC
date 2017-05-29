@@ -4,10 +4,10 @@ using System.Text;
 
 namespace YksMC.Clients.Models.Dtos
 {
-    public class PlayersDto
+    public class StatusPlayers
     {
         public int Max { get; set; }
         public int Online { get; set; }
-        public List<PlayerDto> Sample { get; set; }
+        public List<StatusPlayer> Sample { get; set; }
     }
 }

@@ -40,5 +40,7 @@ namespace YksMC.Protocol
         Guid GetGuid();
 
         byte[] GetBytes(int count);
+
+        void ResetPosition();
     }
 }

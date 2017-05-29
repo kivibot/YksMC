@@ -153,8 +153,13 @@ namespace YksMC.Protocol
         public async Task<bool> NextAsync(CancellationToken cancelToken = default(CancellationToken))
         {
             _data = await _packetSource.GetNextAsync(cancelToken);
-            _index = 0;
+            ResetPosition();
             return _data != null;
+        }
+
+        public void ResetPosition()
+        {
+            _index = 0;
         }
     }
 }

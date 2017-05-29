@@ -6,8 +6,9 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Tests.Models
 {
-    public class TestPacket : AbstractPacket
+    public class TestPacket : IPacket
     {
+        public VarInt Id { get; set; }
         public bool Bool { get; set; }
         public sbyte SignedByte { get; set; }
         public byte Byte { get; set; }

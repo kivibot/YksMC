@@ -10,6 +10,7 @@ using YksMC.Protocol;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Serializing;
+using YksMC.Protocol.Models.Constants;
 
 namespace YksMC.Protocol.Tests.Serializing
 {
@@ -22,14 +23,15 @@ namespace YksMC.Protocol.Tests.Serializing
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             HandshakePacket expected = new HandshakePacket()
             {
-                ProtocolVersion = new VarInt(0x12),
+                Id = new VarInt(0x00),
+                ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,
-                NextState = new VarInt(0x01)
+                NextState = SubProtocol.Status
             };
-            FakeMCPacketReader reader = new FakeMCPacketReader(new VarInt(0x12), "ABC", (ushort)1234, new VarInt(0x01));
+            FakeMCPacketReader reader = new FakeMCPacketReader(new VarInt(0x00), new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01));
 
-            AbstractPacket result = deserializer.Deserialize<HandshakePacket>(reader);
+            IPacket result = deserializer.Deserialize<HandshakePacket>(reader);
 
             Assert.IsTrue(ComparisonUtil.Compare(expected, result));
         }
@@ -211,7 +213,7 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void Deserialize_Angle_Works()
+        public void Deserialize_WithAngle_WritesAngle()
         {
             MCPacketDeserializer deserializer = new MCPacketDeserializer();
             FakeMCPacketReader reader = new FakeMCPacketReader(new Angle(200));
@@ -233,6 +235,27 @@ namespace YksMC.Protocol.Tests.Serializing
             Assert.AreEqual(guid, result.Value);
         }
 
+        [Test]
+        public void Deserialize_KnownEnumValue_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new VarInt((int)ProtocolVersion.Unknown));
+
+            GenericPacket<ProtocolVersion> result = deserializer.Deserialize<GenericPacket<ProtocolVersion>>(reader);
+
+            Assert.AreEqual(ProtocolVersion.Unknown, result.Value);
+        }
+        [Test]
+        public void Deserialize_UnknownEnumValue_Throws()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new VarInt((int)-12387));
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                deserializer.Deserialize<GenericPacket<ProtocolVersion>>(reader);
+            });
+        }
 
         [Test]
         public void Deserialize_UnsupportedPropertyType_Throws()

@@ -384,5 +384,23 @@ namespace YksMC.Protocol.Tests
 
             Assert.AreEqual(expected, result0);
         }
+
+        [Test]
+        public async Task ResetPosition_AfterReading_Works()
+        {
+            FakeMCPacketSource source = new FakeMCPacketSource(
+                new byte[] { 1, 0 }
+            );
+            MCPacketReader reader = new MCPacketReader(source);
+
+            await reader.NextAsync();
+            reader.GetBool();
+
+            reader.ResetPosition();
+
+            bool result = reader.GetBool();
+
+            Assert.AreEqual(true, result);
+        }
     }
 }

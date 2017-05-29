@@ -1,88 +1,84 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Clients.Models.Dtos;
 using YksMC.Protocol;
+using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Serializing;
 
 namespace YksMC.Clients
 {
-    public class MCStatusClient : IMCStatusClient
+    public class MCStatusClient : IMCStatusClient, IDisposable
     {
+        private IMCPacketClient _client;
+        private string _host;
+        private ushort _port;
+        private bool _disposed;
+        private TcpClient _tcpClient;
 
-        public MCStatusClient(IMCPacketClient client)
+        public MCStatusClient()
         {
+            _tcpClient = new TcpClient();
+        }
+
+        public async Task<ServerStatus> GetStatusAsync(CancellationToken cancelToken = default(CancellationToken))
+        {
+            CheckState();
+
+            await _client.SendAsync(new HandshakePacket()
+            {
+                ProtocolVersion = ProtocolVersion.Unknown,
+                ServerAddress = _host,
+                ServerPort = _port,
+                NextState = SubProtocol.Status
+            }, cancelToken);
+            await _client.SendAsync(new StatusRequestPacket(), cancelToken);
+
+            StatusResponsePacket responsePacket = await _client.ReceiveAsync<StatusResponsePacket>(cancelToken);
+
+            await _client.SendAsync(new PingPacket()
+            {
+                Payload = DateTimeOffset.UtcNow.Ticks
+            }, cancelToken);
+
+            PongPacket pongPacket = await _client.ReceiveAsync<PongPacket>(cancelToken);
+            TimeSpan ping = TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - pongPacket.Payload);
+
+            ServerStatus status = JsonConvert.DeserializeObject<ServerStatus>(responsePacket.JsonData);
+            status.Ping = ping;
+
+            Dispose();
+
+            return status;
+        }
+
+        public async Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
+        {
+            _host = host;
+            _port = port;
+            await _tcpClient.ConnectAsync(host, port);
+            StreamMCConnection connection = new StreamMCConnection(_tcpClient.GetStream());
+            _client = new MCPacketClient(new MCPacketReader(connection), new MCPacketWriter(connection), new MCPacketDeserializer(), new MCPacketSerializer());
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _tcpClient.Dispose();
+            _disposed = true;
         }
 
-        public async Task<TimeSpan> GetPingAsync(CancellationToken cancelToken = default(CancellationToken))
+        private void CheckState()
         {
-            await SendPingAsync();
-            return await ReceivePongAsync();
-        }
-
-        private async Task SendPingAsync()
-        {
-            PingPacket pingPacket = new PingPacket() { Payload = DateTimeOffset.Now.Ticks };
-            _packetWriter.PutVarInt(new VarInt(0x01));
-            _serializer.Serialize(pingPacket, _packetWriter);
-            await _packetWriter.SendPacketAsync();
-        }
-
-        private async Task<TimeSpan> ReceivePongAsync()
-        {
-            await _packetReader.NextAsync();
-            VarInt id2 = _packetReader.GetVarInt();
-            PongPacket packet = _deserializer.Deserialize<PongPacket>(_packetReader);
-
-            return TimeSpan.FromTicks(DateTimeOffset.Now.Ticks - packet.Payload);
-        }
-
-        public async Task<StatusDto> GetStatusAsync(CancellationToken cancelToken = default(CancellationToken))
-        {
-            await SendHandshakeAsync();
-            await SendStatusRequestAsync();
-            return await ReceiveStatusAsync();
-        }
-
-        private async Task SendHandshakeAsync()
-        {
-            HandshakePacket handshakePacket = new HandshakePacket()
-            {
-                NextState = new VarInt(0x01),
-                ProtocolVersion = new VarInt(316),
-                ServerAddress = "localhost",
-                ServerPort = 25565
-            };
-            _packetWriter.PutVarInt(new VarInt(0));
-            _serializer.Serialize(handshakePacket, _packetWriter);
-            await _packetWriter.SendPacketAsync();
-        }
-
-        private async Task SendStatusRequestAsync()
-        {
-            _packetWriter.PutVarInt(new VarInt(0));
-            await _packetWriter.SendPacketAsync();
-        }
-
-        private async Task<StatusDto> ReceiveStatusAsync()
-        {
-            await _packetReader.NextAsync();
-            VarInt id = _packetReader.GetVarInt();
-            if (id.Value != 0)
-                throw new Exception("Unexpected packet id: " + id);
-            StatusResponsePacket packet = _deserializer.Deserialize<StatusResponsePacket>(_packetReader);
-
-            return JsonConvert.DeserializeObject<StatusDto>(packet.JsonData);
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(MCStatusClient));
+            if (_client == null)
+                throw new InvalidOperationException("Not connected!");
         }
     }
 }

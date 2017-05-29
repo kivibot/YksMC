@@ -5,25 +5,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Protocol;
 using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Serializing;
 
 namespace YksMC.Clients
 {
     public class MCPacketClient : IMCPacketClient
     {
+        private readonly IMCPacketReader _reader;
+        private readonly IMCPacketWriter _writer;
+        private readonly IMCPacketDeserializer _deserializer;
+        private readonly IMCPacketSerializer _serializer;
 
-        public MCPacketClient(IMCPacketReader packetReader, IMCPacketWriter packetWriter)
+        public MCPacketClient(IMCPacketReader reader, IMCPacketWriter writer, IMCPacketDeserializer deserializer, IMCPacketSerializer serializer)
         {
-
+            _reader = reader;
+            _writer = writer;
+            _deserializer = deserializer;
+            _serializer = serializer;
         }
 
-        public Task<T> ReceiveAsync<T>(CancellationToken cancelToken = default(CancellationToken)) where T : AbstractPacket
+        public async Task<T> ReceiveAsync<T>(CancellationToken cancelToken = default(CancellationToken)) where T : IPacket
         {
-            throw new NotImplementedException();
+            if (!await _reader.NextAsync(cancelToken))
+                throw new InvalidOperationException("Connection closed.");
+
+            return _deserializer.Deserialize<T>(_reader);
         }
 
-        public Task SendAsync(AbstractPacket packet, CancellationToken cancelToken = default(CancellationToken))
+        public async Task SendAsync(IPacket packet, CancellationToken cancelToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            _serializer.Serialize(packet, _writer);
+            await _writer.SendPacketAsync(cancelToken);
         }
     }
 }

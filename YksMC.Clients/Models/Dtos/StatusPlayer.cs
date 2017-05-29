@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.Clients.Models.Dtos
 {
-    public class PlayerDto
+    public class StatusPlayer
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

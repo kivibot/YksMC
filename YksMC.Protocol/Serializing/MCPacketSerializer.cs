@@ -18,16 +18,25 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyTypes();
         }
 
-        public void Serialize<T>(T packet, IMCPacketWriter writer) where T : AbstractPacket
+        public void Serialize(object packet, IMCPacketWriter writer)
         {
+            if (packet == null)
+                throw new ArgumentNullException(nameof(packet));
+
             Type type = packet.GetType();
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
                 Action<IMCPacketWriter, object> serializeProperty;
-                if (!_propertyTypes.TryGetValue(property.PropertyType, out serializeProperty))
+                if (property.PropertyType.GetTypeInfo().IsEnum)
+                    serializeProperty = SerializeEnum;
+                else if (!_propertyTypes.TryGetValue(property.PropertyType, out serializeProperty))
                     throw new ArgumentException($"Unsupported property type: {property.PropertyType}");
 
-                serializeProperty(writer, property.GetValue(packet));
+                object value = property.GetValue(packet);
+                if (value == null)
+                    throw new ArgumentException($"Null property: {property.Name}");
+
+                serializeProperty(writer, value);
             }
         }
 
@@ -56,6 +65,11 @@ namespace YksMC.Protocol.Serializing
         private void RegisterPropertyType<T>(Action<IMCPacketWriter, T> func)
         {
             _propertyTypes[typeof(T)] = (r, v) => func(r, (T)v);
+        }
+
+        private void SerializeEnum(IMCPacketWriter writer, object value)
+        {
+            writer.PutVarInt(new VarInt((int)value));
         }
     }
 }
