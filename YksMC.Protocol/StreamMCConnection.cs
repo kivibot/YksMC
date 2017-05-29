@@ -26,7 +26,7 @@ namespace YksMC.Protocol
             _stream.Dispose();
         }
 
-        public async Task<byte[]> GetNextAsync(CancellationToken cancelToken = default(CancellationToken))
+        public async Task<byte[]> ReceivePacketAsync(CancellationToken cancelToken = default(CancellationToken))
         {
             VarInt length = await ReadVarIntAsync(cancelToken);
             if (length == null)

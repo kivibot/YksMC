@@ -63,18 +63,18 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetNextAsyncReturnsNullOnValidEot()
+        public async Task TestReceivePacketAsyncReturnsNullOnValidEot()
         {
             MemoryStream stream = new MemoryStream();
             StreamMCConnection connection = new StreamMCConnection(stream);
 
-            byte[] result = await connection.GetNextAsync();
+            byte[] result = await connection.ReceivePacketAsync();
 
             Assert.IsNull(result);
         }
 
         [Test]
-        public void TestGetNextAsyncThrowsOnInvalidEotInData()
+        public void TestReceivePacketAsyncThrowsOnInvalidEotInData()
         {
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(255));
@@ -83,12 +83,12 @@ namespace YksMC.Protocol.Tests
 
             Assert.ThrowsAsync<PacketSourceException>(async () =>
             {
-                await connection.GetNextAsync();
+                await connection.ReceivePacketAsync();
             });
         }
 
         [Test]
-        public void TestGetNextAsyncThrowsOnInvalidVarInt()
+        public void TestReceivePacketAsyncThrowsOnInvalidVarInt()
         {
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarLong(long.MaxValue));
@@ -97,12 +97,12 @@ namespace YksMC.Protocol.Tests
 
             Assert.ThrowsAsync<PacketSourceException>(async () =>
             {
-                await connection.GetNextAsync();
+                await connection.ReceivePacketAsync();
             });
         }
 
         [Test]
-        public void TestGetNextAsyncThrowsOnInvalidEotInLenght()
+        public void TestReceivePacketAsyncThrowsOnInvalidEotInLenght()
         {
             List<byte> data = new List<byte>();
             data.Add(0xff);
@@ -111,12 +111,12 @@ namespace YksMC.Protocol.Tests
 
             Assert.ThrowsAsync<PacketSourceException>(async () =>
             {
-                await connection.GetNextAsync();
+                await connection.ReceivePacketAsync();
             });
         }
 
         [Test]
-        public async Task TestGetNextAsyncReadsWholePacket()
+        public async Task TestReceivePacketAsyncReadsWholePacket()
         {
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(255));
@@ -125,21 +125,21 @@ namespace YksMC.Protocol.Tests
             MemoryStream stream = new MemoryStream(data.ToArray());
             StreamMCConnection connection = new StreamMCConnection(stream);
 
-            byte[] result = await connection.GetNextAsync();
+            byte[] result = await connection.ReceivePacketAsync();
 
             Assert.AreEqual(255, result.Length);
             Assert.AreEqual(6, result[result.Length - 1]);
         }
 
         [Test]
-        public async Task TestGetNextAsyncCanReadEmptyPackets()
+        public async Task TestReceivePacketAsyncCanReadEmptyPackets()
         {
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(0));
             MemoryStream stream = new MemoryStream(data.ToArray());
             StreamMCConnection connection = new StreamMCConnection(stream);
 
-            byte[] result = await connection.GetNextAsync();
+            byte[] result = await connection.ReceivePacketAsync();
 
             Assert.AreEqual(0, result.Length);
         }

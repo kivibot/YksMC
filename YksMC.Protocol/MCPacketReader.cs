@@ -152,7 +152,7 @@ namespace YksMC.Protocol
 
         public async Task<bool> NextAsync(CancellationToken cancelToken = default(CancellationToken))
         {
-            _data = await _connection.GetNextAsync(cancelToken);
+            _data = await _connection.ReceivePacketAsync(cancelToken);
             ResetPosition();
             return _data != null;
         }

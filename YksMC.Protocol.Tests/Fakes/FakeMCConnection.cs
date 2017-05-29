@@ -26,7 +26,7 @@ namespace YksMC.Protocol.Tests.Fakes
             _queue = new Queue<byte[]>(array);
         }
 
-        public Task<byte[]> GetNextAsync(CancellationToken cancelToken = default(CancellationToken))
+        public Task<byte[]> ReceivePacketAsync(CancellationToken cancelToken = default(CancellationToken))
         {
             if (_queue.Count == 0)
                 return Task.FromResult<byte[]>(null);
