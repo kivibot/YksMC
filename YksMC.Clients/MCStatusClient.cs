@@ -14,17 +14,9 @@ namespace YksMC.Clients
 {
     public class MCStatusClient : IMCStatusClient
     {
-        private readonly IMCPacketReader _packetReader;
-        private readonly IMCPacketWriter _packetWriter;
-        private readonly IMCPacketDeserializer _deserializer;
-        private readonly IMCPacketSerializer _serializer;
 
-        public MCStatusClient(IMCPacketReader packetReader, IMCPacketWriter packetWriter)
+        public MCStatusClient(IMCPacketClient client)
         {
-            _packetReader = packetReader;
-            _packetWriter = packetWriter;
-            _deserializer = new MCPacketDeserializer();
-            _serializer = new MCPacketSerializer();
         }
 
         public void Dispose()
