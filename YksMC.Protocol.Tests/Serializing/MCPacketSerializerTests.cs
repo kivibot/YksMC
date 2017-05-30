@@ -18,7 +18,7 @@ namespace YksMC.Protocol.Tests.Serializing
     {
 
         [Test]
-        public async Task TestSerializeHandshakePacket()
+        public void TestSerializeHandshakePacket()
         {
             MCPacketSerializer serializer = new MCPacketSerializer();
             HandshakePacket packet = new HandshakePacket()
@@ -29,16 +29,15 @@ namespace YksMC.Protocol.Tests.Serializing
                 ServerPort = 1234,
                 NextState = SubProtocol.Status
             };
-            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
 
-            serializer.Serialize(packet, writer);
-            await writer.SendPacketAsync();
+            serializer.Serialize(packet, builder);
 
-            Assert.AreEqual(new object[] { new VarInt(0x00), new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01) }, writer.Objects);
+            Assert.AreEqual(new object[] { new VarInt(0x00), new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01) }, builder.Objects);
         }
 
         [Test]
-        public async Task TestSerializeSupportsAllTypes()
+        public void TestSerializeSupportsAllTypes()
         {
             MCPacketSerializer serializer = new MCPacketSerializer();
             TestPacket packet = new TestPacket()
@@ -63,14 +62,13 @@ namespace YksMC.Protocol.Tests.Serializing
                 Angle = new Angle(127),
                 Guid = Guid.NewGuid()
             };
-            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
 
-            serializer.Serialize(packet, writer);
-            await writer.SendPacketAsync();
+            serializer.Serialize(packet, builder);
 
             Assert.AreEqual(new object[] { new VarInt(16), packet.Bool, packet.SignedByte, packet.Byte, packet.Short, packet.UnsignedShort,
                 packet.Int, packet.UnsignedInt, packet.Long, packet.UnsignedLong, packet.Float, packet.Double, packet.String, packet.Chat,
-                packet.VarInt, packet.VarLong, packet.Position, packet.Angle, packet.Guid }, writer.Objects);
+                packet.VarInt, packet.VarLong, packet.Position, packet.Angle, packet.Guid }, builder.Objects);
         }
 
         [Test]
@@ -78,49 +76,48 @@ namespace YksMC.Protocol.Tests.Serializing
         {
             MCPacketSerializer serializer = new MCPacketSerializer();
             InvalidPacket packet = new InvalidPacket();
-            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
 
             Assert.Throws<ArgumentException>(() =>
             {
-                serializer.Serialize(packet, writer);
+                serializer.Serialize(packet, builder);
             });
         }
 
         [Test]
-        public async Task Serialize_VarIntEnum_Works()
+        public void Serialize_VarIntEnum_Works()
         {
             MCPacketSerializer serializer = new MCPacketSerializer();
             GenericPacket<ProtocolVersion> packet = new GenericPacket<ProtocolVersion>() { Value = ProtocolVersion.Unknown };
-            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
 
-            serializer.Serialize(packet, writer);
-            await writer.SendPacketAsync();
+            serializer.Serialize(packet, builder);
 
-            Assert.AreEqual(new object[] { new VarInt((int)ProtocolVersion.Unknown) }, writer.Objects);
+            Assert.AreEqual(new object[] { new VarInt((int)ProtocolVersion.Unknown) }, builder.Objects);
         }
 
         [Test]
-        public async Task Serialize_NullValue_Throws()
+        public void Serialize_NullValue_Throws()
         {
             MCPacketSerializer serializer = new MCPacketSerializer();
-            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                serializer.Serialize(null, writer);
+                serializer.Serialize(null, builder);
             });
         }
 
         [Test]
-        public async Task Serialize_NullProperty_Throws()
+        public void Serialize_NullProperty_Throws()
         {
             MCPacketSerializer serializer = new MCPacketSerializer();
             GenericPacket<string> packet = new GenericPacket<string>() { Value = null };
-            FakeMCPacketWriter writer = new FakeMCPacketWriter();
+            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
 
             Assert.Throws<ArgumentException>(() =>
             {
-                serializer.Serialize(packet, writer);
+                serializer.Serialize(packet, builder);
             });
         }
     }

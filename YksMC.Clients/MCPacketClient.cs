@@ -12,11 +12,11 @@ namespace YksMC.Clients
     public class MCPacketClient : IMCPacketClient
     {
         private readonly IMCPacketReader _reader;
-        private readonly IMCPacketWriter _writer;
+        private readonly IMCPacketBuilder _writer;
         private readonly IMCPacketDeserializer _deserializer;
         private readonly IMCPacketSerializer _serializer;
 
-        public MCPacketClient(IMCPacketReader reader, IMCPacketWriter writer, IMCPacketDeserializer deserializer, IMCPacketSerializer serializer)
+        public MCPacketClient(IMCPacketReader reader, IMCPacketBuilder writer, IMCPacketDeserializer deserializer, IMCPacketSerializer serializer)
         {
             _reader = reader;
             _writer = writer;

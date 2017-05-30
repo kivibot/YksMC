@@ -7,9 +7,9 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol
 {
-    public interface IMCPacketWriter
+    public interface IMCPacketBuilder
     {
-        Task SendPacketAsync(CancellationToken cancelToken = default(CancellationToken));
+        byte[] TakePacket();
 
         void PutBool(bool value);
 

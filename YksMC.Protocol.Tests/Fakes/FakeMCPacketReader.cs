@@ -112,12 +112,12 @@ namespace YksMC.Protocol.Tests.Fakes
             return Get<VarLong>();
         }
 
-        public Task<bool> NextAsync(CancellationToken cancelToken = default(CancellationToken))
+        public void ResetPosition()
         {
-            return Task.FromResult(_queue.Count > 0);
+            throw new NotImplementedException();
         }
 
-        public void ResetPosition()
+        public void SetPacket(byte[] packet)
         {
             throw new NotImplementedException();
         }

@@ -9,6 +9,8 @@ namespace YksMC.Clients
 {
     public interface IMCPacketClient
     {
+        Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
+
         Task SendAsync(IPacket packet, CancellationToken cancelToken = default(CancellationToken));
         Task<T> ReceiveAsync<T>(CancellationToken cancelToken = default(CancellationToken)) where T : IPacket;
     }

@@ -16,20 +16,23 @@ namespace YksMC.Clients
 {
     public class MCStatusClient : IMCStatusClient
     {
-        public MCStatusClient()
+        private readonly IMCPacketClientFactory _clientFactory;
+
+        public MCStatusClient(IMCPacketClientFactory clientFactory)
         {
+            _clientFactory = clientFactory;
         }
 
         public async Task<ServerStatus> GetStatusAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
         {
-            using (TcpClient tcpClient = new TcpClient())
+            IMCPacketClient client = _clientFactory.Create();
+            try
             {
-                await tcpClient.ConnectAsync(host, port);
-
-                StreamMCConnection connection = new StreamMCConnection(tcpClient.GetStream());
-                MCPacketClient client = new MCPacketClient(new MCPacketReader(connection), new MCPacketWriter(connection), new MCPacketDeserializer(), new MCPacketSerializer());
-
                 return await GetStatusInternalAsync(host, port, client, cancelToken);
+            }
+            finally
+            {
+                _clientFactory.Release(client);
             }
         }
 

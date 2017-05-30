@@ -10,7 +10,7 @@ namespace YksMC.Protocol
 {
     public interface IMCPacketReader
     {
-        Task<bool> NextAsync(CancellationToken cancelToken = default(CancellationToken));
+        void SetPacket(byte[] packet);
 
         bool GetBool();
 

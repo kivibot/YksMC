@@ -8,6 +8,6 @@ namespace YksMC.Protocol.Serializing
 {
     public interface IMCPacketSerializer
     {
-        void Serialize(object value, IMCPacketWriter writer);
+        void Serialize(object value, IMCPacketBuilder builder);
     }
 }

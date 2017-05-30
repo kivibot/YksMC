@@ -9,14 +9,12 @@ using YksMC.Protocol.Utils;
 
 namespace YksMC.Protocol
 {
-    public class MCPacketWriter : IMCPacketWriter
+    public class MCPacketBuilder : IMCPacketBuilder
     {
-        private readonly IMCConnection _connection;
         private readonly List<byte> _data;
 
-        public MCPacketWriter(IMCConnection connection)
+        public MCPacketBuilder()
         {
-            _connection = connection;
             _data = new List<byte>();
         }
 
@@ -116,12 +114,11 @@ namespace YksMC.Protocol
         {
             PutBytes(VarIntUtil.EncodeVarLong(value.Value));
         }
-
-        public async Task SendPacketAsync(CancellationToken cancelToken = default(CancellationToken))
+        public byte[] TakePacket()
         {
-            await _connection.SendPacketAsync(_data.ToArray(), cancelToken);
-
+            byte[] tmp = _data.ToArray();
             _data.Clear();
+            return tmp;
         }
 
         private void PutBytesReversed(byte[] bytes)

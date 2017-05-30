@@ -16,44 +16,23 @@ namespace YksMC.Protocol.Tests
     public class MCPacketReaderTests
     {
         [Test]
-        public async Task TestNextAsyncReturnValues()
+        public void SetPacket_ExistingPacket_PreviousDataCleared()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[1], new byte[1]);
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            bool result0 = await reader.NextAsync();
-            bool result1 = await reader.NextAsync();
-            bool result2 = await reader.NextAsync();
+            reader.SetPacket(new byte[] { 1, 2 });
+            reader.SetPacket(new byte[] { 3 });
+            byte result = reader.GetByte();
 
-            Assert.IsTrue(result0);
-            Assert.IsTrue(result1);
-            Assert.IsFalse(result2);
+            Assert.AreEqual(3, result);
         }
 
         [Test]
-        public async Task TestNextAsyncResetsPosition()
+        public void GetBool_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 1 }, new byte[] { 3 });
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            bool result0 = await reader.NextAsync();
-            byte result1 = reader.GetByte();
-            bool result2 = await reader.NextAsync();
-            byte result3 = reader.GetByte();
-
-            Assert.IsTrue(result0);
-            Assert.AreEqual(1, result1);
-            Assert.IsTrue(result2);
-            Assert.AreEqual(3, result3);
-        }
-
-        [Test]
-        public async Task TestGetBool()
-        {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 0, 1 });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 0, 1 });
 
             bool result0 = reader.GetBool();
             bool result1 = reader.GetBool();
@@ -63,12 +42,11 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetSignedByte()
+        public void GetSignedByte_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 1, 250 });
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 1, 250 });
 
             sbyte result0 = reader.GetSignedByte();
             sbyte result1 = reader.GetSignedByte();
@@ -78,12 +56,11 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetByte()
+        public void GetByte_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 1, 250 });
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 1, 250 });
 
             byte result0 = reader.GetByte();
             byte result1 = reader.GetByte();
@@ -93,12 +70,11 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetShort()
+        public void GetShort_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 0x80, 0x01, 0x7f, 0xff });
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 0x80, 0x01, 0x7f, 0xff });
 
             short result0 = reader.GetShort();
             short result1 = reader.GetShort();
@@ -108,12 +84,11 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetUnsignedShort()
+        public void GetUnsignedShort_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 0x00, 0x03, 0xa7, 0x0f });
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 0x00, 0x03, 0xa7, 0x0f });
 
             ushort result0 = reader.GetUnsignedShort();
             ushort result1 = reader.GetUnsignedShort();
@@ -123,12 +98,11 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetInt()
+        public void GetInt_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 0xff, 0xff, 0xff, 0xfb, 0x7f, 0xff, 0xff, 0xff });
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 0xff, 0xff, 0xff, 0xfb, 0x7f, 0xff, 0xff, 0xff });
 
             int result0 = reader.GetInt();
             int result1 = reader.GetInt();
@@ -138,12 +112,11 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetUnsignedInt()
+        public void GetUnsignedInt_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] { 0xff, 0xff, 0xff, 0xfb, 0x7f, 0xff, 0xff, 0xff });
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 0xff, 0xff, 0xff, 0xfb, 0x7f, 0xff, 0xff, 0xff });
 
             uint result0 = reader.GetUnsignedInt();
             uint result1 = reader.GetUnsignedInt();
@@ -153,15 +126,14 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetLong()
+        public void GetLong_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfb,
                 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             long result0 = reader.GetLong();
             long result1 = reader.GetLong();
@@ -171,15 +143,14 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetUnsignedLong()
+        public void GetUnsignedLong_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfb,
                 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             ulong result0 = reader.GetUnsignedLong();
             ulong result1 = reader.GetUnsignedLong();
@@ -189,15 +160,14 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetFloat()
+        public void GetFloat_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0xc0, 0xc0, 0x00, 0x00,
                 0x46, 0x10, 0x1d, 0x7d
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             float result0 = reader.GetFloat();
             float result1 = reader.GetFloat();
@@ -207,15 +177,14 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetDouble()
+        public void GetDouble_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0xc0, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                 0x40, 0xc2, 0x03, 0xaf, 0xa0, 0x00, 0x00, 0x00,
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             double result0 = reader.GetDouble();
             double result1 = reader.GetDouble();
@@ -225,14 +194,13 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetBytes()
+        public void GetBytes_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0xc0, 0x18, 0x00, 0x00, 0x00, 0x04
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             byte[] result0 = reader.GetBytes(4);
             byte[] result1 = reader.GetBytes(2);
@@ -242,18 +210,17 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetVarInt()
+        public void GetVarInt_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0x00,
                 0x01,
                 0x7f,
                 0x80, 0x01,
                 0x80, 0x80, 0x80, 0x80, 0x08
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             VarInt result0 = reader.GetVarInt();
             VarInt result1 = reader.GetVarInt();
@@ -269,18 +236,17 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetVarLong()
+        public void GetVarLong_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0x00,
                 0x01,
                 0x7f,
                 0x80, 0x01,
                 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x01
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             VarLong result0 = reader.GetVarLong();
             VarLong result1 = reader.GetVarLong();
@@ -296,17 +262,16 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetString()
+        public void GetString_ValidData_ReturnsCorrectValue()
         {
             string str = "TÄMÄ on testi持燃ク禁購ヤホキ前追にゆびト見柳フ止図主のあ。鯉メヤロヒ連降タ誌番アノキロ氏難ア問士こ仰律ぽぱ韓新セチ動呼トは意触げ深学じふたい時Lorem ipsúm dolor sit amet, his cú habeo labítur, eos gloriatur omittantur ad, ex ius solet possim indoctum. Summo vólumus añ mel, sed ex doctus nostrúd, hás eu quis diám sóleat. Eúm at legeré ígnota conclusiónemque. Et meí suavitáte principes. Et sumo éverti quo, ex apeírian mnésarchum temporibus eam. Ad minim quidam sít, verí temporibus hás in.38制ろ問権タメ持掲各ぽーろこ避防覚創ひあ。会むっリ岡都むめびく徳処ミ命6置レの格討ゆ女空をりらに渡1年て予鰒ミツ意組ドるちぼ悪2企ノタヌオ辞4水ヱニヘユ積浩つわんち。";
             List<byte> bytes = new List<byte>();
             bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
             bytes.AddRange(Encoding.UTF8.GetBytes(str));
             bytes.AddRange(new byte[] { 0 });
-            FakeMCConnection connection = new FakeMCConnection(bytes.ToArray());
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(bytes.ToArray());
 
             string result0 = reader.GetString();
             string result1 = reader.GetString();
@@ -316,17 +281,16 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetChat()
+        public void GetChat_ValidData_ReturnsCorrectValue()
         {
             string str = "TÄMÄ on testi持燃ク禁購ヤホキ前追にゆびト見柳フ止図主のあ。鯉メヤロヒ連降タ誌番アノキロ氏難ア問士こ仰律ぽぱ韓新セチ動呼トは意触げ深学じふたい時Lorem ipsúm dolor sit amet, his cú habeo labítur, eos gloriatur omittantur ad, ex ius solet possim indoctum. Summo vólumus añ mel, sed ex doctus nostrúd, hás eu quis diám sóleat. Eúm at legeré ígnota conclusiónemque. Et meí suavitáte principes. Et sumo éverti quo, ex apeírian mnésarchum temporibus eam. Ad minim quidam sít, verí temporibus hás in.38制ろ問権タメ持掲各ぽーろこ避防覚創ひあ。会むっリ岡都むめびく徳処ミ命6置レの格討ゆ女空をりらに渡1年て予鰒ミツ意組ドるちぼ悪2企ノタヌオ辞4水ヱニヘユ積浩つわんち。";
             List<byte> bytes = new List<byte>();
             bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
             bytes.AddRange(Encoding.UTF8.GetBytes(str));
             bytes.AddRange(new byte[] { 0 });
-            FakeMCConnection connection = new FakeMCConnection(bytes.ToArray());
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(bytes.ToArray());
 
             Chat result0 = reader.GetChat();
             Chat result1 = reader.GetChat();
@@ -336,14 +300,13 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetPosition()
+        public void GetPosition_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfd
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             Position result0 = reader.GetPosition();
 
@@ -353,14 +316,13 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetAngle()
+        public void GetAngle_ValidData_ReturnsCorrectValue()
         {
-            FakeMCConnection connection = new FakeMCConnection(new byte[] {
+            MCPacketReader reader = new MCPacketReader();
+
+            reader.SetPacket(new byte[] {
                 0x8f
             });
-            MCPacketReader reader = new MCPacketReader(connection);
-
-            await reader.NextAsync();
 
             Angle result0 = reader.GetAngle();
 
@@ -368,17 +330,14 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task TestGetGuid()
+        public void GetGuid_ValidData_ReturnsCorrectValue()
         {
             Guid expected = Guid.NewGuid();
-            FakeMCConnection connection = new FakeMCConnection(
-                expected.ToByteArray()
-                    .Reverse()
-                    .ToArray()
-            );
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(expected.ToByteArray()
+                    .Reverse()
+                    .ToArray());
 
             Guid result0 = reader.GetGuid();
 
@@ -386,14 +345,11 @@ namespace YksMC.Protocol.Tests
         }
 
         [Test]
-        public async Task ResetPosition_AfterReading_Works()
+        public void ResetPosition_AfterReading_Works()
         {
-            FakeMCConnection connection = new FakeMCConnection(
-                new byte[] { 1, 0 }
-            );
-            MCPacketReader reader = new MCPacketReader(connection);
+            MCPacketReader reader = new MCPacketReader();
 
-            await reader.NextAsync();
+            reader.SetPacket(new byte[] { 1, 0 });
             reader.GetBool();
 
             reader.ResetPosition();

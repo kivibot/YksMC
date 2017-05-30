@@ -8,13 +8,13 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Tests.Fakes
 {
-    public class FakeMCPacketWriter : IMCPacketWriter
+    public class FakeMCPacketBuilder : IMCPacketBuilder
     {
         private readonly List<object> _data;
 
-        public object[] Objects { get; private set; }
+        public IReadOnlyList<object> Objects => _data;
 
-        public FakeMCPacketWriter()
+        public FakeMCPacketBuilder()
         {
             _data = new List<object>();
         }
@@ -114,12 +114,9 @@ namespace YksMC.Protocol.Tests.Fakes
             _data.Add(value);
         }
 
-        public Task SendPacketAsync(CancellationToken cancelToken = default(CancellationToken))
+        public byte[] TakePacket()
         {
-            Objects = _data.ToArray();
-            _data.Clear();
-
-            return Task.FromResult(true);
+            throw new NotImplementedException();
         }
     }
 }
