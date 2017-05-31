@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Autofac.Features.OwnedInstances;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -25,18 +26,46 @@ namespace YksMC.Clients
 
         public async Task<ServerStatus> GetStatusAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
         {
-            IMCPacketClient client = _clientFactory.Create();
-            try
+            using (Owned<IMCPacketClient> client  = _clientFactory())
             {
-                return await GetStatusInternalAsync(host, port, client, cancelToken);
-            }
-            finally
-            {
-                _clientFactory.Release(client);
+                return await GetStatusInternalAsync(host, port, client.Value, cancelToken);
             }
         }
 
         private async Task<ServerStatus> GetStatusInternalAsync(string host, ushort port, IMCPacketClient client, CancellationToken cancelToken)
+        {
+            await client.ConnectAsync(host, port, cancelToken);
+
+            await SendHandshakeAsync(host, port, client, cancelToken);
+            await SendStatusRequestAsync(client, cancelToken);
+
+            StatusResponsePacket responsePacket = await client.ReceiveAsync<StatusResponsePacket>(cancelToken);
+
+            ServerStatus status = JsonConvert.DeserializeObject<ServerStatus>(responsePacket.JsonData);
+
+            await SendPingAsync(client, cancelToken);
+
+            PongPacket pongPacket = await client.ReceiveAsync<PongPacket>(cancelToken);
+
+            status.Ping = TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - pongPacket.Payload);
+
+            return status;
+        }
+
+        private static async Task SendPingAsync(IMCPacketClient client, CancellationToken cancelToken)
+        {
+            await client.SendAsync(new PingPacket()
+            {
+                Payload = DateTimeOffset.UtcNow.Ticks
+            }, cancelToken);
+        }
+
+        private static async Task SendStatusRequestAsync(IMCPacketClient client, CancellationToken cancelToken)
+        {
+            await client.SendAsync(new StatusRequestPacket(), cancelToken);
+        }
+
+        private static async Task SendHandshakeAsync(string host, ushort port, IMCPacketClient client, CancellationToken cancelToken)
         {
             await client.SendAsync(new HandshakePacket()
             {
@@ -45,22 +74,6 @@ namespace YksMC.Clients
                 ServerPort = port,
                 NextState = SubProtocol.Status
             }, cancelToken);
-            await client.SendAsync(new StatusRequestPacket(), cancelToken);
-
-            StatusResponsePacket responsePacket = await client.ReceiveAsync<StatusResponsePacket>(cancelToken);
-
-            await client.SendAsync(new PingPacket()
-            {
-                Payload = DateTimeOffset.UtcNow.Ticks
-            }, cancelToken);
-
-            PongPacket pongPacket = await client.ReceiveAsync<PongPacket>(cancelToken);
-            TimeSpan ping = TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - pongPacket.Payload);
-
-            ServerStatus status = JsonConvert.DeserializeObject<ServerStatus>(responsePacket.JsonData);
-            status.Ping = ping;
-
-            return status;
         }
     }
 }

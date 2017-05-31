@@ -12,6 +12,8 @@ namespace YksMC.Protocol
 {
     public class StreamMCConnection : IMCConnection, IDisposable
     {
+        public delegate StreamMCConnection Factory(Stream stream);
+
         private readonly Stream _stream;
 
         public StreamMCConnection(Stream stream)
