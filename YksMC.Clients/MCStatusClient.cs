@@ -37,16 +37,13 @@ namespace YksMC.Clients
             await client.ConnectAsync(host, port, cancelToken);
 
             await SendHandshakeAsync(host, port, client, cancelToken);
+
             await SendStatusRequestAsync(client, cancelToken);
-
             StatusResponsePacket responsePacket = await client.ReceiveAsync<StatusResponsePacket>(cancelToken);
-
             ServerStatus status = JsonConvert.DeserializeObject<ServerStatus>(responsePacket.JsonData);
 
             await SendPingAsync(client, cancelToken);
-
             PongPacket pongPacket = await client.ReceiveAsync<PongPacket>(cancelToken);
-
             status.Ping = TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - pongPacket.Payload);
 
             return status;
