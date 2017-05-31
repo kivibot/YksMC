@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Clients.Models.Dtos;
+using YksMC.Clients.Models.Status;
 using YksMC.Protocol;
 using YksMC.Protocol.Serializing;
 

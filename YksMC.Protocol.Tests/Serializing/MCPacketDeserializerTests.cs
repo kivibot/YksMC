@@ -27,7 +27,7 @@ namespace YksMC.Protocol.Tests.Serializing
                 ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,
-                NextState = SubProtocol.Status
+                NextState = ConnectionState.Status
             };
             FakeMCPacketReader reader = new FakeMCPacketReader(new VarInt(0x00), new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01));
 

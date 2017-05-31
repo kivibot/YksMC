@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Clients.Models.Dtos
+namespace YksMC.Clients.Models.Status
 {
     public class StatusVersion
     {

@@ -15,7 +15,7 @@ namespace YksMC.Protocol.Models.Packets
         public ProtocolVersion ProtocolVersion { get; set; }
         public string ServerAddress { get; set; }
         public ushort ServerPort { get; set; }
-        public SubProtocol NextState { get; set; }
+        public ConnectionState NextState { get; set; }
 
         public HandshakePacket()
         {

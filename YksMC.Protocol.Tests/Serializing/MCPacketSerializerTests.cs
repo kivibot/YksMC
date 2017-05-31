@@ -27,7 +27,7 @@ namespace YksMC.Protocol.Tests.Serializing
                 ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,
-                NextState = SubProtocol.Status
+                NextState = ConnectionState.Status
             };
             FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
 

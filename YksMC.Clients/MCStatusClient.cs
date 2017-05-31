@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.Clients.Models.Dtos;
+using YksMC.Clients.Models.Status;
 using YksMC.Protocol;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
@@ -69,7 +69,7 @@ namespace YksMC.Clients
                 ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = host,
                 ServerPort = port,
-                NextState = SubProtocol.Status
+                NextState = ConnectionState.Status
             }, cancelToken);
         }
     }
