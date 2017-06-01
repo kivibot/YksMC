@@ -40,7 +40,7 @@ namespace YksMC.Clients.IntegrationTests
         }
 
         [Test]
-        public async Task MCStatusClient_WithRealServer_ReturnsValidValues()
+        public async Task GetStatusAsync_WithRealServer_ReturnsValidValues()
         {
             MinecraftClient client = _container.Resolve<MinecraftClient>();
 
@@ -51,6 +51,14 @@ namespace YksMC.Clients.IntegrationTests
             Assert.AreNotEqual(0, status.Ping.Ticks);
         }
 
+        [Test]
+        public async Task LoginAsync_WithRealServer_DoesNotCrash()
+        {
+            MinecraftClient client = _container.Resolve<MinecraftClient>();
+
+            await client.ConnectAsync("localhost", 25565);
+            await client.LoginAsync();
+        }
 
     }
 }

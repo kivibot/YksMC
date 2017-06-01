@@ -10,5 +10,10 @@ namespace YksMC.Protocol.Models.Packets.Login
         public VarInt Id { get; set; }
         public ByteArray SharedSecret { get; set; }
         public ByteArray VerifyToken { get; set; }
+
+        public EncryptionResponsePacket()
+        {
+            Id = new VarInt(0x01);
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using YksMC.Clients.Models.Status;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Models.Packets.Login;
 using YksMC.Protocol.Models.Packets.Status;
 
 namespace YksMC.Clients
@@ -19,6 +20,8 @@ namespace YksMC.Clients
         private ConnectionState _state;
         private string _host;
         private ushort _port;
+        private string _username = "PleaseInjectMe";
+
         public ProtocolVersion ProtocolVersion => _protocolVersion;
 
         public MinecraftClient(IMCPacketClient packetClient)
@@ -74,7 +77,12 @@ namespace YksMC.Clients
             }, cancelToken);
             _state = ConnectionState.Login;
 
+            await _packetClient.SendAsync(new LoginStartPacket()
+            {
+                Name = _username                
+            }, cancelToken);
 
+            LoginSuccessPacket packet = await _packetClient.ReceiveAsync<LoginSuccessPacket>(cancelToken);
         }
 
         private void RequireState(ConnectionState requiredState)
