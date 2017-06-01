@@ -12,7 +12,7 @@ using YksMC.Protocol.Serializing;
 namespace YksMC.Clients.IntegrationTests
 {
     [TestFixture]
-    public class StatusClientTests
+    public class MinecraftClientIntegrationTests
     {
 
         private IContainer _container;
@@ -21,7 +21,7 @@ namespace YksMC.Clients.IntegrationTests
         public void SetUp()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<MCStatusClient>();
+            builder.RegisterType<MinecraftClient>();
             builder.RegisterType<MCPacketClient>().AsImplementedInterfaces();
             builder.RegisterType<TcpClient>();
             builder.RegisterType<MCPacketSerializer>().AsImplementedInterfaces();
@@ -39,13 +39,13 @@ namespace YksMC.Clients.IntegrationTests
             _container.Dispose();
         }
 
-
         [Test]
         public async Task MCStatusClient_WithRealServer_ReturnsValidValues()
         {
-            MCStatusClient client = _container.Resolve<MCStatusClient>();
+            MinecraftClient client = _container.Resolve<MinecraftClient>();
 
-            ServerStatus status = await client.GetStatusAsync("localhost", 25565);
+            await client.ConnectAsync("localhost", 25565);
+            ServerStatus status = await client.GetStatusAsync();
 
             Assert.AreEqual(20, status.Players.Max);
             Assert.AreNotEqual(0, status.Ping.Ticks);

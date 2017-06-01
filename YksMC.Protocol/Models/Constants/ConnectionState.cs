@@ -6,7 +6,8 @@ namespace YksMC.Protocol.Models.Constants
 {
     public enum ConnectionState
     {
-        Initial = 0,
+        None = 0,
+        Handshake = 200,
         Status = 1,
         Login = 2
     }
