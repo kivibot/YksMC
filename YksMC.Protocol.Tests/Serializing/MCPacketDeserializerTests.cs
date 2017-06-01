@@ -245,6 +245,7 @@ namespace YksMC.Protocol.Tests.Serializing
 
             Assert.AreEqual(ProtocolVersion.Unknown, result.Value);
         }
+
         [Test]
         public void Deserialize_UnknownEnumValue_Throws()
         {
@@ -267,6 +268,17 @@ namespace YksMC.Protocol.Tests.Serializing
             {
                 deserializer.Deserialize<InvalidPacket>(reader);
             });
+        }
+
+        [Test]
+        public void Deserialize_ByteArray_Works()
+        {
+            MCPacketDeserializer deserializer = new MCPacketDeserializer();
+            FakeMCPacketReader reader = new FakeMCPacketReader(new ByteArray() { Length = new VarInt(3), Data = new byte[3] });
+
+            GenericPacket<ByteArray> result = deserializer.Deserialize<GenericPacket<ByteArray>>(reader);
+
+            Assert.AreEqual(new ByteArray() { Length = new VarInt(3), Data = new byte[3] }, result.Value);
         }
 
     }

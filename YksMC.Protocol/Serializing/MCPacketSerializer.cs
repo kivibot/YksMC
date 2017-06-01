@@ -60,6 +60,7 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyType<Position>((b, v) => b.PutPosition(v));
             RegisterPropertyType<Angle>((b, v) => b.PutAngle(v));
             RegisterPropertyType<Guid>((b, v) => b.PutGuid(v));
+            RegisterPropertyType<ByteArray>((b, v) => b.PutByteArray(v));
         }
 
         private void RegisterPropertyType<T>(Action<IMCPacketBuilder, T> func)

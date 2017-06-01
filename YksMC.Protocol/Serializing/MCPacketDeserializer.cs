@@ -58,6 +58,7 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyType<Position>((r) => r.GetPosition());
             RegisterPropertyType<Angle>((r) => r.GetAngle());
             RegisterPropertyType<Guid>((r) => r.GetGuid());
+            RegisterPropertyType<ByteArray>((r) => r.GetByteArray());
         }
 
         private void RegisterPropertyType<T>(Func<IMCPacketReader, T> func)

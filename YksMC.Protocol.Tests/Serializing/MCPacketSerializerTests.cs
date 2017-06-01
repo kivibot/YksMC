@@ -120,5 +120,17 @@ namespace YksMC.Protocol.Tests.Serializing
                 serializer.Serialize(packet, builder);
             });
         }
+
+        [Test]
+        public void Serialize_ByteArray_Works()
+        {
+            MCPacketSerializer serializer = new MCPacketSerializer();
+            GenericPacket<ByteArray> packet = new GenericPacket<ByteArray>() { Value = new ByteArray() { Length = new VarInt(4), Data = new byte[4] } };
+            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+
+            serializer.Serialize(packet, builder);
+
+            Assert.AreEqual(new object[] { new ByteArray() { Length = new VarInt(4), Data = new byte[4] } }, builder.Objects);
+        }
     }
 }

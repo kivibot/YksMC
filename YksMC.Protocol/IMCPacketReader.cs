@@ -41,6 +41,8 @@ namespace YksMC.Protocol
 
         byte[] GetBytes(int count);
 
+        ByteArray GetByteArray();
+
         void ResetPosition();
     }
 }

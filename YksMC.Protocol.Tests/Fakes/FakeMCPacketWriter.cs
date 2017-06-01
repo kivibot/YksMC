@@ -118,5 +118,10 @@ namespace YksMC.Protocol.Tests.Fakes
         {
             throw new NotImplementedException();
         }
+
+        public void PutByteArray(ByteArray value)
+        {
+            _data.Add(value);
+        }
     }
 }

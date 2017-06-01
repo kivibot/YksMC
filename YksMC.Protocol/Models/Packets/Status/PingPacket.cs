@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Models.Types;
 
-namespace YksMC.Protocol.Models.Packets
+namespace YksMC.Protocol.Models.Packets.Status
 {
     public class PingPacket : IPacket
     {

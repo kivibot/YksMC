@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 using YksMC.Clients.Models.Status;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Models.Packets.Status;
 
 namespace YksMC.Clients
 {
     public class MinecraftClient : IMinecraftClient
     {
+        private const ProtocolVersion _protocolVersion = ProtocolVersion.v1_11_2;
+        
         private readonly IMCPacketClient _packetClient;
         private ConnectionState _state;
         private string _host;
         private ushort _port;
+        public ProtocolVersion ProtocolVersion => _protocolVersion;
 
         public MinecraftClient(IMCPacketClient packetClient)
         {
@@ -59,7 +63,18 @@ namespace YksMC.Clients
 
         public async Task LoginAsync(CancellationToken cancelToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            RequireState(ConnectionState.Handshake);
+
+            await _packetClient.SendAsync(new HandshakePacket()
+            {
+                ProtocolVersion = _protocolVersion,
+                ServerAddress = _host,
+                ServerPort = _port,
+                NextState = ConnectionState.Login
+            }, cancelToken);
+            _state = ConnectionState.Login;
+
+
         }
 
         private void RequireState(ConnectionState requiredState)

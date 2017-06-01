@@ -158,5 +158,12 @@ namespace YksMC.Protocol
             _data = packet;
             ResetPosition();
         }
+
+        public ByteArray GetByteArray()
+        {
+            VarInt length = GetVarInt();
+            byte[] data = GetBytes(length.Value);
+            return new ByteArray() { Length = length, Data = data };
+        }
     }
 }

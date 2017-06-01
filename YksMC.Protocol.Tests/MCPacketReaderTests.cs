@@ -9,6 +9,7 @@ using YksMC.Protocol.Tests.Fakes;
 using YksMC.Protocol;
 using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Types;
+using YksMC.Protocol.Utils;
 
 namespace YksMC.Protocol.Tests
 {
@@ -357,6 +358,25 @@ namespace YksMC.Protocol.Tests
             bool result = reader.GetBool();
 
             Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void GetByteArray_AfterReading_Works()
+        {
+            MCPacketReader reader = new MCPacketReader();
+            List<byte> data = new List<byte>();
+            data.AddRange(VarIntUtil.EncodeVarInt(502));
+            data.AddRange(new byte[500]);
+            data.AddRange(new byte[] { 13, 37 });
+
+            reader.SetPacket(data.ToArray());
+            ByteArray result = reader.GetByteArray();
+
+            Assert.AreEqual(new ByteArray()
+            {
+                Length = new VarInt(502),
+                Data = data.Skip(2).ToArray()
+            }, result);
         }
     }
 }

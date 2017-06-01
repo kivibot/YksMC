@@ -33,6 +33,12 @@ namespace YksMC.Protocol
             _data.Add(value);
         }
 
+        public void PutByteArray(ByteArray value)
+        {
+            PutVarInt(value.Length);
+            PutBytes(value.Data);
+        }
+
         public void PutBytes(byte[] data)
         {
             _data.AddRange(data);
