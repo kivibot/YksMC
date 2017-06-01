@@ -1,17 +1,15 @@
-﻿using Autofac.Features.OwnedInstances;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using YksMC.Clients.Injection;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Clients
 {
-    public delegate Owned<IMCPacketClient> IMCPacketClientFactory();
-
     public interface IMCPacketClient
     {
         Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));

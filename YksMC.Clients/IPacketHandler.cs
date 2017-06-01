@@ -7,6 +7,6 @@ namespace YksMC.Clients
 {
     public interface IPacketHandler<T>
     {
-        Task HandleAsync<T>(T packet);
+        Task HandleAsync(T packet);
     }
 }
