@@ -4,11 +4,8 @@ using System.Text;
 
 namespace YksMC.Protocol.Models.Constants
 {
-    public enum ConnectionState
+    public enum BoundTo
     {
-        None = 0,
-        Handshake = -1,
-        Status = 1,
-        Login = 2
+        Server, Client
     }
 }

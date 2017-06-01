@@ -7,16 +7,10 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Models.Packets.Login
 {
-    [Packet(0x02, ConnectionState.Login, BoundTo.Client)]
-    public class LoginSuccessPacket : IPacket
+    [Packet(0x00, ConnectionState.Login, BoundTo.Client)]
+    public class DisconnectPacket : IPacket
     {
         public VarInt Id { get; set; }
-        public string UserId { get; set; }
-        public string Username { get; set; }
-
-        public LoginSuccessPacket()
-        {
-            Id = new VarInt(0x02);
-        }
+        public Chat Reason { get; set; }
     }
 }

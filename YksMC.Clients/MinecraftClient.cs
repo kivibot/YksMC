@@ -15,7 +15,7 @@ namespace YksMC.Clients
     public class MinecraftClient : IMinecraftClient
     {
         private const ProtocolVersion _protocolVersion = ProtocolVersion.v1_11_2;
-        
+
         private readonly IMCPacketClient _packetClient;
         private ConnectionState _state;
         private string _host;
@@ -27,7 +27,7 @@ namespace YksMC.Clients
         public MinecraftClient(IMCPacketClient packetClient)
         {
             _packetClient = packetClient;
-            _state = ConnectionState.None;
+            SetState(ConnectionState.None);
         }
 
         public async Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
@@ -37,7 +37,7 @@ namespace YksMC.Clients
             await _packetClient.ConnectAsync(host, port, cancelToken);
             _host = host;
             _port = port;
-            _state = ConnectionState.Handshake;
+            SetState(ConnectionState.Handshake);
         }
 
         public async Task<ServerStatus> GetStatusAsync(CancellationToken cancelToken = default(CancellationToken))
@@ -51,7 +51,7 @@ namespace YksMC.Clients
                 ServerPort = _port,
                 NextState = ConnectionState.Status
             }, cancelToken);
-            _state = ConnectionState.Status;
+            SetState(ConnectionState.Status);
 
             await _packetClient.SendAsync(new StatusRequestPacket(), cancelToken);
             StatusResponsePacket responsePacket = await _packetClient.ReceiveAsync<StatusResponsePacket>(cancelToken);
@@ -75,20 +75,36 @@ namespace YksMC.Clients
                 ServerPort = _port,
                 NextState = ConnectionState.Login
             }, cancelToken);
-            _state = ConnectionState.Login;
+            SetState(ConnectionState.Login);
 
             await _packetClient.SendAsync(new LoginStartPacket()
             {
-                Name = _username                
+                Name = _username
             }, cancelToken);
 
-            LoginSuccessPacket packet = await _packetClient.ReceiveAsync<LoginSuccessPacket>(cancelToken);
+            while (true)
+            {
+                //TODO: remove the "switch"
+                IPacket packet = await _packetClient.ReceiveAsync(cancelToken);
+                if (packet is DisconnectPacket)
+                    throw new ArgumentException("Disconnected: " + (packet as DisconnectPacket).Reason.Value);
+                else if (packet is LoginSuccessPacket)
+                    break;
+                else
+                    throw new ArgumentException("Compression or encryption not supported!");
+            }
         }
 
         private void RequireState(ConnectionState requiredState)
         {
             if (_state != requiredState)
                 throw new InvalidOperationException("Invalid connection state!");
+        }
+
+        private void SetState(ConnectionState state)
+        {
+            _state = state;
+            _packetClient.SetState(state);
         }
     }
 }

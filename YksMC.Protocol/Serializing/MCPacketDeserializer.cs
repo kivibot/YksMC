@@ -21,7 +21,12 @@ namespace YksMC.Protocol.Serializing
         public T Deserialize<T>(IMCPacketReader reader)
         {
             Type type = typeof(T);
-            T packet = (T)type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
+            return (T)Deserialize(reader, type);
+        }
+
+        public object Deserialize(IMCPacketReader reader, Type type)
+        {
+            object packet = type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
 
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
@@ -72,6 +77,6 @@ namespace YksMC.Protocol.Serializing
             if (!Enum.IsDefined(type, value))
                 throw new ArgumentException($"Unknown enum value! type: {type.Name}, value: {value}");
             return value;
-        }
+        }        
     }
 }

@@ -9,5 +9,6 @@ namespace YksMC.Protocol.Serializing
     public interface IMCPacketDeserializer
     {
         T Deserialize<T>(IMCPacketReader reader);
+        object Deserialize(IMCPacketReader reader, Type type);
     }
 }

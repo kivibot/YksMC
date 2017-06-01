@@ -7,10 +7,9 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Models.Packets
 {
+    [Packet(0x00, ConnectionState.Handshake, BoundTo.Server)]
     public class HandshakePacket : IPacket
     {
-        public const int PacketId = 0x00;
-
         public VarInt Id { get; set; }
         public ProtocolVersion ProtocolVersion { get; set; }
         public string ServerAddress { get; set; }
@@ -19,7 +18,7 @@ namespace YksMC.Protocol.Models.Packets
 
         public HandshakePacket()
         {
-            Id = new VarInt(PacketId);
+            Id = new VarInt(0x00);
         }
     }
 }

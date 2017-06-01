@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Clients.Mapper;
 using YksMC.Clients.Models.Status;
 using YksMC.Protocol;
 using YksMC.Protocol.Serializing;
@@ -29,6 +30,9 @@ namespace YksMC.Clients.IntegrationTests
             builder.RegisterType<MCPacketReader>().AsImplementedInterfaces();
             builder.RegisterType<MCPacketBuilder>().AsImplementedInterfaces();
             builder.RegisterType<StreamMCConnection>().AsSelf();
+            PacketTypeMapper typeMapper = new PacketTypeMapper();
+            typeMapper.RegisterVanillaPackets();
+            builder.RegisterInstance(typeMapper).AsImplementedInterfaces();
 
             _container = builder.Build();
         }
