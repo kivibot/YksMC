@@ -8,13 +8,13 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Tests.Fakes
 {
-    public class FakeMCPacketBuilder : IMCPacketBuilder
+    public class FakePacketBuilder : IPacketBuilder
     {
         private readonly List<object> _data;
 
         public IReadOnlyList<object> Objects => _data;
 
-        public FakeMCPacketBuilder()
+        public FakePacketBuilder()
         {
             _data = new List<object>();
         }

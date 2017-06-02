@@ -8,15 +8,15 @@ using YksMC.Protocol.Models.Exceptions;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Utils;
 
-namespace YksMC.Protocol
+namespace YksMC.Protocol.Connection
 {
-    public class StreamMCConnection : IMCConnection, IDisposable
+    public class StreamMinecraftConnection : IMinecraftConnection, IDisposable
     {
-        public delegate StreamMCConnection Factory(Stream stream);
+        public delegate StreamMinecraftConnection Factory(Stream stream);
 
         private readonly Stream _stream;
 
-        public StreamMCConnection(Stream stream)
+        public StreamMinecraftConnection(Stream stream)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
@@ -47,12 +47,12 @@ namespace YksMC.Protocol
                     if (i == 0)
                         return null;
                     else
-                        throw new PacketSourceException("Unexpected EOT");
+                        throw new MinecraftConnectionException("Unexpected EOT");
                 }
                 if ((data[i] & 0b10000000) == 0)
                     return new VarInt(VarIntUtil.DecodeVarInt(data));
             }
-            throw new PacketSourceException("Invalid VarInt (too long)");
+            throw new MinecraftConnectionException("Invalid VarInt (too long)");
         }
 
         private async Task<byte[]> ReadBytesAsync(int length, CancellationToken cancelToken)
@@ -62,7 +62,7 @@ namespace YksMC.Protocol
             {
                 int bytesRead = await _stream.ReadAsync(data, totalBytesRead, length - totalBytesRead);
                 if (bytesRead == 0)
-                    throw new PacketSourceException("Unexpected EOT");
+                    throw new MinecraftConnectionException("Unexpected EOT");
                 totalBytesRead += bytesRead;
             }
             return data;
@@ -73,6 +73,11 @@ namespace YksMC.Protocol
             byte[] packetLenghtData = VarIntUtil.EncodeVarInt(data.Length);
             await _stream.WriteAsync(packetLenghtData, 0, packetLenghtData.Length, cancelToken);
             await _stream.WriteAsync(data, 0, data.Length);
+        }
+
+        public void EnableCompression(int threshold)
+        {
+            throw new NotImplementedException();
         }
     }
 }

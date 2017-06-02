@@ -14,13 +14,13 @@ using YksMC.Protocol.Models.Constants;
 namespace YksMC.Protocol.Tests.Serializing
 {
     [TestFixture]
-    public class MCPacketSerializerTests
+    public class PacketSerializerTests
     {
 
         [Test]
         public void TestSerializeHandshakePacket()
         {
-            MCPacketSerializer serializer = new MCPacketSerializer();
+            PacketSerializer serializer = new PacketSerializer();
             HandshakePacket packet = new HandshakePacket()
             {
                 Id = new VarInt(0x00),
@@ -29,7 +29,7 @@ namespace YksMC.Protocol.Tests.Serializing
                 ServerPort = 1234,
                 NextState = ConnectionState.Status
             };
-            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+            FakePacketBuilder builder = new FakePacketBuilder();
 
             serializer.Serialize(packet, builder);
 
@@ -39,7 +39,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void TestSerializeSupportsAllTypes()
         {
-            MCPacketSerializer serializer = new MCPacketSerializer();
+            PacketSerializer serializer = new PacketSerializer();
             TestPacket packet = new TestPacket()
             {
                 Id = new VarInt(16),
@@ -62,7 +62,7 @@ namespace YksMC.Protocol.Tests.Serializing
                 Angle = new Angle(127),
                 Guid = Guid.NewGuid()
             };
-            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+            FakePacketBuilder builder = new FakePacketBuilder();
 
             serializer.Serialize(packet, builder);
 
@@ -74,9 +74,9 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void TestSerializeDoesNotAcceptUnsupportedProperties()
         {
-            MCPacketSerializer serializer = new MCPacketSerializer();
+            PacketSerializer serializer = new PacketSerializer();
             InvalidPacket packet = new InvalidPacket();
-            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+            FakePacketBuilder builder = new FakePacketBuilder();
 
             Assert.Throws<ArgumentException>(() =>
             {
@@ -87,9 +87,9 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Serialize_VarIntEnum_Works()
         {
-            MCPacketSerializer serializer = new MCPacketSerializer();
+            PacketSerializer serializer = new PacketSerializer();
             GenericPacket<ProtocolVersion> packet = new GenericPacket<ProtocolVersion>() { Value = ProtocolVersion.Unknown };
-            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+            FakePacketBuilder builder = new FakePacketBuilder();
 
             serializer.Serialize(packet, builder);
 
@@ -99,8 +99,8 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Serialize_NullValue_Throws()
         {
-            MCPacketSerializer serializer = new MCPacketSerializer();
-            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+            PacketSerializer serializer = new PacketSerializer();
+            FakePacketBuilder builder = new FakePacketBuilder();
 
             Assert.Throws<ArgumentNullException>(() =>
             {
@@ -111,9 +111,9 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Serialize_NullProperty_Throws()
         {
-            MCPacketSerializer serializer = new MCPacketSerializer();
+            PacketSerializer serializer = new PacketSerializer();
             GenericPacket<string> packet = new GenericPacket<string>() { Value = null };
-            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+            FakePacketBuilder builder = new FakePacketBuilder();
 
             Assert.Throws<ArgumentException>(() =>
             {
@@ -124,9 +124,9 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Serialize_ByteArray_Works()
         {
-            MCPacketSerializer serializer = new MCPacketSerializer();
+            PacketSerializer serializer = new PacketSerializer();
             GenericPacket<ByteArray> packet = new GenericPacket<ByteArray>() { Value = new ByteArray() { Length = new VarInt(4), Data = new byte[4] } };
-            FakeMCPacketBuilder builder = new FakeMCPacketBuilder();
+            FakePacketBuilder builder = new FakePacketBuilder();
 
             serializer.Serialize(packet, builder);
 

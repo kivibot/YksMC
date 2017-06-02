@@ -14,12 +14,12 @@ using YksMC.Protocol.Utils;
 namespace YksMC.Protocol.Tests
 {
     [TestFixture]
-    public class MCPacketReaderTests
+    public class PacketReaderTests
     {
         [Test]
         public void SetPacket_ExistingPacket_PreviousDataCleared()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 1, 2 });
             reader.SetPacket(new byte[] { 3 });
@@ -31,7 +31,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetBool_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 0, 1 });
 
@@ -45,7 +45,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetSignedByte_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 1, 250 });
 
@@ -59,7 +59,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetByte_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 1, 250 });
 
@@ -73,7 +73,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetShort_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 0x80, 0x01, 0x7f, 0xff });
 
@@ -87,7 +87,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetUnsignedShort_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 0x00, 0x03, 0xa7, 0x0f });
 
@@ -101,7 +101,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetInt_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 0xff, 0xff, 0xff, 0xfb, 0x7f, 0xff, 0xff, 0xff });
 
@@ -115,7 +115,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetUnsignedInt_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 0xff, 0xff, 0xff, 0xfb, 0x7f, 0xff, 0xff, 0xff });
 
@@ -129,7 +129,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetLong_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfb,
@@ -146,7 +146,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetUnsignedLong_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfb,
@@ -163,7 +163,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetFloat_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0xc0, 0xc0, 0x00, 0x00,
@@ -180,7 +180,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetDouble_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0xc0, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -197,7 +197,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetBytes_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0xc0, 0x18, 0x00, 0x00, 0x00, 0x04
@@ -213,7 +213,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetVarInt_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0x00,
@@ -239,7 +239,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetVarLong_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0x00,
@@ -270,7 +270,7 @@ namespace YksMC.Protocol.Tests
             bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
             bytes.AddRange(Encoding.UTF8.GetBytes(str));
             bytes.AddRange(new byte[] { 0 });
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(bytes.ToArray());
 
@@ -289,7 +289,7 @@ namespace YksMC.Protocol.Tests
             bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
             bytes.AddRange(Encoding.UTF8.GetBytes(str));
             bytes.AddRange(new byte[] { 0 });
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(bytes.ToArray());
 
@@ -303,7 +303,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetPosition_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfd
@@ -319,7 +319,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetAngle_ValidData_ReturnsCorrectValue()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] {
                 0x8f
@@ -334,7 +334,7 @@ namespace YksMC.Protocol.Tests
         public void GetGuid_ValidData_ReturnsCorrectValue()
         {
             Guid expected = Guid.NewGuid();
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(expected.ToByteArray()
                     .Reverse()
@@ -348,7 +348,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void ResetPosition_AfterReading_Works()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
 
             reader.SetPacket(new byte[] { 1, 0 });
             reader.GetBool();
@@ -363,7 +363,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void GetByteArray_AfterReading_Works()
         {
-            MCPacketReader reader = new MCPacketReader();
+            PacketReader reader = new PacketReader();
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(502));
             data.AddRange(new byte[500]);

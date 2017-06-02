@@ -4,11 +4,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Protocol;
+using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Tests.Fakes
 {
-    public class FakeMCConnection : IMCConnection
+    public class FakeMinecraftConnection : IMinecraftConnection
     {
         private readonly List<byte[]> _sentPackets = new List<byte[]>();
         private readonly Queue<byte[]> _queue;
@@ -16,12 +17,12 @@ namespace YksMC.Protocol.Tests.Fakes
         public IReadOnlyList<byte[]> SentPackets => _sentPackets;
         public Queue<byte[]> Queue => _queue;
 
-        public FakeMCConnection()
+        public FakeMinecraftConnection()
         {
             _queue = new Queue<byte[]>();
         }
 
-        public FakeMCConnection(params byte[][] array)
+        public FakeMinecraftConnection(params byte[][] array)
         {
             _queue = new Queue<byte[]>(array);
         }
@@ -38,6 +39,11 @@ namespace YksMC.Protocol.Tests.Fakes
         {
             _sentPackets.Add(data);
             return Task.FromResult(true);
+        }
+
+        public void EnableCompression(int threshold)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,12 +12,12 @@ using YksMC.Protocol.Utils;
 namespace YksMC.Protocol.Tests
 {
     [TestFixture]
-    public class MCPacketBuilderTests
+    public class PacketBuilderTests
     {
         [Test]
         public void TakePacket_NoData_ReturnsEmptyArray()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             byte[] result = builder.TakePacket();
 
@@ -27,7 +27,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void TakePacket_ValidData_ClearsBuffers()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutString("TEST");
             builder.TakePacket();
@@ -39,7 +39,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutAngle_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutAngle(new Angle(200));
             builder.PutAngle(new Angle(1));
@@ -52,7 +52,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutByte_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutBool(true);
             builder.PutBool(false);
@@ -65,7 +65,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutSignedByte_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutSignedByte(-1);
             builder.PutSignedByte(5);
@@ -78,7 +78,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PytByte_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutByte(1);
             builder.PutByte(255);
@@ -91,7 +91,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutShort_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutShort(-1);
             builder.PutShort(short.MaxValue);
@@ -104,7 +104,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutUnsignedShort_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutUnsignedShort(ushort.MaxValue - 1);
             builder.PutUnsignedShort(1);
@@ -117,7 +117,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutInt_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutInt(-1);
             builder.PutInt(int.MaxValue);
@@ -130,7 +130,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutUnsignedInt_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutUnsignedInt(1);
             builder.PutUnsignedInt(uint.MaxValue);
@@ -143,7 +143,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutLong_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutLong(-1);
             builder.PutLong(long.MaxValue);
@@ -156,7 +156,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutUnsignedLong_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutUnsignedLong(1);
             builder.PutUnsignedLong(ulong.MaxValue);
@@ -169,7 +169,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutFloat_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutFloat(-6);
             builder.PutFloat(9223.3720703125f);
@@ -185,7 +185,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutDouble_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutDouble(-6);
             builder.PutDouble(9223.3720703125);
@@ -202,7 +202,7 @@ namespace YksMC.Protocol.Tests
         public void PutString_ValidData_AppendsCorrectData()
         {
             string str = "TÄMÄ on testi持燃ク禁購ヤホキ前追にゆびト見柳フ止図主のあ。鯉メヤロヒ連降タ誌番アノキロ氏難ア問士こ仰律ぽぱ韓新セチ動呼トは意触げ深学じふたい時Lorem ipsúm dolor sit amet, his cú habeo labítur, eos gloriatur omittantur ad, ex ius solet possim indoctum. Summo vólumus añ mel, sed ex doctus nostrúd, hás eu quis diám sóleat. Eúm at legeré ígnota conclusiónemque. Et meí suavitáte principes. Et sumo éverti quo, ex apeírian mnésarchum temporibus eam. Ad minim quidam sít, verí temporibus hás in.38制ろ問権タメ持掲各ぽーろこ避防覚創ひあ。会むっリ岡都むめびく徳処ミ命6置レの格討ゆ女空をりらに渡1年て予鰒ミツ意組ドるちぼ悪2企ノタヌオ辞4水ヱニヘユ積浩つわんち。";
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
             List<byte> bytes = new List<byte>();
             bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
             bytes.AddRange(Encoding.UTF8.GetBytes(str));
@@ -220,7 +220,7 @@ namespace YksMC.Protocol.Tests
         public void PutChat_ValidData_AppendsCorrectData()
         {
             string str = "TÄMÄ on testi持燃ク禁購ヤホキ前追にゆびト見柳フ止図主のあ。鯉メヤロヒ連降タ誌番アノキロ氏難ア問士こ仰律ぽぱ韓新セチ動呼トは意触げ深学じふたい時Lorem ipsúm dolor sit amet, his cú habeo labítur, eos gloriatur omittantur ad, ex ius solet possim indoctum. Summo vólumus añ mel, sed ex doctus nostrúd, hás eu quis diám sóleat. Eúm at legeré ígnota conclusiónemque. Et meí suavitáte principes. Et sumo éverti quo, ex apeírian mnésarchum temporibus eam. Ad minim quidam sít, verí temporibus hás in.38制ろ問権タメ持掲各ぽーろこ避防覚創ひあ。会むっリ岡都むめびく徳処ミ命6置レの格討ゆ女空をりらに渡1年て予鰒ミツ意組ドるちぼ悪2企ノタヌオ辞4水ヱニヘユ積浩つわんち。";
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
             List<byte> bytes = new List<byte>();
             bytes.AddRange(new byte[] { 0b10110011, 0b00000110 });
             bytes.AddRange(Encoding.UTF8.GetBytes(str));
@@ -237,7 +237,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutVarInt_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
             List<byte> bytes = new List<byte>();
             bytes.AddRange(VarIntUtil.EncodeVarInt(-1));
             bytes.AddRange(VarIntUtil.EncodeVarInt(12398));
@@ -253,7 +253,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutVarLong_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
             List<byte> bytes = new List<byte>();
             bytes.AddRange(VarIntUtil.EncodeVarLong(-1));
             bytes.AddRange(VarIntUtil.EncodeVarLong(12399));
@@ -269,7 +269,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutPosition_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
 
             builder.PutPosition(new Position(0b01111111111111111111111111, 0b111111111111, 0b11111111111111111111111101));
             builder.PutPosition(new Position(0b01111111111111111111111111, 0b111111111111, 0b11111111111111111111111110));
@@ -285,7 +285,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutGuid_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
             List<byte> bytes = new List<byte>();
             Guid testGuid = Guid.NewGuid();
             bytes.AddRange(Guid.Empty.ToByteArray().Reverse());
@@ -302,7 +302,7 @@ namespace YksMC.Protocol.Tests
         [Test]
         public void PutByteArray_ValidData_AppendsCorrectData()
         {
-            MCPacketBuilder builder = new MCPacketBuilder();
+            PacketBuilder builder = new PacketBuilder();
             List<byte> bytes = new List<byte>();
             bytes.AddRange(new byte[500]);
             bytes.AddRange(new byte[] { 1, 2, 3, 4 });

@@ -6,8 +6,8 @@ using YksMC.Protocol.Models.Packets;
 
 namespace YksMC.Protocol.Serializing
 {
-    public interface IMCPacketSerializer
+    public interface IPacketSerializer
     {
-        void Serialize(object value, IMCPacketBuilder builder);
+        void Serialize(object value, IPacketBuilder builder);
     }
 }

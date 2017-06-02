@@ -7,7 +7,7 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol
 {
-    public interface IMCPacketBuilder
+    public interface IPacketBuilder
     {
         byte[] TakePacket();
 

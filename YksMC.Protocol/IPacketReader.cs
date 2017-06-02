@@ -8,7 +8,7 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol
 {
-    public interface IMCPacketReader
+    public interface IPacketReader
     {
         void SetPacket(byte[] packet);
 

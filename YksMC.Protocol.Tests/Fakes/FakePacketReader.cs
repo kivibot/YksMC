@@ -8,11 +8,11 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Tests.Fakes
 {
-    public class FakeMCPacketReader : IMCPacketReader
+    public class FakePacketReader : IPacketReader
     {
         private readonly Queue<object> _queue;
 
-        public FakeMCPacketReader(params object[] objects)
+        public FakePacketReader(params object[] objects)
         {
             _queue = new Queue<object>(objects);
         }

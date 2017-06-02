@@ -7,18 +7,18 @@ using System.Reflection;
 
 namespace YksMC.Protocol.Serializing
 {
-    public class MCPacketSerializer : IMCPacketSerializer
+    public class PacketSerializer : IPacketSerializer
     {
-        private readonly Dictionary<Type, Action<IMCPacketBuilder, object>> _propertyTypes;
+        private readonly Dictionary<Type, Action<IPacketBuilder, object>> _propertyTypes;
 
-        public MCPacketSerializer()
+        public PacketSerializer()
         {
-            _propertyTypes = new Dictionary<Type, Action<IMCPacketBuilder, object>>();
+            _propertyTypes = new Dictionary<Type, Action<IPacketBuilder, object>>();
 
             RegisterPropertyTypes();
         }
 
-        public void Serialize(object packet, IMCPacketBuilder builder)
+        public void Serialize(object packet, IPacketBuilder builder)
         {
             if (packet == null)
                 throw new ArgumentNullException(nameof(packet));
@@ -26,7 +26,7 @@ namespace YksMC.Protocol.Serializing
             Type type = packet.GetType();
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
-                Action<IMCPacketBuilder, object> serializeProperty;
+                Action<IPacketBuilder, object> serializeProperty;
                 if (property.PropertyType.GetTypeInfo().IsEnum)
                     serializeProperty = SerializeEnum;
                 else if (!_propertyTypes.TryGetValue(property.PropertyType, out serializeProperty))
@@ -63,12 +63,12 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyType<ByteArray>((b, v) => b.PutByteArray(v));
         }
 
-        private void RegisterPropertyType<T>(Action<IMCPacketBuilder, T> func)
+        private void RegisterPropertyType<T>(Action<IPacketBuilder, T> func)
         {
             _propertyTypes[typeof(T)] = (r, v) => func(r, (T)v);
         }
 
-        private void SerializeEnum(IMCPacketBuilder builder, object value)
+        private void SerializeEnum(IPacketBuilder builder, object value)
         {
             builder.PutVarInt(new VarInt((int)value));
         }

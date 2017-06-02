@@ -8,12 +8,12 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol
 {
-    public class MCPacketReader : IMCPacketReader
+    public class PacketReader : IPacketReader
     {
         private byte[] _data;
         private int _index;
 
-        public MCPacketReader()
+        public PacketReader()
         {
         }
 

@@ -7,30 +7,30 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Serializing
 {
-    public class MCPacketDeserializer : IMCPacketDeserializer
+    public class PacketDeserializer : IPacketDeserializer
     {
-        private readonly Dictionary<Type, Func<IMCPacketReader, object>> _propertyTypes;
+        private readonly Dictionary<Type, Func<IPacketReader, object>> _propertyTypes;
 
-        public MCPacketDeserializer()
+        public PacketDeserializer()
         {
-            _propertyTypes = new Dictionary<Type, Func<IMCPacketReader, object>>();
+            _propertyTypes = new Dictionary<Type, Func<IPacketReader, object>>();
 
             RegisterPropertyTypes();
         }
 
-        public T Deserialize<T>(IMCPacketReader reader)
+        public T Deserialize<T>(IPacketReader reader)
         {
             Type type = typeof(T);
             return (T)Deserialize(reader, type);
         }
 
-        public object Deserialize(IMCPacketReader reader, Type type)
+        public object Deserialize(IPacketReader reader, Type type)
         {
             object packet = type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
 
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
-                Func<IMCPacketReader, object> deserializeProperty;
+                Func<IPacketReader, object> deserializeProperty;
 
                 if (property.PropertyType.GetTypeInfo().IsEnum)
                     deserializeProperty = (r) => DeserializeEnum(r, property.PropertyType);
@@ -66,12 +66,12 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyType<ByteArray>((r) => r.GetByteArray());
         }
 
-        private void RegisterPropertyType<T>(Func<IMCPacketReader, T> func)
+        private void RegisterPropertyType<T>(Func<IPacketReader, T> func)
         {
             _propertyTypes[typeof(T)] = (r) => (T)func(r);
         }
 
-        private object DeserializeEnum(IMCPacketReader reader, Type type)
+        private object DeserializeEnum(IPacketReader reader, Type type)
         {
             int value = reader.GetVarInt().Value;
             if (!Enum.IsDefined(type, value))

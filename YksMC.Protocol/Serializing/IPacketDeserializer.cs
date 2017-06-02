@@ -6,9 +6,9 @@ using YksMC.Protocol.Models.Packets;
 
 namespace YksMC.Protocol.Serializing
 {
-    public interface IMCPacketDeserializer
+    public interface IPacketDeserializer
     {
-        T Deserialize<T>(IMCPacketReader reader);
-        object Deserialize(IMCPacketReader reader, Type type);
+        T Deserialize<T>(IPacketReader reader);
+        object Deserialize(IPacketReader reader, Type type);
     }
 }

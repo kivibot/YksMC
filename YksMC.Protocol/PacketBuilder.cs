@@ -9,11 +9,11 @@ using YksMC.Protocol.Utils;
 
 namespace YksMC.Protocol
 {
-    public class MCPacketBuilder : IMCPacketBuilder
+    public class PacketBuilder : IPacketBuilder
     {
         private readonly List<byte> _data;
 
-        public MCPacketBuilder()
+        public PacketBuilder()
         {
             _data = new List<byte>();
         }

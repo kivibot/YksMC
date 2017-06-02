@@ -5,20 +5,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Exceptions;
 using YksMC.Protocol.Tests.Fakes;
 using YksMC.Protocol.Utils;
 
-namespace YksMC.Protocol.Tests
+namespace YksMC.Protocol.Tests.Connection
 {
     [TestFixture]
-    public class StreamMCConnectionTests
+    public class StreamMinecraftConnectionTests
     {
         [Test]
         public void TestDisposeDisposesTheUnderlyingStream()
         {
             FakeStream stream = new FakeStream();
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
             connection.Dispose();
 
@@ -29,7 +30,7 @@ namespace YksMC.Protocol.Tests
         public async Task TestSendPacketAsyncWithEmptyPacket()
         {
             MemoryStream stream = new MemoryStream();
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
             await connection.SendPacketAsync(new byte[0]);
 
@@ -40,7 +41,7 @@ namespace YksMC.Protocol.Tests
         public async Task TestSendPacketAsyncSendsWholePacket()
         {
             MemoryStream stream = new MemoryStream();
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
             List<byte> data = new List<byte>();
             data.AddRange(new byte[500]);
             data.Add(123);
@@ -58,7 +59,7 @@ namespace YksMC.Protocol.Tests
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new StreamMCConnection(null);
+                new StreamMinecraftConnection(null);
             });
         }
 
@@ -66,7 +67,7 @@ namespace YksMC.Protocol.Tests
         public async Task TestReceivePacketAsyncReturnsNullOnValidEot()
         {
             MemoryStream stream = new MemoryStream();
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
             byte[] result = await connection.ReceivePacketAsync();
 
@@ -79,9 +80,9 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(255));
             MemoryStream stream = new MemoryStream(data.ToArray());
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
-            Assert.ThrowsAsync<PacketSourceException>(async () =>
+            Assert.ThrowsAsync<MinecraftConnectionException>(async () =>
             {
                 await connection.ReceivePacketAsync();
             });
@@ -93,9 +94,9 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarLong(long.MaxValue));
             MemoryStream stream = new MemoryStream(data.ToArray());
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
-            Assert.ThrowsAsync<PacketSourceException>(async () =>
+            Assert.ThrowsAsync<MinecraftConnectionException>(async () =>
             {
                 await connection.ReceivePacketAsync();
             });
@@ -107,9 +108,9 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.Add(0xff);
             MemoryStream stream = new MemoryStream(data.ToArray());
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
-            Assert.ThrowsAsync<PacketSourceException>(async () =>
+            Assert.ThrowsAsync<MinecraftConnectionException>(async () =>
             {
                 await connection.ReceivePacketAsync();
             });
@@ -123,7 +124,7 @@ namespace YksMC.Protocol.Tests
             data.AddRange(new byte[254]);
             data.Add(6);
             MemoryStream stream = new MemoryStream(data.ToArray());
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
             byte[] result = await connection.ReceivePacketAsync();
 
@@ -137,7 +138,7 @@ namespace YksMC.Protocol.Tests
             List<byte> data = new List<byte>();
             data.AddRange(VarIntUtil.EncodeVarInt(0));
             MemoryStream stream = new MemoryStream(data.ToArray());
-            StreamMCConnection connection = new StreamMCConnection(stream);
+            StreamMinecraftConnection connection = new StreamMinecraftConnection(stream);
 
             byte[] result = await connection.ReceivePacketAsync();
 

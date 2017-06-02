@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Clients.Mapper;
 using YksMC.Protocol;
+using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
@@ -16,18 +17,18 @@ namespace YksMC.Clients
     public class MCPacketClient : IMCPacketClient
     {
         private readonly TcpClient _tcpClient;
-        private readonly IMCPacketReader _reader;
-        private readonly IMCPacketBuilder _builder;
-        private readonly IMCPacketDeserializer _deserializer;
-        private readonly IMCPacketSerializer _serializer;
-        private readonly StreamMCConnection.Factory _connectionFactory;
+        private readonly IPacketReader _reader;
+        private readonly IPacketBuilder _builder;
+        private readonly IPacketDeserializer _deserializer;
+        private readonly IPacketSerializer _serializer;
+        private readonly StreamMinecraftConnection.Factory _connectionFactory;
         private readonly IPacketTypeMapper _typeMapper;
 
-        private IMCConnection _connection;
+        private IMinecraftConnection _connection;
         private bool _isConnected;
         private ConnectionState _state;
 
-        public MCPacketClient(TcpClient tcpClient, IMCPacketReader reader, IMCPacketBuilder builder, IMCPacketDeserializer deserializer, IMCPacketSerializer serializer, StreamMCConnection.Factory connectionFactory, IPacketTypeMapper typeMapper)
+        public MCPacketClient(TcpClient tcpClient, IPacketReader reader, IPacketBuilder builder, IPacketDeserializer deserializer, IPacketSerializer serializer, StreamMinecraftConnection.Factory connectionFactory, IPacketTypeMapper typeMapper)
         {
             _tcpClient = tcpClient;
             _reader = reader;

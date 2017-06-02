@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Clients.Models.Status;
 using YksMC.Protocol.Models.Constants;
+using YksMC.Protocol.Models.Packets;
 
 namespace YksMC.Clients
 {
@@ -13,7 +14,6 @@ namespace YksMC.Clients
         ProtocolVersion ProtocolVersion { get; }
 
         Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
-        Task<ServerStatus> GetStatusAsync(CancellationToken cancelToken = default(CancellationToken));
-        Task LoginAsync(CancellationToken cancelToken = default(CancellationToken));
+        Task SendPacketAsync(IPacket packet, CancellationToken cancelToken = default(CancellationToken));
     }
 }
