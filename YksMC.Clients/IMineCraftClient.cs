@@ -14,6 +14,7 @@ namespace YksMC.Clients
         ProtocolVersion ProtocolVersion { get; }
 
         Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
-        Task SendPacketAsync(IPacket packet, CancellationToken cancelToken = default(CancellationToken));
+        void SendPacket(IPacket packet);
+        void SetState(ConnectionState state);
     }
 }

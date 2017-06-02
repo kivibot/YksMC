@@ -1,14 +1,19 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Clients.Models.Status;
+using YksMC.Clients.Worker;
+using YksMC.Protocol;
+using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Packets.Login;
 using YksMC.Protocol.Models.Packets.Status;
+using YksMC.Protocol.Serializing;
 
 namespace YksMC.Clients
 {
@@ -16,16 +21,54 @@ namespace YksMC.Clients
     {
         private const ProtocolVersion _protocolVersion = ProtocolVersion.v1_11_2;
 
+        private readonly TcpClient _tcpClient;
+        private readonly IMinecraftClientWorker _worker;
+        private readonly StreamMinecraftConnection.Factory _connectionFactory;
+
+        private IMinecraftConnection _connection;
+
         public ProtocolVersion ProtocolVersion => _protocolVersion;
 
-        public Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
+        public MinecraftClient(TcpClient tcpClient, IMinecraftClientWorker worker, StreamMinecraftConnection.Factory connectionFactory)
         {
-            throw new NotImplementedException();
+            _tcpClient = tcpClient;
+            _worker = worker;
+            _connectionFactory = connectionFactory;
         }
 
-        public Task SendPacketAsync(IPacket packet, CancellationToken cancelToken = default(CancellationToken))
+        public async Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            EnsureNotConnected();
+
+            await _tcpClient.ConnectAsync(host, port);
+            _connection = _connectionFactory(_tcpClient.GetStream());
+            _worker.StartHandling(_connection);
+
+            SetState(ConnectionState.Handshake);
+        }
+
+        public void SendPacket(IPacket packet)
+        {
+            EnsureConnected();
+
+            _worker.EnqueuePacket(packet);
+        }
+
+        private void EnsureNotConnected()
+        {
+            if (_connection != null)
+                throw new ArgumentException("Already connected!");
+        }
+
+        private void EnsureConnected()
+        {
+            if(_connection == null)
+                throw new ArgumentException("Not connected!");
+        }
+
+        public void SetState(ConnectionState state)
+        {
+            _worker.SetState(state);
         }
     }
 }
