@@ -14,6 +14,8 @@ using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Packets.Login;
 using YksMC.Protocol.Models.Packets.Status;
 using YksMC.Protocol.Serializing;
+using YksMC.Client.Models;
+using Serilog;
 
 namespace YksMC.Client
 {
@@ -24,25 +26,31 @@ namespace YksMC.Client
         private readonly TcpClient _tcpClient;
         private readonly IMinecraftClientWorker _worker;
         private readonly StreamMinecraftConnection.Factory _connectionFactory;
+        private readonly ILogger _logger;
 
         private IMinecraftConnection _connection;
+        private ServerAddress _address;
 
         public ProtocolVersion ProtocolVersion => _protocolVersion;
+        public ServerAddress Address => _address;
 
-        public MinecraftClient(TcpClient tcpClient, IMinecraftClientWorker worker, StreamMinecraftConnection.Factory connectionFactory)
+        public MinecraftClient(TcpClient tcpClient, IMinecraftClientWorker worker, StreamMinecraftConnection.Factory connectionFactory, ILogger logger)
         {
             _tcpClient = tcpClient;
             _worker = worker;
             _connectionFactory = connectionFactory;
+            _logger = logger.ForContext<MinecraftClient>();
         }
 
         public async Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
         {
             EnsureNotConnected();
+            _logger.Information("Connection to: tcp://{host}:{port}", host, port);
 
             await _tcpClient.ConnectAsync(host, port);
             _connection = _connectionFactory(_tcpClient.GetStream());
             _worker.StartHandling(_connection);
+            _address = new ServerAddress(host, port);
 
             SetState(ConnectionState.Handshake);
         }
@@ -68,6 +76,7 @@ namespace YksMC.Client
 
         public void SetState(ConnectionState state)
         {
+            _logger.Information("Changing connection state: {state}", state);
             _worker.SetState(state);
         }
     }

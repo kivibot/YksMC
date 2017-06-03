@@ -29,7 +29,7 @@ namespace YksMC.Client.IntegrationTests
         public void SetUp()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<MinecraftClient>();
+            builder.RegisterType<MinecraftClient>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<TcpClient>();
             builder.RegisterType<PacketSerializer>().AsImplementedInterfaces();
             builder.RegisterType<PacketDeserializer>().AsImplementedInterfaces();
@@ -62,8 +62,10 @@ namespace YksMC.Client.IntegrationTests
             MinecraftClient client = _container.Resolve<MinecraftClient>();
 
             await client.ConnectAsync("localhost", 25565);
-            client.SendPacket(new HandshakePacket() { NextState = Protocol.Models.Constants.ConnectionState.Login, ProtocolVersion = Protocol.Models.Constants.ProtocolVersion.Unknown, ServerAddress = "", ServerPort = 56 });
+
+            client.SendHandshake(ConnectionState.Login);
             client.SetState(ConnectionState.Login);
+            client.SendLoginStartPacket("testibotti");
 
             await Task.Delay(100000);
         }

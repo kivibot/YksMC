@@ -9,6 +9,7 @@ namespace YksMC.Protocol.Models.Constants
         None = 0,
         Handshake = -1,
         Status = 1,
-        Login = 2
+        Login = 2,
+        Play = -2
     }
 }
