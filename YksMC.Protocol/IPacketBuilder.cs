@@ -39,7 +39,5 @@ namespace YksMC.Protocol
         void PutGuid(Guid value);
 
         void PutBytes(byte[] data);
-
-        void PutByteArray(ByteArray value);
     }
 }

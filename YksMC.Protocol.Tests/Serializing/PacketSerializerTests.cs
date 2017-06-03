@@ -115,22 +115,22 @@ namespace YksMC.Protocol.Tests.Serializing
             GenericPacket<string> packet = new GenericPacket<string>() { Value = null };
             FakePacketBuilder builder = new FakePacketBuilder();
 
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 serializer.Serialize(packet, builder);
             });
         }
 
         [Test]
-        public void Serialize_ByteArray_Works()
+        public void Serialize_VarArray_Works()
         {
             PacketSerializer serializer = new PacketSerializer();
-            GenericPacket<ByteArray> packet = new GenericPacket<ByteArray>() { Value = new ByteArray() { Length = new VarInt(4), Data = new byte[4] } };
+            GenericPacket<VarArray<byte>> packet = new GenericPacket<VarArray<byte>>() { Value = new VarArray<byte>() { Count = new VarInt(4), Values = new byte[4] } };
             FakePacketBuilder builder = new FakePacketBuilder();
 
             serializer.Serialize(packet, builder);
 
-            Assert.AreEqual(new object[] { new ByteArray() { Length = new VarInt(4), Data = new byte[4] } }, builder.Objects);
+            Assert.AreEqual(new object[] { new VarInt(4), 0, 0, 0, 0 }, builder.Objects);
         }
 
         [Test]

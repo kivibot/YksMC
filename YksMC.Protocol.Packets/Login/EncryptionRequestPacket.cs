@@ -12,8 +12,8 @@ namespace YksMC.Protocol.Packets.Login
     public class EncryptionRequestPacket : IPacket
     {
         public VarInt Id { get; set; }
-        public ByteArray PublicKey { get; set; }
-        public ByteArray VerifyToken { get; set; }
+        public VarArray<byte> PublicKey { get; set; }
+        public VarArray<byte> VerifyToken { get; set; }
 
         public EncryptionRequestPacket()
         {

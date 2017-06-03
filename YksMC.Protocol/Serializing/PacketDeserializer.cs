@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using YksMC.Protocol.Models;
@@ -26,26 +27,34 @@ namespace YksMC.Protocol.Serializing
 
         public object Deserialize(IPacketReader reader, Type type)
         {
-            object packet = type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
+            Func<IPacketReader, object> deserializeProperty;
 
-            foreach (PropertyInfo property in type.GetRuntimeProperties())
+            if (!_propertyTypes.TryGetValue(type, out deserializeProperty))
             {
-                Func<IPacketReader, object> deserializeProperty;
-
-                if (!_propertyTypes.TryGetValue(property.PropertyType, out deserializeProperty))
-                {
-                    if (property.PropertyType.GetTypeInfo().IsEnum)
-                        deserializeProperty = (r) => DeserializeEnum(r, property.PropertyType);
-                    else if (property.PropertyType.GetTypeInfo().IsClass)
-                        deserializeProperty = (r) => Deserialize(r, property.PropertyType);
-                    else
-                        throw new ArgumentException($"Unsupported property type: {property.PropertyType}");
-                }
-
-                property.SetValue(packet, deserializeProperty(reader));
+                TypeInfo typeInfo = type.GetTypeInfo();
+                if (typeInfo.IsEnum)
+                    deserializeProperty = (r) => DeserializeEnum(r, type);
+                else if (typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == typeof(VarArray<>))
+                    deserializeProperty = (r) => DeserializeVarArray(r, typeInfo);
+                else if (typeInfo.IsClass)
+                    deserializeProperty = (r) => DeserializeObject(r, type);
+                else
+                    throw new ArgumentException($"Unsupported property type: {type}");
             }
 
-            return packet;
+            return deserializeProperty(reader);
+        }
+
+        private object DeserializeObject(IPacketReader reader, Type type)
+        {
+            object value = type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
+
+            foreach (PropertyInfo property in type.GetRuntimeProperties())
+            {                
+                property.SetValue(value, Deserialize(reader, property.PropertyType));
+            }
+
+            return value;
         }
 
         private void RegisterPropertyTypes()
@@ -68,7 +77,6 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyType<Position>((r) => r.GetPosition());
             RegisterPropertyType<Angle>((r) => r.GetAngle());
             RegisterPropertyType<Guid>((r) => r.GetGuid());
-            RegisterPropertyType<ByteArray>((r) => r.GetByteArray());
         }
 
         private void RegisterPropertyType<T>(Func<IPacketReader, T> func)
@@ -82,6 +90,31 @@ namespace YksMC.Protocol.Serializing
             if (!Enum.IsDefined(type, value))
                 throw new ArgumentException($"Unknown enum value! type: {type.Name}, value: {value}");
             return value;
+        }
+
+        private object DeserializeVarArray(IPacketReader reader, TypeInfo typeInfo)
+        {
+            VarInt length = Deserialize<VarInt>(reader);
+            Type valueType = typeInfo.GetGenericArguments()[0];
+            Array values = Array.CreateInstance(valueType, length.Value);
+            for (int i = 0; i < length.Value; i++)
+                values.SetValue(Deserialize(reader, valueType), i);
+
+            TypeInfo genericType = typeof(VarArray<>).MakeGenericType(valueType).GetTypeInfo();
+            object varArray = genericType.GetConstructor(new Type[0]).Invoke(new object[0]);
+            genericType.GetProperty(nameof(VarArray<byte>.Count)).SetValue(varArray, length);
+            genericType.GetProperty(nameof(VarArray<byte>.Values)).SetValue(varArray, values);
+
+            return varArray;
+        }
+
+        private VarArray<T> CreateVarArray<T>(VarInt count, object[] values, T dummyObject)
+        {
+            return new VarArray<T>()
+            {
+                Count = count,
+                Values = values.Cast<T>().ToArray()
+            };
         }
     }
 }

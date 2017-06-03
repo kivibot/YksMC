@@ -12,8 +12,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     public class StatisticsPacket : IPacket
     {
         public VarInt Id { get; set; }
-        public VarInt Count { get; set; }
-        //TODO: Statistic array
+        public VarArray<Statistic> Statistics { get; set; }
 
         public StatisticsPacket()
         {

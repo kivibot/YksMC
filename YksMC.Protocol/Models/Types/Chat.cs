@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.Protocol.Models.Types
 {
-    public class Chat
+    public sealed class Chat
     {
         public string Value { get; set; }
 

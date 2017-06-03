@@ -32,11 +32,6 @@ namespace YksMC.Protocol.Tests.Fakes
             return Get<byte>();
         }
 
-        public ByteArray GetByteArray()
-        {
-            return Get<ByteArray>();
-        }
-
         public byte[] GetBytes(int count)
         {
             return Get<byte[]>();

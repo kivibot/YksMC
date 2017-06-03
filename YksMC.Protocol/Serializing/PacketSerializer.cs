@@ -17,30 +17,35 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyTypes();
         }
 
-        public void Serialize(object packet, IPacketBuilder builder)
+        public void Serialize(object value, IPacketBuilder builder)
         {
-            if (packet == null)
-                throw new ArgumentNullException(nameof(packet));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
 
-            Type type = packet.GetType();
+            Action<object, IPacketBuilder> serializeProperty;
+            if (!_propertyTypes.TryGetValue(value.GetType(), out serializeProperty))
+            {
+                TypeInfo valueTypeInfo = value.GetType().GetTypeInfo();
+                if (valueTypeInfo.IsEnum)
+                    serializeProperty = SerializeEnum;
+                else if (valueTypeInfo.IsGenericType && valueTypeInfo.GetGenericTypeDefinition() == typeof(VarArray<>))
+                    serializeProperty = SerializeVarArray;
+                else if (valueTypeInfo.IsClass)
+                    serializeProperty = SerializeObject;
+                else
+                    throw new ArgumentException($"Unsupported property type: {valueTypeInfo.Name}");
+            }
+
+            serializeProperty(value, builder);
+        }
+
+        private void SerializeObject(object value, IPacketBuilder builder)
+        {
+            Type type = value.GetType();
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
-                Action<object, IPacketBuilder> serializeProperty;
-                if (!_propertyTypes.TryGetValue(property.PropertyType, out serializeProperty))
-                {
-                    if (property.PropertyType.GetTypeInfo().IsEnum)
-                        serializeProperty = SerializeEnum;
-                    else if (property.PropertyType.GetTypeInfo().IsClass)
-                        serializeProperty = Serialize;
-                    else
-                        throw new ArgumentException($"Unsupported property type: {property.PropertyType}");
-                }
-
-                object value = property.GetValue(packet);
-                if (value == null)
-                    throw new ArgumentException($"Null property: {property.Name}");
-
-                serializeProperty(value, builder);
+                object propertyValue = property.GetValue(value);
+                Serialize(propertyValue, builder);
             }
         }
 
@@ -64,7 +69,6 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyType<Position>((v, b) => b.PutPosition(v));
             RegisterPropertyType<Angle>((v, b) => b.PutAngle(v));
             RegisterPropertyType<Guid>((v, b) => b.PutGuid(v));
-            RegisterPropertyType<ByteArray>((v, b) => b.PutByteArray(v));
         }
 
         private void RegisterPropertyType<T>(Action<T, IPacketBuilder> func)
@@ -75,6 +79,17 @@ namespace YksMC.Protocol.Serializing
         private void SerializeEnum(object value, IPacketBuilder builder)
         {
             builder.PutVarInt(new VarInt((int)value));
+        }
+
+        private void SerializeVarArray(object value, IPacketBuilder builder)
+        {
+            TypeInfo genericType = value.GetType().GetTypeInfo();
+            VarInt count = (VarInt)genericType.GetProperty(nameof(VarArray<byte>.Count)).GetValue(value);
+            Array values = (Array)genericType.GetProperty(nameof(VarArray<byte>.Values)).GetValue(value);
+
+            Serialize(count, builder);
+            for (int i = 0; i < values.Length; i++)
+                Serialize(values.GetValue(i), builder);
         }
     }
 }

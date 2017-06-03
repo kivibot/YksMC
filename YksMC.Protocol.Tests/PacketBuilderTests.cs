@@ -299,26 +299,5 @@ namespace YksMC.Protocol.Tests
             Assert.AreEqual(bytes, result);
         }
 
-        [Test]
-        public void PutByteArray_ValidData_AppendsCorrectData()
-        {
-            PacketBuilder builder = new PacketBuilder();
-            List<byte> bytes = new List<byte>();
-            bytes.AddRange(new byte[500]);
-            bytes.AddRange(new byte[] { 1, 2, 3, 4 });
-            List<byte> expected = new List<byte>();
-            expected.AddRange(VarIntUtil.EncodeVarInt(bytes.Count));
-            expected.AddRange(bytes);
-
-            builder.PutByteArray(new ByteArray()
-            {
-                Length = new VarInt(bytes.Count),
-                Data = bytes.ToArray()
-            });
-            byte[] result = builder.TakePacket();
-            
-            Assert.AreEqual(expected, result);
-        }
-
     }
 }

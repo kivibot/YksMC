@@ -12,8 +12,8 @@ namespace YksMC.Protocol.Packets.Login
     public class EncryptionResponsePacket : IPacket
     {
         public VarInt Id { get; set; }
-        public ByteArray SharedSecret { get; set; }
-        public ByteArray VerifyToken { get; set; }
+        public VarArray<byte> SharedSecret { get; set; }
+        public VarArray<byte> VerifyToken { get; set; }
 
         public EncryptionResponsePacket()
         {

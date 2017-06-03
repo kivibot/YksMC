@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.Protocol.Models.Types
 {
-    public class Angle
+    public sealed class Angle
     {
         public byte Value { get; set; }
 

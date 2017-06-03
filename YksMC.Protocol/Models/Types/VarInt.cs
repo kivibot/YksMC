@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.Protocol.Models.Types
 {
-    public class VarInt
+    public sealed class VarInt
     {
         public const int MaxLength = 5;
 
