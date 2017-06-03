@@ -75,7 +75,7 @@ namespace YksMC.Protocol.Tests.Serializing
         public void TestSerializeDoesNotAcceptUnsupportedProperties()
         {
             PacketSerializer serializer = new PacketSerializer();
-            InvalidPacket packet = new InvalidPacket();
+            GenericPacket<DateTime> packet = new GenericPacket<DateTime>();
             FakePacketBuilder builder = new FakePacketBuilder();
 
             Assert.Throws<ArgumentException>(() =>
@@ -131,6 +131,18 @@ namespace YksMC.Protocol.Tests.Serializing
             serializer.Serialize(packet, builder);
 
             Assert.AreEqual(new object[] { new ByteArray() { Length = new VarInt(4), Data = new byte[4] } }, builder.Objects);
+        }
+
+        [Test]
+        public void Serialize_Object_Works()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            GenericPacket<GenericPacket<long>> packet = new GenericPacket<GenericPacket<long>>() { Value = new GenericPacket<long>() { Value = 1337 } };
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(packet, builder);
+
+            Assert.AreEqual(new object[] { 1337L }, builder.Objects);
         }
     }
 }

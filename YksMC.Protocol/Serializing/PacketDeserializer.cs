@@ -32,10 +32,15 @@ namespace YksMC.Protocol.Serializing
             {
                 Func<IPacketReader, object> deserializeProperty;
 
-                if (property.PropertyType.GetTypeInfo().IsEnum)
-                    deserializeProperty = (r) => DeserializeEnum(r, property.PropertyType);
-                else if (!_propertyTypes.TryGetValue(property.PropertyType, out deserializeProperty))
-                    throw new ArgumentException($"Unsupported property type: {property.PropertyType}");
+                if (!_propertyTypes.TryGetValue(property.PropertyType, out deserializeProperty))
+                {
+                    if (property.PropertyType.GetTypeInfo().IsEnum)
+                        deserializeProperty = (r) => DeserializeEnum(r, property.PropertyType);
+                    else if (property.PropertyType.GetTypeInfo().IsClass)
+                        deserializeProperty = (r) => Deserialize(r, property.PropertyType);
+                    else
+                        throw new ArgumentException($"Unsupported property type: {property.PropertyType}");
+                }
 
                 property.SetValue(packet, deserializeProperty(reader));
             }
@@ -77,6 +82,6 @@ namespace YksMC.Protocol.Serializing
             if (!Enum.IsDefined(type, value))
                 throw new ArgumentException($"Unknown enum value! type: {type.Name}, value: {value}");
             return value;
-        }        
+        }
     }
 }

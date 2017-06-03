@@ -267,7 +267,7 @@ namespace YksMC.Protocol.Tests.Serializing
 
             Assert.Throws<ArgumentException>(() =>
             {
-                deserializer.Deserialize<InvalidPacket>(reader);
+                deserializer.Deserialize<GenericPacket<DateTime>>(reader);
             });
         }
 
@@ -280,6 +280,17 @@ namespace YksMC.Protocol.Tests.Serializing
             GenericPacket<ByteArray> result = deserializer.Deserialize<GenericPacket<ByteArray>>(reader);
 
             Assert.AreEqual(new ByteArray() { Length = new VarInt(3), Data = new byte[3] }, result.Value);
+        }
+
+        [Test]
+        public void Deserialize_Object_Works()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader("Test");
+
+            GenericPacket<GenericPacket<string>> result = deserializer.Deserialize<GenericPacket<GenericPacket<string>>>(reader);
+
+            Assert.AreEqual("Test", result.Value.Value);
         }
 
     }
