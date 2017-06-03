@@ -83,13 +83,23 @@ namespace YksMC.Protocol.Serializing
 
         private void SerializeVarArray(object value, IPacketBuilder builder)
         {
-            TypeInfo genericType = value.GetType().GetTypeInfo();
-            VarInt count = (VarInt)genericType.GetProperty(nameof(VarArray<byte>.Count)).GetValue(value);
-            Array values = (Array)genericType.GetProperty(nameof(VarArray<byte>.Values)).GetValue(value);
+            TypeInfo typeInfo = value.GetType().GetTypeInfo();
+            Type genericType = typeInfo.GetGenericArguments()[0];
+            VarInt count = (VarInt)typeInfo.GetProperty(nameof(VarArray<byte>.Count)).GetValue(value);
+            Array values = (Array)typeInfo.GetProperty(nameof(VarArray<byte>.Values)).GetValue(value);
 
             Serialize(count, builder);
-            for (int i = 0; i < values.Length; i++)
-                Serialize(values.GetValue(i), builder);
+            if (genericType == typeof(byte))
+            {
+                byte[] data = new byte[values.Length];
+                values.CopyTo(data, 0);
+                builder.PutBytes(data);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                    Serialize(values.GetValue(i), builder);
+            }
         }
     }
 }

@@ -50,7 +50,7 @@ namespace YksMC.Protocol.Serializing
             object value = type.GetTypeInfo().GetConstructor(new Type[0]).Invoke(new object[0]);
 
             foreach (PropertyInfo property in type.GetRuntimeProperties())
-            {                
+            {
                 property.SetValue(value, Deserialize(reader, property.PropertyType));
             }
 
@@ -96,9 +96,7 @@ namespace YksMC.Protocol.Serializing
         {
             VarInt length = Deserialize<VarInt>(reader);
             Type valueType = typeInfo.GetGenericArguments()[0];
-            Array values = Array.CreateInstance(valueType, length.Value);
-            for (int i = 0; i < length.Value; i++)
-                values.SetValue(Deserialize(reader, valueType), i);
+            Array values = DeserializeArray(reader, length.Value, valueType);
 
             TypeInfo genericType = typeof(VarArray<>).MakeGenericType(valueType).GetTypeInfo();
             object varArray = genericType.GetConstructor(new Type[0]).Invoke(new object[0]);
@@ -106,6 +104,20 @@ namespace YksMC.Protocol.Serializing
             genericType.GetProperty(nameof(VarArray<byte>.Values)).SetValue(varArray, values);
 
             return varArray;
+        }
+
+        private Array DeserializeArray(IPacketReader reader, int length, Type valueType)
+        {
+            if (valueType == typeof(byte))
+            {
+                return reader.GetBytes(length);
+            }
+
+            Array values = Array.CreateInstance(valueType, length);
+            for (int i = 0; i < length; i++)
+                values.SetValue(Deserialize(reader, valueType), i);
+
+            return values;
         }
 
         private VarArray<T> CreateVarArray<T>(VarInt count, object[] values, T dummyObject)

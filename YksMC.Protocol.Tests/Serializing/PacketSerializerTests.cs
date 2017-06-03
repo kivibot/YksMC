@@ -122,7 +122,19 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
-        public void Serialize_VarArray_Works()
+        public void Serialize_IntegerVarArray_Works()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            GenericPacket<VarArray<int>> packet = new GenericPacket<VarArray<int>>() { Value = new VarArray<int>() { Count = new VarInt(4), Values = new int[4] } };
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(packet, builder);
+
+            Assert.AreEqual(new object[] { new VarInt(4), 0, 0, 0, 0 }, builder.Objects);
+        }
+
+        [Test]
+        public void Serialize_ByteVarArray_UsesByteArray()
         {
             PacketSerializer serializer = new PacketSerializer();
             GenericPacket<VarArray<byte>> packet = new GenericPacket<VarArray<byte>>() { Value = new VarArray<byte>() { Count = new VarInt(4), Values = new byte[4] } };
@@ -130,7 +142,7 @@ namespace YksMC.Protocol.Tests.Serializing
 
             serializer.Serialize(packet, builder);
 
-            Assert.AreEqual(new object[] { new VarInt(4), 0, 0, 0, 0 }, builder.Objects);
+            Assert.AreEqual(new object[] { new VarInt(4), new byte[4] }, builder.Objects);
         }
 
         [Test]
