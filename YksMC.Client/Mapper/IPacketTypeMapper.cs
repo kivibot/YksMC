@@ -4,7 +4,7 @@ using System.Text;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 
-namespace YksMC.Clients.Mapper
+namespace YksMC.Client.Mapper
 {
     public interface IPacketTypeMapper
     {

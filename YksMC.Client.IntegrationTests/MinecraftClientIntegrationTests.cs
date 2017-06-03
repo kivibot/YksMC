@@ -6,18 +6,18 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Clients.Handlers;
-using YksMC.Clients.Injection;
-using YksMC.Clients.Mapper;
-using YksMC.Clients.Models.Status;
-using YksMC.Clients.Worker;
+using YksMC.Client.Handlers;
+using YksMC.Client.Injection;
+using YksMC.Client.Mapper;
+using YksMC.Client.Models.Status;
+using YksMC.Client.Worker;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Serializing;
 
-namespace YksMC.Clients.IntegrationTests
+namespace YksMC.Client.IntegrationTests
 {
     [TestFixture]
     public class MinecraftClientIntegrationTests

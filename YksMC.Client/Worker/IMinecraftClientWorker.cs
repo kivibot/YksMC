@@ -5,7 +5,7 @@ using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 
-namespace YksMC.Clients.Worker
+namespace YksMC.Client.Worker
 {
     public interface IMinecraftClientWorker
     {

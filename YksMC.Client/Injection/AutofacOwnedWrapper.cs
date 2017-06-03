@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Clients.Injection
+namespace YksMC.Client.Injection
 {
     public class AutofacOwnedWrapper<T> : IOwned<T>
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Clients.Worker
+namespace YksMC.Client.Worker
 {
     public class MinecraftClientWorkerOptions
     {

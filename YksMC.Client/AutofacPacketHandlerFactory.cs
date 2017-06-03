@@ -3,9 +3,9 @@ using Autofac.Features.OwnedInstances;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.Clients.Injection;
+using YksMC.Client.Injection;
 
-namespace YksMC.Clients
+namespace YksMC.Client
 {
     public class AutofacPacketHandlerFactory : IPacketHandlerFactory
     {

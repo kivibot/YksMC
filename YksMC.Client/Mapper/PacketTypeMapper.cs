@@ -6,7 +6,7 @@ using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 
-namespace YksMC.Clients.Mapper
+namespace YksMC.Client.Mapper
 {
     public class PacketTypeMapper : IPacketTypeMapper
     {

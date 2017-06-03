@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YksMC.Protocol.Models.Packets.Login;
 
-namespace YksMC.Clients.Handlers
+namespace YksMC.Client.Handlers
 {
     public class LoginHandler : IPacketHandler<DisconnectPacket>
     {

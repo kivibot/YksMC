@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.Clients.Injection;
-using YksMC.Clients.Mapper;
+using YksMC.Client.Injection;
+using YksMC.Client.Mapper;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
@@ -15,7 +15,7 @@ using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Serializing;
 
-namespace YksMC.Clients.Worker
+namespace YksMC.Client.Worker
 {
     public class MinecraftClientWorker : IMinecraftClientWorker
     {

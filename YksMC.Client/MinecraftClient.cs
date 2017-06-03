@@ -5,8 +5,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.Clients.Models.Status;
-using YksMC.Clients.Worker;
+using YksMC.Client.Models.Status;
+using YksMC.Client.Worker;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
@@ -15,7 +15,7 @@ using YksMC.Protocol.Models.Packets.Login;
 using YksMC.Protocol.Models.Packets.Status;
 using YksMC.Protocol.Serializing;
 
-namespace YksMC.Clients
+namespace YksMC.Client
 {
     public class MinecraftClient : IMinecraftClient
     {

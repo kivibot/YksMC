@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.Clients.Injection;
+using YksMC.Client.Injection;
 using YksMC.Protocol.Models.Packets;
 
-namespace YksMC.Clients
+namespace YksMC.Client
 {
     public interface IPacketHandlerFactory
     {

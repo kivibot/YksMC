@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.Clients.Models.Status;
+using YksMC.Client.Models.Status;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Packets;
 
-namespace YksMC.Clients
+namespace YksMC.Client
 {
     public interface IMinecraftClient
     {

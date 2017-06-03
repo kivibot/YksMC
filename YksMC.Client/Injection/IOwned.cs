@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Clients.Injection
+namespace YksMC.Client.Injection
 {
     public interface IOwned<T> : IDisposable
     {

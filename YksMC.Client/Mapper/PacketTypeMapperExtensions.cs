@@ -6,7 +6,7 @@ using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Packets.Login;
 using YksMC.Protocol.Models.Packets.Status;
 
-namespace YksMC.Clients.Mapper
+namespace YksMC.Client.Mapper
 {
     public static class PacketTypeMapperExtensions
     {

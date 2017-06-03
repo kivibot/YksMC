@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Clients.Models.Status
+namespace YksMC.Client.Models.Status
 {
     public class ServerStatus
     {
