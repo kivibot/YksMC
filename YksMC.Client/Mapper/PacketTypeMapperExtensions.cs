@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets;
-using YksMC.Protocol.Models.Packets.Login;
-using YksMC.Protocol.Models.Packets.Status;
+using YksMC.Protocol.Packets;
+using YksMC.Protocol.Packets.Login;
+using YksMC.Protocol.Packets.Play;
+using YksMC.Protocol.Packets.Status;
 
 namespace YksMC.Client.Mapper
 {
@@ -28,6 +29,10 @@ namespace YksMC.Client.Mapper
             mapper.RegisterType<LoginStartPacket>();
             mapper.RegisterType<LoginSuccessPacket>();
             mapper.RegisterType<SetCompressionPacket>();
+
+            //ConnectionState.Play
+            mapper.RegisterType<JoinGamePacket>();
+            mapper.RegisterType<PluginMessagePacket>();
         }
     }
 }

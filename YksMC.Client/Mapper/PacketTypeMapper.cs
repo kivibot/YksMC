@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets;
 
 namespace YksMC.Client.Mapper
 {

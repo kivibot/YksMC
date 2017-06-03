@@ -7,10 +7,11 @@ using YksMC.Protocol.Tests.Fakes;
 using YksMC.Protocol.Tests.Models;
 using YksMC.Protocol.Tests.TestUtils;
 using YksMC.Protocol;
-using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Serializing;
 using YksMC.Protocol.Models.Constants;
+using YksMC.Protocol.Packets;
+using YksMC.Protocol.Models;
 
 namespace YksMC.Protocol.Tests.Serializing
 {

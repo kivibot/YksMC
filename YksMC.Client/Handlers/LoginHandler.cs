@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets.Login;
+using YksMC.Protocol.Packets.Login;
 
 namespace YksMC.Client.Handlers
 {

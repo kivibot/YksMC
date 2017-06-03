@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Types;
 
-namespace YksMC.Protocol.Models.Packets.Login
+namespace YksMC.Protocol.Packets.Login
 {
-    [Packet(0x01, ConnectionState.Login, BoundTo.Server)]
-    public class EncryptionResponsePacket : IPacket
+    [Packet(0x01, ConnectionState.Login, BoundTo.Client)]
+    public class EncryptionRequestPacket : IPacket
     {
         public VarInt Id { get; set; }
-        public ByteArray SharedSecret { get; set; }
+        public ByteArray PublicKey { get; set; }
         public ByteArray VerifyToken { get; set; }
 
-        public EncryptionResponsePacket()
+        public EncryptionRequestPacket()
         {
             Id = new VarInt(0x01);
         }
+
     }
 }

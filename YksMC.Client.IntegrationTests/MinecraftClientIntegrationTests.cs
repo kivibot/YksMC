@@ -14,7 +14,6 @@ using YksMC.Client.Worker;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Serializing;
 
 namespace YksMC.Client.IntegrationTests
@@ -29,7 +28,7 @@ namespace YksMC.Client.IntegrationTests
         public void SetUp()
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<MinecraftClient>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<MinecraftClient>().AsImplementedInterfaces().AsSelf().SingleInstance();
             builder.RegisterType<TcpClient>();
             builder.RegisterType<PacketSerializer>().AsImplementedInterfaces();
             builder.RegisterType<PacketDeserializer>().AsImplementedInterfaces();
@@ -46,7 +45,7 @@ namespace YksMC.Client.IntegrationTests
 
             builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
             builder.RegisterGeneric(typeof(AutofacOwnedWrapper<>)).AsImplementedInterfaces();
-            builder.RegisterType<EventQueueWorker>().AsImplementedInterfaces();
+            builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
 
             _container = builder.Build();
         }

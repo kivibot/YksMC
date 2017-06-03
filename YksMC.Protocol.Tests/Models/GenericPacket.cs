@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Tests.Models

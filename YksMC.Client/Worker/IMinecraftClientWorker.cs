@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Connection;
+using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets;
 
 namespace YksMC.Client.Worker
 {

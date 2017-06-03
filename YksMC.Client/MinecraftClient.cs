@@ -10,12 +10,13 @@ using YksMC.Client.Worker;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets;
-using YksMC.Protocol.Models.Packets.Login;
-using YksMC.Protocol.Models.Packets.Status;
+using YksMC.Protocol.Packets;
+using YksMC.Protocol.Packets.Login;
+using YksMC.Protocol.Packets.Status;
 using YksMC.Protocol.Serializing;
 using YksMC.Client.Models;
 using Serilog;
+using YksMC.Protocol.Models;
 
 namespace YksMC.Client
 {

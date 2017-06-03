@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.Client.Injection;
-using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Packets;
 
 namespace YksMC.Client
 {

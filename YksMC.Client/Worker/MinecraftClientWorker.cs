@@ -1,5 +1,7 @@
-﻿using Nito.AsyncEx;
+﻿using Newtonsoft.Json;
+using Nito.AsyncEx;
 using Serilog;
+using Serilog.Context;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,9 +13,9 @@ using YksMC.Client.Mapper;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Serializing;
+using YksMC.Protocol.Models;
 
 namespace YksMC.Client.Worker
 {
@@ -27,12 +29,12 @@ namespace YksMC.Client.Worker
         private readonly IPacketTypeMapper _typeMapper;
         private readonly MinecraftClientWorkerOptions _options;
         private readonly ILogger _logger;
-        private readonly IEventQueueWorker _eventQueue;
+        private readonly IEventDispatcher _eventDispatcher;
 
         private IMinecraftConnection _connection;
         private ConnectionState _state;
 
-        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IEventQueueWorker eventQueue)
+        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IEventDispatcher eventDispatcher)
         {
             _sendingQueue = new AsyncProducerConsumerQueue<IPacket>();
             _serializer = serializer;
@@ -42,8 +44,8 @@ namespace YksMC.Client.Worker
             _typeMapper = typeMapper;
             _options = options;
             _state = ConnectionState.None;
-            _logger = logger;
-            _eventQueue = eventQueue;
+            _logger = logger.ForContext<MinecraftClientWorker>();
+            _eventDispatcher = eventDispatcher;
         }
 
         public void EnqueuePacket(IPacket packet)
@@ -54,7 +56,6 @@ namespace YksMC.Client.Worker
         public void StartHandling(IMinecraftConnection connection)
         {
             _connection = connection;
-            _eventQueue.StartHandling();
             SetState(ConnectionState.Handshake);
 
             //TODO: fix
@@ -70,6 +71,7 @@ namespace YksMC.Client.Worker
             {
                 IPacket packet = await _sendingQueue.DequeueAsync(cancelToken);
                 await SendPacketAsync(packet, cancelToken);
+                LogPacketSent(packet);
             }
         }
 
@@ -103,8 +105,19 @@ namespace YksMC.Client.Worker
             _packetReader.ResetPosition();
             IPacket packet = (IPacket)_deserializer.Deserialize(_packetReader, packetType);
 
-            _logger.Verbose("Received packet: {type}", packetType.Name);
-            _eventQueue.EnqueueEvent(packet);
+            LogPacketReceived(packet);
+            await _eventDispatcher.DispatchEventAsync(packet);
+        }
+
+        private void LogPacketReceived(IPacket packet)
+        {
+            string jsonData = JsonConvert.SerializeObject(packet);
+            _logger.ForContext("packet", jsonData).Verbose("Received packet: {PacketType}", packet.GetType().Name);
+        }
+        private void LogPacketSent(IPacket packet)
+        {
+            string jsonData = JsonConvert.SerializeObject(packet);
+            _logger.ForContext("packet", jsonData).Verbose("Sent packet: {PacketType}", packet.GetType().Name);
         }
 
         private void HandleUnsupportedPacketType(int packetId)

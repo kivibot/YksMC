@@ -5,8 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Client.Models;
 using YksMC.Client.Models.Status;
+using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Models.Packets;
+using YksMC.Protocol.Packets;
 
 namespace YksMC.Client
 {
