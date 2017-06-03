@@ -8,6 +8,6 @@ namespace YksMC.Clients
 {
     public interface IPacketHandlerFactory
     {
-        IOwned<IEnumerable<IPacket>> GetHandlers(Type packetType);
+        IOwned<IEnumerable<IPacketHandler<T>>> GetHandlers<T>();
     }
 }
