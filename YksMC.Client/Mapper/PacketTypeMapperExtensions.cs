@@ -5,6 +5,7 @@ using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Packets.Play;
+using YksMC.Protocol.Packets.Play.Clientbound;
 using YksMC.Protocol.Packets.Status;
 
 namespace YksMC.Client.Mapper
@@ -31,8 +32,17 @@ namespace YksMC.Client.Mapper
             mapper.RegisterType<SetCompressionPacket>();
 
             //ConnectionState.Play
+            mapper.RegisterType<ChunkDataPacket>();
+            mapper.RegisterType<EntityMetadataPacket>();
+            mapper.RegisterType<EntityStatusPacket>();
+            mapper.RegisterType<HeldItemChangePacket>();
             mapper.RegisterType<JoinGamePacket>();
+            mapper.RegisterType<PlayerAbilitiesPacket>();
+            mapper.RegisterType<PlayerListItemPacket>();
+            mapper.RegisterType<PlayerPositionLookPacket>();
             mapper.RegisterType<PluginMessagePacket>();
+            mapper.RegisterType<SpawnMobPacket>();
+            mapper.RegisterType<StatisticsPacket>();
         }
     }
 }

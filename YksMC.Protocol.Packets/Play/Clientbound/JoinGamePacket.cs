@@ -6,7 +6,7 @@ using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Types;
 
-namespace YksMC.Protocol.Packets.Play
+namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x23, ConnectionState.Play, BoundTo.Client)]
     public class JoinGamePacket : IPacket

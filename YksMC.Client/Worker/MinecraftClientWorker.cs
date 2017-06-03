@@ -70,8 +70,15 @@ namespace YksMC.Client.Worker
             while (!cancelToken.IsCancellationRequested)
             {
                 IPacket packet = await _sendingQueue.DequeueAsync(cancelToken);
-                await SendPacketAsync(packet, cancelToken);
-                LogPacketSent(packet);
+                try
+                {
+                    await SendPacketAsync(packet, cancelToken);
+                    LogPacketSent(packet);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("{ex}", ex);
+                }
             }
         }
 
@@ -86,7 +93,14 @@ namespace YksMC.Client.Worker
         {
             while (!cancelToken.IsCancellationRequested)
             {
-                await ReceiveAsync(cancelToken);
+                try
+                {
+                    await ReceiveAsync(cancelToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("{ex}", ex);
+                }
             }
         }
 
@@ -100,7 +114,10 @@ namespace YksMC.Client.Worker
             VarInt packetId = _packetReader.GetVarInt();
             Type packetType = _typeMapper.GetPacketType(_state, BoundTo.Client, packetId.Value);
             if (packetType == null)
+            {
                 HandleUnsupportedPacketType(packetId.Value);
+                return;
+            }
 
             _packetReader.ResetPosition();
             IPacket packet = (IPacket)_deserializer.Deserialize(_packetReader, packetType);
