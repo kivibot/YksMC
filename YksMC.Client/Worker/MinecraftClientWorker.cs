@@ -27,12 +27,12 @@ namespace YksMC.Client.Worker
         private readonly IPacketTypeMapper _typeMapper;
         private readonly MinecraftClientWorkerOptions _options;
         private readonly ILogger _logger;
-        private readonly IPacketHandlerFactory _handlerFactory;
+        private readonly IEventQueueWorker _eventQueue;
 
         private IMinecraftConnection _connection;
         private ConnectionState _state;
 
-        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IPacketHandlerFactory handlerFactory)
+        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IEventQueueWorker eventQueue)
         {
             _sendingQueue = new AsyncProducerConsumerQueue<IPacket>();
             _serializer = serializer;
@@ -43,7 +43,7 @@ namespace YksMC.Client.Worker
             _options = options;
             _state = ConnectionState.None;
             _logger = logger;
-            _handlerFactory = handlerFactory;
+            _eventQueue = eventQueue;
         }
 
         public void EnqueuePacket(IPacket packet)
@@ -54,7 +54,8 @@ namespace YksMC.Client.Worker
         public void StartHandling(IMinecraftConnection connection)
         {
             _connection = connection;
-            _state = ConnectionState.Handshake;
+            _eventQueue.StartHandling();
+            SetState(ConnectionState.Handshake);
 
             //TODO: fix
             Task[] tasks = new Task[]{
@@ -102,29 +103,13 @@ namespace YksMC.Client.Worker
             _packetReader.ResetPosition();
             IPacket packet = (IPacket)_deserializer.Deserialize(_packetReader, packetType);
 
-            HandleReceivedPacket(packet);
+            _logger.Verbose("Received packet: {type}", packetType.Name);
+            _eventQueue.EnqueueEvent(packet);
         }
-
-        private async void HandleReceivedPacket(IPacket packet)
-        {
-            await HandleReceivedPacketInternalAsync((dynamic)packet);
-        }
-
-        private async Task HandleReceivedPacketInternalAsync<T>(T packet) where T : IPacket
-        {
-            using (IOwned<IEnumerable<IPacketHandler<T>>> handlers = _handlerFactory.GetHandlers<T>())
-            {
-                foreach (IPacketHandler<T> handler in handlers.Value)
-                {
-                    await handler.HandleAsync(packet);
-                }
-            }
-        }
-
 
         private void HandleUnsupportedPacketType(int packetId)
         {
-            string errorMessage = $"Unsupported packet type: {packetId.ToString("X")}";
+            string errorMessage = $"Unsupported packet type: 0x{packetId.ToString("X")}";
 
             if (!_options.IgnoreUnsupportedPackets)
                 throw new ArgumentException(errorMessage);

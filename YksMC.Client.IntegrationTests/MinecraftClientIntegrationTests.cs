@@ -38,14 +38,15 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<StreamMinecraftConnection>().AsSelf();
             builder.RegisterType<MinecraftClientWorker>().AsImplementedInterfaces();
             builder.RegisterType<AutofacPacketHandlerFactory>().AsImplementedInterfaces();
-            builder.RegisterType<MinecraftClientWorkerOptions>();
-            builder.RegisterInstance(Log.Logger);
+            builder.RegisterInstance(new MinecraftClientWorkerOptions() { IgnoreUnsupportedPackets = true });
+            builder.RegisterInstance(new LoggerConfiguration().MinimumLevel.Verbose().WriteTo.Seq("http://localhost:5341").CreateLogger()).As<ILogger>();
             PacketTypeMapper typeMapper = new PacketTypeMapper();
             typeMapper.RegisterVanillaPackets();
             builder.RegisterInstance(typeMapper).AsImplementedInterfaces();
 
             builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
             builder.RegisterGeneric(typeof(AutofacOwnedWrapper<>)).AsImplementedInterfaces();
+            builder.RegisterType<EventQueueWorker>().AsImplementedInterfaces();
 
             _container = builder.Build();
         }
