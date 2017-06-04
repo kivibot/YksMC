@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Client.Injection;
 
-namespace YksMC.Client
+namespace YksMC.Client.Handler
 {
     public class AutofacPacketHandlerFactory : IPacketHandlerFactory
     {

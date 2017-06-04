@@ -19,5 +19,6 @@ namespace YksMC.Client
         Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
         void SendPacket(object packet);
         void SetState(ConnectionState state);
+        void Disconnect();
     }
 }

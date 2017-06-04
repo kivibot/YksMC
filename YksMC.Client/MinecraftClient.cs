@@ -80,5 +80,10 @@ namespace YksMC.Client
             _logger.Information("Changing connection state: {state}", state);
             _worker.SetState(state);
         }
+
+        public void Disconnect()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 using YksMC.Client.Injection;
 using YksMC.Protocol.Packets;
 
-namespace YksMC.Client
+namespace YksMC.Client.Handler
 {
     public interface IPacketHandlerFactory
     {

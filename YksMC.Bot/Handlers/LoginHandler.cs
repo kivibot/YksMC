@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Client;
+using YksMC.Client.Handler;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets.Login;
 
-namespace YksMC.Client.Handlers
+namespace YksMC.Bot.Handlers
 {
     public class LoginHandler : IPacketHandler<DisconnectPacket>, IPacketHandler<EncryptionRequestPacket>, IPacketHandler<SetCompressionPacket>, IPacketHandler<LoginSuccessPacket>
     {
@@ -22,6 +24,7 @@ namespace YksMC.Client.Handlers
         public async Task HandleAsync(DisconnectPacket packet)
         {
             _logger.Warning("Disconnected: {0}", packet.Reason);
+            _client.Disconnect();
         }
 
         public Task HandleAsync(EncryptionRequestPacket packet)

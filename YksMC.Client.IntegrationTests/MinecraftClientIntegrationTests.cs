@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Client.Handlers;
+using YksMC.Client.Handler;
 using YksMC.Client.Injection;
 using YksMC.Client.Mapper;
 using YksMC.Client.Models.Status;
@@ -42,8 +42,7 @@ namespace YksMC.Client.IntegrationTests
             PacketTypeMapper typeMapper = new PacketTypeMapper();
             typeMapper.RegisterVanillaPackets();
             builder.RegisterInstance(typeMapper).AsImplementedInterfaces();
-
-            builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
+            
             builder.RegisterGeneric(typeof(AutofacOwnedWrapper<>)).AsImplementedInterfaces();
             builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
 
