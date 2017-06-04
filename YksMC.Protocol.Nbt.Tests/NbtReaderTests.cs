@@ -21,9 +21,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Hello"),
                 (byte)0x55
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            ByteTag tag = reader.GetTag<ByteTag>();
+            ByteTag tag = reader.GetTag<ByteTag>(packetReader);
 
             Assert.AreEqual("Hello", tag.Name);
             Assert.AreEqual(0x55, tag.Value);
@@ -38,9 +38,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Moi"),
                 (short)123
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            ShortTag tag = reader.GetTag<ShortTag>();
+            ShortTag tag = reader.GetTag<ShortTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             Assert.AreEqual(123, tag.Value);
@@ -55,9 +55,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Moi"),
                 1337
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            IntTag tag = reader.GetTag<IntTag>();
+            IntTag tag = reader.GetTag<IntTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             Assert.AreEqual(1337, tag.Value);
@@ -72,9 +72,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Moi"),
                 123L
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            LongTag tag = reader.GetTag<LongTag>();
+            LongTag tag = reader.GetTag<LongTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             Assert.AreEqual(123, tag.Value);
@@ -89,9 +89,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Moi"),
                 123.5f
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            FloatTag tag = reader.GetTag<FloatTag>();
+            FloatTag tag = reader.GetTag<FloatTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             Assert.AreEqual(123.5f, tag.Value);
@@ -106,9 +106,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Moi"),
                 123.6
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            DoubleTag tag = reader.GetTag<DoubleTag>();
+            DoubleTag tag = reader.GetTag<DoubleTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             Assert.AreEqual(123.6, tag.Value);
@@ -124,9 +124,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 5,
                 new byte[5]
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            ByteArrayTag tag = reader.GetTag<ByteArrayTag>();
+            ByteArrayTag tag = reader.GetTag<ByteArrayTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             Assert.AreEqual(new byte[5], tag.Value);
@@ -142,9 +142,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 (short)3,
                 Encoding.UTF8.GetBytes("Moi")
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            StringTag tag = reader.GetTag<StringTag>();
+            StringTag tag = reader.GetTag<StringTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             Assert.AreEqual("Moi", tag.Value);
@@ -159,9 +159,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Moi"),
                 (byte)0x00
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            CompoundTag tag = reader.GetTag<CompoundTag>();
+            CompoundTag tag = reader.GetTag<CompoundTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             CollectionAssert.IsEmpty(tag.Tags);
@@ -185,9 +185,9 @@ namespace YksMC.Protocol.Nbt.Tests
                     123.6,
                 (byte)0x00
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            CompoundTag tag = reader.GetTag<CompoundTag>();
+            CompoundTag tag = reader.GetTag<CompoundTag>(packetReader);
 
             Assert.IsInstanceOf<CompoundTag>(tag.Tags[0]);
             Assert.IsInstanceOf<DoubleTag>(tag.Tags[1]);
@@ -199,9 +199,9 @@ namespace YksMC.Protocol.Nbt.Tests
             FakePacketReader packetReader = new FakePacketReader(
                 (byte)0x00
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            BaseTag tag = reader.GetTag<BaseTag>();
+            BaseTag tag = reader.GetTag<BaseTag>(packetReader);
 
             Assert.IsNull(tag);
         }
@@ -212,11 +212,11 @@ namespace YksMC.Protocol.Nbt.Tests
             FakePacketReader packetReader = new FakePacketReader(
                 (byte)0x55
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
             Assert.Throws<ArgumentException>(() =>
             {
-                reader.GetTag<BaseTag>();
+                reader.GetTag<BaseTag>(packetReader);
             });
         }
 
@@ -233,9 +233,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 3,
                 1337
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            IntArrayTag tag = reader.GetTag<IntArrayTag>();
+            IntArrayTag tag = reader.GetTag<IntArrayTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             CollectionAssert.AreEqual(new int[] { 1, 2, 3, 1337 }, tag.Values);
@@ -254,9 +254,9 @@ namespace YksMC.Protocol.Nbt.Tests
                 (byte)1,
                 (byte)2
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
-            ListTag tag = reader.GetTag<ListTag>();
+            ListTag tag = reader.GetTag<ListTag>(packetReader);
 
             Assert.AreEqual("Moi", tag.Name);
             CollectionAssert.AreEqual(new byte[] { 4, 1, 2 }, tag.Values.Select(v => (ByteTag)v).Select(b => b.Value));
@@ -271,11 +271,11 @@ namespace YksMC.Protocol.Nbt.Tests
                 Encoding.UTF8.GetBytes("Moi"),
                 (byte)0x80
             );
-            NbtReader reader = new NbtReader(packetReader);
+            NbtReader reader = new NbtReader();
 
             Assert.Throws<ArgumentException>(() =>
             {
-                reader.GetTag<ListTag>();
+                reader.GetTag<ListTag>(packetReader);
             });
         }
     }

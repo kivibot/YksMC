@@ -7,14 +7,13 @@ namespace YksMC.Protocol.Nbt
 {
     public class NbtReader : INbtReader
     {
-        private readonly INbtDataReader _reader;
-        private readonly Func<BaseTag>[] _tagGetters;
+        private delegate BaseTag TagGetter(INbtDataReader reader);
 
-        public NbtReader(INbtDataReader reader)
+        private readonly TagGetter[] _tagGetters;
+
+        public NbtReader()
         {
-            _reader = reader;
-
-            _tagGetters = new Func<BaseTag>[12];
+            _tagGetters = new TagGetter[12];
             _tagGetters[(int)TagType.End] = GetEndTag;
             _tagGetters[(int)TagType.Byte] = GetByteTag;
             _tagGetters[(int)TagType.Short] = GetShortTag;
@@ -29,53 +28,53 @@ namespace YksMC.Protocol.Nbt
             _tagGetters[(int)TagType.IntArray] = GetIntArrayTag;
         }
 
-        public T GetTag<T>() where T : BaseTag
+        public T GetTag<T>(INbtDataReader reader) where T : BaseTag
         {
-            byte tagType = _reader.GetByte();
+            byte tagType = reader.GetByte();
             if (tagType == (int)TagType.End)
                 return null;
 
-            Func<BaseTag> getter = GetTagGetter(tagType);
+            TagGetter getter = GetTagGetter(tagType);
 
-            string name = GetString();
+            string name = GetString(reader);
 
-            T tag = (T)getter();
+            T tag = (T)getter(reader);
             tag.Name = name;
 
             return tag;
         }
 
-        private Func<BaseTag> GetTagGetter(byte tagType)
+        private TagGetter GetTagGetter(byte tagType)
         {
             if (tagType > _tagGetters.Length)
                 throw new ArgumentException($"Invalid tag type: {tagType}");
             return _tagGetters[tagType];
         }
 
-        private ByteArrayTag GetByteArrayTag()
+        private ByteArrayTag GetByteArrayTag(INbtDataReader reader)
         {
-            int length = _reader.GetInt();
-            byte[] value = _reader.GetBytes(length);
+            int length = reader.GetInt();
+            byte[] value = reader.GetBytes(length);
             return new ByteArrayTag(value);
         }
 
-        private BaseTag GetEndTag()
+        private BaseTag GetEndTag(INbtDataReader reader)
         {
             return null;
         }
 
-        private ByteTag GetByteTag()
+        private ByteTag GetByteTag(INbtDataReader reader)
         {
-            byte value = _reader.GetByte();
+            byte value = reader.GetByte();
             return new ByteTag(value);
         }
 
-        private CompoundTag GetCompoundTag()
+        private CompoundTag GetCompoundTag(INbtDataReader reader)
         {
             List<BaseTag> tags = new List<BaseTag>();
             while (true)
             {
-                BaseTag tag = GetTag<BaseTag>();
+                BaseTag tag = GetTag<BaseTag>(reader);
                 if (tag == null)
                     break;
                 tags.Add(tag);
@@ -83,66 +82,66 @@ namespace YksMC.Protocol.Nbt
             return new CompoundTag(tags);
         }
 
-        private DoubleTag GetDoubleTag()
+        private DoubleTag GetDoubleTag(INbtDataReader reader)
         {
-            double value = _reader.GetDouble();
+            double value = reader.GetDouble();
             return new DoubleTag(value);
         }
 
-        private FloatTag GetFloatTag()
+        private FloatTag GetFloatTag(INbtDataReader reader)
         {
-            float value = _reader.GetFloat();
+            float value = reader.GetFloat();
             return new FloatTag(value);
         }
 
-        private IntTag GetIntTag()
+        private IntTag GetIntTag(INbtDataReader reader)
         {
-            int value = _reader.GetInt();
+            int value = reader.GetInt();
             return new IntTag(value);
         }
 
-        private LongTag GetLongTag()
+        private LongTag GetLongTag(INbtDataReader reader)
         {
-            long value = _reader.GetLong();
+            long value = reader.GetLong();
             return new LongTag(value);
         }
 
-        private ShortTag GetShortTag()
+        private ShortTag GetShortTag(INbtDataReader reader)
         {
-            short value = _reader.GetShort();
+            short value = reader.GetShort();
             return new ShortTag(value);
         }
 
-        private StringTag GetStringTag()
+        private StringTag GetStringTag(INbtDataReader reader)
         {
-            string value = GetString();
+            string value = GetString(reader);
             return new StringTag(value);
         }
 
-        private IntArrayTag GetIntArrayTag()
+        private IntArrayTag GetIntArrayTag(INbtDataReader reader)
         {
-            int length = _reader.GetInt();
+            int length = reader.GetInt();
             int[] values = new int[length];
             for (int i = 0; i < length; i++)
-                values[i] = _reader.GetInt();
+                values[i] = reader.GetInt();
             return new IntArrayTag(values);
         }
 
-        private ListTag GetListTag()
+        private ListTag GetListTag(INbtDataReader reader)
         {
-            byte tagType = _reader.GetByte();
-            Func<BaseTag> getter = GetTagGetter(tagType);
-            int length = _reader.GetInt();
+            byte tagType = reader.GetByte();
+            TagGetter getter = GetTagGetter(tagType);
+            int length = reader.GetInt();
             List<BaseTag> tags = new List<BaseTag>();
             for (int i = 0; i < length; i++)
-                tags.Add(getter());
+                tags.Add(getter(reader));
             return new ListTag(tags);
         }
 
-        private string GetString()
+        private string GetString(INbtDataReader reader)
         {
-            short length = _reader.GetShort();
-            byte[] data = _reader.GetBytes(length);
+            short length = reader.GetShort();
+            byte[] data = reader.GetBytes(length);
             return Encoding.UTF8.GetString(data);
         }
     }

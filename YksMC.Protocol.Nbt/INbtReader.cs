@@ -7,6 +7,6 @@ namespace YksMC.Protocol.Nbt
 {
     public interface INbtReader
     {
-        T GetTag<T>() where T : BaseTag;
+        T GetTag<T>(INbtDataReader reader) where T : BaseTag;
     }
 }
