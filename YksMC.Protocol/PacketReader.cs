@@ -158,5 +158,10 @@ namespace YksMC.Protocol
             _data = packet;
             ResetPosition();
         }
+
+        public int GetRemainingBytes()
+        {
+            return _data.Length - _index;
+        }
     }
 }

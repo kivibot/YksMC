@@ -27,5 +27,15 @@ namespace YksMC.Protocol.Models.Types
         {
             return Value.ToString();
         }
+
+        public static implicit operator int(VarInt val)
+        {
+            return val.Value;
+        }
+
+        public static implicit operator VarInt(int val)
+        {
+            return new VarInt(val);
+        }
     }
 }

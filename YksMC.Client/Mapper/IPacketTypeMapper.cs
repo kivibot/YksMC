@@ -9,5 +9,6 @@ namespace YksMC.Client.Mapper
     {
         void RegisterType(Type type);
         Type GetPacketType(ConnectionState connectionState, BoundTo boundTo, int id);
+        int GetPacketId(Type type);
     }
 }

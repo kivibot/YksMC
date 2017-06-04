@@ -72,6 +72,11 @@ namespace YksMC.Protocol.Tests.Fakes
             return Get<Position>();
         }
 
+        public int GetRemainingBytes()
+        {
+            throw new NotImplementedException();
+        }
+
         public short GetShort()
         {
             return Get<short>();

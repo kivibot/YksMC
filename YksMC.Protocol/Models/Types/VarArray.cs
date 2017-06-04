@@ -21,5 +21,14 @@ namespace YksMC.Protocol.Models.Types
                 return false;
             return true;
         }
+
+        public static implicit operator VarArray<T>(T[] values)
+        {
+            return new VarArray<T>()
+            {
+                Count = values.Length,
+                Values = values
+            };
+        }
     }
 }

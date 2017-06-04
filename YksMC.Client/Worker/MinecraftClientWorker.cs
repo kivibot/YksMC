@@ -78,12 +78,15 @@ namespace YksMC.Client.Worker
                 catch (Exception ex)
                 {
                     _logger.Error("{ex}", ex);
+                    break;
                 }
             }
         }
 
         private async Task SendPacketAsync(object packet, CancellationToken cancelToken)
         {
+            int packetId = _typeMapper.GetPacketId(packet.GetType());
+            _packetBuilder.PutVarInt(packetId);
             _serializer.Serialize(packet, _packetBuilder);
             byte[] data = _packetBuilder.TakePacket();
             await _connection.SendPacketAsync(data, cancelToken);
@@ -100,6 +103,7 @@ namespace YksMC.Client.Worker
                 catch (Exception ex)
                 {
                     _logger.Error("{ex}", ex);
+                    break;
                 }
             }
         }
@@ -119,8 +123,12 @@ namespace YksMC.Client.Worker
                 return;
             }
 
-            _packetReader.ResetPosition();
+            _logger.Verbose("Received packetId: 0x{id}", packetId.Value.ToString("X"));
+
             object packet = _deserializer.Deserialize(_packetReader, packetType);
+
+            if (_packetReader.GetRemainingBytes() > 0)
+                _logger.Verbose("Packet didn't use all the bytes! Remaining: {count}", _packetReader.GetRemainingBytes());
 
             LogPacketReceived(packet);
             await _eventDispatcher.DispatchEventAsync(packet);
@@ -144,7 +152,7 @@ namespace YksMC.Client.Worker
             if (!_options.IgnoreUnsupportedPackets)
                 throw new ArgumentException(errorMessage);
 
-            _logger.Debug(errorMessage);
+            _logger.Warning(errorMessage);
         }
 
         public void SetState(ConnectionState state)

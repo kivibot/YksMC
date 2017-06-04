@@ -359,5 +359,17 @@ namespace YksMC.Protocol.Tests
 
             Assert.AreEqual(true, result);
         }
+
+        [Test]
+        public void GetRemainingBytes_WithData_ReturnValidValue()
+        {
+            PacketReader reader = new PacketReader();
+
+            reader.SetPacket(new byte[] { 1, 0 });
+            reader.GetBool();
+            int result = reader.GetRemainingBytes();
+
+            Assert.AreEqual(1, result);
+        }
     }
 }

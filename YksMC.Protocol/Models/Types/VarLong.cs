@@ -26,5 +26,15 @@ namespace YksMC.Protocol.Models.Types
         {
             return Value.ToString();
         }
+
+        public static implicit operator long(VarLong val)
+        {
+            return val.Value;
+        }
+
+        public static implicit operator VarLong(long val)
+        {
+            return new VarLong(val);
+        }
     }
 }

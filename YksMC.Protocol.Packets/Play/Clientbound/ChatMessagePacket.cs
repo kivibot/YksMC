@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
+using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
-    public class WindowSlot
+    [Packet(0x0f, ConnectionState.Play, BoundTo.Client)]
+    public class ChatMessagePacket
     {
-        public short BlockId { get; set; }
-        //public byte ItemCount { get; set; }
-        //public byte ItemDamage { get; set; }
-        //TODO: optional values and nbt tags
+        public Chat Chat { get; set; }
+        public byte Position { get; set; }
     }
 }

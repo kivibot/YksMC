@@ -11,10 +11,20 @@ namespace YksMC.Client.Mapper
     public class PacketTypeMapper : IPacketTypeMapper
     {
         private Dictionary<Tuple<ConnectionState, BoundTo, int>, Type> _types;
+        private Dictionary<Type, int> _ids;
 
         public PacketTypeMapper()
         {
             _types = new Dictionary<Tuple<ConnectionState, BoundTo, int>, Type>();
+            _ids = new Dictionary<Type, int>();
+        }
+
+        public int GetPacketId(Type type)
+        {
+            int id;
+            if (!_ids.TryGetValue(type, out id))
+                throw new ArgumentException("Unknown packet: " + type);
+            return id;
         }
 
         public Type GetPacketType(ConnectionState connectionState, BoundTo boundTo, int id)
@@ -35,10 +45,12 @@ namespace YksMC.Client.Mapper
 
         private void RegisterType(Type type, ConnectionState connectionState, BoundTo boundTo, int id)
         {
-            Tuple<ConnectionState, BoundTo, int> key = new Tuple<ConnectionState, BoundTo, int>(connectionState, boundTo, id);
-            if (_types.ContainsKey(key))
-                throw new ArgumentException($"A packet with the same attributes as '{type}' already exists: '{_types[key]}'");
-            _types.Add(key, type);
+            Tuple<ConnectionState, BoundTo, int> typeKey = new Tuple<ConnectionState, BoundTo, int>(connectionState, boundTo, id);
+            if (_types.ContainsKey(typeKey))
+                throw new ArgumentException($"A packet with the same attributes as '{type}' already exists: '{_types[typeKey]}'");
+
+            _types.Add(typeKey, type);
+            _ids.Add(type, id);
         }
     }
 }
