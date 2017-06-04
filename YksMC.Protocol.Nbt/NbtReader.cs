@@ -24,25 +24,39 @@ namespace YksMC.Protocol.Nbt
             _tagGetters[(int)TagType.Double] = GetDoubleTag;
             _tagGetters[(int)TagType.ByteArray] = GetByteArrayTag;
             _tagGetters[(int)TagType.String] = GetStringTag;
-            _tagGetters[(int)TagType.List] = null;
+            _tagGetters[(int)TagType.List] = GetListTag;
             _tagGetters[(int)TagType.Compound] = GetCompoundTag;
-            _tagGetters[(int)TagType.IntArray] = null;
+            _tagGetters[(int)TagType.IntArray] = GetIntArrayTag;
         }
 
         public T GetTag<T>() where T : BaseTag
         {
             byte tagType = _reader.GetByte();
+            if (tagType == (int)TagType.End)
+                return null;
+
+            Func<BaseTag> getter = GetTagGetter(tagType);
+
+            string name = GetString();
+
+            T tag = (T)getter();
+            tag.Name = name;
+
+            return tag;
+        }
+
+        private Func<BaseTag> GetTagGetter(byte tagType)
+        {
             if (tagType > _tagGetters.Length)
                 throw new ArgumentException($"Invalid tag type: {tagType}");
-            return (T)_tagGetters[tagType]();
+            return _tagGetters[tagType];
         }
 
         private ByteArrayTag GetByteArrayTag()
         {
-            string name = GetString();
             int length = _reader.GetInt();
             byte[] value = _reader.GetBytes(length);
-            return new ByteArrayTag(name, value);
+            return new ByteArrayTag(value);
         }
 
         private BaseTag GetEndTag()
@@ -52,65 +66,77 @@ namespace YksMC.Protocol.Nbt
 
         private ByteTag GetByteTag()
         {
-            string name = GetString();
             byte value = _reader.GetByte();
-            return new ByteTag(name, value);
+            return new ByteTag(value);
         }
 
         private CompoundTag GetCompoundTag()
         {
-            string name = GetString();
             List<BaseTag> tags = new List<BaseTag>();
-            while(true)
+            while (true)
             {
                 BaseTag tag = GetTag<BaseTag>();
                 if (tag == null)
                     break;
                 tags.Add(tag);
             }
-            return new CompoundTag(name, tags);
+            return new CompoundTag(tags);
         }
 
         private DoubleTag GetDoubleTag()
         {
-            string name = GetString();
             double value = _reader.GetDouble();
-            return new DoubleTag(name, value);
+            return new DoubleTag(value);
         }
 
         private FloatTag GetFloatTag()
         {
-            string name = GetString();
             float value = _reader.GetFloat();
-            return new FloatTag(name, value);
+            return new FloatTag(value);
         }
 
         private IntTag GetIntTag()
         {
-            string name = GetString();
             int value = _reader.GetInt();
-            return new IntTag(name, value);
+            return new IntTag(value);
         }
 
         private LongTag GetLongTag()
         {
-            string name = GetString();
             long value = _reader.GetLong();
-            return new LongTag(name, value);
+            return new LongTag(value);
         }
 
         private ShortTag GetShortTag()
         {
-            string name = GetString();
             short value = _reader.GetShort();
-            return new ShortTag(name, value);
+            return new ShortTag(value);
         }
 
         private StringTag GetStringTag()
         {
-            string name = GetString();
             string value = GetString();
-            return new StringTag(name, value);
+            return new StringTag(value);
+        }
+
+        private IntArrayTag GetIntArrayTag()
+        {
+            int length = _reader.GetInt();
+            int[] values = new int[length];
+            for (int i = 0; i < length; i++)
+                values[i] = _reader.GetInt();
+            return new IntArrayTag(values);
+        }
+
+        private ListTag GetListTag()
+        {
+            byte tagType = _reader.GetByte();
+            Func<BaseTag> getter = GetTagGetter(tagType);
+            int length = _reader.GetInt();
+            List<BaseTag> tags = new List<BaseTag>();
+            for (int i = 0; i < length; i++)
+                tags.Add(getter());
+            return new ListTag(tags);
         }
 
         private string GetString()

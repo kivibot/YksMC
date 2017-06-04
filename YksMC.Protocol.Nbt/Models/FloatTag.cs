@@ -8,8 +8,7 @@ namespace YksMC.Protocol.Nbt.Models
     {
         public float Value { get; set; }
 
-        public FloatTag(string name, float value)
-            : base(name)
+        public FloatTag(float value)
         {
             Value = value;
         }

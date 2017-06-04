@@ -8,8 +8,7 @@ namespace YksMC.Protocol.Nbt.Models
     {
         public byte[] Value { get; set; }
 
-        public ByteArrayTag(string name, byte[] value)
-            : base(name)
+        public ByteArrayTag(byte[] value)
         {
             Value = value;
         }

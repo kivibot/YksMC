@@ -8,8 +8,7 @@ namespace YksMC.Protocol.Nbt.Models
     {
         public string Value { get; set; }
 
-        public StringTag(string name, string value)
-            : base(name)
+        public StringTag(string value)
         {
             Value = value;
         }

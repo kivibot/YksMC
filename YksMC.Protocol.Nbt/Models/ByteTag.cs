@@ -8,8 +8,7 @@ namespace YksMC.Protocol.Nbt.Models
     {
         public byte Value { get; set; }
 
-        public ByteTag(string name, byte value)
-            : base(name)
+        public ByteTag(byte value)
         {
             Value = value;
         }

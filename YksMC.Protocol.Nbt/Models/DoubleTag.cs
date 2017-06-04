@@ -8,8 +8,7 @@ namespace YksMC.Protocol.Nbt.Models
     {
         public double Value { get; set; }
 
-        public DoubleTag(string name, double value)
-            : base(name)
+        public DoubleTag(double value)
         {
             Value = value;
         }

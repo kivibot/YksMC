@@ -8,8 +8,7 @@ namespace YksMC.Protocol.Nbt.Models
     {
         public List<BaseTag> Tags { get; set; }
 
-        public CompoundTag(string name, List<BaseTag> tags)
-            : base(name)
+        public CompoundTag(List<BaseTag> tags)
         {
             Tags = tags;
         }

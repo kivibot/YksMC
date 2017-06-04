@@ -5,6 +5,7 @@ using System.Text;
 using YksMC.Protocol.Tests.Fakes;
 using YksMC.Protocol.Nbt;
 using YksMC.Protocol.Nbt.Models;
+using System.Linq;
 
 namespace YksMC.Protocol.Nbt.Tests
 {
@@ -216,6 +217,65 @@ namespace YksMC.Protocol.Nbt.Tests
             Assert.Throws<ArgumentException>(() =>
             {
                 reader.GetTag<BaseTag>();
+            });
+        }
+
+        [Test]
+        public void ReadIntArrayTag_ValidData_ReturnsCorrect()
+        {
+            FakePacketReader packetReader = new FakePacketReader(
+                (byte)0x0B,
+                (short)3,
+                Encoding.UTF8.GetBytes("Moi"),
+                4,
+                1,
+                2,
+                3,
+                1337
+            );
+            NbtReader reader = new NbtReader(packetReader);
+
+            IntArrayTag tag = reader.GetTag<IntArrayTag>();
+
+            Assert.AreEqual("Moi", tag.Name);
+            CollectionAssert.AreEqual(new int[] { 1, 2, 3, 1337 }, tag.Values);
+        }
+
+        [Test]
+        public void ReadListTag_ValidData_ReturnsCorrect()
+        {
+            FakePacketReader packetReader = new FakePacketReader(
+                (byte)0x09,
+                (short)3,
+                Encoding.UTF8.GetBytes("Moi"),
+                (byte)0x01,
+                3,
+                (byte)4,
+                (byte)1,
+                (byte)2
+            );
+            NbtReader reader = new NbtReader(packetReader);
+
+            ListTag tag = reader.GetTag<ListTag>();
+
+            Assert.AreEqual("Moi", tag.Name);
+            CollectionAssert.AreEqual(new byte[] { 4, 1, 2 }, tag.Values.Select(v => (ByteTag)v).Select(b => b.Value));
+        }
+
+        [Test]
+        public void ReadListTag_InvalidType_Throws()
+        {
+            FakePacketReader packetReader = new FakePacketReader(
+                (byte)0x09,
+                (short)3,
+                Encoding.UTF8.GetBytes("Moi"),
+                (byte)0x80
+            );
+            NbtReader reader = new NbtReader(packetReader);
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                reader.GetTag<ListTag>();
             });
         }
     }

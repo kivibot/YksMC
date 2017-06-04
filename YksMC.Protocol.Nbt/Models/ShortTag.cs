@@ -8,8 +8,7 @@ namespace YksMC.Protocol.Nbt.Models
     {
         public short Value { get; set; }
 
-        public ShortTag(string name, short value)
-            : base(name)
+        public ShortTag(short value)
         {
             Value = value;
         }
