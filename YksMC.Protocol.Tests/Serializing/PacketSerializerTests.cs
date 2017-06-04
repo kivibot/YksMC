@@ -182,5 +182,75 @@ namespace YksMC.Protocol.Tests.Serializing
 
             Assert.AreEqual(new object[] { true, "Test" }, builder.Objects);
         }
+
+        [Test]
+        public void Serialize_ValidValueIsConditional_PutsIntValue()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            ConditionalPacket packet = new ConditionalPacket()
+            {
+                Action = 2,
+                Filler = "Filler",
+                IntValue = 5
+            };
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(packet, builder);
+
+            Assert.AreEqual(new object[] { 2, "Filler", 5 }, builder.Objects);
+        }
+
+        [Test]
+        public void Serialize_InvalidValueIsConditional_DoesNotPutIntValue()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            ConditionalPacket packet = new ConditionalPacket()
+            {
+                Action = 1,
+                Filler = "Filler",
+                IntValue = 5,
+                StringValue = ""
+            };
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(packet, builder);
+
+            Assert.AreEqual(new object[] { 1, "Filler", "" }, builder.Objects);
+        }
+
+        [Test]
+        public void Serialize_ValidValueIsNotConditional_PutsStringValue()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            ConditionalPacket packet = new ConditionalPacket()
+            {
+                Action = 1,
+                Filler = "Filler",
+                StringValue = "Test"
+            };
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(packet, builder);
+
+            Assert.AreEqual(new object[] { 1, "Filler", "Test" }, builder.Objects);
+        }
+
+        [Test]
+        public void Serialize_InvalidValueIsNotConditional_DoesNotPutStringValue()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            ConditionalPacket packet = new ConditionalPacket()
+            {
+                Action = 2,
+                Filler = "Filler",
+                StringValue = "Test"
+            };
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(packet, builder);
+
+            Assert.AreEqual(new object[] { 2, "Filler", default(int) }, builder.Objects);
+        }
+
     }
 }

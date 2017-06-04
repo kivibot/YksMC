@@ -325,5 +325,49 @@ namespace YksMC.Protocol.Tests.Serializing
             Assert.AreEqual(new Optional<string>() { HasValue = true, Value = ":D" }, result);
         }
 
+        [Test]
+        public void Deserialize_IsConditionalWithValue_DeserialiazesIntValue()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader(2, ":D", 5);
+
+            ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
+
+            Assert.AreEqual(5, result.IntValue);
+        }
+
+        [Test]
+        public void Deserialize_IsConditionalWithoutValue_DoesNotDeserialize()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader(1, ":D", "");
+
+            ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
+
+            Assert.AreEqual(default(int), result.IntValue);
+        }
+
+        [Test]
+        public void Deserialize_IsNotConditionalWithValue_DoesNotDeserialize()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader(2, ":D", 6);
+
+            ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
+
+            Assert.AreEqual(null, result.StringValue);
+        }
+
+        [Test]
+        public void Deserialize_IsNotConditionalWithoutValue_DeserializedStringValue()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader(0, ":D", "Test");
+
+            ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
+
+            Assert.AreEqual("Test", result.StringValue);
+        }
+
     }
 }

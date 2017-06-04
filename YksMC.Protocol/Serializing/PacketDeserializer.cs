@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using YksMC.Protocol.Models;
+using YksMC.Protocol.Models.Attributes;
+using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Serializing
@@ -53,10 +55,26 @@ namespace YksMC.Protocol.Serializing
 
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
+                if (!CheckConditional(value, property))
+                    continue;
+
                 property.SetValue(value, Deserialize(reader, property.PropertyType));
             }
 
             return value;
+        }
+
+        private bool CheckConditional(object obj, PropertyInfo property)
+        {
+            ConditionalAttribute conditional = property.GetCustomAttribute<ConditionalAttribute>();
+            if (conditional == null)
+                return true;
+
+            object referencedValue = obj.GetType().GetTypeInfo().GetProperty(conditional.Field).GetValue(obj);
+
+            if (conditional.Condition == Condition.Is)
+                return conditional.Values.Contains(referencedValue);
+            return !conditional.Values.Contains(referencedValue);                            
         }
 
         private void RegisterPropertyTypes()
@@ -133,7 +151,7 @@ namespace YksMC.Protocol.Serializing
         private object DeserializeOptional(IPacketReader reader, TypeInfo typeInfo)
         {
             Type valueType = typeInfo.GetGenericArguments()[0];
-            bool hasValue = reader.GetBool();            
+            bool hasValue = reader.GetBool();
 
             TypeInfo genericType = typeof(Optional<>).MakeGenericType(valueType).GetTypeInfo();
             object varArray = genericType.GetConstructor(new Type[0]).Invoke(new object[0]);

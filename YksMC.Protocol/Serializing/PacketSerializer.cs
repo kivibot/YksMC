@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Models.Types;
 using System.Reflection;
+using YksMC.Protocol.Models.Attributes;
+using YksMC.Protocol.Models.Constants;
+using System.Linq;
 
 namespace YksMC.Protocol.Serializing
 {
@@ -46,10 +49,27 @@ namespace YksMC.Protocol.Serializing
             Type type = value.GetType();
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
+                if (!CheckConditional(value, property))
+                    continue;
+
                 object propertyValue = property.GetValue(value);
                 Serialize(propertyValue, builder);
             }
         }
+
+        private bool CheckConditional(object obj, PropertyInfo property)
+        {
+            ConditionalAttribute conditional = property.GetCustomAttribute<ConditionalAttribute>();
+            if (conditional == null)
+                return true;
+
+            object referencedValue = obj.GetType().GetTypeInfo().GetProperty(conditional.Field).GetValue(obj);
+
+            if (conditional.Condition == Condition.Is)
+                return conditional.Values.Contains(referencedValue);
+            return !conditional.Values.Contains(referencedValue);
+        }
+
 
         private void RegisterPropertyTypes()
         {
