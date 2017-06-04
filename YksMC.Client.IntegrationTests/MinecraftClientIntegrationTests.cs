@@ -63,7 +63,7 @@ namespace YksMC.Client.IntegrationTests
             await client.ConnectAsync("localhost", 25565);
 
             client.SendHandshake(ConnectionState.Login);
-            client.SetState(ConnectionState.Login);
+            client.SetState(ConnectionState.Play);
             client.SendLoginStartPacket("testibotti");
 
             await Task.Delay(100000);

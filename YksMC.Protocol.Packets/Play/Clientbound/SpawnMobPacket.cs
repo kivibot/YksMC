@@ -14,9 +14,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public VarInt EntityId { get; set; }
         public Guid EntityGuid { get; set; }
         public VarInt Type { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double Z { get; set; }
+        public Vector<double> Position { get; set; }
         public Angle Yaw { get; set; }
         public Angle Pitch { get; set; }
         public Angle HeadPitch { get; set; }

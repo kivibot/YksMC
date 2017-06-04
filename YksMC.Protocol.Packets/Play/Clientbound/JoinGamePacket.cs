@@ -11,7 +11,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x23, ConnectionState.Play, BoundTo.Client)]
     public class JoinGamePacket
     {
-        public VarInt PacketId { get; set; }
+        public int EntityId { get; set; }
         public byte Gamemode { get; set; }
         public int Dimension { get; set; }
         public byte Difficulty { get; set; }
