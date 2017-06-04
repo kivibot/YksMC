@@ -132,7 +132,7 @@ namespace YksMC.Protocol.Serializing
                 return (VarInt)val;
             if (val is VarLong)
                 return (int)(VarLong)val;
-            return (int)val;
+            return Convert.ToInt32(val);
         }
 
         private Array DeserializeArray(IPacketReader reader, int length, Type valueType)

@@ -282,6 +282,39 @@ namespace YksMC.Protocol.Tests.Serializing
         }
 
         [Test]
+        public void Deserialize_ShortKeyVarArray_Works()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader((short)3, (int)0, (int)0, (int)0);
+
+            GenericPacket<VarArray<short, int>> result = deserializer.Deserialize<GenericPacket<VarArray<short, int>>>(reader);
+
+            Assert.AreEqual(new VarArray<short, int>() { Count = 3, Values = new int[3] }, result.Value);
+        }
+
+        [Test]
+        public void Deserialize_ByteKeyVarArray_Works()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader((byte)3, (int)0, (int)0, (int)0);
+
+            GenericPacket<VarArray<byte, int>> result = deserializer.Deserialize<GenericPacket<VarArray<byte, int>>>(reader);
+
+            Assert.AreEqual(new VarArray<byte, int>() { Count = 3, Values = new int[3] }, result.Value);
+        }
+
+        [Test]
+        public void Deserialize_IntVarArray_Works()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader(3, (int)0, (int)0, (int)0);
+
+            GenericPacket<VarArray<int, int>> result = deserializer.Deserialize<GenericPacket<VarArray<int, int>>>(reader);
+
+            Assert.AreEqual(new VarArray<int, int>() { Count = 3, Values = new int[3] }, result.Value);
+        }
+
+        [Test]
         public void Deserialize_ByteVarArray_UsesByteArrays()
         {
             PacketDeserializer deserializer = new PacketDeserializer();
