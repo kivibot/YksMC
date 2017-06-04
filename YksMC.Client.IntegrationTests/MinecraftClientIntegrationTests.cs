@@ -14,6 +14,7 @@ using YksMC.Client.Worker;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
+using YksMC.Protocol.Nbt;
 using YksMC.Protocol.Serializing;
 
 namespace YksMC.Client.IntegrationTests
@@ -45,6 +46,7 @@ namespace YksMC.Client.IntegrationTests
             
             builder.RegisterGeneric(typeof(AutofacOwnedWrapper<>)).AsImplementedInterfaces();
             builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
+            builder.RegisterType<NbtReader>().AsImplementedInterfaces();
 
             _container = builder.Build();
         }

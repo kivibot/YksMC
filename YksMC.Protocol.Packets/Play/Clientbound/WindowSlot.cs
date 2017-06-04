@@ -14,7 +14,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
         public byte ItemCount { get; set; }
         [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
-        public byte ItemDamage { get; set; }
+        public short ItemDamage { get; set; }
         [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
         public BaseTag Nbt { get; set; }
     }
