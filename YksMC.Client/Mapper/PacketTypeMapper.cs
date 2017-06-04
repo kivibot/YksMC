@@ -25,9 +25,8 @@ namespace YksMC.Client.Mapper
             return type;
         }
 
-        public void RegisterType<T>() where T : IPacket
+        public void RegisterType(Type type)
         {
-            Type type = typeof(T);
             PacketAttribute packetInfo = type.GetTypeInfo().GetCustomAttribute<PacketAttribute>();
             if (packetInfo == null)
                 throw new ArgumentException($"Type {type} does not define a {nameof(PacketAttribute)}");
@@ -38,7 +37,7 @@ namespace YksMC.Client.Mapper
         {
             Tuple<ConnectionState, BoundTo, int> key = new Tuple<ConnectionState, BoundTo, int>(connectionState, boundTo, id);
             if (_types.ContainsKey(key))
-                throw new ArgumentException($"A packet with the same attributes as {type} already exists: {_types[key]}");
+                throw new ArgumentException($"A packet with the same attributes as '{type}' already exists: '{_types[key]}'");
             _types.Add(key, type);
         }
     }

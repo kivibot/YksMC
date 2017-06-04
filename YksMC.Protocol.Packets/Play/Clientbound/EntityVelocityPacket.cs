@@ -8,11 +8,11 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
-    [Packet(0x0C, ConnectionState.Play, BoundTo.Client)]
-    public class BlockChangePacket : IPacket
+    [Packet(0x3b, ConnectionState.Play, BoundTo.Client)]
+    public class EntityVelocityPacket : IPacket
     {
         public VarInt PacketId { get; set; }
-        public Position Location { get; set; }
-        public VarInt BlockId { get; set; }
+        public VarInt EntityId { get; set; }
+        public Vector<short> Velocity { get; set; }
     }
 }

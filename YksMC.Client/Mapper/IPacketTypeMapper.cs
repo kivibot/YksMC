@@ -7,7 +7,7 @@ namespace YksMC.Client.Mapper
 {
     public interface IPacketTypeMapper
     {
-        void RegisterType<T>() where T : IPacket;
+        void RegisterType(Type type);
         Type GetPacketType(ConnectionState connectionState, BoundTo boundTo, int id);
     }
 }
