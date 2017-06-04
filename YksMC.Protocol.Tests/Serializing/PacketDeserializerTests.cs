@@ -12,6 +12,9 @@ using YksMC.Protocol.Serializing;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets;
 using YksMC.Protocol.Models;
+using Moq;
+using YksMC.Protocol.Nbt;
+using YksMC.Protocol.Nbt.Models;
 
 namespace YksMC.Protocol.Tests.Serializing
 {
@@ -21,7 +24,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_HandshakePacket_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             HandshakePacket expected = new HandshakePacket()
             {
                 ProtocolVersion = ProtocolVersion.Unknown,
@@ -39,7 +42,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Bool_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(true);
 
             GenericPacket<bool> result = deserializer.Deserialize<GenericPacket<bool>>(reader);
@@ -50,7 +53,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_SignedByte_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader((sbyte)-5);
 
             GenericPacket<sbyte> result = deserializer.Deserialize<GenericPacket<sbyte>>(reader);
@@ -61,7 +64,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Byte_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader((byte)200);
 
             GenericPacket<byte> result = deserializer.Deserialize<GenericPacket<byte>>(reader);
@@ -72,7 +75,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Short_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader((short)-5200);
 
             GenericPacket<short> result = deserializer.Deserialize<GenericPacket<short>>(reader);
@@ -83,7 +86,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_UnsignedShort_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader((ushort)5200);
 
             GenericPacket<ushort> result = deserializer.Deserialize<GenericPacket<ushort>>(reader);
@@ -94,7 +97,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Int_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(int.MinValue);
 
             GenericPacket<int> result = deserializer.Deserialize<GenericPacket<int>>(reader);
@@ -105,7 +108,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_UnsignedInt_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(uint.MaxValue);
 
             GenericPacket<uint> result = deserializer.Deserialize<GenericPacket<uint>>(reader);
@@ -116,7 +119,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Long_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(long.MinValue);
 
             GenericPacket<long> result = deserializer.Deserialize<GenericPacket<long>>(reader);
@@ -127,7 +130,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_UnsignedLong_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(ulong.MaxValue);
 
             GenericPacket<ulong> result = deserializer.Deserialize<GenericPacket<ulong>>(reader);
@@ -138,7 +141,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Float_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(13.42355f);
 
             GenericPacket<float> result = deserializer.Deserialize<GenericPacket<float>>(reader);
@@ -149,7 +152,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Double_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(232146.123);
 
             GenericPacket<double> result = deserializer.Deserialize<GenericPacket<double>>(reader);
@@ -160,7 +163,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_String_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader("Test");
 
             GenericPacket<string> result = deserializer.Deserialize<GenericPacket<string>>(reader);
@@ -171,7 +174,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Chat_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new Chat("Test"));
 
             GenericPacket<Chat> result = deserializer.Deserialize<GenericPacket<Chat>>(reader);
@@ -182,7 +185,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_VarInt_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new VarInt(5));
 
             GenericPacket<VarInt> result = deserializer.Deserialize<GenericPacket<VarInt>>(reader);
@@ -193,7 +196,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_VarLong_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new VarLong(-5));
 
             GenericPacket<VarLong> result = deserializer.Deserialize<GenericPacket<VarLong>>(reader);
@@ -204,7 +207,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Position_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new Position(1, 2, 3));
 
             GenericPacket<Position> result = deserializer.Deserialize<GenericPacket<Position>>(reader);
@@ -215,7 +218,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_WithAngle_WritesAngle()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new Angle(200));
 
             GenericPacket<Angle> result = deserializer.Deserialize<GenericPacket<Angle>>(reader);
@@ -226,7 +229,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Guid_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             Guid guid = Guid.NewGuid();
             FakePacketReader reader = new FakePacketReader(guid);
 
@@ -238,7 +241,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_KnownEnumValue_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new VarInt((int)ProtocolVersion.Unknown));
 
             GenericPacket<ProtocolVersion> result = deserializer.Deserialize<GenericPacket<ProtocolVersion>>(reader);
@@ -249,7 +252,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_UnknownEnumValue_Throws()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new VarInt((int)-12387));
 
             Assert.Throws<ArgumentException>(() =>
@@ -261,7 +264,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_UnsupportedPropertyType_Throws()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader();
 
             Assert.Throws<ArgumentException>(() =>
@@ -273,7 +276,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_IntegerVarArray_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new VarInt(3), (int)0, (int)0, (int)0);
 
             GenericPacket<VarArray<VarInt, int>> result = deserializer.Deserialize<GenericPacket<VarArray<VarInt, int>>>(reader);
@@ -284,7 +287,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_ShortKeyVarArray_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader((short)3, (int)0, (int)0, (int)0);
 
             GenericPacket<VarArray<short, int>> result = deserializer.Deserialize<GenericPacket<VarArray<short, int>>>(reader);
@@ -295,7 +298,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_ByteKeyVarArray_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader((byte)3, (int)0, (int)0, (int)0);
 
             GenericPacket<VarArray<byte, int>> result = deserializer.Deserialize<GenericPacket<VarArray<byte, int>>>(reader);
@@ -306,7 +309,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_IntVarArray_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(3, (int)0, (int)0, (int)0);
 
             GenericPacket<VarArray<int, int>> result = deserializer.Deserialize<GenericPacket<VarArray<int, int>>>(reader);
@@ -317,7 +320,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_ByteVarArray_UsesByteArrays()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(new VarInt(3), new byte[3]);
 
             GenericPacket<VarArray<VarInt, byte>> result = deserializer.Deserialize<GenericPacket<VarArray<VarInt, byte>>>(reader);
@@ -328,7 +331,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_Object_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader("Test");
 
             GenericPacket<GenericPacket<string>> result = deserializer.Deserialize<GenericPacket<GenericPacket<string>>>(reader);
@@ -339,7 +342,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_OptionalWithoutValue_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(false);
 
             Optional<string> result = deserializer.Deserialize<Optional<string>>(reader);
@@ -350,7 +353,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_OptionalWithValue_Works()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(true, ":D");
 
             Optional<string> result = deserializer.Deserialize<Optional<string>>(reader);
@@ -361,7 +364,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_IsConditionalWithValue_DeserialiazesIntValue()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(2, ":D", 5);
 
             ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
@@ -372,7 +375,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_IsConditionalWithoutValue_DoesNotDeserialize()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(1, ":D", "");
 
             ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
@@ -383,7 +386,7 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_IsNotConditionalWithValue_DoesNotDeserialize()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(2, ":D", 6);
 
             ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
@@ -394,12 +397,38 @@ namespace YksMC.Protocol.Tests.Serializing
         [Test]
         public void Deserialize_IsNotConditionalWithoutValue_DeserializedStringValue()
         {
-            PacketDeserializer deserializer = new PacketDeserializer();
+            PacketDeserializer deserializer = new PacketDeserializer(null);
             FakePacketReader reader = new FakePacketReader(0, ":D", "Test");
 
             ConditionalPacket result = deserializer.Deserialize<ConditionalPacket>(reader);
 
             Assert.AreEqual("Test", result.StringValue);
+        }
+
+        [Test]
+        public void Deserialize_BaseTag_DeserializedStringValue()
+        {
+            FakePacketReader reader = new FakePacketReader(0, ":D", "Test");
+            Mock<INbtReader> nbtReader = new Mock<INbtReader>();
+            nbtReader.Setup(r => r.GetTag<BaseTag>(reader)).Returns(new BaseTag() { Name = "test" });
+            PacketDeserializer deserializer = new PacketDeserializer(nbtReader.Object);
+
+            GenericPacket<BaseTag> result = deserializer.Deserialize<GenericPacket<BaseTag>>(reader);
+
+            Assert.AreEqual("test", result.Value.Name);
+        }
+
+        [Test]
+        public void Deserialize_CompoundTag_DeserializedStringValue()
+        {
+            FakePacketReader reader = new FakePacketReader(0, ":D", "Test");
+            Mock<INbtReader> nbtReader = new Mock<INbtReader>();
+            nbtReader.Setup(r => r.GetTag<CompoundTag>(reader)).Returns(new CompoundTag(null) { Name = "test" });
+            PacketDeserializer deserializer = new PacketDeserializer(nbtReader.Object);
+
+            GenericPacket<CompoundTag> result = deserializer.Deserialize<GenericPacket<CompoundTag>>(reader);
+
+            Assert.AreEqual("test", result.Value.Name);
         }
 
     }

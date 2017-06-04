@@ -7,17 +7,20 @@ using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Types;
+using YksMC.Protocol.Nbt;
+using YksMC.Protocol.Nbt.Models;
 
 namespace YksMC.Protocol.Serializing
 {
     public class PacketDeserializer : IPacketDeserializer
     {
         private readonly Dictionary<Type, Func<IPacketReader, object>> _propertyTypes;
+        private readonly INbtReader _nbtReader;
 
-        public PacketDeserializer()
+        public PacketDeserializer(INbtReader nbtReader)
         {
             _propertyTypes = new Dictionary<Type, Func<IPacketReader, object>>();
-
+            _nbtReader = nbtReader;
             RegisterPropertyTypes();
         }
 
@@ -95,6 +98,8 @@ namespace YksMC.Protocol.Serializing
             RegisterPropertyType<Position>((r) => r.GetPosition());
             RegisterPropertyType<Angle>((r) => r.GetAngle());
             RegisterPropertyType<Guid>((r) => r.GetGuid());
+            RegisterPropertyType<BaseTag>((r) => _nbtReader.GetTag<BaseTag>(r));
+            RegisterPropertyType<CompoundTag>((r) => _nbtReader.GetTag<CompoundTag>(r));
         }
 
         private void RegisterPropertyType<T>(Func<IPacketReader, T> func)
