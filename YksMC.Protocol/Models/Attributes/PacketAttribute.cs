@@ -5,6 +5,7 @@ using YksMC.Protocol.Models.Constants;
 
 namespace YksMC.Protocol.Models.Attributes
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class PacketAttribute : Attribute
     {
         public int Id { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using YksMC.Protocol.Models;
@@ -11,18 +12,18 @@ namespace YksMC.Client.Mapper
     public class PacketTypeMapper : IPacketTypeMapper
     {
         private Dictionary<Tuple<ConnectionState, BoundTo, int>, Type> _types;
-        private Dictionary<Type, int> _ids;
+        private Dictionary<Tuple<BoundTo, Type>, int> _ids;
 
         public PacketTypeMapper()
         {
             _types = new Dictionary<Tuple<ConnectionState, BoundTo, int>, Type>();
-            _ids = new Dictionary<Type, int>();
+            _ids = new Dictionary<Tuple<BoundTo, Type>, int>();
         }
 
-        public int GetPacketId(Type type)
+        public int GetPacketId(BoundTo boundTo, Type type)
         {
             int id;
-            if (!_ids.TryGetValue(type, out id))
+            if (!_ids.TryGetValue(new Tuple<BoundTo, Type>(boundTo, type), out id))
                 throw new ArgumentException("Unknown packet: " + type);
             return id;
         }
@@ -37,10 +38,11 @@ namespace YksMC.Client.Mapper
 
         public void RegisterType(Type type)
         {
-            PacketAttribute packetInfo = type.GetTypeInfo().GetCustomAttribute<PacketAttribute>();
-            if (packetInfo == null)
+            IEnumerable<PacketAttribute> packetInfos = type.GetTypeInfo().GetCustomAttributes<PacketAttribute>();
+            if (!packetInfos.Any())
                 throw new ArgumentException($"Type {type} does not define a {nameof(PacketAttribute)}");
-            RegisterType(type, packetInfo.ConnectionState, packetInfo.BoundTo, packetInfo.Id);
+            foreach(PacketAttribute packetInfo in packetInfos)
+                RegisterType(type, packetInfo.ConnectionState, packetInfo.BoundTo, packetInfo.Id);
         }
 
         private void RegisterType(Type type, ConnectionState connectionState, BoundTo boundTo, int id)
@@ -50,7 +52,7 @@ namespace YksMC.Client.Mapper
                 throw new ArgumentException($"A packet with the same attributes as '{type}' already exists: '{_types[typeKey]}'");
 
             _types.Add(typeKey, type);
-            _ids.Add(type, id);
+            _ids.Add(new Tuple<BoundTo, Type>(boundTo, type), id);
         }
     }
 }

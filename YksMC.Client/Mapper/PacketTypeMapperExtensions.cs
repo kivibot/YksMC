@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using YksMC.Protocol.Models.Attributes;
@@ -19,7 +20,7 @@ namespace YksMC.Client.Mapper
             Assembly assembly = typeof(HandshakePacket).GetTypeInfo().Assembly;
             foreach (Type type in assembly.GetTypes())
             {
-                if (type.GetTypeInfo().GetCustomAttribute<PacketAttribute>() == null)
+                if (!type.GetTypeInfo().GetCustomAttributes<PacketAttribute>().Any())
                     continue;
 
                 mapper.RegisterType(type);

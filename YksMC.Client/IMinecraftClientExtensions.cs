@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Models.Constants;
+using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Packets;
 using YksMC.Protocol.Packets.Login;
+using YksMC.Protocol.Packets.Play.Common;
 
 namespace YksMC.Client
 {
@@ -25,6 +27,14 @@ namespace YksMC.Client
             client.SendPacket(new LoginStartPacket()
             {
                 Name = username
+            });
+        }
+
+        public static void SendKeepAlive(this IMinecraftClient client, VarInt keepAliveId)
+        {
+            client.SendPacket(new KeepAlivePacket()
+            {
+                KeepAliveId = keepAliveId
             });
         }
 

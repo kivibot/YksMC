@@ -85,7 +85,7 @@ namespace YksMC.Client.Worker
 
         private async Task SendPacketAsync(object packet, CancellationToken cancelToken)
         {
-            int packetId = _typeMapper.GetPacketId(packet.GetType());
+            int packetId = _typeMapper.GetPacketId(BoundTo.Server, packet.GetType());
             _packetBuilder.PutVarInt(packetId);
             _serializer.Serialize(packet, _packetBuilder);
             byte[] data = _packetBuilder.TakePacket();
