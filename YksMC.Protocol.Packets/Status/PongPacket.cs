@@ -11,12 +11,12 @@ namespace YksMC.Protocol.Packets.Status
     [Packet(0x01, ConnectionState.Status, BoundTo.Client)]
     public class PongPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public long Payload { get; set; }
 
         public PongPacket()
         {
-            Id = new VarInt(0x01);
+            PacketId = new VarInt(0x01);
         }
     }
 }

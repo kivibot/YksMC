@@ -23,7 +23,7 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketSerializer serializer = new PacketSerializer();
             HandshakePacket packet = new HandshakePacket()
             {
-                Id = new VarInt(0x00),
+                PacketId = new VarInt(0x00),
                 ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,
@@ -42,7 +42,7 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketSerializer serializer = new PacketSerializer();
             TestPacket packet = new TestPacket()
             {
-                Id = new VarInt(16),
+                PacketId = new VarInt(16),
                 Bool = true,
                 SignedByte = -3,
                 Byte = 200,

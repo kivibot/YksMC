@@ -11,12 +11,12 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x07, ConnectionState.Play, BoundTo.Client)]
     public class StatisticsPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public VarArray<Statistic> Statistics { get; set; }
 
         public StatisticsPacket()
         {
-            Id = new VarInt(0x07);
+            PacketId = new VarInt(0x07);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketDeserializer deserializer = new PacketDeserializer();
             HandshakePacket expected = new HandshakePacket()
             {
-                Id = new VarInt(0x00),
+                PacketId = new VarInt(0x00),
                 ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,

@@ -11,11 +11,11 @@ namespace YksMC.Protocol.Packets.Status
     [Packet(0x00, ConnectionState.Status, BoundTo.Server)]
     public class StatusRequestPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
 
         public StatusRequestPacket()
         {
-            Id = new VarInt(0x00);
+            PacketId = new VarInt(0x00);
         }
     }
 }

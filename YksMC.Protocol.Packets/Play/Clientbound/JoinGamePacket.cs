@@ -11,7 +11,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x23, ConnectionState.Play, BoundTo.Client)]
     public class JoinGamePacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public byte Gamemode { get; set; }
         public int Dimension { get; set; }
         public byte Difficulty { get; set; }
@@ -21,7 +21,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
 
         public JoinGamePacket()
         {
-            Id = new VarInt(0x23);
+            PacketId = new VarInt(0x23);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace YksMC.Protocol.Packets.Login
     [Packet(0x00, ConnectionState.Login, BoundTo.Client)]
     public class DisconnectPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public Chat Reason { get; set; }
     }
 }

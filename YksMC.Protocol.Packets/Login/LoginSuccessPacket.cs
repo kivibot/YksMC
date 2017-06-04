@@ -11,13 +11,13 @@ namespace YksMC.Protocol.Packets.Login
     [Packet(0x02, ConnectionState.Login, BoundTo.Client)]
     public class LoginSuccessPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public string UserId { get; set; }
         public string Username { get; set; }
 
         public LoginSuccessPacket()
         {
-            Id = new VarInt(0x02);
+            PacketId = new VarInt(0x02);
         }
     }
 }

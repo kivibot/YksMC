@@ -11,7 +11,7 @@ namespace YksMC.Protocol.Packets
     [Packet(0x00, ConnectionState.Handshake, BoundTo.Server)]
     public class HandshakePacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public ProtocolVersion ProtocolVersion { get; set; }
         public string ServerAddress { get; set; }
         public ushort ServerPort { get; set; }
@@ -19,7 +19,7 @@ namespace YksMC.Protocol.Packets
 
         public HandshakePacket()
         {
-            Id = new VarInt(0x00);
+            PacketId = new VarInt(0x00);
         }
     }
 }

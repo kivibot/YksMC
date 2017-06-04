@@ -11,13 +11,13 @@ namespace YksMC.Protocol.Packets.Login
     [Packet(0x01, ConnectionState.Login, BoundTo.Server)]
     public class EncryptionResponsePacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public VarArray<byte> SharedSecret { get; set; }
         public VarArray<byte> VerifyToken { get; set; }
 
         public EncryptionResponsePacket()
         {
-            Id = new VarInt(0x01);
+            PacketId = new VarInt(0x01);
         }
     }
 }

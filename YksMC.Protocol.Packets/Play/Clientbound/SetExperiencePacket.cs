@@ -8,16 +8,12 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
-    [Packet(0x18, ConnectionState.Play, BoundTo.Client)]
-    public class PluginMessagePacket : IPacket
+    [Packet(0x3d, ConnectionState.Play, BoundTo.Client)]
+    public class SetExperience : IPacket
     {
         public VarInt PacketId { get; set; }
-        public string Channel { get; set; }
-        public VarArray<byte> Data { get; set; }
-
-        public PluginMessagePacket()
-        {
-            PacketId = new VarInt(0x18);
-        }
+        public float ExperienceBar { get; set; }
+        public VarInt Level { get; set; }
+        public VarInt TotalExperience { get; set; }
     }
 }

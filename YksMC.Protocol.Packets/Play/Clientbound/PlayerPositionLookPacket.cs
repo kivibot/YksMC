@@ -8,10 +8,10 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
-    [Packet(0x0D, ConnectionState.Play, BoundTo.Client)]
+    [Packet(0x2e, ConnectionState.Play, BoundTo.Client)]
     public class PlayerPositionLookPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public double X { get; set; }
         public double FeetY { get; set; }
         public double Z { get; set; }
@@ -21,7 +21,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
 
         public PlayerPositionLookPacket()
         {
-            Id = new VarInt(0x0D);
+            PacketId = new VarInt(0x2e);
         }
     }
 }

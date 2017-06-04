@@ -11,14 +11,14 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x2b, ConnectionState.Play, BoundTo.Client)]
     public class PlayerAbilitiesPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public byte Flags { get; set; }
         public float FlyingSpeed { get; set; }
         public float FieldOfViewModifier { get; set; }
 
         public PlayerAbilitiesPacket()
         {
-            Id = new VarInt(0x2b);
+            PacketId = new VarInt(0x2b);
         }
     }
 }

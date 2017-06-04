@@ -8,16 +8,17 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
-    [Packet(0x18, ConnectionState.Play, BoundTo.Client)]
-    public class PluginMessagePacket : IPacket
+    [Packet(0x3e, ConnectionState.Play, BoundTo.Client)]
+    public class UpdateHealthPacket : IPacket
     {
         public VarInt PacketId { get; set; }
-        public string Channel { get; set; }
-        public VarArray<byte> Data { get; set; }
+        public float Health { get; set; }
+        public VarInt Food { get; set; }
+        public float FoodSaturation { get; set; }
 
-        public PluginMessagePacket()
+        public UpdateHealthPacket()
         {
-            PacketId = new VarInt(0x18);
+            PacketId = new VarInt(0x3e);
         }
     }
 }

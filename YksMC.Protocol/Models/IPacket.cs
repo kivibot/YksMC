@@ -7,6 +7,6 @@ namespace YksMC.Protocol.Models
 {
     public interface IPacket 
     {
-        VarInt Id { get; set; }
+        VarInt PacketId { get; set; }
     }
 }

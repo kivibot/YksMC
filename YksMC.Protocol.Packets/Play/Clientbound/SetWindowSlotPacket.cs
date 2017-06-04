@@ -8,16 +8,17 @@ using YksMC.Protocol.Models.Types;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
-    [Packet(0x18, ConnectionState.Play, BoundTo.Client)]
-    public class PluginMessagePacket : IPacket
+    [Packet(0x16, ConnectionState.Play, BoundTo.Client)]
+    public class SetWindowSlotPacket : IPacket
     {
         public VarInt PacketId { get; set; }
-        public string Channel { get; set; }
-        public VarArray<byte> Data { get; set; }
+        public byte WindowId { get; set; }
+        short SlotId { get; set; }
+        WindowSlot Slot { get; set; }
 
-        public PluginMessagePacket()
+        public SetWindowSlotPacket()
         {
-            PacketId = new VarInt(0x18);
+            PacketId = new VarInt(0x16);
         }
     }
 }

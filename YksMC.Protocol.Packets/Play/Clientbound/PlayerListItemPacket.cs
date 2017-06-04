@@ -11,14 +11,14 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x2d, ConnectionState.Play, BoundTo.Client)]
     public class PlayerListItemPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public VarInt Action { get; set; }
         public VarInt NumberOfPlayers { get; set; }
         //TODO: Player field
 
         public PlayerListItemPacket()
         {
-            Id = new VarInt(0x2d);
+            PacketId = new VarInt(0x2d);
         }
     }
 }

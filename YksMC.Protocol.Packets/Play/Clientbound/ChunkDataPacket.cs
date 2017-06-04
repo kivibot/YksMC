@@ -11,17 +11,17 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x20, ConnectionState.Play, BoundTo.Client)]
     public class ChunkDataPacket : IPacket
     {
-        public VarInt Id { get; set; }
+        public VarInt PacketId { get; set; }
         public int ChunkX { get; set; }
         public int ChunkZ { get; set; }
         public bool GroundUpContinuous { get; set; }
         public VarInt PrimaryBitMask { get; set; }
-        public VarInt Size { get; set; }
-        //TODO: data
+        public VarArray<byte> DataAndBiomes { get; set; }
+        //TODO: nbt tags
 
         public ChunkDataPacket()
         {
-            Id = new VarInt(0x20);
+            PacketId = new VarInt(0x20);
         }
     }
 }
