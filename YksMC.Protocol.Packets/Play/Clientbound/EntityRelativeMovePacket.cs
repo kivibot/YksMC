@@ -13,5 +13,6 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     {
         public VarInt EntityId { get; set; }
         public Vector<short> DeltaPosition { get; set; }
+        public bool IsOnGround { get; set; }
     }
 }

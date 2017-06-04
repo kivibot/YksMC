@@ -17,10 +17,5 @@ namespace YksMC.Protocol.Models.Attributes
             Condition = condition;
             Values = values;
         }
-
-        public ConditionalAttribute(string field, Condition condition, object value)
-            : this(field, condition, new object[] { value })
-        {
-        }
     }
 }

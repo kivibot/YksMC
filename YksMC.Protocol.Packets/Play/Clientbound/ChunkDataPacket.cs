@@ -5,6 +5,7 @@ using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Types;
+using YksMC.Protocol.Nbt.Models;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
@@ -16,6 +17,6 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public bool GroundUpContinuous { get; set; }
         public VarInt PrimaryBitMask { get; set; }
         public VarArray<VarInt, byte> DataAndBiomes { get; set; }
-        //TODO: nbt tags
+        public VarArray<VarInt, CompoundTag> BlockEntities { get; set; }
     }
 }
