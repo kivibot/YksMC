@@ -7,10 +7,10 @@ namespace YksMC.Protocol.Nbt
 {
     public class NbtReader : INbtReader
     {
-        private readonly IPacketReader _reader;
+        private readonly INbtDataReader _reader;
         private readonly Func<BaseTag>[] _tagGetters;
 
-        public NbtReader(IPacketReader reader)
+        public NbtReader(INbtDataReader reader)
         {
             _reader = reader;
 

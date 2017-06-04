@@ -4,4 +4,8 @@
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\YksMC.Protocol.Nbt\YksMC.Protocol.Nbt.csproj" />
+  </ItemGroup>
+
 </Project>
