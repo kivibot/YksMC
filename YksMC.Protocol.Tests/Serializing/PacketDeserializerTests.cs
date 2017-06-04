@@ -276,9 +276,9 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketDeserializer deserializer = new PacketDeserializer();
             FakePacketReader reader = new FakePacketReader(new VarInt(3), (int)0, (int)0, (int)0);
 
-            GenericPacket<VarArray<int>> result = deserializer.Deserialize<GenericPacket<VarArray<int>>>(reader);
+            GenericPacket<VarArray<VarInt, int>> result = deserializer.Deserialize<GenericPacket<VarArray<VarInt, int>>>(reader);
 
-            Assert.AreEqual(new VarArray<int>() { Count = new VarInt(3), Values = new int[3] }, result.Value);
+            Assert.AreEqual(new VarArray<VarInt, int>() { Count = new VarInt(3), Values = new int[3] }, result.Value);
         }
 
         [Test]
@@ -287,9 +287,9 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketDeserializer deserializer = new PacketDeserializer();
             FakePacketReader reader = new FakePacketReader(new VarInt(3), new byte[3]);
 
-            GenericPacket<VarArray<byte>> result = deserializer.Deserialize<GenericPacket<VarArray<byte>>>(reader);
+            GenericPacket<VarArray<VarInt, byte>> result = deserializer.Deserialize<GenericPacket<VarArray<VarInt, byte>>>(reader);
 
-            Assert.AreEqual(new VarArray<byte>() { Count = new VarInt(3), Values = new byte[3] }, result.Value);
+            Assert.AreEqual(new VarArray<VarInt, byte>() { Count = new VarInt(3), Values = new byte[3] }, result.Value);
         }
 
         [Test]

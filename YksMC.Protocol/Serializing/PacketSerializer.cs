@@ -31,7 +31,7 @@ namespace YksMC.Protocol.Serializing
                 TypeInfo valueTypeInfo = value.GetType().GetTypeInfo();
                 if (valueTypeInfo.IsEnum)
                     serializeProperty = SerializeEnum;
-                else if (valueTypeInfo.IsGenericType && valueTypeInfo.GetGenericTypeDefinition() == typeof(VarArray<>))
+                else if (valueTypeInfo.IsGenericType && valueTypeInfo.GetGenericTypeDefinition() == typeof(VarArray<,>))
                     serializeProperty = SerializeVarArray;
                 else if (valueTypeInfo.IsClass)
                     serializeProperty = SerializeObject;
@@ -104,12 +104,14 @@ namespace YksMC.Protocol.Serializing
         private void SerializeVarArray(object value, IPacketBuilder builder)
         {
             TypeInfo typeInfo = value.GetType().GetTypeInfo();
-            Type genericType = typeInfo.GetGenericArguments()[0];
-            VarInt count = (VarInt)typeInfo.GetProperty(nameof(VarArray<byte>.Count)).GetValue(value);
-            Array values = (Array)typeInfo.GetProperty(nameof(VarArray<byte>.Values)).GetValue(value);
+            Type lengthType = typeInfo.GetGenericArguments()[0];
+            Type valueType = typeInfo.GetGenericArguments()[1];
+
+            object count = typeInfo.GetProperty(nameof(VarArray<byte, byte>.Count)).GetValue(value);
+            Array values = (Array)typeInfo.GetProperty(nameof(VarArray<byte, byte>.Values)).GetValue(value);
 
             Serialize(count, builder);
-            if (genericType == typeof(byte))
+            if (valueType == typeof(byte))
             {
                 byte[] data = new byte[values.Length];
                 values.CopyTo(data, 0);

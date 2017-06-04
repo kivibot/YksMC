@@ -11,7 +11,7 @@ namespace YksMC.Protocol.Packets.Login
     [Packet(0x01, ConnectionState.Login, BoundTo.Server)]
     public class EncryptionResponsePacket 
     {
-        public VarArray<byte> SharedSecret { get; set; }
-        public VarArray<byte> VerifyToken { get; set; }
+        public VarArray<VarInt, byte> SharedSecret { get; set; }
+        public VarArray<VarInt, byte> VerifyToken { get; set; }
     }
 }

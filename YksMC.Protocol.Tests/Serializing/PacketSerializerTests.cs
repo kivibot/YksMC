@@ -123,7 +123,7 @@ namespace YksMC.Protocol.Tests.Serializing
         public void Serialize_IntegerVarArray_Works()
         {
             PacketSerializer serializer = new PacketSerializer();
-            GenericPacket<VarArray<int>> packet = new GenericPacket<VarArray<int>>() { Value = new VarArray<int>() { Count = new VarInt(4), Values = new int[4] } };
+            GenericPacket<VarArray<VarInt, int>> packet = new GenericPacket<VarArray<VarInt, int>>() { Value = new VarArray<VarInt, int>() { Count = new VarInt(4), Values = new int[4] } };
             FakePacketBuilder builder = new FakePacketBuilder();
 
             serializer.Serialize(packet, builder);
@@ -135,7 +135,7 @@ namespace YksMC.Protocol.Tests.Serializing
         public void Serialize_ByteVarArray_UsesByteArray()
         {
             PacketSerializer serializer = new PacketSerializer();
-            GenericPacket<VarArray<byte>> packet = new GenericPacket<VarArray<byte>>() { Value = new VarArray<byte>() { Count = new VarInt(4), Values = new byte[4] } };
+            GenericPacket<VarArray<VarInt, byte>> packet = new GenericPacket<VarArray<VarInt, byte>>() { Value = new VarArray<VarInt, byte>() { Count = new VarInt(4), Values = new byte[4] } };
             FakePacketBuilder builder = new FakePacketBuilder();
 
             serializer.Serialize(packet, builder);

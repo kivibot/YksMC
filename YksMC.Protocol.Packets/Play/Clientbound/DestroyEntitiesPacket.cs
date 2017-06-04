@@ -10,6 +10,6 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x30, ConnectionState.Play, BoundTo.Client)]
     public class DestroyEntitiesPacket
     {
-        public VarArray<VarInt> Ids { get; set; }
+        public VarArray<VarInt, VarInt> Ids { get; set; }
     }
 }

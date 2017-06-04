@@ -15,7 +15,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public int ChunkZ { get; set; }
         public bool GroundUpContinuous { get; set; }
         public VarInt PrimaryBitMask { get; set; }
-        public VarArray<byte> DataAndBiomes { get; set; }
+        public VarArray<VarInt, byte> DataAndBiomes { get; set; }
         //TODO: nbt tags
     }
 }

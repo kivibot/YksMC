@@ -9,10 +9,15 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     public class WindowSlot
     {
         public short BlockId { get; set; }
-        [Conditional(nameof(BlockId), Condition.IsNot, -1)]
+
+        [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
         public byte ItemCount { get; set; }
-        [Conditional(nameof(BlockId), Condition.IsNot, -1)]
+        [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
         public byte ItemDamage { get; set; }
+
+
         //TODO: optional values and nbt tags
+        [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
+        public bool HasNbtValue { get; set; }
     }
 }

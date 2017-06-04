@@ -12,6 +12,6 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     public class PluginMessagePacket
     {
         public string Channel { get; set; }
-        public VarArray<byte> Data { get; set; }
+        public VarArray<VarInt, byte> Data { get; set; }
     }
 }

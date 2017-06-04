@@ -12,7 +12,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     public class SetWindowSlotPacket
     {
         public byte WindowId { get; set; }
-        short SlotId { get; set; }
-        WindowSlot Slot { get; set; }
+        public short SlotId { get; set; }
+        public WindowSlot Slot { get; set; }
     }
 }

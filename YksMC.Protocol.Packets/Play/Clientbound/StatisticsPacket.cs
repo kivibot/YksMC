@@ -11,6 +11,6 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x07, ConnectionState.Play, BoundTo.Client)]
     public class StatisticsPacket
     {
-        public VarArray<Statistic> Statistics { get; set; }
+        public VarArray<VarInt, Statistic> Statistics { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     public class EntityProperties
     {
         public VarInt EntityId { get; set; }
-        public VarArray<EntityProperty> Properties { get; set; }
+        public VarArray<VarInt, EntityProperty> Properties { get; set; }
     }
 }

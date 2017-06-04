@@ -9,9 +9,9 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x14, ConnectionState.Play, BoundTo.Client)]
-    public class WindowItemsPacket 
+    public class WindowItemsPacket
     {
         public byte WindowId { get; set; }
-        public VarArray<WindowSlot> Slots { get; set; }
+        public VarArray<short, WindowSlot> Slots { get; set; }
     }
 }

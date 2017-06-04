@@ -5,14 +5,14 @@ using System.Text;
 
 namespace YksMC.Protocol.Models.Types
 {
-    public sealed class VarArray<T>
+    public sealed class VarArray<TLen, TVal>
     {
-        public VarInt Count { get; set; }
-        public T[] Values { get; set; }
+        public TLen Count { get; set; }
+        public TVal[] Values { get; set; }
 
         public override bool Equals(object obj)
         {
-            VarArray<T> other = obj as VarArray<T>;
+            VarArray<TLen, TVal> other = obj as VarArray<TLen, TVal>;
             if (other == null)
                 return false;
             if (!object.Equals(Count, other.Count))
@@ -22,11 +22,11 @@ namespace YksMC.Protocol.Models.Types
             return true;
         }
 
-        public static implicit operator VarArray<T>(T[] values)
+        public static implicit operator VarArray<TLen, TVal>(TVal[] values)
         {
-            return new VarArray<T>()
+            return new VarArray<TLen, TVal>()
             {
-                Count = values.Length,
+                Count = (TLen)(object)values.Length,
                 Values = values
             };
         }
