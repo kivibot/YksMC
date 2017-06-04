@@ -38,8 +38,6 @@ namespace YksMC.Protocol.Serializing
                     deserializeProperty = (r) => DeserializeEnum(r, type);
                 else if (typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == typeof(VarArray<>))
                     deserializeProperty = (r) => DeserializeVarArray(r, typeInfo);
-                else if (typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == typeof(Optional<>))
-                    deserializeProperty = (r) => DeserializeOptional(r, typeInfo);
                 else if (typeInfo.IsClass)
                     deserializeProperty = (r) => DeserializeObject(r, type);
                 else
@@ -148,22 +146,6 @@ namespace YksMC.Protocol.Serializing
                 Values = values.Cast<T>().ToArray()
             };
         }
-        private object DeserializeOptional(IPacketReader reader, TypeInfo typeInfo)
-        {
-            Type valueType = typeInfo.GetGenericArguments()[0];
-            bool hasValue = reader.GetBool();
 
-            TypeInfo genericType = typeof(Optional<>).MakeGenericType(valueType).GetTypeInfo();
-            object varArray = genericType.GetConstructor(new Type[0]).Invoke(new object[0]);
-            genericType.GetProperty(nameof(Optional<byte>.HasValue)).SetValue(varArray, hasValue);
-
-            if (hasValue)
-            {
-                object value = Deserialize(reader, valueType);
-                genericType.GetProperty(nameof(Optional<byte>.Value)).SetValue(varArray, value);
-            }
-
-            return varArray;
-        }
     }
 }

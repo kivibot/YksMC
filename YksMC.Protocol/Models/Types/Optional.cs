@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Protocol.Models.Attributes;
+using YksMC.Protocol.Models.Constants;
 
 namespace YksMC.Protocol.Models.Types
 {
     public class Optional<T>
     {
         public bool HasValue { get; set; }
+        [Conditional(nameof(HasValue), Condition.Is, true)]
         public T Value { get; set; }
 
         public override bool Equals(object obj)
