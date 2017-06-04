@@ -154,5 +154,33 @@ namespace YksMC.Protocol.Tests.Serializing
 
             Assert.AreEqual(new object[] { 1337L }, builder.Objects);
         }
+
+        [Test]
+        public void Serialize_OptionalWithoutValue_Works()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            Optional<string> value = new Optional<string>();
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(value, builder);
+
+            Assert.AreEqual(new object[] { false }, builder.Objects);
+        }
+
+        [Test]
+        public void Serialize_OptionalWithValue_Works()
+        {
+            PacketSerializer serializer = new PacketSerializer();
+            Optional<string> value = new Optional<string>()
+            {
+                HasValue = true,
+                Value = "Test"
+            };
+            FakePacketBuilder builder = new FakePacketBuilder();
+
+            serializer.Serialize(value, builder);
+
+            Assert.AreEqual(new object[] { true, "Test" }, builder.Objects);
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace YksMC.Protocol.Serializing
                     serializeProperty = SerializeEnum;
                 else if (valueTypeInfo.IsGenericType && valueTypeInfo.GetGenericTypeDefinition() == typeof(VarArray<>))
                     serializeProperty = SerializeVarArray;
+                else if (valueTypeInfo.IsGenericType && valueTypeInfo.GetGenericTypeDefinition() == typeof(Optional<>))
+                    serializeProperty = SerializeOptional;
                 else if (valueTypeInfo.IsClass)
                     serializeProperty = SerializeObject;
                 else
@@ -99,6 +101,21 @@ namespace YksMC.Protocol.Serializing
             {
                 for (int i = 0; i < values.Length; i++)
                     Serialize(values.GetValue(i), builder);
+            }
+        }
+
+        private void SerializeOptional(object value, IPacketBuilder builder)
+        {
+            TypeInfo typeInfo = value.GetType().GetTypeInfo();
+            bool hasValue = (bool)typeInfo.GetProperty(nameof(Optional<byte>.HasValue)).GetValue(value);
+
+            if (hasValue)
+            {
+                SerializeObject(value, builder);
+            }
+            else
+            {
+                Serialize(false, builder);
             }
         }
     }

@@ -303,5 +303,27 @@ namespace YksMC.Protocol.Tests.Serializing
             Assert.AreEqual("Test", result.Value.Value);
         }
 
+        [Test]
+        public void Deserialize_OptionalWithoutValue_Works()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader(false);
+
+            Optional<string> result = deserializer.Deserialize<Optional<string>>(reader);
+
+            Assert.AreEqual(new Optional<string>(), result);
+        }
+
+        [Test]
+        public void Deserialize_OptionalWithValue_Works()
+        {
+            PacketDeserializer deserializer = new PacketDeserializer();
+            FakePacketReader reader = new FakePacketReader(true, ":D");
+
+            Optional<string> result = deserializer.Deserialize<Optional<string>>(reader);
+
+            Assert.AreEqual(new Optional<string>() { HasValue = true, Value = ":D" }, result);
+        }
+
     }
 }
