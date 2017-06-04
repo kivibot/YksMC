@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Protocol.Models.Attributes;
 using YksMC.Protocol.Models.Constants;
+using YksMC.Protocol.Nbt.Models;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
@@ -14,10 +15,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public byte ItemCount { get; set; }
         [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
         public byte ItemDamage { get; set; }
-
-
-        //TODO: optional values and nbt tags
         [Conditional(nameof(BlockId), Condition.IsNot, (short)-1)]
-        public bool HasNbtValue { get; set; }
+        public BaseTag Nbt { get; set; }
     }
 }
