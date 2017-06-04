@@ -17,7 +17,7 @@ namespace YksMC.Client
         ServerAddress Address { get; }
 
         Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
-        void SendPacket(IPacket packet);
+        void SendPacket(object packet);
         void SetState(ConnectionState state);
     }
 }

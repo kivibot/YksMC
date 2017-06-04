@@ -9,14 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x0d, ConnectionState.Play, BoundTo.Client)]
-    public class ServerDifficultyPacket : IPacket
+    public class ServerDifficultyPacket
     {
-        public VarInt PacketId { get; set; }
         public byte Difficulty { get; set; }
-
-        public ServerDifficultyPacket()
-        {
-            PacketId = new VarInt(0x0d);
-        }
     }
 }

@@ -9,15 +9,9 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x34, ConnectionState.Play, BoundTo.Client)]
-    public class EntityHeadLookPacket : IPacket
+    public class EntityHeadLookPacket
     {
-        public VarInt PacketId { get; set; }
         public VarInt EntityId { get; set; }
         public Angle HeadYaw { get; set; }
-
-        public EntityHeadLookPacket()
-        {
-            PacketId = new VarInt(0x34);
-        }
     }
 }

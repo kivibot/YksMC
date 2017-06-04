@@ -9,14 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Status
 {
     [Packet(0x00, ConnectionState.Status, BoundTo.Client)]
-    public class StatusResponsePacket : IPacket
+    public class StatusResponsePacket 
     {
-        public VarInt PacketId { get; set; }
         public String JsonData { get; set; }
-
-        public StatusResponsePacket()
-        {
-            PacketId = new VarInt(0x00);
-        }
     }
 }

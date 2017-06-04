@@ -9,16 +9,9 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Login
 {
     [Packet(0x01, ConnectionState.Login, BoundTo.Client)]
-    public class EncryptionRequestPacket : IPacket
+    public class EncryptionRequestPacket
     {
-        public VarInt PacketId { get; set; }
         public VarArray<byte> PublicKey { get; set; }
         public VarArray<byte> VerifyToken { get; set; }
-
-        public EncryptionRequestPacket()
-        {
-            PacketId = new VarInt(0x01);
-        }
-
     }
 }

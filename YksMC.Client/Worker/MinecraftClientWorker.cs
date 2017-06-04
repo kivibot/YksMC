@@ -21,7 +21,7 @@ namespace YksMC.Client.Worker
 {
     public class MinecraftClientWorker : IMinecraftClientWorker
     {
-        private readonly AsyncProducerConsumerQueue<IPacket> _sendingQueue;
+        private readonly AsyncProducerConsumerQueue<object> _sendingQueue;
         private readonly IPacketSerializer _serializer;
         private readonly IPacketBuilder _packetBuilder;
         private readonly IPacketReader _packetReader;
@@ -36,7 +36,7 @@ namespace YksMC.Client.Worker
 
         public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IEventDispatcher eventDispatcher)
         {
-            _sendingQueue = new AsyncProducerConsumerQueue<IPacket>();
+            _sendingQueue = new AsyncProducerConsumerQueue<object>();
             _serializer = serializer;
             _packetBuilder = packetBuilder;
             _packetReader = packetReader;
@@ -48,7 +48,7 @@ namespace YksMC.Client.Worker
             _eventDispatcher = eventDispatcher;
         }
 
-        public void EnqueuePacket(IPacket packet)
+        public void EnqueuePacket(object packet)
         {
             _sendingQueue.Enqueue(packet);
         }
@@ -69,7 +69,7 @@ namespace YksMC.Client.Worker
         {
             while (!cancelToken.IsCancellationRequested)
             {
-                IPacket packet = await _sendingQueue.DequeueAsync(cancelToken);
+                object packet = await _sendingQueue.DequeueAsync(cancelToken);
                 try
                 {
                     await SendPacketAsync(packet, cancelToken);
@@ -82,7 +82,7 @@ namespace YksMC.Client.Worker
             }
         }
 
-        private async Task SendPacketAsync(IPacket packet, CancellationToken cancelToken)
+        private async Task SendPacketAsync(object packet, CancellationToken cancelToken)
         {
             _serializer.Serialize(packet, _packetBuilder);
             byte[] data = _packetBuilder.TakePacket();
@@ -120,18 +120,18 @@ namespace YksMC.Client.Worker
             }
 
             _packetReader.ResetPosition();
-            IPacket packet = (IPacket)_deserializer.Deserialize(_packetReader, packetType);
+            object packet = _deserializer.Deserialize(_packetReader, packetType);
 
             LogPacketReceived(packet);
             await _eventDispatcher.DispatchEventAsync(packet);
         }
 
-        private void LogPacketReceived(IPacket packet)
+        private void LogPacketReceived(object packet)
         {
             string jsonData = JsonConvert.SerializeObject(packet);
             _logger.ForContext("packet", jsonData).Verbose("Received packet: {PacketType}", packet.GetType().Name);
         }
-        private void LogPacketSent(IPacket packet)
+        private void LogPacketSent(object packet)
         {
             string jsonData = JsonConvert.SerializeObject(packet);
             _logger.ForContext("packet", jsonData).Verbose("Sent packet: {PacketType}", packet.GetType().Name);

@@ -9,13 +9,7 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Status
 {
     [Packet(0x00, ConnectionState.Status, BoundTo.Server)]
-    public class StatusRequestPacket : IPacket
+    public class StatusRequestPacket 
     {
-        public VarInt PacketId { get; set; }
-
-        public StatusRequestPacket()
-        {
-            PacketId = new VarInt(0x00);
-        }
     }
 }

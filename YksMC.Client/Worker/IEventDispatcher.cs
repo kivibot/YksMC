@@ -8,6 +8,6 @@ namespace YksMC.Client.Worker
 {
     public interface IEventDispatcher
     {
-        Task DispatchEventAsync(IPacket packet);
+        Task DispatchEventAsync(object packet);
     }
 }

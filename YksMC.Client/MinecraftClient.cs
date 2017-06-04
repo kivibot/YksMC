@@ -56,7 +56,7 @@ namespace YksMC.Client
             SetState(ConnectionState.Handshake);
         }
 
-        public void SendPacket(IPacket packet)
+        public void SendPacket(object packet)
         {
             EnsureConnected();
 

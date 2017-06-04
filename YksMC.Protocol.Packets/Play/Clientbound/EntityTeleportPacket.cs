@@ -9,9 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x49, ConnectionState.Play, BoundTo.Client)]
-    public class EntityTeleportPacket : IPacket
+    public class EntityTeleportPacket 
     {
-        public VarInt PacketId { get; set; }
         public Vector<double> Position { get; set; }
         public Angle Yaw { get; set; }
         public Angle Pitch { get; set; }

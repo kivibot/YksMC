@@ -9,14 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x43, ConnectionState.Play, BoundTo.Client)]
-    public class SpawnPositionPacket : IPacket
+    public class SpawnPositionPacket
     {
-        public VarInt PacketId { get; set; }
         public Position Location { get; set; }
-
-        public SpawnPositionPacket()
-        {
-            PacketId = new VarInt(0x43);
-        }
     }
 }

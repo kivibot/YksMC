@@ -9,14 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Status
 {
     [Packet(0x01, ConnectionState.Status, BoundTo.Client)]
-    public class PongPacket : IPacket
+    public class PongPacket
     {
-        public VarInt PacketId { get; set; }
         public long Payload { get; set; }
-
-        public PongPacket()
-        {
-            PacketId = new VarInt(0x01);
-        }
     }
 }

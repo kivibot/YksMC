@@ -9,7 +9,7 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x0C, ConnectionState.Play, BoundTo.Client)]
-    public class BlockChangePacket : IPacket
+    public class BlockChangePacket
     {
         public VarInt PacketId { get; set; }
         public Position Location { get; set; }

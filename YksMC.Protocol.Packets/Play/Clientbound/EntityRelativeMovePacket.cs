@@ -9,9 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x25, ConnectionState.Play, BoundTo.Client)]
-    public class EntityRelativeMovePacket : IPacket
+    public class EntityRelativeMovePacket
     {
-        public VarInt PacketId { get; set; }
         public VarInt EntityId { get; set; }
         public Vector<short> DeltaPosition { get; set; }
     }

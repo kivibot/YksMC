@@ -9,7 +9,7 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x23, ConnectionState.Play, BoundTo.Client)]
-    public class JoinGamePacket : IPacket
+    public class JoinGamePacket
     {
         public VarInt PacketId { get; set; }
         public byte Gamemode { get; set; }
@@ -18,10 +18,5 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public byte MaxPlayers { get; set; }
         public string LevelType { get; set; }
         public bool ReducedDebugInfo { get; set; }
-
-        public JoinGamePacket()
-        {
-            PacketId = new VarInt(0x23);
-        }
     }
 }

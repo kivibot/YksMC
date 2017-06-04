@@ -9,14 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Login
 {
     [Packet(0x03, ConnectionState.Login, BoundTo.Client)]
-    public class SetCompressionPacket : IPacket
+    public class SetCompressionPacket
     {
-        public VarInt PacketId { get; set; }
         public VarInt Threshold { get; set; }
-
-        public SetCompressionPacket()
-        {
-            PacketId = new VarInt(0x03);
-        }
     }
 }

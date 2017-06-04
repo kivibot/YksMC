@@ -9,9 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x1F, ConnectionState.Play, BoundTo.Client)]
-    public class KeepAlivePacket : IPacket
+    public class KeepAlivePacket
     {
-        public VarInt PacketId { get; set; }
         public VarInt KeepAliveId { get; set; }
     }
 }

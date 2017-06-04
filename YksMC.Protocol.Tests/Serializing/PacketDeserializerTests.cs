@@ -24,15 +24,14 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketDeserializer deserializer = new PacketDeserializer();
             HandshakePacket expected = new HandshakePacket()
             {
-                PacketId = new VarInt(0x00),
                 ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,
                 NextState = ConnectionState.Status
             };
-            FakePacketReader reader = new FakePacketReader(new VarInt(0x00), new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01));
+            FakePacketReader reader = new FakePacketReader(new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01));
 
-            IPacket result = deserializer.Deserialize<HandshakePacket>(reader);
+            object result = deserializer.Deserialize<HandshakePacket>(reader);
 
             Assert.IsTrue(ComparisonUtil.Compare(expected, result));
         }

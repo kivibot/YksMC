@@ -9,14 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Login
 {
     [Packet(0x00, ConnectionState.Login, BoundTo.Server)]
-    public class LoginStartPacket : IPacket
+    public class LoginStartPacket
     {
-        public VarInt PacketId { get; set; }
         public string Name { get; set; }
-
-        public LoginStartPacket()
-        {
-            PacketId = new VarInt(0x00);
-        }
     }
 }

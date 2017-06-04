@@ -9,9 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x03, ConnectionState.Play, BoundTo.Client)]
-    public class SpawnMobPacket : IPacket
+    public class SpawnMobPacket
     {
-        public VarInt PacketId { get; set; }
         public VarInt EntityId { get; set; }
         public Guid EntityGuid { get; set; }
         public VarInt Type { get; set; }
@@ -26,10 +25,5 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public short VelocityZ { get; set; }
 
         //TODO: metadata
-
-        public SpawnMobPacket()
-        {
-            PacketId = new VarInt(0x03);
-        }
     }
 }

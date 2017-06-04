@@ -9,14 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x4a, ConnectionState.Play, BoundTo.Client)]
-    public class EntityProperties : IPacket
+    public class EntityProperties
     {
-        public VarInt PacketId { get; set; }
         public VarArray<EntityProperty> Properties { get; set; }
-
-        public EntityProperties()
-        {
-            PacketId = new VarInt(0x4a);
-        }
     }
 }

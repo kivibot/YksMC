@@ -9,17 +9,11 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets
 {
     [Packet(0x00, ConnectionState.Handshake, BoundTo.Server)]
-    public class HandshakePacket : IPacket
+    public class HandshakePacket
     {
-        public VarInt PacketId { get; set; }
         public ProtocolVersion ProtocolVersion { get; set; }
         public string ServerAddress { get; set; }
         public ushort ServerPort { get; set; }
         public ConnectionState NextState { get; set; }
-
-        public HandshakePacket()
-        {
-            PacketId = new VarInt(0x00);
-        }
     }
 }

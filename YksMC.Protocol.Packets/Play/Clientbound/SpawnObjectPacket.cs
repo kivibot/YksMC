@@ -9,9 +9,8 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x00, ConnectionState.Play, BoundTo.Client)]
-    public class SpawnObjectPacket : IPacket
+    public class SpawnObjectPacket 
     {
-        public VarInt PacketId { get; set; }
         public VarInt EntityId { get; set; }
         public Guid EntityUuid { get; set; }
         public byte Type { get; set; }
@@ -20,10 +19,5 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public Angle Yaw { get; set; }
         public uint Data { get; set; }
         public Vector<short> Velocity { get; set; }
-
-        public SpawnObjectPacket()
-        {
-            PacketId = new VarInt(0x00);
-        }
     }
 }

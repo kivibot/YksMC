@@ -21,12 +21,12 @@ namespace YksMC.Client.Worker
             _logger = logger.ForContext<EventDispatcher>();
         }
 
-        public async Task DispatchEventAsync(IPacket packet)
+        public async Task DispatchEventAsync(object packet)
         {
             await HandleReceivedPacketAsync((dynamic)packet);
         }
 
-        private async Task HandleReceivedPacketAsync<T>(T packet) where T : IPacket
+        private async Task HandleReceivedPacketAsync<T>(T packet)
         {
             using (IOwned<IEnumerable<IPacketHandler<T>>> handlers = _handlerFactory.GetHandlers<T>())
             {

@@ -23,7 +23,6 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketSerializer serializer = new PacketSerializer();
             HandshakePacket packet = new HandshakePacket()
             {
-                PacketId = new VarInt(0x00),
                 ProtocolVersion = ProtocolVersion.Unknown,
                 ServerAddress = "ABC",
                 ServerPort = 1234,
@@ -33,7 +32,7 @@ namespace YksMC.Protocol.Tests.Serializing
 
             serializer.Serialize(packet, builder);
 
-            Assert.AreEqual(new object[] { new VarInt(0x00), new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01) }, builder.Objects);
+            Assert.AreEqual(new object[] { new VarInt(-1), "ABC", (ushort)1234, new VarInt(0x01) }, builder.Objects);
         }
 
         [Test]
@@ -42,7 +41,6 @@ namespace YksMC.Protocol.Tests.Serializing
             PacketSerializer serializer = new PacketSerializer();
             TestPacket packet = new TestPacket()
             {
-                PacketId = new VarInt(16),
                 Bool = true,
                 SignedByte = -3,
                 Byte = 200,
@@ -66,7 +64,7 @@ namespace YksMC.Protocol.Tests.Serializing
 
             serializer.Serialize(packet, builder);
 
-            Assert.AreEqual(new object[] { new VarInt(16), packet.Bool, packet.SignedByte, packet.Byte, packet.Short, packet.UnsignedShort,
+            Assert.AreEqual(new object[] { packet.Bool, packet.SignedByte, packet.Byte, packet.Short, packet.UnsignedShort,
                 packet.Int, packet.UnsignedInt, packet.Long, packet.UnsignedLong, packet.Float, packet.Double, packet.String, packet.Chat,
                 packet.VarInt, packet.VarLong, packet.Position, packet.Angle, packet.Guid }, builder.Objects);
         }
