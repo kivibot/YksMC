@@ -4,14 +4,13 @@ using System.Text;
 
 namespace YksMC.Protocol.Nbt.Models
 {
-    public class DoubleTag
+    public class DoubleTag : BaseTag
     {
-        public string Name { get; set; }
         public double Value { get; set; }
 
         public DoubleTag(string name, double value)
+            : base(name)
         {
-            Name = name;
             Value = value;
         }
     }

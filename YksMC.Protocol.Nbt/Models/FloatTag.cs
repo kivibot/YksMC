@@ -4,14 +4,13 @@ using System.Text;
 
 namespace YksMC.Protocol.Nbt.Models
 {
-    public class FloatTag
+    public class FloatTag : BaseTag
     {
-        public string Name { get; set; }
         public float Value { get; set; }
 
         public FloatTag(string name, float value)
+            : base(name)
         {
-            Name = name;
             Value = value;
         }
     }

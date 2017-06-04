@@ -4,14 +4,13 @@ using System.Text;
 
 namespace YksMC.Protocol.Nbt.Models
 {
-    public class ShortTag
+    public class ShortTag : BaseTag
     {
-        public string Name { get; set; }
         public short Value { get; set; }
 
         public ShortTag(string name, short value)
+            : base(name)
         {
-            Name = name;
             Value = value;
         }
     }

@@ -4,14 +4,13 @@ using System.Text;
 
 namespace YksMC.Protocol.Nbt.Models
 {
-    public class LongTag
+    public class LongTag : BaseTag
     {
-        public string Name { get; set; }
         public long Value { get; set; }
 
         public LongTag(string name, long value)
+            : base(name)
         {
-            Name = name;
             Value = value;
         }
     }

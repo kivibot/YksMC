@@ -4,14 +4,13 @@ using System.Text;
 
 namespace YksMC.Protocol.Nbt.Models
 {
-    public class CompoundTag
+    public class CompoundTag : BaseTag
     {
-        public string Name { get; set; }
         public List<BaseTag> Tags { get; set; }
 
         public CompoundTag(string name, List<BaseTag> tags)
+            : base(name)
         {
-            Name = name;
             Tags = tags;
         }
     }
