@@ -10,6 +10,8 @@ namespace YksMC.Bot.Services
         private readonly IBlockTypeService _blockTypeService;
         private readonly ChunkSection _emptySection;
 
+        private Dictionary<Tuple<Dimension, int, int>, Chunk> _chunks = new Dictionary<Tuple<Dimension, int, int>, Chunk>();
+
         public ChunkService(IBlockTypeService blockTypeService)
         {
             _blockTypeService = blockTypeService;
@@ -25,12 +27,15 @@ namespace YksMC.Bot.Services
                 chunk.Sections[i] = _emptySection;
             }
             chunk.Biomes = new Biome[ChunkSection.Width, ChunkSection.Width];
+            _chunks.Add(new Tuple<Dimension, int, int>(dimension, chunkX, chunkZ), chunk);
             return chunk;
         }
 
         public Chunk GetChunk(Dimension dimension, int chunkX, int chunkZ)
         {
-            throw new NotImplementedException();
+            if (!_chunks.TryGetValue(new Tuple<Dimension, int, int>(dimension, chunkX, chunkZ), out Chunk chunk))
+                return null;
+            return chunk;
         }
 
         public void SetBiome(Chunk chunk, int x, int z, Biome biome)
