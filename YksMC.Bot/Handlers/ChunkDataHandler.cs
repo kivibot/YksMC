@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,10 +46,10 @@ namespace YksMC.Bot.Handlers
 
             for (int i = 0; i < 32; i++)
             {
-                if (((packet.PrimaryBitMask >> 32) & 1) == 0)
+                if (((packet.PrimaryBitMask >> i) & 1) == 0)
                     continue;
 
-                ParseChunkSection(chunk);
+                ParseChunkSection(chunk, i);
             }
 
             ParseBiomes(packet, chunk);
@@ -70,14 +71,14 @@ namespace YksMC.Bot.Handlers
             }
         }
 
-        private void ParseChunkSection(Chunk chunk)
+        private void ParseChunkSection(Chunk chunk, int sectionY)
         {
-            ParseBlockTypes(chunk);
-            ParseBlockLight(chunk);
-            ParseSkyLight(chunk);
+            ParseBlockTypes(chunk, sectionY);
+            ParseBlockLight(chunk, sectionY);
+            ParseSkyLight(chunk, sectionY);
         }
 
-        private void ParseBlockTypes(Chunk chunk)
+        private void ParseBlockTypes(Chunk chunk, int sectionY)
         {
             byte bitsPerBlock = _packetReader.GetByte();
             bitsPerBlock = GetRealBitsPerBlock(bitsPerBlock);
@@ -94,7 +95,7 @@ namespace YksMC.Bot.Handlers
 
             int blockIndex = 0;
             ulong dataMask = (1UL << bitsPerBlock) - 1UL;
-            bool usePalette = bitsPerBlock <= 8;
+            bool usePalette = paletteLenght > 0;
 
             for (int y = 0; y < ChunkSection.Height; y++)
             {
@@ -119,13 +120,14 @@ namespace YksMC.Bot.Handlers
                             blockStateId = (int)tmp;
 
                         BlockType blockType = _blockTypeService.GetBlockType(blockStateId >> 4, blockStateId & 0b1111);
-                        _chunkService.SetBlockType(chunk, x, y, z, blockType);
+                        _chunkService.SetBlockType(chunk, x, sectionY * ChunkSection.Height + y, z, blockType);
 
                         blockIndex++;
                     }
                 }
             }
         }
+
         private byte GetRealBitsPerBlock(byte val)
         {
             if (val <= 4)
@@ -135,7 +137,7 @@ namespace YksMC.Bot.Handlers
             return val;
         }
 
-        private void ParseBlockLight(Chunk chunk)
+        private void ParseBlockLight(Chunk chunk, int sectionY)
         {
             for (int y = 0; y < ChunkSection.Height; y++)
             {
@@ -144,14 +146,14 @@ namespace YksMC.Bot.Handlers
                     for (int x = 0; x < ChunkSection.Width; x += 2)
                     {
                         byte value = _packetReader.GetByte();
-                        _chunkService.SetBlockLight(chunk, x, y, z, (byte)(value & 0b1111));
-                        _chunkService.SetBlockLight(chunk, x, y, z, (byte)(value >> 4));
+                        _chunkService.SetBlockLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value & 0b1111));
+                        _chunkService.SetBlockLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value >> 4));
                     }
                 }
             }
         }
 
-        private void ParseSkyLight(Chunk chunk)
+        private void ParseSkyLight(Chunk chunk, int sectionY)
         {
             if (chunk.Dimension != Dimension.Overworld)
                 return;
@@ -163,11 +165,11 @@ namespace YksMC.Bot.Handlers
                     for (int x = 0; x < ChunkSection.Width; x += 2)
                     {
                         byte value = _packetReader.GetByte();
-                        _chunkService.SetSkyLight(chunk, x, y, z, (byte)(value & 0b1111));
-                        _chunkService.SetSkyLight(chunk, x, y, z, (byte)(value >> 4));
+                        _chunkService.SetSkyLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value & 0b1111));
+                        _chunkService.SetSkyLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value >> 4));
                     }
                 }
             }
-        }       
+        }
     }
 }

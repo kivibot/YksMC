@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Bot.Handlers;
+using YksMC.Bot.Services;
 using YksMC.Client.Handler;
 using YksMC.Client.Injection;
 using YksMC.Client.Mapper;
@@ -49,6 +50,10 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
             builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces();
+
+            builder.RegisterType<ChunkService>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<EntityService>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<BlockTypeService>().AsImplementedInterfaces().SingleInstance();
 
             _container = builder.Build();
         }
