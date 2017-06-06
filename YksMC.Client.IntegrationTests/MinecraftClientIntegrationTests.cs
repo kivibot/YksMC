@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Bot.Chunk;
+using YksMC.Bot.Chunk.MemoryOptimized;
 using YksMC.Bot.Handlers;
-using YksMC.Bot.Services;
 using YksMC.Client.Handler;
 using YksMC.Client.Injection;
 using YksMC.Client.Mapper;
@@ -52,8 +53,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces();
 
             builder.RegisterType<ChunkService>().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<EntityService>().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<BlockTypeService>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<MemoryOptimizedChunkStorage>().AsImplementedInterfaces().SingleInstance();
 
             _container = builder.Build();
         }

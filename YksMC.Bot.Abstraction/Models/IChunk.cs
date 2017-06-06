@@ -9,8 +9,5 @@ namespace YksMC.Abstraction.Models
         int X { get; }
         int Z { get; }
         Dimension Dimension { get; }
-
-        Biome GetBiome(int x, int y);
-        IBlock GetBlock(int x, int y, int z);
     }
 }

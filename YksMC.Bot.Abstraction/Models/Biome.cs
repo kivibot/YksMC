@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.Abstraction.Models
 {
-    public enum Biome
+    public enum Biome : byte
     {
         Ocean = 0,
         Plains = 1,

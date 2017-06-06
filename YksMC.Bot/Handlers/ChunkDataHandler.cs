@@ -4,8 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Abstraction.Models;
+using YksMC.Abstraction.Services;
 using YksMC.Bot.Models;
-using YksMC.Bot.Services;
 using YksMC.Client.Handler;
 using YksMC.Protocol;
 using YksMC.Protocol.Packets.Play.Clientbound;
@@ -16,15 +17,11 @@ namespace YksMC.Bot.Handlers
     {
         private readonly IPacketReader _packetReader;
         private readonly IChunkService _chunkService;
-        private readonly IEntityService _entityService;
-        private readonly IBlockTypeService _blockTypeService;
 
-        public ChunkDataHandler(IPacketReader reader, IChunkService chunkService, IEntityService entityService, IBlockTypeService blockTypeService)
+        public ChunkDataHandler(IPacketReader reader, IChunkService chunkService)
         {
             _packetReader = reader;
             _chunkService = chunkService;
-            _entityService = entityService;
-            _blockTypeService = blockTypeService;
         }
 
         public async Task HandleAsync(ChunkDataPacket packet)
@@ -36,13 +33,10 @@ namespace YksMC.Bot.Handlers
         {
             _packetReader.SetPacket(packet.DataAndBiomes.Values);
 
-            Dimension dimension = _entityService.GetLocalPlayer().Dimension;
+            //TODO: get dimension from the player entity
+            Dimension dimension = Dimension.Overworld;//_entityService.GetLocalPlayer().Dimension;
 
-            Chunk chunk;
-            if (packet.GroundUpContinuous)
-                chunk = _chunkService.CreateChunk(dimension, packet.ChunkX, packet.ChunkZ);
-            else
-                chunk = _chunkService.GetChunk(dimension, packet.ChunkX, packet.ChunkZ);
+            IChunk chunk = _chunkService.CreateChunk(dimension, packet.ChunkX, packet.ChunkZ);
 
             for (int i = 0; i < 32; i++)
             {
@@ -55,30 +49,30 @@ namespace YksMC.Bot.Handlers
             ParseBiomes(packet, chunk);
         }
 
-        private void ParseBiomes(ChunkDataPacket packet, Chunk chunk)
+        private void ParseBiomes(ChunkDataPacket packet, IChunk chunk)
         {
             if (!packet.GroundUpContinuous)
                 return;
 
-            for (int z = 0; z < ChunkSection.Width; z++)
+            for (int z = 0; z < 16; z++)
             {
-                for (int x = 0; x < ChunkSection.Width; x++)
+                for (int x = 0; x < 16; x++)
                 {
                     byte biomeId = _packetReader.GetByte();
                     Biome biome = (Biome)biomeId;
-                    _chunkService.SetBiome(chunk, x, z, biome);
+                    //_chunkService.SetBiome(chunk, x, z, biome);
                 }
             }
         }
 
-        private void ParseChunkSection(Chunk chunk, int sectionY)
+        private void ParseChunkSection(IChunk chunk, int sectionY)
         {
             ParseBlockTypes(chunk, sectionY);
             ParseBlockLight(chunk, sectionY);
             ParseSkyLight(chunk, sectionY);
         }
 
-        private void ParseBlockTypes(Chunk chunk, int sectionY)
+        private void ParseBlockTypes(IChunk chunk, int sectionY)
         {
             byte bitsPerBlock = _packetReader.GetByte();
             bitsPerBlock = GetRealBitsPerBlock(bitsPerBlock);
@@ -97,11 +91,11 @@ namespace YksMC.Bot.Handlers
             ulong dataMask = (1UL << bitsPerBlock) - 1UL;
             bool usePalette = paletteLenght > 0;
 
-            for (int y = 0; y < ChunkSection.Height; y++)
+            for (int y = 0; y < 16; y++)
             {
-                for (int z = 0; z < ChunkSection.Width; z++)
+                for (int z = 0; z < 16; z++)
                 {
-                    for (int x = 0; x < ChunkSection.Width; x++)
+                    for (int x = 0; x < 16; x++)
                     {
                         int currentDataIndex = (blockIndex * bitsPerBlock) / 64;
                         int currentDataOffset = (blockIndex * bitsPerBlock) % 64;
@@ -119,8 +113,10 @@ namespace YksMC.Bot.Handlers
                         else
                             blockStateId = (int)tmp;
 
-                        BlockType blockType = _blockTypeService.GetBlockType(blockStateId >> 4, blockStateId & 0b1111);
-                        _chunkService.SetBlockType(chunk, x, sectionY * ChunkSection.Height + y, z, blockType);
+                        //TODO: get real block type
+                        IBlockType blockType = new PlaceholderBlockType(blockStateId >> 4, blockStateId & 0b1111);
+                        BlockLocation location = new BlockLocation(Dimension.Overworld, chunk.X * 16 + x, sectionY * 16 + y, chunk.Z * 16 + z);
+                        _chunkService.SetBlockType(location, blockType);
 
                         blockIndex++;
                     }
@@ -137,36 +133,40 @@ namespace YksMC.Bot.Handlers
             return val;
         }
 
-        private void ParseBlockLight(Chunk chunk, int sectionY)
+        private void ParseBlockLight(IChunk chunk, int sectionY)
         {
-            for (int y = 0; y < ChunkSection.Height; y++)
+            for (int y = 0; y < 16; y++)
             {
-                for (int z = 0; z < ChunkSection.Width; z++)
+                for (int z = 0; z < 16; z++)
                 {
-                    for (int x = 0; x < ChunkSection.Width; x += 2)
+                    for (int x = 0; x < 16; x += 2)
                     {
                         byte value = _packetReader.GetByte();
-                        _chunkService.SetBlockLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value & 0b1111));
-                        _chunkService.SetBlockLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value >> 4));
+                        BlockLocation firstLocation = new BlockLocation(chunk.Dimension, chunk.X * 16 + x, sectionY * 16 + y, chunk.Z * 16 + z);
+                        BlockLocation secondLocation = new BlockLocation(chunk.Dimension, chunk.X * 16 + x + 1, sectionY * 16 + y, chunk.Z * 16 + z);
+                        _chunkService.SetBlockLight(firstLocation, (byte)(value & 0b1111));
+                        _chunkService.SetBlockLight(secondLocation, (byte)(value >> 4));
                     }
                 }
             }
         }
 
-        private void ParseSkyLight(Chunk chunk, int sectionY)
+        private void ParseSkyLight(IChunk chunk, int sectionY)
         {
             if (chunk.Dimension != Dimension.Overworld)
                 return;
 
-            for (int y = 0; y < ChunkSection.Height; y++)
+            for (int y = 0; y < 16; y++)
             {
-                for (int z = 0; z < ChunkSection.Width; z++)
+                for (int z = 0; z < 16; z++)
                 {
-                    for (int x = 0; x < ChunkSection.Width; x += 2)
+                    for (int x = 0; x < 16; x += 2)
                     {
                         byte value = _packetReader.GetByte();
-                        _chunkService.SetSkyLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value & 0b1111));
-                        _chunkService.SetSkyLight(chunk, x, ChunkSection.Height * sectionY + y, z, (byte)(value >> 4));
+                        BlockLocation firstLocation = new BlockLocation(chunk.Dimension, chunk.X * 16 + x, sectionY * 16 + y, chunk.Z * 16 + z);
+                        BlockLocation secondLocation = new BlockLocation(chunk.Dimension, chunk.X * 16 + x + 1, sectionY * 16 + y, chunk.Z * 16 + z);
+                        _chunkService.SetSkyLight(firstLocation, (byte)(value & 0b1111));
+                        _chunkService.SetSkyLight(secondLocation, (byte)(value >> 4));
                     }
                 }
             }

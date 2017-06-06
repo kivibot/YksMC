@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Abstraction.Models;
 
-namespace YksMC.Abstraction.Services
+namespace YksMC.Bot.Chunk
 {
-    public interface IChunkService
+    public interface IChunkStorage
     {
-        IChunk GetChunk(Dimension dimension, int x, int z);
         IChunk CreateChunk(Dimension dimension, int x, int z);
+        IChunk GetChunk(Dimension dimension, int x, int z);
         IBlock GetBlock(BlockLocation location);
 
         void SetBlockType(BlockLocation location, IBlockType type);
