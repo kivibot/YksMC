@@ -7,6 +7,8 @@ using YksMC.Client;
 using YksMC.Client.Handler;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets.Login;
+using YksMC.Protocol.Packets.Play.Clientbound;
+using YksMC.Protocol.Packets.Play.Serverbound;
 
 namespace YksMC.Bot.Handlers
 {
@@ -41,6 +43,21 @@ namespace YksMC.Bot.Handlers
         {
             _logger.Information("Login successful! Username: {username}, UserId: {userId}", packet.Username, packet.UserId);
             _client.SetState(ConnectionState.Play);
+
+            //TODO: remove
+            _client.SendPacket(new ClientStatusPacket()
+            {
+                ActionId = 0
+            });
+            _client.SendPacket(new ClientSettingsPacket()
+            {
+                Locale = "en_GB",
+                ViewDistance = 32,
+                ChatMode = 0,
+                UseChatColors = false,
+                DisplayedSkinParts = 0b01111111,
+                MainHand = 1
+            });
         }
     }
 }

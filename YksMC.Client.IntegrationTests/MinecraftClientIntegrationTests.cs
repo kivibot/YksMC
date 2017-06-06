@@ -50,10 +50,13 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterGeneric(typeof(AutofacOwnedWrapper<>)).AsImplementedInterfaces();
             builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
-            builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces();
 
             builder.RegisterType<ChunkService>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<MemoryOptimizedChunkStorage>().AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces();
+            builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces();
+            builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
 
             _container = builder.Build();
         }
@@ -70,9 +73,9 @@ namespace YksMC.Client.IntegrationTests
             MinecraftClient client = _container.Resolve<MinecraftClient>();
 
             await client.ConnectAsync("localhost", 25565);
-
+            
+            client.SetState(ConnectionState.Login);
             client.SendHandshake(ConnectionState.Login);
-            client.SetState(ConnectionState.Play);
             client.SendLoginStartPacket("testibotti");
 
             await Task.Delay(100000);

@@ -8,9 +8,9 @@ namespace YksMC.Protocol.Models.Attributes
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class PacketAttribute : Attribute
     {
-        public int Id { get; set; }
-        public ConnectionState ConnectionState { get; set; }
-        public BoundTo BoundTo { get; set; }
+        public int Id { get; }
+        public ConnectionState ConnectionState { get; }
+        public BoundTo BoundTo { get; }
 
         public PacketAttribute(int id, ConnectionState connectionState, BoundTo boundTo)
         {
