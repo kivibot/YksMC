@@ -16,6 +16,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         public double Z { get; set; }
         public float Yaw { get; set; }
         public float Pitch { get; set; }
-        public bool IsOnGround { get; set; }
+        public byte Flags { get; set; }
+        public VarInt TeleportId { get; set; }
     }
 }

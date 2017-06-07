@@ -5,8 +5,9 @@ using YksMC.Abstraction.Models;
 
 namespace YksMC.Abstraction.Services
 {
-    public interface IBlockTypeService
+    public interface ITypeService
     {
         IBlockType GetBlockType(int blockId, byte blockMetadata);
+        IEntityType GetEntityType(byte typeId);
     }
 }

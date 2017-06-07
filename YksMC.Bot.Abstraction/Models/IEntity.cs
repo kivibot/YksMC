@@ -8,7 +8,7 @@ namespace YksMC.Abstraction.Models
     {
         int Id { get; }
         Guid UniqueId { get; }
-        byte Type { get; }
+        IEntityType Type { get; }
         Location Location { get; }
         Rotation Rotation { get; }
         int Data { get; }
