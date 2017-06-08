@@ -7,10 +7,10 @@ namespace YksMC.Abstraction.Services
 {
     public interface IEntityService
     {
-        IEntity CreateEntity(int entityId);
+        IPlayer CreatePlayer(int entityId, Dimension dimension, int gamemode);
+        IPlayer GetPlayer();
 
-        void SetLocation(int entityId, Location location);
-        void SetRotation(int entityId, Rotation rotation);
-        void SetVelocity(int entityId, Vector3<double> velocity);
+        void UpdatePlayerPosition(Vector3<double> position);
+        void UpdatePlayerLookDirection(LookDirection lookDirection);
     }
 }

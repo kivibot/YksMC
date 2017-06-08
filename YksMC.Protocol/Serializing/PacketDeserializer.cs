@@ -56,6 +56,8 @@ namespace YksMC.Protocol.Serializing
 
             foreach (PropertyInfo property in type.GetRuntimeProperties())
             {
+                if (!property.CanWrite)
+                    continue;
                 if (!CheckConditional(value, property))
                     continue;
 

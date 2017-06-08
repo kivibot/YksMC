@@ -15,6 +15,7 @@ using YksMC.Protocol.Models;
 using Moq;
 using YksMC.Protocol.Nbt;
 using YksMC.Protocol.Nbt.Models;
+using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Protocol.Tests.Serializing
 {
@@ -429,6 +430,17 @@ namespace YksMC.Protocol.Tests.Serializing
             GenericPacket<CompoundTag> result = deserializer.Deserialize<GenericPacket<CompoundTag>>(reader);
 
             Assert.AreEqual("test", result.Value.Name);
+        }
+
+        [Test]
+        public void Deserialize_WriteAndReadOnlyProperties_Works()
+        {
+            FakePacketReader reader = new FakePacketReader((byte)1);
+            PacketDeserializer deserializer = new PacketDeserializer(null);
+
+            GenericPacket<PlayerPositionLookPacketFlags> result = deserializer.Deserialize<GenericPacket<PlayerPositionLookPacketFlags>>(reader);
+
+            Assert.AreEqual(true, result.Value.RelativeX);
         }
 
     }
