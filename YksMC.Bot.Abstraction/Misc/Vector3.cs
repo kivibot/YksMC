@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Abstraction.Models
+namespace YksMC.Abstraction.Misc
 {
     public class Vector3<T>
     {

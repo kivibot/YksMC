@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Client.Injection;
 
-namespace YksMC.Client.Handler
+namespace YksMC.Client.EventBus
 {
     public class AutofacPacketHandlerFactory : IPacketHandlerFactory
     {
@@ -16,9 +16,9 @@ namespace YksMC.Client.Handler
             _context = context;
         }
 
-        public IOwned<IEnumerable<IPacketHandler<T>>> GetHandlers<T>()
+        public IOwned<IEnumerable<IEventHandler<T>>> GetHandlers<T>()
         {
-            return _context.Resolve<IOwned<IEnumerable<IPacketHandler<T>>>>();
+            return _context.Resolve<IOwned<IEnumerable<IEventHandler<T>>>>();
         }
     }
 }

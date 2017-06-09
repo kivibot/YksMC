@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Abstraction.Models
+namespace YksMC.Abstraction.Chunk
 {
     public interface IBlockType
     {
@@ -11,9 +11,9 @@ namespace YksMC.Abstraction.Models
         string Name { get; }
         double Hardness { get; }
         int StackSize { get; }
-        bool Diggable { get; }
+        bool IsDiggable { get; }
         BoundingBoxType BoundingBox { get; }
-        bool Transparent { get; }
+        bool IsTransparent { get; }
         int EmitLight { get; }
         int FilterLight { get; }
     }

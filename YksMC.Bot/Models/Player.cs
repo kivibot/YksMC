@@ -12,5 +12,6 @@ namespace YksMC.Bot.Models
         public int Gamemode { get; set; }
         public Vector3<double> Position { get; set; }
         public LookDirection LookDirection { get; set; }
+        public bool IsOnGround { get; set; }
     }
 }

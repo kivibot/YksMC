@@ -9,9 +9,9 @@ using YksMC.Client.Handler;
 using YksMC.Client.Injection;
 using YksMC.Protocol.Models;
 
-namespace YksMC.Client.Worker
+namespace YksMC.Client.EventBus
 {
-    public class EventDispatcher : IEventDispatcher
+    public class EventDispatcher : IEventBus
     {        
         private readonly IPacketHandlerFactory _handlerFactory;
         private readonly ILogger _logger;
@@ -22,20 +22,20 @@ namespace YksMC.Client.Worker
             _logger = logger.ForContext<EventDispatcher>();
         }
 
-        public async Task DispatchEventAsync(object packet)
+        public void DispatchEvent(object eventArgs)
         {
-            await HandleReceivedPacketAsync((dynamic)packet);
+            HandleEvent((dynamic)eventArgs);
         }
 
-        private async Task HandleReceivedPacketAsync<T>(T packet)
+        private void HandleEvent<T>(T eventArgs)
         {
-            using (IOwned<IEnumerable<IPacketHandler<T>>> handlers = _handlerFactory.GetHandlers<T>())
+            using (IOwned<IEnumerable<IEventHandler<T>>> handlers = _handlerFactory.GetHandlers<T>())
             {
-                foreach (IPacketHandler<T> handler in handlers.Value)
+                foreach (IEventHandler<T> handler in handlers.Value)
                 {
                     try
                     {
-                        await handler.HandleAsync(packet);
+                        handler.Handle(eventArgs);
                     }
                     catch (Exception ex)
                     {

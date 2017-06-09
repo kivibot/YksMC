@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YksMC.Client.Handler
+namespace YksMC.Client.EventBus
 {
-    public interface IPacketHandler<T>
+    public interface IEventHandler<T>
     {
-        Task HandleAsync(T packet);
+        void Handle(T args);
     }
 }

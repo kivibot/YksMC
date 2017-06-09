@@ -11,7 +11,7 @@ using YksMC.Protocol.Packets.Play.Serverbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class PlayerHandler : IPacketHandler<JoinGamePacket>, IPacketHandler<PlayerPositionLookPacket>
+    public class PlayerHandler : IEventHandler<JoinGamePacket>, IEventHandler<PlayerPositionLookPacket>
     {
         private readonly IEntityService _entityService;
         private readonly IMinecraftClient _client;

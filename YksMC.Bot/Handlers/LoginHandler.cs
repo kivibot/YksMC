@@ -12,7 +12,7 @@ using YksMC.Protocol.Packets.Play.Serverbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class LoginHandler : IPacketHandler<DisconnectPacket>, IPacketHandler<EncryptionRequestPacket>, IPacketHandler<SetCompressionPacket>, IPacketHandler<LoginSuccessPacket>
+    public class LoginHandler : IEventHandler<DisconnectPacket>, IEventHandler<EncryptionRequestPacket>, IEventHandler<SetCompressionPacket>, IEventHandler<LoginSuccessPacket>
     {
         private readonly IMinecraftClient _client;
         private readonly ILogger _logger;

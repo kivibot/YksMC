@@ -4,10 +4,10 @@ using System.Text;
 using YksMC.Client.Injection;
 using YksMC.Protocol.Packets;
 
-namespace YksMC.Client.Handler
+namespace YksMC.Client.EventBus
 {
     public interface IPacketHandlerFactory
     {
-        IOwned<IEnumerable<IPacketHandler<T>>> GetHandlers<T>();
+        IOwned<IEnumerable<IEventHandler<T>>> GetHandlers<T>();
     }
 }

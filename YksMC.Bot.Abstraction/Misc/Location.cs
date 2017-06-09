@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Abstraction.Models
+namespace YksMC.Abstraction.Misc
 {
-    public struct BlockLocation
+    public class Location
     {
         public Dimension Dimension { get; }
-        public int X { get; }
-        public int Y { get; }
-        public int Z { get; }
+        public double X { get; }
+        public double Y { get; }
+        public double Z { get; }
 
-        public BlockLocation(Dimension dimension, int x, int y, int z)
+        public Location(Dimension dimension, double x, double y, double z)
         {
             Dimension = dimension;
             X = x;

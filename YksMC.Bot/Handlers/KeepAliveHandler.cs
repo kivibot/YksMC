@@ -8,7 +8,7 @@ using YksMC.Protocol.Packets.Play.Common;
 
 namespace YksMC.Bot.Handlers
 {
-    public class KeepAliveHandler : IPacketHandler<KeepAlivePacket>
+    public class KeepAliveHandler : IEventHandler<KeepAlivePacket>
     {
         private IMinecraftClient _client;
 
