@@ -11,7 +11,6 @@ namespace YksMC.Bot.Chunk
         public Dimension Dimension { get; set; }
         public int X { get; set; }
         public int Z { get; set; }
-        public bool IsLoaded { get; set; }
 
         public Biome[] Biomes { get; set; }
         public IBlockType[] BlockTypes { get; set; }

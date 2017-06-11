@@ -16,10 +16,10 @@ namespace YksMC.Bot.Chunk
         private readonly int _diameter;
         private readonly Chunk[] _chunks;
 
-        public ChunkService(int diameter)
+        public ChunkService(ChunkServiceOptions options)
         {
-            _diameter = diameter;
-            _chunks = new Chunk[diameter];
+            _diameter = options.Diameter;
+            _chunks = new Chunk[_diameter * _diameter];
         }
 
         public IChunk CreateChunk(Dimension dimension, int x, int z)
@@ -34,13 +34,22 @@ namespace YksMC.Bot.Chunk
                 Dimension = dimension,
                 X = x,
                 Z = z,
-                IsLoaded = true,
                 Biomes = new Biome[_chunkArea],
-                BlockTypes = new IBlockType[_chunkArea],
-                BlockLightLevels = new byte[_chunkArea],
-                SkyLightLevels = new byte[_chunkArea]
+                BlockTypes = new IBlockType[_chunkVolume],
+                BlockLightLevels = new byte[_chunkVolume],
+                SkyLightLevels = new byte[_chunkVolume]
             };
             _chunks[chunkIndex] = chunk;
+            return chunk;
+        }
+        public IChunk GetChunk(Dimension dimension, int x, int z)
+        {
+            int chunkIndex = GetChunkIndex(x, z);
+            Chunk chunk = _chunks[chunkIndex];
+            if (_chunks[chunkIndex] == null)
+            {
+                return null;
+            }
             return chunk;
         }
 
@@ -67,7 +76,7 @@ namespace YksMC.Bot.Chunk
             BlockLocation location = new BlockLocation(dimension, x, 0, z);
             if (!TryGetChunk(location, out Chunk chunk))
             {
-                return;
+                throw new ArgumentException("Unloaded chunk.");
             }
             chunk.Biomes[GetBiomeIndex(location)] = biome;
         }
@@ -76,7 +85,7 @@ namespace YksMC.Bot.Chunk
         {
             if (!TryGetChunk(location, out Chunk chunk))
             {
-                return;
+                throw new ArgumentException("Unloaded chunk.");
             }
             int index = GetBlockIndex(location);
             chunk.BlockLightLevels[index] = lightLevel;
@@ -86,7 +95,7 @@ namespace YksMC.Bot.Chunk
         {
             if (!TryGetChunk(location, out Chunk chunk))
             {
-                return;
+                throw new ArgumentException("Unloaded chunk.");
             }
             int index = GetBlockIndex(location);
             chunk.BlockTypes[index] = type;
@@ -96,7 +105,7 @@ namespace YksMC.Bot.Chunk
         {
             if (!TryGetChunk(location, out Chunk chunk))
             {
-                return;
+                throw new ArgumentException("Unloaded chunk.");
             }
             int index = GetBlockIndex(location);
             chunk.SkyLightLevels[index] = lightLevel;
@@ -104,8 +113,8 @@ namespace YksMC.Bot.Chunk
 
         private bool TryGetChunk(BlockLocation location, out Chunk chunk)
         {
-            int x = location.X / _chunkWidth;
-            int z = location.Z / _chunkWidth;
+            int x = (int)Math.Floor(location.X / (float)_chunkWidth);
+            int z = (int)Math.Floor(location.Z / (float)_chunkWidth);
             int index = GetChunkIndex(x, z);
             chunk = _chunks[index];
             if (chunk == null)
@@ -117,24 +126,34 @@ namespace YksMC.Bot.Chunk
 
         private int GetBlockIndex(BlockLocation location)
         {
-            int x = location.X & 0b1111;
+            int x = Modulo(location.X, _chunkWidth);
             int y = location.Y;
-            int z = location.Z & 0b1111;
+            int z = Modulo(location.Z, _chunkWidth); ;
 
             return _chunkArea * y + _chunkWidth * z + x;
         }
 
         private int GetBiomeIndex(BlockLocation location)
         {
-            int x = location.X & 0b1111;
-            int z = location.Z & 0b1111;
+            int x = Modulo(location.X, _chunkWidth);
+            int z = Modulo(location.Z, _chunkWidth);
 
             return _chunkWidth * x + z;
         }
 
         private int GetChunkIndex(int x, int z)
         {
-            return x * _diameter + z;
+            return Modulo(x, _diameter) * _diameter + Modulo(z, _diameter);
+        }
+
+        private int Modulo(int a, int b)
+        {
+            int remainder = a % b;
+            if (remainder < 0)
+            {
+                return b + remainder;
+            }
+            return remainder;
         }
     }
 }

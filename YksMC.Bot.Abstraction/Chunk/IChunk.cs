@@ -10,6 +10,5 @@ namespace YksMC.Abstraction.Chunk
         Dimension Dimension { get; }
         int X { get; }
         int Z { get; }
-        bool IsLoaded { get; }
     }
 }

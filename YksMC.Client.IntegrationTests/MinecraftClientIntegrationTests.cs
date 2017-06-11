@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Bot.Bot;
+using YksMC.Bot.Chunk;
 using YksMC.Bot.Handlers;
 using YksMC.Bot.Services;
 using YksMC.Client.EventBus;
@@ -46,7 +47,7 @@ namespace YksMC.Client.IntegrationTests
             PacketTypeMapper typeMapper = new PacketTypeMapper();
             typeMapper.RegisterVanillaPackets();
             builder.RegisterInstance(typeMapper).AsImplementedInterfaces();
-            
+
             builder.RegisterGeneric(typeof(AutofacOwnedWrapper<>)).AsImplementedInterfaces();
             builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
@@ -54,10 +55,13 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces();
             builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
             builder.RegisterType<PlayerHandler>().AsImplementedInterfaces();
+            builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces();
 
             builder.RegisterType<EntityService>().AsImplementedInterfaces().SingleInstance();
-
+            builder.RegisterType<ChunkService>().AsImplementedInterfaces().SingleInstance().WithParameter("options", new ChunkServiceOptions() { Diameter = 32 * 2 + 1 });
+            builder.RegisterType<BlockTypeService>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<MinecraftBot>().AsImplementedInterfaces().SingleInstance();
+
 
             _container = builder.Build();
         }
@@ -74,7 +78,7 @@ namespace YksMC.Client.IntegrationTests
             MinecraftClient client = _container.Resolve<MinecraftClient>();
 
             await client.ConnectAsync("localhost", 25565);
-            
+
             client.SetState(ConnectionState.Login);
             client.SendHandshake(ConnectionState.Login);
             client.SendLoginStartPacket("testibotti");
