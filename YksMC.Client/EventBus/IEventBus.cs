@@ -8,8 +8,6 @@ namespace YksMC.Client.EventBus
 {
     public interface IEventBus
     {
-        void DispatchEventAsync(object message);
-
-        void PublishEvent(object message);
+        void DispatchEvent(object message);
     }
 }

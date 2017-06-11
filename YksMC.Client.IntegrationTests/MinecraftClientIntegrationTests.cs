@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Bot.Bot;
 using YksMC.Bot.Handlers;
 using YksMC.Bot.Services;
-using YksMC.Client.Handler;
+using YksMC.Client.EventBus;
 using YksMC.Client.Injection;
 using YksMC.Client.Mapper;
 using YksMC.Client.Models.Status;
@@ -53,7 +54,10 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces();
             builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
             builder.RegisterType<PlayerHandler>().AsImplementedInterfaces();
+
             builder.RegisterType<EntityService>().AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<MinecraftBot>().AsImplementedInterfaces().SingleInstance();
 
             _container = builder.Build();
         }

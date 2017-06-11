@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Abstraction.Models;
-using YksMC.Abstraction.Services;
+using YksMC.Abstraction.Bot;
+using YksMC.Abstraction.Misc;
+using YksMC.Abstraction.World;
 using YksMC.Client;
-using YksMC.Client.Handler;
+using YksMC.Client.EventBus;
 using YksMC.Protocol.Packets.Play.Clientbound;
 using YksMC.Protocol.Packets.Play.Serverbound;
 
@@ -15,22 +16,53 @@ namespace YksMC.Bot.Handlers
     {
         private readonly IEntityService _entityService;
         private readonly IMinecraftClient _client;
+        private readonly IMinecraftBot _bot;
 
-        public PlayerHandler(IEntityService entityService, IMinecraftClient client)
+        public PlayerHandler(IEntityService entityService, IMinecraftClient client, IMinecraftBot bot)
         {
             _entityService = entityService;
             _client = client;
+            _bot = bot;
         }
 
-        public async Task HandleAsync(JoinGamePacket packet)
+        public void Handle(JoinGamePacket packet)
         {
-            _entityService.CreatePlayer(packet.EntityId, (Dimension)packet.Dimension, packet.Gamemode);
+            //TODO: the dimension should not be casted from an int
+            IPlayer player = _entityService.CreatePlayer(packet.EntityId, _bot.UserId, (Dimension)packet.Dimension);
+            _bot.SetPlayer(player);
         }
 
-        public async Task HandleAsync(PlayerPositionLookPacket packet)
+        public void Handle(PlayerPositionLookPacket packet)
         {
-            IPlayer player = _entityService.GetPlayer();
+            UpdatePlayerPosition(packet);
+            UpdatePlayerLookDirection(packet);
 
+            _client.SendPacket(new TeleportConfirmPacket()
+            {
+                TeleportId = packet.TeleportId
+            });
+        }
+
+        private void UpdatePlayerLookDirection(PlayerPositionLookPacket packet)
+        {
+            IPlayer player = _bot.Player;
+            double yaw = packet.Yaw;
+            double pitch = packet.Pitch;
+            if (packet.Flags.RelativeYaw)
+            {
+                yaw += player.LookDirection.Yaw;
+            }
+            if (packet.Flags.RelativePitch)
+            {
+                pitch += player.LookDirection.Pitch;
+
+            }
+            _entityService.SetPlayerLookDirection(player.EntityId, new LookDirection(pitch, yaw));
+        }
+
+        private void UpdatePlayerPosition(PlayerPositionLookPacket packet)
+        {
+            IPlayer player = _bot.Player;
             double x = packet.X;
             double y = packet.FeetY;
             double z = packet.Z;
@@ -46,25 +78,7 @@ namespace YksMC.Bot.Handlers
             {
                 z += player.Position.Z;
             }
-            _entityService.UpdatePlayerPosition(new Vector3<double>(x, y, z));
-
-            double yaw = packet.Yaw;
-            double pitch = packet.Pitch;
-            if (packet.Flags.RelativeYaw)
-            {
-                yaw += player.LookDirection.Yaw;
-            }
-            if (packet.Flags.RelativePitch)
-            {
-                pitch += player.LookDirection.Pitch;
-
-            }
-            _entityService.UpdatePlayerLookDirection(new LookDirection(pitch, yaw));
-
-            _client.SendPacket(new TeleportConfirmPacket()
-            {
-                TeleportId = packet.TeleportId
-            });
+            _entityService.SetPlayerPosition(player.EntityId, new Vector3<double>(x, y, z));
         }
     }
 }

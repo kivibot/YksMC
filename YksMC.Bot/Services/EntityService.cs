@@ -1,56 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.Abstraction.Models;
-using YksMC.Abstraction.Services;
+using YksMC.Abstraction.Misc;
+using YksMC.Abstraction.World;
 using YksMC.Bot.Models;
 
 namespace YksMC.Bot.Services
 {
     public class EntityService : IEntityService
     {
-        private Player _player;
+        private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
-        public IPlayer CreatePlayer(int entityId, Dimension dimension, int gamemode)
+        public IPlayer CreatePlayer(int entityId, Guid uuid, Dimension dimension)
         {
-            if(_player != null)
-            {
-                throw new ArgumentException("The player already exists!");
-            }
-            _player = new Player()
+            Player player = new Player()
             {
                 EntityId = entityId,
+                UserId = uuid,
                 Dimension = dimension,
-                Gamemode = gamemode
+                Position = new Vector3<double>(0, 0, 0),
+                LookDirection = new LookDirection(0, 0),
+                IsOnGround = true
             };
-            return _player;
+
+            _players.Add(player.EntityId, player);
+            return player;
         }
 
-        public IPlayer GetPlayer()
+        public void SetPlayerLookDirection(int entityId, LookDirection lookDirection)
         {
-            if (_player == null)
-            {
-                throw new InvalidOperationException("The player has not been created!");
-            }
-            return _player;
+            Player player = _players[entityId];
+            player.LookDirection = lookDirection;
         }
 
-        public void UpdatePlayerLookDirection(LookDirection lookDirection)
+        public void SetPlayerPosition(int entityId, Vector3<double> position)
         {
-            if (_player == null)
-            {
-                throw new InvalidOperationException("The player has not been created!");
-            }
-            _player.LookDirection = lookDirection;
-        }
-
-        public void UpdatePlayerPosition(Vector3<double> position)
-        {
-            if (_player == null)
-            {
-                throw new InvalidOperationException("The player has not been created!");
-            }
-            _player.Position = position;
+            Player player = _players[entityId];
+            player.Position = position;
         }
     }
 }

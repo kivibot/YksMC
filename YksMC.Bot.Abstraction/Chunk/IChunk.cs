@@ -7,9 +7,9 @@ namespace YksMC.Abstraction.Chunk
 {
     public interface IChunk
     {
+        Dimension Dimension { get; }
         int X { get; }
         int Z { get; }
-        Dimension Dimension { get; }
         bool IsLoaded { get; }
     }
 }

@@ -16,6 +16,7 @@ using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Serializing;
 using YksMC.Protocol.Models;
+using YksMC.Client.EventBus;
 
 namespace YksMC.Client.Worker
 {
@@ -29,12 +30,12 @@ namespace YksMC.Client.Worker
         private readonly IPacketTypeMapper _typeMapper;
         private readonly MinecraftClientWorkerOptions _options;
         private readonly ILogger _logger;
-        private readonly IEventDispatcher _eventDispatcher;
+        private readonly IEventBus _eventBus;
 
         private IMinecraftConnection _connection;
         private ConnectionState _state;
 
-        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IEventDispatcher eventDispatcher)
+        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IEventBus eventBus)
         {
             _sendingQueue = new AsyncProducerConsumerQueue<object>();
             _serializer = serializer;
@@ -45,7 +46,7 @@ namespace YksMC.Client.Worker
             _options = options;
             _state = ConnectionState.None;
             _logger = logger.ForContext<MinecraftClientWorker>();
-            _eventDispatcher = eventDispatcher;
+            _eventBus = eventBus;
         }
 
         public void EnqueuePacket(object packet)
@@ -131,7 +132,7 @@ namespace YksMC.Client.Worker
                 _logger.Verbose("Packet didn't use all the bytes! Remaining: {count}", _packetReader.GetRemainingBytes());
 
             LogPacketReceived(packet);
-            await _eventDispatcher.DispatchEventAsync(packet);
+            _eventBus.DispatchEvent(packet);
         }
 
         private void LogPacketReceived(object packet)

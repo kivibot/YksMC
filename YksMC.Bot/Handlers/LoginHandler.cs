@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Abstraction.Bot;
 using YksMC.Client;
-using YksMC.Client.Handler;
+using YksMC.Client.EventBus;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Packets.Play.Clientbound;
@@ -16,33 +17,36 @@ namespace YksMC.Bot.Handlers
     {
         private readonly IMinecraftClient _client;
         private readonly ILogger _logger;
+        private readonly IMinecraftBot _bot;
 
-        public LoginHandler(IMinecraftClient client, ILogger logger)
+        public LoginHandler(IMinecraftClient client, ILogger logger, IMinecraftBot bot)
         {
             _client = client;
             _logger = logger.ForContext<LoginHandler>();
+            _bot = bot;
         }
 
-        public async Task HandleAsync(DisconnectPacket packet)
+        public async void Handle(DisconnectPacket packet)
         {
             _logger.Warning("Disconnected: {0}", packet.Reason);
             _client.Disconnect();
         }
 
-        public Task HandleAsync(EncryptionRequestPacket packet)
+        public void Handle(EncryptionRequestPacket packet)
         {
             throw new NotImplementedException();
         }
 
-        public Task HandleAsync(SetCompressionPacket packet)
+        public void Handle(SetCompressionPacket packet)
         {
             throw new NotImplementedException();
         }
 
-        public async Task HandleAsync(LoginSuccessPacket packet)
+        public void Handle(LoginSuccessPacket packet)
         {
             _logger.Information("Login successful! Username: {username}, UserId: {userId}", packet.Username, packet.UserId);
             _client.SetState(ConnectionState.Play);
+            _bot.SetUserInfo(Guid.Parse(packet.UserId), packet.Username);
 
             //TODO: remove
             _client.SendPacket(new ClientStatusPacket()
