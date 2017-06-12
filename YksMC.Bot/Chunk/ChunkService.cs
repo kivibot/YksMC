@@ -42,6 +42,7 @@ namespace YksMC.Bot.Chunk
             _chunks[chunkIndex] = chunk;
             return chunk;
         }
+
         public IChunk GetChunk(Dimension dimension, int x, int z)
         {
             int chunkIndex = GetChunkIndex(x, z);

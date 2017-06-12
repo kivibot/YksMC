@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Abstraction.Misc
+namespace YksMC.Bot.Models
 {
     public class Vector3<T>
     {
@@ -16,5 +16,7 @@ namespace YksMC.Abstraction.Misc
             Y = y;
             Z = z;
         }
+
+        public static readonly Vector3<T> Zero = new Vector3<T>(default(T), default(T), default(T));
     }
 }
