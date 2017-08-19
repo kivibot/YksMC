@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Protocol", "YksMC.Protocol\YksMC.Protocol.csproj", "{AF3D1402-34D2-4B1F-8263-22DC7D0401FE}"
 EndProject
@@ -15,17 +15,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Client.Tests", "YksMC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Client", "YksMC.Client\YksMC.Client.csproj", "{AF21F2E8-4376-4C65-A0E9-C64755AE70B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Protocol.Packets", "YksMC.Protocol.Packets\YksMC.Protocol.Packets.csproj", "{53F920CC-EAD3-4631-87B4-F1219EE8D05C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Protocol.Packets", "YksMC.Protocol.Packets\YksMC.Protocol.Packets.csproj", "{53F920CC-EAD3-4631-87B4-F1219EE8D05C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Bot", "YksMC.Bot\YksMC.Bot.csproj", "{84BA39F5-3837-409A-9343-8177DC7ACB20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Bot", "YksMC.Bot\YksMC.Bot.csproj", "{84BA39F5-3837-409A-9343-8177DC7ACB20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Protocol.Nbt", "YksMC.Protocol.Nbt\YksMC.Protocol.Nbt.csproj", "{7DFBAA62-5759-4D5C-98D5-7EC8977AF512}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Protocol.Nbt", "YksMC.Protocol.Nbt\YksMC.Protocol.Nbt.csproj", "{7DFBAA62-5759-4D5C-98D5-7EC8977AF512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Protocol.Nbt.Tests", "YksMC.Protocol.Nbt.Tests\YksMC.Protocol.Nbt.Tests.csproj", "{A4D40972-8E3E-4EEF-9A3C-CC9A4904FD0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Protocol.Nbt.Tests", "YksMC.Protocol.Nbt.Tests\YksMC.Protocol.Nbt.Tests.csproj", "{A4D40972-8E3E-4EEF-9A3C-CC9A4904FD0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Abstraction", "YksMC.Bot.Abstraction\YksMC.Abstraction.csproj", "{CC881279-209D-48D8-8261-13D9AFDA0E93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Bot.Tests", "YksMC.Bot.Tests\YksMC.Bot.Tests.csproj", "{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.Bot.Tests", "YksMC.Bot.Tests\YksMC.Bot.Tests.csproj", "{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Abstraction", "YksMC.Domain\YksMC.Abstraction.csproj", "{5EE5C191-31A7-4994-9D75-0383A68263C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.MinecraftModel", "YksMC.MineCraftModel\YksMC.MinecraftModel.csproj", "{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,14 +71,18 @@ Global
 		{A4D40972-8E3E-4EEF-9A3C-CC9A4904FD0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D40972-8E3E-4EEF-9A3C-CC9A4904FD0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D40972-8E3E-4EEF-9A3C-CC9A4904FD0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC881279-209D-48D8-8261-13D9AFDA0E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC881279-209D-48D8-8261-13D9AFDA0E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC881279-209D-48D8-8261-13D9AFDA0E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC881279-209D-48D8-8261-13D9AFDA0E93}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

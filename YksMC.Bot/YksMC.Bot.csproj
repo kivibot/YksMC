@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YksMC.Bot.Abstraction\YksMC.Abstraction.csproj" />
     <ProjectReference Include="..\YksMC.Client\YksMC.Client.csproj" />
+    <ProjectReference Include="..\YksMC.Domain\YksMC.Abstraction.csproj" />
     <ProjectReference Include="..\YksMC.Protocol.Packets\YksMC.Protocol.Packets.csproj" />
     <ProjectReference Include="..\YksMC.Protocol\YksMC.Protocol.csproj" />
   </ItemGroup>

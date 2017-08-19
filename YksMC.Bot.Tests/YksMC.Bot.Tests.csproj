@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YksMC.Bot.Abstraction\YksMC.Abstraction.csproj" />
     <ProjectReference Include="..\YksMC.Bot\YksMC.Bot.csproj" />
   </ItemGroup>
 
