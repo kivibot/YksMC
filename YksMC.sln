@@ -25,8 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Protocol.Nbt.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Bot.Tests", "YksMC.Bot.Tests\YksMC.Bot.Tests.csproj", "{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YksMC.Abstraction", "YksMC.Domain\YksMC.Abstraction.csproj", "{5EE5C191-31A7-4994-9D75-0383A68263C4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YksMC.MinecraftModel", "YksMC.MineCraftModel\YksMC.MinecraftModel.csproj", "{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}"
 EndProject
 Global
@@ -75,10 +73,6 @@ Global
 		{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93744E4A-B7D4-44DB-8144-F5BF9B72FF0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5EE5C191-31A7-4994-9D75-0383A68263C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F3ED56A-ED53-40D8-BDF1-64DD0D403F79}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Abstraction.Chunk.Models;
-using YksMC.Abstraction.Chunk.Services;
-using YksMC.Abstraction.World.Models;
 using YksMC.Client.EventBus;
+using YksMC.MinecraftModel.Chunk;
+using YksMC.MinecraftModel.World;
 using YksMC.Protocol;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
@@ -19,19 +18,13 @@ namespace YksMC.Bot.Handlers
         private const int _chunkSectionHeight = 16;
         private const int _chunkSections = 32;
         private const int _chunkSectionVolume = _chunkWidth * _chunkWidth * _chunkSectionHeight;
-        private readonly LightLevel _defaultSkylightLevel = 0;
-
         private readonly IPacketReader _packetReader;
-        private readonly IChunkService _chunkService;
-        private readonly IMinecraftBot _bot;
-        private readonly IBlockTypeService _blockTypeService;
 
-        public ChunkDataHandler(IPacketReader reader, IChunkService chunkService, IMinecraftBot bot, IBlockTypeService typeService)
+        private readonly IWorld _world;
+
+        public ChunkDataHandler(IPacketReader reader)
         {
             _packetReader = reader;
-            _chunkService = chunkService;
-            _bot = bot;
-            _blockTypeService = typeService;
         }
 
         public void Handle(ChunkDataPacket packet)

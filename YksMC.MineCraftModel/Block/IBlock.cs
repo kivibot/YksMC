@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.Biome;
+using YksMC.MinecraftModel.BlockType;
 
 namespace YksMC.MinecraftModel.Block
 {
@@ -11,8 +13,8 @@ namespace YksMC.MinecraftModel.Block
         ILightLevel SkylightLevel { get; }
         IBiome Biome { get; }
 
-        IBlock ChangeLightLevels(LightLevel lightLevel, LightLevel skylightLevel);
-        IBlock ChangeType(BlockType type);
-        IBlock ChangeBiome(Biome biome);
+        IBlock ChangeLightLevels(ILightLevel lightLevel, ILightLevel skylightLevel);
+        IBlock ChangeType(IBlockType type);
+        IBlock ChangeBiome(IBiome biome);
     }
 }

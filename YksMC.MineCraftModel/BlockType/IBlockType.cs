@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MinecraftModel.Block
+namespace YksMC.MinecraftModel.BlockType
 {
     public interface IBlockType
     {
+        string Name { get; }
     }
 }
