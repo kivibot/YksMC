@@ -7,8 +7,8 @@ namespace YksMC.MinecraftModel.Chunk
 {
     public interface IChunk
     {
-        IBlock GetBlock(BlockCoordinate position);
+        IBlock GetBlock(IBlockCoordinate position);
 
-        IChunk ChangeBlock(BlockCoordinate coordinate, IBlock block);
+        IChunk ChangeBlock(IBlockCoordinate coordinate, IBlock block);
     }
 }

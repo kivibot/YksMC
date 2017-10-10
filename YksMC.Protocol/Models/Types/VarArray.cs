@@ -30,5 +30,13 @@ namespace YksMC.Protocol.Models.Types
                 Values = values
             };
         }
+
+        public TVal this[int index]
+        {
+            get
+            {
+                return Values[index];
+            }
+        }
     }
 }

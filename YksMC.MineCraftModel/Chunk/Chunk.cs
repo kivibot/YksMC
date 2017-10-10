@@ -21,7 +21,7 @@ namespace YksMC.MinecraftModel.Chunk
             _sections = sections;
         }
 
-        public IChunk ChangeBlock(BlockCoordinate position, IBlock block)
+        public IChunk ChangeBlock(IBlockCoordinate position, IBlock block)
         {
             ChunkSection[] sections = (ChunkSection[])_sections.Clone();
             int sectionY = position.Y / ChunkSection.Height;
@@ -29,13 +29,13 @@ namespace YksMC.MinecraftModel.Chunk
             return new Chunk(sections);
         }
 
-        public IBlock GetBlock(BlockCoordinate position)
+        public IBlock GetBlock(IBlockCoordinate position)
         {
             ChunkSection section = GetSection(position);
             return section.GetBlock(position);
         }
 
-        private ChunkSection GetSection(BlockCoordinate position)
+        private ChunkSection GetSection(IBlockCoordinate position)
         {
             return _sections[position.Y / ChunkSection.Height];
         }
