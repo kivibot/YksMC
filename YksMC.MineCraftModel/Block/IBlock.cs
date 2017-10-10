@@ -14,6 +14,7 @@ namespace YksMC.MinecraftModel.Block
         IBiome Biome { get; }
 
         IBlock ChangeLightLevels(ILightLevel lightLevel, ILightLevel skylightLevel);
+        IBlock ChangeLightLevel(ILightLevel lightLevel);
         IBlock ChangeType(IBlockType type);
         IBlock ChangeBiome(IBiome biome);
     }
