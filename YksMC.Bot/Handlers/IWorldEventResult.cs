@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MinecraftModel.World;
+using YksMC.MinecraftModel.Dimension;
 
 namespace YksMC.Bot.Handlers
 {
     public interface IWorldEventResult
     {
-        IWorld World { get; }
+        IDimension World { get; }
         IReadOnlyList<object> ServerBoundPackets { get; }
     }
 }

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MinecraftModel.World
+namespace YksMC.MinecraftModel.Dimension
 {
-    public class Dimension : IDimension
+    public class DimensionType : IDimensionType
     {
         private readonly bool _hasSkylight;
 
         public bool HasSkylight => _hasSkylight;
 
-        public Dimension(bool hasSkylight)
+        public DimensionType(bool hasSkylight)
         {
             _hasSkylight = hasSkylight;
         }

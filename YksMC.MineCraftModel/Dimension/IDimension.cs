@@ -6,19 +6,19 @@ using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.Player;
 
-namespace YksMC.MinecraftModel.World
+namespace YksMC.MinecraftModel.Dimension
 {
-    public interface IWorld
+    public interface IDimension
     {
-        IDimension Dimension { get; }
+        IDimensionType Type { get; }
 
         IChunk GetChunk(IChunkCoordinate position);
-        IWorld ChangeChunk(IChunkCoordinate position, IChunk chunk);
+        IDimension ChangeChunk(IChunkCoordinate position, IChunk chunk);
 
         IEntity GetEntity(int id);
-        IWorld ChangeEntity(IEntity entity);
+        IDimension ChangeEntity(IEntity entity);
 
-        IWorld ReplacePlayer(IPlayer player);
+        IDimension ReplacePlayer(IPlayer player);
         IEnumerable<IPlayer> GetPlayers();
     }
 }

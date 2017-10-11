@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MinecraftModel.World
+namespace YksMC.MinecraftModel.Dimension
 {
-    public interface IDimension
+    public interface IDimensionType
     {
         bool HasSkylight { get; }
     }

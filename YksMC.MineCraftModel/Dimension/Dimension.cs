@@ -6,37 +6,37 @@ using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.Player;
 
-namespace YksMC.MinecraftModel.World
+namespace YksMC.MinecraftModel.Dimension
 {
-    public class World : IWorld
+    public class Dimension : IDimension
     {
-        private readonly IDimension _dimension;
+        private readonly IDimensionType _type;
         private readonly IChunk _emptyChunk;
         private readonly IReadOnlyDictionary<IChunkCoordinate, IChunk> _chunks;
         private readonly IReadOnlyDictionary<int, IEntity> _entities;
         private readonly IReadOnlyDictionary<Guid, IPlayer> _players;
 
-        public IDimension Dimension => _dimension;
+        public IDimensionType Type => _type;
 
-        public World(IDimension dimension, IChunk emptyChunk)
-            : this(dimension, emptyChunk, new Dictionary<IChunkCoordinate, IChunk>(), new Dictionary<int, IEntity>(), new Dictionary<Guid, IPlayer>())
+        public Dimension(IDimensionType type, IChunk emptyChunk)
+            : this(type, emptyChunk, new Dictionary<IChunkCoordinate, IChunk>(), new Dictionary<int, IEntity>(), new Dictionary<Guid, IPlayer>())
         {
         }
 
-        public World(IDimension dimension, IChunk emptyChunk, IReadOnlyDictionary<IChunkCoordinate, IChunk> chunks, IReadOnlyDictionary<int, IEntity> entities, IReadOnlyDictionary<Guid, IPlayer> players)
+        public Dimension(IDimensionType type, IChunk emptyChunk, IReadOnlyDictionary<IChunkCoordinate, IChunk> chunks, IReadOnlyDictionary<int, IEntity> entities, IReadOnlyDictionary<Guid, IPlayer> players)
         {
-            _dimension = dimension;
+            _type = type;
             _emptyChunk = emptyChunk;
             _chunks = chunks;
             _entities = entities;
             _players = players;
         }
 
-        public IWorld ChangeChunk(IChunkCoordinate position, IChunk chunk)
+        public IDimension ChangeChunk(IChunkCoordinate position, IChunk chunk)
         {
             Dictionary<IChunkCoordinate, IChunk> chunks = _chunks.ToDictionary(e => e.Key, e => e.Value);
             chunks[position] = chunk;
-            return new World(_dimension, _emptyChunk, chunks, _entities, _players);
+            return new Dimension(_type, _emptyChunk, chunks, _entities, _players);
         }
 
         public IChunk GetChunk(IChunkCoordinate position)
@@ -53,23 +53,23 @@ namespace YksMC.MinecraftModel.World
             return _entities[id];
         }
 
-        public IWorld ChangeEntity(IEntity entity)
+        public IDimension ChangeEntity(IEntity entity)
         {
             Dictionary<int, IEntity> entities = _entities.ToDictionary(e => e.Key, e => e.Value);
             entities[entity.Id] = entity;
-            return new World(_dimension, _emptyChunk, _chunks, entities, _players);
+            return new Dimension(_type, _emptyChunk, _chunks, entities, _players);
         }
 
-        public IWorld ReplacePlayer(IPlayer player)
+        public IDimension ReplacePlayer(IPlayer player)
         {
             Dictionary<Guid, IPlayer> players = _players.ToDictionary(e => e.Key, e => e.Value);
             players[player.Id] = player;
-            return new World(_dimension, _emptyChunk, _chunks, _entities, players);
+            return new Dimension(_type, _emptyChunk, _chunks, _entities, players);
         }
 
         public IEnumerable<IPlayer> GetPlayers()
         {
-            return _players.Values.ToList();
+            return _players.Values;
         }
     }
 }

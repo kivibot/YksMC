@@ -19,7 +19,7 @@ using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
-using YksMC.MinecraftModel.World;
+using YksMC.MinecraftModel.Dimension;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
@@ -69,8 +69,8 @@ namespace YksMC.Client.IntegrationTests
 
             IBlock emptyBlock = new Block(new BlockType("air"), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
-            IWorld world = new MinecraftModel.World.World(new Dimension(true), emptyChunk);
-            builder.RegisterInstance(world);
+            IDimension dimension = new MinecraftModel.Dimension.Dimension(new DimensionType(true), emptyChunk);
+            builder.RegisterInstance(dimension);
 
             _container = builder.Build();
         }

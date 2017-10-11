@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using YksMC.Client;
 using YksMC.Client.EventBus;
 using YksMC.MinecraftModel.Player;
-using YksMC.MinecraftModel.World;
+using YksMC.MinecraftModel.Dimension;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Packets.Play.Clientbound;
@@ -41,7 +41,7 @@ namespace YksMC.Bot.Handlers
             throw new NotImplementedException();
         }
 
-        public IWorld ApplyEvent(LoginSuccessPacket packet, IWorld world)
+        public IDimension ApplyEvent(LoginSuccessPacket packet, IDimension dimension)
         {
             _logger.Information("Login successful! Username: {username}, UserId: {userId}", packet.Username, packet.UserId);
             _client.SetState(ConnectionState.Play);
@@ -62,7 +62,7 @@ namespace YksMC.Bot.Handlers
             });
 
             IPlayer player = new Player(Guid.Parse(packet.UserId), packet.Username);
-            return world.ReplacePlayer(player);
+            return dimension.ReplacePlayer(player);
         }
     }
 }

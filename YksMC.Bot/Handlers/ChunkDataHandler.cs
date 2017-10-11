@@ -5,7 +5,7 @@ using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
-using YksMC.MinecraftModel.World;
+using YksMC.MinecraftModel.Dimension;
 using YksMC.Protocol;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
@@ -28,19 +28,19 @@ namespace YksMC.Bot.Handlers
             _biomeRepository = biomeRepository;
         }
 
-        public IWorld ApplyEvent(ChunkDataPacket packet, IWorld world)
+        public IDimension ApplyEvent(ChunkDataPacket packet, IDimension dimension)
         {
             _reader.SetPacket(packet.DataAndBiomes.Values);
 
             IChunkCoordinate position = new ChunkCoordinate(packet.ChunkX, packet.ChunkZ);
-            IChunk chunk = world.GetChunk(position);
+            IChunk chunk = dimension.GetChunk(position);
 
-            chunk = ParseChunk(packet, chunk, world.Dimension);
+            chunk = ParseChunk(packet, chunk, dimension.Type);
 
-            return world.ChangeChunk(position, chunk);
+            return dimension.ChangeChunk(position, chunk);
         }
 
-        private IChunk ParseChunk(ChunkDataPacket packet, IChunk chunk, IDimension dimension)
+        private IChunk ParseChunk(ChunkDataPacket packet, IChunk chunk, IDimensionType dimensionType)
         {
             for (int sectionY = 0; sectionY < _primaryBitMaskBits; sectionY++)
             {
@@ -49,17 +49,17 @@ namespace YksMC.Bot.Handlers
                 {
                     continue;
                 }
-                chunk = ParseChunkSection(packet, chunk, sectionY, dimension);
+                chunk = ParseChunkSection(packet, chunk, sectionY, dimensionType);
             }
             return chunk;
         }
 
-        private IChunk ParseChunkSection(ChunkDataPacket packet, IChunk chunk, int sectionY, IDimension dimension)
+        private IChunk ParseChunkSection(ChunkDataPacket packet, IChunk chunk, int sectionY, IDimensionType dimensionType)
         {
             byte bitsPerBlock = GetBitsPerBlock();
             int[] typePalette = GetBlockTypePalette();
             ulong[] typeData = GetBlockTypeData();
-            byte[] lightData = GetLightData(dimension);
+            byte[] lightData = GetLightData(dimensionType);
 
             for (int localY = 0; localY < _sectionHeight; localY++)
             {
@@ -71,7 +71,7 @@ namespace YksMC.Bot.Handlers
                         IBlock block = chunk.GetBlock(position);
 
                         block = ParseType(block, position, bitsPerBlock, typePalette, typeData);
-                        block = ParseLightLevels(block, position, lightData, dimension);
+                        block = ParseLightLevels(block, position, lightData, dimensionType);
                         if (packet.GroundUpContinuous)
                         {
                             block = ParseBiome(packet, block, position);
@@ -113,10 +113,10 @@ namespace YksMC.Bot.Handlers
             return data;
         }
 
-        private byte[] GetLightData(IDimension dimension)
+        private byte[] GetLightData(IDimensionType dimensionType)
         {
             int bytes = _sectionHeight * _sectionWidth * _sectionWidth;
-            if (!dimension.HasSkylight)
+            if (!dimensionType.HasSkylight)
             {
                 bytes /= 2;
             }
@@ -156,13 +156,13 @@ namespace YksMC.Bot.Handlers
             return block.ChangeType(type);
         }
 
-        private IBlock ParseLightLevels(IBlock block, IBlockCoordinate position, byte[] lightData, IDimension dimension)
+        private IBlock ParseLightLevels(IBlock block, IBlockCoordinate position, byte[] lightData, IDimensionType dimensionType)
         {
             int lightIndex = ((position.Y * _sectionHeight) + position.Z) * _sectionWidth + position.X;
             int lightBitOffset = 4 * (lightIndex % 2);
             int lightLevel = (lightData[lightIndex / 2] >> lightBitOffset) & 0b1111;
 
-            if (!dimension.HasSkylight)
+            if (!dimensionType.HasSkylight)
             {
                 return block.ChangeLightLevel(new LightLevel(lightLevel));
             }
