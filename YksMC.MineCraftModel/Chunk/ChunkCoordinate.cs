@@ -17,5 +17,20 @@ namespace YksMC.MinecraftModel.Chunk
             _x = x;
             _z = z;
         }
+
+        public override bool Equals(object obj)
+        {
+            IChunkCoordinate other = obj as IChunkCoordinate;
+            if(other == null)
+            {
+                return false;
+            }
+            return other.X == _x && other.Z == _z;
+        }
+
+        public override int GetHashCode()
+        {
+            return 71 * (71 * (7 + _x) + _z);
+        }
     }
 }
