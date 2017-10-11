@@ -1,0 +1,162 @@
+﻿[
+    {
+        "Id": 0,
+        "Name": "Ocean"
+    },
+    {
+        "Id": 1,
+        "Name": "Plains"
+    },
+    {
+        "Id": 2,
+        "Name": "Desert"
+    },
+    {
+        "Id": 3,
+        "Name": "Extreme Hills"
+    },
+    {
+        "Id": 4,
+        "Name": "Forest"
+    },
+    {
+        "Id": 5,
+        "Name": "Taiga"
+    },
+    {
+        "Id": 6,
+        "Name": "Swampland"
+    },
+    {
+        "Id": 7,
+        "Name": "River"
+    },
+    {
+        "Id": 8,
+        "Name": "Hell"
+    },
+    {
+        "Id": 9,
+        "Name": "The End"
+    },
+    {
+        "Id": 10,
+        "Name": "FrozenOcean"
+    },
+    {
+        "Id": 11,
+        "Name": "FrozenRiver"
+    },
+    {
+        "Id": 12,
+        "Name": "Ice Plains"
+    },
+    {
+        "Id": 13,
+        "Name": "Ice Mountains"
+    },
+    {
+        "Id": 14,
+        "Name": "MushroomIsland"
+    },
+    {
+        "Id": 15,
+        "Name": "MushroomIslandShore"
+    },
+    {
+        "Id": 16,
+        "Name": "Beach"
+    },
+    {
+        "Id": 17,
+        "Name": "DesertHills"
+    },
+    {
+        "Id": 18,
+        "Name": "ForestHills"
+    },
+    {
+        "Id": 19,
+        "Name": "TaigaHills"
+    },
+    {
+        "Id": 20,
+        "Name": "Extreme Hills Edge"
+    },
+    {
+        "Id": 21,
+        "Name": "Jungle"
+    },
+    {
+        "Id": 22,
+        "Name": "JungleHills"
+    },
+    {
+        "Id": 23,
+        "Name": "JungleEdge"
+    },
+    {
+        "Id": 24,
+        "Name": "Deep Ocean"
+    },
+    {
+        "Id": 25,
+        "Name": "Stone Beach"
+    },
+    {
+        "Id": 26,
+        "Name": "Cold Beach"
+    },
+    {
+        "Id": 27,
+        "Name": "Birch Forest"
+    },
+    {
+        "Id": 28,
+        "Name": "Birch Forest Hills"
+    },
+    {
+        "Id": 29,
+        "Name": "Roofed Forest"
+    },
+    {
+        "Id": 30,
+        "Name": "Cold Taiga"
+    },
+    {
+        "Id": 31,
+        "Name": "Cold Taiga Hills"
+    },
+    {
+        "Id": 32,
+        "Name": "Mega Taiga"
+    },
+    {
+        "Id": 33,
+        "Name": "Mega Taiga Hills"
+    },
+    {
+        "Id": 34,
+        "Name": "Extreme Hills+"
+    },
+    {
+        "Id": 35,
+        "Name": "Savanna"
+    },
+    {
+        "Id": 36,
+        "Name": "Savanna Plateau"
+    },
+    {
+        "Id": 37,
+        "Name": "Mesa"
+    },
+    {
+        "Id": 38,
+        "Name": "Mesa Plateau F"
+    },
+    {
+        "Id": 39,
+        "Name": "Redwood Taiga Hills M"
+    }
+]

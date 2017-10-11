@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Abstraction.Bot;
 using YksMC.Client;
 using YksMC.Client.EventBus;
 using YksMC.Protocol.Models.Constants;
@@ -17,13 +16,11 @@ namespace YksMC.Bot.Handlers
     {
         private readonly IMinecraftClient _client;
         private readonly ILogger _logger;
-        private readonly IMinecraftBot _bot;
 
-        public LoginHandler(IMinecraftClient client, ILogger logger, IMinecraftBot bot)
+        public LoginHandler(IMinecraftClient client, ILogger logger)
         {
             _client = client;
             _logger = logger.ForContext<LoginHandler>();
-            _bot = bot;
         }
 
         public async void Handle(DisconnectPacket packet)
@@ -46,7 +43,6 @@ namespace YksMC.Bot.Handlers
         {
             _logger.Information("Login successful! Username: {username}, UserId: {userId}", packet.Username, packet.UserId);
             _client.SetState(ConnectionState.Play);
-            _bot.SetUserInfo(Guid.Parse(packet.UserId), packet.Username);
 
             //TODO: remove
             _client.SendPacket(new ClientStatusPacket()

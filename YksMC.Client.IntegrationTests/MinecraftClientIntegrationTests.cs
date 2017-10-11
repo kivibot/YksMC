@@ -6,15 +6,19 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Bot.Bot;
-using YksMC.Bot.Chunk;
 using YksMC.Bot.Handlers;
-using YksMC.Bot.Services;
 using YksMC.Client.EventBus;
 using YksMC.Client.Injection;
 using YksMC.Client.Mapper;
 using YksMC.Client.Models.Status;
 using YksMC.Client.Worker;
+using YksMC.Data.Json.Biome;
+using YksMC.Data.Json.BlockType;
+using YksMC.MinecraftModel.Biome;
+using YksMC.MinecraftModel.Block;
+using YksMC.MinecraftModel.BlockType;
+using YksMC.MinecraftModel.Chunk;
+using YksMC.MinecraftModel.World;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
@@ -54,14 +58,16 @@ namespace YksMC.Client.IntegrationTests
 
             builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces();
             builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
-            builder.RegisterType<PlayerHandler>().AsImplementedInterfaces();
-            builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces();
+            builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<WorldEventHandlerWrapper>().AsImplementedInterfaces().SingleInstance();
 
-            builder.RegisterType<EntityService>().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<ChunkService>().AsImplementedInterfaces().SingleInstance().WithParameter("options", new ChunkServiceOptions() { Diameter = 32 * 2 + 1 });
-            builder.RegisterType<BlockTypeService>().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<MinecraftBot>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();
 
+            IBlock emptyBlock = new Block(new BlockType("air"), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IChunk emptyChunk = new Chunk(emptyBlock);
+            IWorld world = new MinecraftModel.World.World(new Dimension(true), emptyChunk);
+            builder.RegisterInstance(world);
 
             _container = builder.Build();
         }

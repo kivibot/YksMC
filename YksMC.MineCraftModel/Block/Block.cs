@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.BlockType;
 
 namespace YksMC.MinecraftModel.Block
 {
+    [DebuggerDisplay("{Type.Name}")]
     public class Block : IBlock
     {
         private readonly IBlockType _type;
@@ -39,6 +41,11 @@ namespace YksMC.MinecraftModel.Block
         public IBlock ChangeBiome(IBiome biome)
         {
             return new Block(_type, _lightLevel, _skylightLevel, biome);
+        }
+
+        public IBlock ChangeLightLevel(ILightLevel lightLevel)
+        {
+            return new Block(_type, lightLevel, _skylightLevel, _biome);
         }
     }
 }
