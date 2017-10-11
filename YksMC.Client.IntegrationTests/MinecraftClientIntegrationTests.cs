@@ -14,6 +14,7 @@ using YksMC.Client.Models.Status;
 using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
 using YksMC.Data.Json.BlockType;
+using YksMC.Data.Json.EntityType;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
@@ -57,12 +58,14 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
 
             builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces();
-            builder.RegisterType<LoginHandler>().AsImplementedInterfaces();
+            builder.RegisterType<LoginHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<PlayerHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<WorldEventHandlerWrapper>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<JsonEntityTypeRepository>().AsImplementedInterfaces().SingleInstance();
 
             IBlock emptyBlock = new Block(new BlockType("air"), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);

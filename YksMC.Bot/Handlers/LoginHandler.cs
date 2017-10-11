@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using YksMC.Client;
 using YksMC.Client.EventBus;
+using YksMC.MinecraftModel.Player;
+using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Packets.Play.Clientbound;
@@ -12,7 +14,7 @@ using YksMC.Protocol.Packets.Play.Serverbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class LoginHandler : IEventHandler<DisconnectPacket>, IEventHandler<EncryptionRequestPacket>, IEventHandler<SetCompressionPacket>, IEventHandler<LoginSuccessPacket>
+    public class LoginHandler : IEventHandler<DisconnectPacket>, IEventHandler<EncryptionRequestPacket>, IEventHandler<SetCompressionPacket>, IWorldEventHandler<LoginSuccessPacket>
     {
         private readonly IMinecraftClient _client;
         private readonly ILogger _logger;
@@ -39,7 +41,7 @@ namespace YksMC.Bot.Handlers
             throw new NotImplementedException();
         }
 
-        public void Handle(LoginSuccessPacket packet)
+        public IWorld ApplyEvent(LoginSuccessPacket packet, IWorld world)
         {
             _logger.Information("Login successful! Username: {username}, UserId: {userId}", packet.Username, packet.UserId);
             _client.SetState(ConnectionState.Play);
@@ -58,6 +60,9 @@ namespace YksMC.Bot.Handlers
                 DisplayedSkinParts = 0b01111111,
                 MainHand = 1
             });
+
+            IPlayer player = new Player(Guid.Parse(packet.UserId), packet.Username);
+            return world.ReplacePlayer(player);
         }
     }
 }
