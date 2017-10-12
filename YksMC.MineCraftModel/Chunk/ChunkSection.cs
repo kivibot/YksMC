@@ -42,18 +42,27 @@ namespace YksMC.MinecraftModel.Chunk
 
         public IBlock GetBlock(IBlockCoordinate position)
         {
-            return _blocks[position.X][position.Y % Height][position.Z];
+            return _blocks[Mod(position.X, Chunk.Width)][Mod(position.Y, Chunk.Height)][Mod(position.Z, Chunk.Width)];
         }
 
         public ChunkSection ChangeBlock(IBlockCoordinate position, IBlock block)
         {
+            int localX = Mod(position.X, Chunk.Width);
+            int localY = Mod(position.Y, Chunk.Height);
+            int localZ = Mod(position.Z, Chunk.Width);
             IBlock[][][] blocks = (IBlock[][][])_blocks.Clone();
-            IBlock[][] slice = (IBlock[][])_blocks[position.X].Clone();
-            IBlock[] column = (IBlock[])_blocks[position.X][position.Y].Clone();
-            column[position.Z % Width] = block;
-            slice[position.Y % Height] = column;
-            blocks[position.X % Width] = slice;
+            IBlock[][] slice = (IBlock[][])_blocks[localZ].Clone();
+            IBlock[] column = (IBlock[])_blocks[localZ][localY].Clone();
+            column[localX] = block;
+            slice[localY] = column;
+            blocks[localZ] = slice;
             return new ChunkSection(blocks);
+        }
+
+        [Obsolete("Use a library implemention instead")]
+        private int Mod(int x, int m)
+        {
+            return (x % m + m) % m;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.Block;
 
 namespace YksMC.MinecraftModel.Chunk
 {
@@ -16,6 +17,12 @@ namespace YksMC.MinecraftModel.Chunk
         {
             _x = x;
             _z = z;
+        }
+
+        public ChunkCoordinate(IBlockCoordinate blockPosition)
+        {
+            _x = (int)Math.Floor(blockPosition.X / (double)Chunk.Width);
+            _z = (int)Math.Floor(blockPosition.Z / (double)Chunk.Width);
         }
 
         public override bool Equals(object obj)

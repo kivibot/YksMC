@@ -155,7 +155,7 @@ namespace YksMC.Bot.Handlers
 
             int metadata = paletteValue & 0b1111;
             int typeId = paletteValue >> 4;
-            IBlockType type = _blockTypeRepository.GetType(new BlockTypeIdentity(typeId, metadata));
+            IBlockType type = _blockTypeRepository.GetBlockType(new BlockTypeIdentity(typeId, metadata));
             return block.ChangeType(type);
         }
 

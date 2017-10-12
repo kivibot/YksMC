@@ -17,7 +17,7 @@ namespace YksMC.Data.Json.BlockType
                 .ToDictionary(bt => bt.Id, bt => (IBlockType)new MinecraftModel.BlockType.BlockType(bt.Name));
         }
 
-        public IBlockType GetType(IBlockTypeIdentity identity)
+        public IBlockType GetBlockType(IBlockTypeIdentity identity)
         {
             return _blockTypes[identity.Id];
         }

@@ -6,6 +6,6 @@ namespace YksMC.MinecraftModel.BlockType
 {
     public interface IBlockTypeRepository
     {
-        IBlockType GetType(IBlockTypeIdentity identity);
+        IBlockType GetBlockType(IBlockTypeIdentity identity);
     }
 }

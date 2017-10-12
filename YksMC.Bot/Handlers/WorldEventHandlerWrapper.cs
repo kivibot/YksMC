@@ -9,20 +9,22 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class WorldEventHandlerWrapper : IEventHandler<ChunkDataPacket>, IEventHandler<JoinGamePacket>, IEventHandler<PlayerPositionLookPacket>, IEventHandler<LoginSuccessPacket>, IEventHandler<TimeUpdatePacket>
+    public class WorldEventHandlerWrapper : IEventHandler<ChunkDataPacket>, IEventHandler<JoinGamePacket>, IEventHandler<PlayerPositionLookPacket>, IEventHandler<LoginSuccessPacket>, IEventHandler<TimeUpdatePacket>, IEventHandler<BlockChangePacket>
     {
         private readonly ChunkDataHandler _chunkDataHandler;
         private readonly PlayerHandler _playerHandler;
         private readonly LoginHandler _loginHandler;
         private readonly TimeUpdateHandler _timeUpdateHandler;
+        private readonly BlockChangeHandler _blockChangeHandler;
         private IWorld _world;
 
-        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, LoginHandler loginHandler, TimeUpdateHandler timeUpdateHandler, IWorld dimension)
+        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, LoginHandler loginHandler, TimeUpdateHandler timeUpdateHandler, BlockChangeHandler blockChangeHandler, IWorld dimension)
         {
             _chunkDataHandler = chunkDataHandler;
             _playerHandler = playerHandler;
             _loginHandler = loginHandler;
             _timeUpdateHandler = timeUpdateHandler;
+            _blockChangeHandler = blockChangeHandler;
             _world = dimension;
         }
 
@@ -49,6 +51,11 @@ namespace YksMC.Bot.Handlers
         public void Handle(TimeUpdatePacket args)
         {
             _world = _timeUpdateHandler.ApplyEvent(args, _world);
+        }
+
+        public void Handle(BlockChangePacket args)
+        {
+            _world = _blockChangeHandler.ApplyEvent(args, _world);
         }
     }
 }
