@@ -7,34 +7,39 @@ using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.Protocol.Packets.Play.Clientbound;
 using YksMC.Protocol.Packets.Play.Serverbound;
+using YksMC.MinecraftModel.World;
 
 namespace YksMC.Bot.Handlers
 {
     public class PlayerHandler : IWorldEventHandler<JoinGamePacket>, IWorldEventHandler<PlayerPositionLookPacket>
     {
         private readonly IEntityTypeRepository _entityTypeRepository;
+        private readonly IDimensionTypeRepository _dimensionTypeRepository;
 
         public PlayerHandler(IEntityTypeRepository entityTypeRepository)
         {
             _entityTypeRepository = entityTypeRepository;
         }
 
-        public IDimension ApplyEvent(JoinGamePacket packet, IDimension dimension)
+        public IWorld ApplyEvent(JoinGamePacket packet, IWorld world)
         {
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
             IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityCoordinate.Origin);
 
-            IPlayer player = dimension.GetLocalPlayer();
-            player = player.ChangeEntity(playerEntity.Id);
+            IPlayer player = world.GetLocalPlayer()
+                .ChangeEntity(playerEntity.Id);
+            
+            IDimension dimension = world.GetDimension(packet.Dimension)
+                .ChangeEntity(playerEntity);
 
-            return dimension.ChangeEntity(playerEntity)
+            return world.ReplaceCurrentDimension(dimension)
                 .ReplacePlayer(player);
         }
 
-        public IDimension ApplyEvent(PlayerPositionLookPacket packet, IDimension dimension)
+        public IWorld ApplyEvent(PlayerPositionLookPacket packet, IWorld world)
         {
             PlayerPositionLookPacketFlags flags = packet.Flags;
-            IEntity playerEntity = dimension.GetLocalPlayerEntity();
+            IEntity playerEntity = world.GetCurrentDimension().GetEntity(world.GetLocalPlayer().EntityId);
 
             double x = (flags.RelativeX ? playerEntity.Position.X : 0) + packet.X;
             double y = (flags.RelativeY ? playerEntity.Position.Y : 0) + packet.FeetY;
@@ -46,7 +51,7 @@ namespace YksMC.Bot.Handlers
                 TeleportId = packet.TeleportId
             };
 
-            return dimension.ChangeEntity(playerEntity);
+            return world.ReplaceCurrentDimension(world.GetCurrentDimension().ChangeEntity(playerEntity));
         }
     }
 }

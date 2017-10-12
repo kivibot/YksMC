@@ -6,7 +6,7 @@ namespace YksMC.MinecraftModel.Player
 {
     public interface IPlayer
     {
-        Guid Id { get; }
+        IPlayerId Id { get; }
         int EntityId { get; }
         bool HasEntity { get; }
         string Name { get; }

@@ -6,21 +6,21 @@ namespace YksMC.MinecraftModel.Player
 {
     public class Player : IPlayer
     {
-        private readonly Guid _id;
+        private readonly IPlayerId _id;
         private readonly int? _entityId;
         private readonly string _name;
 
-        public Guid Id => _id;
+        public IPlayerId Id => _id;
         public int EntityId => _entityId.Value;
         public bool HasEntity => _entityId.HasValue;
         public string Name => _name;
 
-        public Player(Guid id, string name)
+        public Player(IPlayerId id, string name)
             : this(id, name, null)
         {
         }
 
-        public Player(Guid id, string name, int? entityId)
+        public Player(IPlayerId id, string name, int? entityId)
         {
             _id = id;
             _name = name;

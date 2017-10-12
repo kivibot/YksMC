@@ -20,6 +20,8 @@ using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
+using YksMC.MinecraftModel.Player;
+using YksMC.MinecraftModel.World;
 using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
@@ -69,8 +71,11 @@ namespace YksMC.Client.IntegrationTests
 
             IBlock emptyBlock = new Block(new BlockType("air"), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
-            IDimension dimension = new MinecraftModel.Dimension.Dimension(new DimensionType(true), emptyChunk);
-            builder.RegisterInstance(dimension);
+            IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
+            Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
+            dimensions[0] = dimension;
+            IWorld world = new World(new Dictionary<IPlayerId, IPlayer>(), dimensions, null);
+            builder.RegisterInstance(world);
 
             _container = builder.Build();
         }

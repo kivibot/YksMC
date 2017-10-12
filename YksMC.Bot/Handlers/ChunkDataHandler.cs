@@ -6,6 +6,7 @@ using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
+using YksMC.MinecraftModel.World;
 using YksMC.Protocol;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
@@ -28,16 +29,18 @@ namespace YksMC.Bot.Handlers
             _biomeRepository = biomeRepository;
         }
 
-        public IDimension ApplyEvent(ChunkDataPacket packet, IDimension dimension)
+        public IWorld ApplyEvent(ChunkDataPacket packet, IWorld world)
         {
             _reader.SetPacket(packet.DataAndBiomes.Values);
+
+            IDimension dimension = world.GetCurrentDimension();
 
             IChunkCoordinate position = new ChunkCoordinate(packet.ChunkX, packet.ChunkZ);
             IChunk chunk = dimension.GetChunk(position);
 
             chunk = ParseChunk(packet, chunk, dimension.Type);
 
-            return dimension.ChangeChunk(position, chunk);
+            return world.ReplaceCurrentDimension(dimension.ChangeChunk(position, chunk));
         }
 
         private IChunk ParseChunk(ChunkDataPacket packet, IChunk chunk, IDimensionType dimensionType)

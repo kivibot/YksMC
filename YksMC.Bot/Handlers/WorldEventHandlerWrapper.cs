@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Client.EventBus;
 using YksMC.MinecraftModel.Dimension;
+using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
@@ -13,34 +14,34 @@ namespace YksMC.Bot.Handlers
         private readonly ChunkDataHandler _chunkDataHandler;
         private readonly PlayerHandler _playerHandler;
         private readonly LoginHandler _loginHandler;
-        private IDimension _dimension;
+        private IWorld _world;
 
-        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, LoginHandler loginHandler, IDimension dimension)
+        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, LoginHandler loginHandler, IWorld dimension)
         {
             _chunkDataHandler = chunkDataHandler;
             _playerHandler = playerHandler;
             _loginHandler = loginHandler;
-            _dimension = dimension;
+            _world = dimension;
         }
 
         public void Handle(ChunkDataPacket args)
         {
-            _dimension = _chunkDataHandler.ApplyEvent(args, _dimension);
+            _world = _chunkDataHandler.ApplyEvent(args, _world);
         }
 
         public void Handle(JoinGamePacket args)
         {
-            _dimension = _playerHandler.ApplyEvent(args, _dimension);
+            _world = _playerHandler.ApplyEvent(args, _world);
         }
 
         public void Handle(PlayerPositionLookPacket args)
         {
-            _dimension = _playerHandler.ApplyEvent(args, _dimension);
+            _world = _playerHandler.ApplyEvent(args, _world);
         }
 
         public void Handle(LoginSuccessPacket args)
         {
-            _dimension = _loginHandler.ApplyEvent(args, _dimension);
+            _world = _loginHandler.ApplyEvent(args, _world);
         }
     }
 }

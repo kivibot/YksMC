@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.MinecraftModel.Dimension;
+using YksMC.MinecraftModel.World;
 
 namespace YksMC.Bot.Handlers
 {
     public interface IWorldEventHandler<T>
     {
-        IDimension ApplyEvent(T eventArgs, IDimension dimension);
+        IWorld ApplyEvent(T eventArgs, IWorld world);
     }
 }

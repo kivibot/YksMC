@@ -10,6 +10,7 @@ namespace YksMC.MinecraftModel.Dimension
 {
     public interface IDimension
     {
+        int Id { get; }
         IDimensionType Type { get; }
 
         IChunk GetChunk(IChunkCoordinate position);
@@ -17,8 +18,5 @@ namespace YksMC.MinecraftModel.Dimension
 
         IEntity GetEntity(int id);
         IDimension ChangeEntity(IEntity entity);
-
-        IDimension ReplacePlayer(IPlayer player);
-        IEnumerable<IPlayer> GetPlayers();
     }
 }
