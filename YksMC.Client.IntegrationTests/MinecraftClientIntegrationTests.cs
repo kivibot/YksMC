@@ -63,6 +63,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<LoginHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<PlayerHandler>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<TimeUpdateHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<WorldEventHandlerWrapper>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();

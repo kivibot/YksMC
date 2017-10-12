@@ -15,29 +15,35 @@ namespace YksMC.MinecraftModel.Dimension
         private readonly IChunk _emptyChunk;
         private readonly IReadOnlyDictionary<IChunkCoordinate, IChunk> _chunks;
         private readonly IReadOnlyDictionary<int, IEntity> _entities;
+        private readonly long _age;
+        private readonly long _time;
 
         public int Id => _id;
         public IDimensionType Type => _type;
+        public long Age => _age;
+        public long Time => _time;
 
         public Dimension(int id, IDimensionType type, IChunk emptyChunk)
-            : this(id, type, emptyChunk, new Dictionary<IChunkCoordinate, IChunk>(), new Dictionary<int, IEntity>())
+            : this(id, type, emptyChunk, new Dictionary<IChunkCoordinate, IChunk>(), new Dictionary<int, IEntity>(), 0, 0)
         {
         }
 
-        public Dimension(int id, IDimensionType type, IChunk emptyChunk, IReadOnlyDictionary<IChunkCoordinate, IChunk> chunks, IReadOnlyDictionary<int, IEntity> entities)
+        public Dimension(int id, IDimensionType type, IChunk emptyChunk, IReadOnlyDictionary<IChunkCoordinate, IChunk> chunks, IReadOnlyDictionary<int, IEntity> entities, long age, long time)
         {
             _id = id;
             _type = type;
             _emptyChunk = emptyChunk;
             _chunks = chunks;
             _entities = entities;
+            _age = age;
+            _time = time;
         }
 
         public IDimension ChangeChunk(IChunkCoordinate position, IChunk chunk)
         {
             Dictionary<IChunkCoordinate, IChunk> chunks = _chunks.ToDictionary(e => e.Key, e => e.Value);
             chunks[position] = chunk;
-            return new Dimension(_id, _type, _emptyChunk, chunks, _entities);
+            return new Dimension(_id, _type, _emptyChunk, chunks, _entities, _age, _time);
         }
 
         public IChunk GetChunk(IChunkCoordinate position)
@@ -58,7 +64,12 @@ namespace YksMC.MinecraftModel.Dimension
         {
             Dictionary<int, IEntity> entities = _entities.ToDictionary(e => e.Key, e => e.Value);
             entities[entity.Id] = entity;
-            return new Dimension(_id, _type, _emptyChunk, _chunks, entities);
+            return new Dimension(_id, _type, _emptyChunk, _chunks, entities, _age, _time);
+        }
+
+        public IDimension ChangeAgeAndTime(long age, long time)
+        {
+            return new Dimension(_id, _type, _emptyChunk, _chunks, _entities, age, time);
         }
     }
 }

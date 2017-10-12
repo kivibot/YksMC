@@ -18,5 +18,10 @@ namespace YksMC.MinecraftModel.Dimension
 
         IEntity GetEntity(int id);
         IDimension ChangeEntity(IEntity entity);
+
+        long Age { get; }
+        long Time { get; }
+
+        IDimension ChangeAgeAndTime(long age, long time);
     }
 }
