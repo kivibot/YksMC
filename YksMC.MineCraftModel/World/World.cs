@@ -10,12 +10,14 @@ namespace YksMC.MinecraftModel.World
     public class World : IWorld
     {
         private readonly IReadOnlyDictionary<IPlayerId, IPlayer> _players;
+        private readonly IPlayer _localPlayer;
         private readonly IReadOnlyDictionary<int, IDimension> _dimensions;
         private readonly IDimension _currentDimension;
 
-        public World(IReadOnlyDictionary<IPlayerId, IPlayer> players, IReadOnlyDictionary<int, IDimension> dimensions, IDimension currentDimension)
+        public World(IReadOnlyDictionary<IPlayerId, IPlayer> players, IPlayer localPlayer, IReadOnlyDictionary<int, IDimension> dimensions, IDimension currentDimension)
         {
             _players = players;
+            _localPlayer = localPlayer;
             _dimensions = dimensions;
             _currentDimension = currentDimension;
         }
@@ -33,8 +35,7 @@ namespace YksMC.MinecraftModel.World
 
         public IPlayer GetLocalPlayer()
         {
-            //TODO: fix
-            return _players.Values.First();
+            return _localPlayer;
         }
 
         public IEnumerable<IPlayer> GetPlayers()
@@ -46,14 +47,38 @@ namespace YksMC.MinecraftModel.World
         {
             Dictionary<int, IDimension> dimensions = _dimensions.ToDictionary(e => e.Key, e => e.Value);
             dimensions[dimension.Id] = dimension;
-            return new World(_players, dimensions, dimension);
+            return new World(_players, _localPlayer, dimensions, dimension);
+        }
+
+        public IWorld ReplaceDimension(IDimension dimension)
+        {
+            if(_currentDimension?.Id == dimension.Id)
+            {
+                return ReplaceCurrentDimension(dimension);
+            }
+
+            Dictionary<int, IDimension> dimensions = _dimensions.ToDictionary(e => e.Key, e => e.Value);
+            dimensions[dimension.Id] = dimension;
+            return new World(_players, _localPlayer, dimensions, _currentDimension);
+        }
+
+        public IWorld ReplaceLocalPlayer(IPlayer player)
+        {
+            Dictionary<IPlayerId, IPlayer> players = _players.ToDictionary(e => e.Key, e => e.Value);
+            players[player.Id] = player;
+            return new World(players, player, _dimensions, _currentDimension);
         }
 
         public IWorld ReplacePlayer(IPlayer player)
         {
+            if(_localPlayer?.Id == player.Id)
+            {
+                return ReplaceLocalPlayer(player);
+            }
+
             Dictionary<IPlayerId, IPlayer> players = _players.ToDictionary(e => e.Key, e => e.Value);
             players[player.Id] = player;
-            return new World(players, _dimensions, _currentDimension);
+            return new World(players, _localPlayer, _dimensions, _currentDimension);
         }
     }
 }

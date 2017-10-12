@@ -63,7 +63,7 @@ namespace YksMC.Bot.Handlers
             });
 
             IPlayer player = new Player(new PlayerId(packet.UserId), packet.Username);
-            return world.ReplacePlayer(player);
+            return world.ReplaceLocalPlayer(player);
         }
     }
 }
