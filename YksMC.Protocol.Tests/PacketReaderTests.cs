@@ -310,10 +310,9 @@ namespace YksMC.Protocol.Tests
             });
 
             Position result0 = reader.GetPosition();
-
             Assert.AreEqual(0b01111111111111111111111111, result0.X);
-            Assert.AreEqual(0b111111111111, result0.Y);
-            Assert.AreEqual(0b11111111111111111111111101, result0.Z);
+            Assert.AreEqual(-1, result0.Y);
+            Assert.AreEqual(-3, result0.Z);
         }
 
         [Test]

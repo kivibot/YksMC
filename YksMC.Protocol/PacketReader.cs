@@ -82,10 +82,7 @@ namespace YksMC.Protocol
         public Position GetPosition()
         {
             ulong val = GetUnsignedLong();
-            ulong x = val >> 38;
-            ulong y = (val >> 26) & 0xFFF;
-            ulong z = val << 38 >> 38;
-            return new Position((int)x, (int)y, (int)z);
+            return new Position(val);
         }
 
         public short GetShort()
