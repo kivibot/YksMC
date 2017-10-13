@@ -11,10 +11,10 @@ using YksMC.MinecraftModel.World;
 
 namespace YksMC.Bot.Handlers
 {
-    public class PlayerHandler : IWorldEventHandler<JoinGamePacket>, IWorldEventHandler<PlayerPositionLookPacket>
+    public class PlayerHandler : IWorldEventHandler<JoinGamePacket>, IWorldEventHandler<PlayerPositionLookPacket>,
+        IWorldEventHandler<SetExperiencePacket>
     {
         private readonly IEntityTypeRepository _entityTypeRepository;
-        private readonly IDimensionTypeRepository _dimensionTypeRepository;
 
         public PlayerHandler(IEntityTypeRepository entityTypeRepository)
         {
@@ -28,7 +28,7 @@ namespace YksMC.Bot.Handlers
 
             IPlayer player = world.GetLocalPlayer()
                 .ChangeEntity(playerEntity.Id);
-            
+
             IDimension dimension = world.GetDimension(packet.Dimension)
                 .ChangeEntity(playerEntity);
 
@@ -52,6 +52,18 @@ namespace YksMC.Bot.Handlers
             };
 
             return world.ReplaceCurrentDimension(world.GetCurrentDimension().ChangeEntity(playerEntity));
+        }
+
+        public IWorld ApplyEvent(SetExperiencePacket packet, IWorld world)
+        {
+            IPlayer player = world.GetLocalPlayer();
+            if(player == null)
+            {
+                throw new ArgumentException("No local player!");
+            }
+            return world.ReplaceLocalPlayer(
+                player.ChangeExperience(packet.Level, packet.ExperienceBar, packet.TotalExperience)
+            );
         }
     }
 }

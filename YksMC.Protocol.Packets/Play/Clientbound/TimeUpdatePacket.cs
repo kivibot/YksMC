@@ -11,7 +11,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x44, ConnectionState.Play, BoundTo.Client)]
     public class TimeUpdatePacket
     {
-        public long WorldAge { get; set; }
-        public long TimeOfDay { get; set; }
+        public ulong WorldAge { get; set; }
+        public ulong TimeOfDay { get; set; }
     }
 }

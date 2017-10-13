@@ -9,7 +9,9 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class WorldEventHandlerWrapper : IEventHandler<ChunkDataPacket>, IEventHandler<JoinGamePacket>, IEventHandler<PlayerPositionLookPacket>, IEventHandler<LoginSuccessPacket>, IEventHandler<TimeUpdatePacket>, IEventHandler<BlockChangePacket>
+    public class WorldEventHandlerWrapper : IEventHandler<ChunkDataPacket>, IEventHandler<JoinGamePacket>,
+        IEventHandler<PlayerPositionLookPacket>, IEventHandler<LoginSuccessPacket>, IEventHandler<TimeUpdatePacket>,
+        IEventHandler<BlockChangePacket>, IEventHandler<SetExperiencePacket>
     {
         private readonly ChunkDataHandler _chunkDataHandler;
         private readonly PlayerHandler _playerHandler;
@@ -56,6 +58,11 @@ namespace YksMC.Bot.Handlers
         public void Handle(BlockChangePacket args)
         {
             _world = _blockChangeHandler.ApplyEvent(args, _world);
+        }
+
+        public void Handle(SetExperiencePacket args)
+        {
+            _world = _playerHandler.ApplyEvent(args, _world);
         }
     }
 }

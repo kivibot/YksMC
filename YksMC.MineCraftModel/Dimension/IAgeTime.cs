@@ -6,12 +6,12 @@ namespace YksMC.MinecraftModel.Dimension
 {
     public interface IAgeTime
     {
-        long AgeTicks { get; }
-        long TimeTicks { get; }
+        ulong AgeTicks { get; }
+        ulong TimeTicks { get; }
 
         double AgeDays { get; }
         double TimeDays { get; }
 
-        IAgeTime ChangeAgeAndTime(long ageTicks, long timeTicks);
+        IAgeTime ChangeAgeAndTime(ulong ageTicks, ulong timeTicks);
     }
 }

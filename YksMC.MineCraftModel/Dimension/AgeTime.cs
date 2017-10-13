@@ -6,23 +6,23 @@ namespace YksMC.MinecraftModel.Dimension
 {
     public class AgeTime : IAgeTime
     {
-        private readonly long _ageTicks;
-        private readonly long _timeTicks;
-        private readonly long _ticksPerDay;
+        private readonly ulong _ageTicks;
+        private readonly ulong _timeTicks;
+        private readonly ulong _ticksPerDay;
 
-        public long AgeTicks => _ageTicks;
-        public long TimeTicks => _timeTicks;
+        public ulong AgeTicks => _ageTicks;
+        public ulong TimeTicks => _timeTicks;
         public double AgeDays => _ageTicks / (double)_ticksPerDay;
         public double TimeDays => _timeTicks / (double)_ticksPerDay;
 
-        public AgeTime(long ageTicks, long timeTicks, long ticksPerDay)
+        public AgeTime(ulong ageTicks, ulong timeTicks, ulong ticksPerDay)
         {
             _ageTicks = ageTicks;
             _timeTicks = timeTicks % ticksPerDay;
             _ticksPerDay = ticksPerDay;
         }
 
-        public IAgeTime ChangeAgeAndTime(long ageTicks, long timeTicks)
+        public IAgeTime ChangeAgeAndTime(ulong ageTicks, ulong timeTicks)
         {
             return new AgeTime(ageTicks, timeTicks, _ticksPerDay);
         }

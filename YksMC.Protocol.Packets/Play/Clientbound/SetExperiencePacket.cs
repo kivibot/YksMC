@@ -9,7 +9,7 @@ using YksMC.Protocol.Models.Types;
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
     [Packet(0x3d, ConnectionState.Play, BoundTo.Client)]
-    public class SetExperience 
+    public class SetExperiencePacket
     {
         public float ExperienceBar { get; set; }
         public VarInt Level { get; set; }
