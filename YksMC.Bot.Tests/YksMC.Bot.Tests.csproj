@@ -4,18 +4,24 @@
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Moq" Version="4.7.25" />
-    <PackageReference Include="NUnit" Version="3.7.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.7.0" />
+    <Compile Remove="Chunk\**" />
+    <EmbeddedResource Remove="Chunk\**" />
+    <None Remove="Chunk\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\YksMC.Bot\YksMC.Bot.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Chunk\" />
   </ItemGroup>
 
 </Project>

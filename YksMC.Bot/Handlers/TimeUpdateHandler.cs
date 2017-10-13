@@ -9,9 +9,6 @@ namespace YksMC.Bot.Handlers
 {
     public class TimeUpdateHandler : IWorldEventHandler<TimeUpdatePacket>
     {
-        //TODO: use better constant
-        private const long _ticksPerDay = 24000;
-
         public IWorld ApplyEvent(TimeUpdatePacket packet, IWorld world)
         {
             IDimension dimension = world.GetCurrentDimension();
@@ -19,7 +16,11 @@ namespace YksMC.Bot.Handlers
             {
                 throw new ArgumentException("Time update before dimension initialization!");
             }
-            return world.ReplaceCurrentDimension(dimension.ChangeAgeAndTime(packet.WorldAge, packet.TimeOfDay % _ticksPerDay));
+            return world.ReplaceCurrentDimension(
+                dimension.ChangeAgeAndTime(
+                    ageAndTime => ageAndTime.ChangeAgeAndTime(packet.WorldAge, packet.TimeOfDay)
+                )
+            );
         }
     }
 }
