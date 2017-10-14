@@ -13,12 +13,14 @@ namespace YksMC.MinecraftModel.Player
 
         public IPlayerId Id => _id;
         public int EntityId => _entityId.Value;
+        public int DimensionId => throw new NotImplementedException();
         public bool HasEntity => _entityId.HasValue;
         public string Name => _name;
 
         public int Level => _experienceInfo.Level;
         public double LevelProgress => _experienceInfo.LevelProgress;
         public int TotalExperiece => _experienceInfo.TotalExperience;
+
 
         public Player(IPlayerId id, string name)
             : this(id, name, null, new ExperienceInfo(0, 0, 0))
@@ -41,6 +43,11 @@ namespace YksMC.MinecraftModel.Player
         public IPlayer ChangeExperience(int level, double levelProgress, int totalExperience)
         {
             return new Player(_id, _name, _entityId, new ExperienceInfo(level, levelProgress, totalExperience));
+        }
+
+        public IPlayer ChangeEntity(int entityId, int dimensionId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

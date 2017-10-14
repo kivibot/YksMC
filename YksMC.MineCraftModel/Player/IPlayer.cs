@@ -8,6 +8,7 @@ namespace YksMC.MinecraftModel.Player
     {
         IPlayerId Id { get; }
         int EntityId { get; }
+        int DimensionId { get; }
         bool HasEntity { get; }
         string Name { get; }
         
@@ -15,7 +16,7 @@ namespace YksMC.MinecraftModel.Player
         double LevelProgress { get; }
         int TotalExperiece { get; }
 
-        IPlayer ChangeEntity(int entityId);
+        IPlayer ChangeEntity(int entityId, int dimensionId);
 
         IPlayer ChangeExperience(int level, double levelProgress, int totalExperience);
     }

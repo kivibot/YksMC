@@ -26,11 +26,11 @@ namespace YksMC.Bot.Handlers
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
             IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityCoordinate.Origin);
 
-            IPlayer player = world.GetLocalPlayer()
-                .ChangeEntity(playerEntity.Id);
-
             IDimension dimension = world.GetDimension(packet.Dimension)
                 .ChangeEntity(playerEntity);
+
+            IPlayer player = world.GetLocalPlayer()
+                .ChangeEntity(playerEntity.Id, dimension.Id);
 
             return world.ReplaceCurrentDimension(dimension)
                 .ReplacePlayer(player);
