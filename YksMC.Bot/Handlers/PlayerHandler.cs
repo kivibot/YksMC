@@ -24,7 +24,7 @@ namespace YksMC.Bot.Handlers
         public IWorld ApplyEvent(JoinGamePacket packet, IWorld world)
         {
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
-            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityCoordinate.Origin);
+            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityCoordinate.Origin, 0, 0, 0);
 
             IDimension dimension = world.GetDimension(packet.Dimension)
                 .ChangeEntity(playerEntity);
@@ -38,26 +38,44 @@ namespace YksMC.Bot.Handlers
 
         public IWorld ApplyEvent(PlayerPositionLookPacket packet, IWorld world)
         {
-            PlayerPositionLookPacketFlags flags = packet.Flags;
-            IEntity playerEntity = world.GetCurrentDimension().GetEntity(world.GetLocalPlayer().EntityId);
+            IDimension dimension = world.GetCurrentDimension();
+            if(dimension == null)
+            {
+                throw new ArgumentException("No current dimension!");
+            }
+            IPlayer player = world.GetLocalPlayer();
+            if(player == null)
+            {
+                throw new ArgumentException("Local player not initialized.");
+            }
+            if (!player.HasEntity)
+            {
+                throw new ArgumentException("Local player not spawned.");
+            }
+            IEntity playerEntity = dimension.GetEntity(player.EntityId);
 
+            PlayerPositionLookPacketFlags flags = packet.Flags;
             double x = (flags.RelativeX ? playerEntity.Position.X : 0) + packet.X;
             double y = (flags.RelativeY ? playerEntity.Position.Y : 0) + packet.FeetY;
             double z = (flags.RelativeZ ? playerEntity.Position.Z : 0) + packet.Z;
-            playerEntity = playerEntity.ChangePosition(new EntityCoordinate(x, y, z));
+            double yaw = (flags.RelativeYaw ? playerEntity.Yaw : 0) + packet.Yaw;
+            double pitch = (flags.RelativePitch ? playerEntity.Pitch : 0) + packet.Pitch;
+
+            playerEntity = playerEntity.ChangePosition(new EntityCoordinate(x, y, z))
+                .ChangeLook(yaw, pitch);
 
             TeleportConfirmPacket confirmationPacket = new TeleportConfirmPacket()
             {
                 TeleportId = packet.TeleportId
             };
 
-            return world.ReplaceCurrentDimension(world.GetCurrentDimension().ChangeEntity(playerEntity));
+            return world.ReplaceCurrentDimension(dimension.ChangeEntity(playerEntity));
         }
 
         public IWorld ApplyEvent(SetExperiencePacket packet, IWorld world)
         {
             IPlayer player = world.GetLocalPlayer();
-            if(player == null)
+            if (player == null)
             {
                 throw new ArgumentException("No local player!");
             }
