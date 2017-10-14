@@ -8,7 +8,7 @@ using YksMC.MinecraftModel.EntityType;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
-namespace YksMC.Bot.Handlers
+namespace YksMC.Bot.PacketHandlers
 {
     public class EntityHandler : WorldEventHandler, IWorldEventHandler<SpawnMobPacket>
     {

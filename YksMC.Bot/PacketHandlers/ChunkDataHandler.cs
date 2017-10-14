@@ -11,7 +11,7 @@ using YksMC.MinecraftModel.World;
 using YksMC.Protocol;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
-namespace YksMC.Bot.Handlers
+namespace YksMC.Bot.PacketHandlers
 {
     public class ChunkDataHandler : WorldEventHandler, IWorldEventHandler<ChunkDataPacket>
     {

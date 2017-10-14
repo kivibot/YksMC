@@ -6,7 +6,7 @@ using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
-namespace YksMC.Bot.Handlers
+namespace YksMC.Bot.PacketHandlers
 {
     public class TimeUpdateHandler : WorldEventHandler, IWorldEventHandler<TimeUpdatePacket>
     {

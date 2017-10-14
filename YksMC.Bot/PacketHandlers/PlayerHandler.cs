@@ -10,7 +10,7 @@ using YksMC.Protocol.Packets.Play.Serverbound;
 using YksMC.MinecraftModel.World;
 using YksMC.Bot.WorldEvent;
 
-namespace YksMC.Bot.Handlers
+namespace YksMC.Bot.PacketHandlers
 {
     public class PlayerHandler : WorldEventHandler, IWorldEventHandler<JoinGamePacket>, IWorldEventHandler<PlayerPositionLookPacket>,
         IWorldEventHandler<SetExperiencePacket>

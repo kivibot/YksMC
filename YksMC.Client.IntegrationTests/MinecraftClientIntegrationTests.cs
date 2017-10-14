@@ -63,7 +63,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<TimeUpdateHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<BlockChangeHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<EntityHandler>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterType<WorldEventHandlerWrapper>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<WorldEventHandlerWrapper>().AsSelf().SingleInstance();
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();

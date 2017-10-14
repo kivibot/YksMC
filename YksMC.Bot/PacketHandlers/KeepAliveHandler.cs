@@ -6,7 +6,7 @@ using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Common;
 
-namespace YksMC.Bot.Handlers
+namespace YksMC.Bot.PacketHandlers
 {
     public class KeepAliveHandler : WorldEventHandler, IWorldEventHandler<KeepAlivePacket>
     {
