@@ -129,7 +129,10 @@ namespace YksMC.Client.Worker
             object packet = _deserializer.Deserialize(_packetReader, packetType);
 
             if (_packetReader.GetRemainingBytes() > 0)
-                _logger.Verbose("Packet didn't use all the bytes! Remaining: {count}", _packetReader.GetRemainingBytes());
+            {
+                _logger.Verbose("Packet didn't use all the bytes! Remaining: {Count}, PacketId 0x{PacketId}",
+                    _packetReader.GetRemainingBytes(), packetId.Value.ToString("X"));
+            }
 
             LogPacketReceived(packet);
             _eventBus.DispatchEvent(packet);

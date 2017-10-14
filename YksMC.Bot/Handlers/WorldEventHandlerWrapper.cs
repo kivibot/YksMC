@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.Client.EventBus;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Packets.Play.Clientbound;
+using YksMC.Protocol.Packets.Play.Common;
 
 namespace YksMC.Bot.Handlers
 {
     public class WorldEventHandlerWrapper : IEventHandler<ChunkDataPacket>, IEventHandler<JoinGamePacket>,
         IEventHandler<PlayerPositionLookPacket>, IEventHandler<LoginSuccessPacket>, IEventHandler<TimeUpdatePacket>,
-        IEventHandler<BlockChangePacket>, IEventHandler<SetExperiencePacket>, IEventHandler<SpawnMobPacket>
+        IEventHandler<BlockChangePacket>, IEventHandler<SetExperiencePacket>, IEventHandler<SpawnMobPacket>,
+        IEventHandler<KeepAlivePacket>
     {
         private readonly ChunkDataHandler _chunkDataHandler;
         private readonly PlayerHandler _playerHandler;
@@ -19,12 +23,15 @@ namespace YksMC.Bot.Handlers
         private readonly TimeUpdateHandler _timeUpdateHandler;
         private readonly BlockChangeHandler _blockChangeHandler;
         private readonly EntityHandler _entityHandler;
+        private readonly KeepAliveHandler _keepAliveHandler;
+
+        private readonly IMinecraftClient _client;
         private IWorld _world;
 
         public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, 
             LoginHandler loginHandler, TimeUpdateHandler timeUpdateHandler, BlockChangeHandler blockChangeHandler, 
-            EntityHandler entityHandler,
-            IWorld dimension)
+            EntityHandler entityHandler, KeepAliveHandler keepAliveHandler,
+            IMinecraftClient client, IWorld dimension)
         {
             _chunkDataHandler = chunkDataHandler;
             _playerHandler = playerHandler;
@@ -32,47 +39,65 @@ namespace YksMC.Bot.Handlers
             _timeUpdateHandler = timeUpdateHandler;
             _blockChangeHandler = blockChangeHandler;
             _entityHandler = entityHandler;
+            _keepAliveHandler = keepAliveHandler;
+
+            _client = client;
             _world = dimension;
+        }
+
+        public void Handle<T>(T packet, IWorldEventHandler<T> handler)
+        {
+            IWorldEventResult result = handler.ApplyEvent(packet, _world);
+            foreach(object replyPacket in result.ReplyPackets)
+            {
+                _client.SendPacket(replyPacket);
+            }
+            _world = result.World;
         }
 
         public void Handle(ChunkDataPacket args)
         {
-            _world = _chunkDataHandler.ApplyEvent(args, _world);
+            Handle(args, _chunkDataHandler);
         }
 
         public void Handle(JoinGamePacket args)
         {
-            _world = _playerHandler.ApplyEvent(args, _world);
+            Handle(args, _playerHandler);
         }
 
         public void Handle(PlayerPositionLookPacket args)
         {
-            _world = _playerHandler.ApplyEvent(args, _world);
+            Handle(args, _playerHandler);
         }
 
         public void Handle(LoginSuccessPacket args)
         {
-            _world = _loginHandler.ApplyEvent(args, _world);
+            Handle(args, _loginHandler);
         }
 
         public void Handle(TimeUpdatePacket args)
         {
-            _world = _timeUpdateHandler.ApplyEvent(args, _world);
+            Handle(args, _timeUpdateHandler);
         }
 
         public void Handle(BlockChangePacket args)
         {
-            _world = _blockChangeHandler.ApplyEvent(args, _world);
+            Handle(args, _blockChangeHandler);
         }
 
         public void Handle(SetExperiencePacket args)
         {
-            _world = _playerHandler.ApplyEvent(args, _world);
+            Handle(args, _playerHandler);
         }
 
         public void Handle(SpawnMobPacket args)
         {
-            _world = _entityHandler.ApplyEvent(args, _world);
+            Handle(args, _entityHandler);
+        }
+
+        public void Handle(KeepAlivePacket args)
+        {
+            Handle(args, _keepAliveHandler);
         }
     }
 }

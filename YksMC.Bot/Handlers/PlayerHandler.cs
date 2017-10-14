@@ -8,10 +8,11 @@ using YksMC.MinecraftModel.Dimension;
 using YksMC.Protocol.Packets.Play.Clientbound;
 using YksMC.Protocol.Packets.Play.Serverbound;
 using YksMC.MinecraftModel.World;
+using YksMC.Bot.WorldEvent;
 
 namespace YksMC.Bot.Handlers
 {
-    public class PlayerHandler : IWorldEventHandler<JoinGamePacket>, IWorldEventHandler<PlayerPositionLookPacket>,
+    public class PlayerHandler : WorldEventHandler, IWorldEventHandler<JoinGamePacket>, IWorldEventHandler<PlayerPositionLookPacket>,
         IWorldEventHandler<SetExperiencePacket>
     {
         private readonly IEntityTypeRepository _entityTypeRepository;
@@ -21,7 +22,7 @@ namespace YksMC.Bot.Handlers
             _entityTypeRepository = entityTypeRepository;
         }
 
-        public IWorld ApplyEvent(JoinGamePacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(JoinGamePacket packet, IWorld world)
         {
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
             IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityLocation.Origin, 0, 0, 0);
@@ -32,19 +33,20 @@ namespace YksMC.Bot.Handlers
             IPlayer player = world.GetLocalPlayer()
                 .ChangeEntity(playerEntity.Id, dimension.Id);
 
-            return world.ReplaceCurrentDimension(dimension)
+            world = world.ReplaceCurrentDimension(dimension)
                 .ReplacePlayer(player);
+            return Result(world);
         }
 
-        public IWorld ApplyEvent(PlayerPositionLookPacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(PlayerPositionLookPacket packet, IWorld world)
         {
             IDimension dimension = world.GetCurrentDimension();
-            if(dimension == null)
+            if (dimension == null)
             {
                 throw new ArgumentException("No current dimension!");
             }
             IPlayer player = world.GetLocalPlayer();
-            if(player == null)
+            if (player == null)
             {
                 throw new ArgumentException("Local player not initialized.");
             }
@@ -69,19 +71,21 @@ namespace YksMC.Bot.Handlers
                 TeleportId = packet.TeleportId
             };
 
-            return world.ReplaceCurrentDimension(dimension.ChangeEntity(playerEntity));
+            world = world.ReplaceCurrentDimension(dimension.ChangeEntity(playerEntity));
+            return Result(world, confirmationPacket);
         }
 
-        public IWorld ApplyEvent(SetExperiencePacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(SetExperiencePacket packet, IWorld world)
         {
             IPlayer player = world.GetLocalPlayer();
             if (player == null)
             {
                 throw new ArgumentException("No local player!");
             }
-            return world.ReplaceLocalPlayer(
+            world = world.ReplaceLocalPlayer(
                 player.ChangeExperience(packet.Level, packet.ExperienceBar, packet.TotalExperience)
             );
+            return Result(world);
         }
     }
 }

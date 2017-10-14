@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
@@ -12,7 +13,7 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class ChunkDataHandler : IWorldEventHandler<ChunkDataPacket>
+    public class ChunkDataHandler : WorldEventHandler, IWorldEventHandler<ChunkDataPacket>
     {
         private const int _primaryBitMaskBits = 32;
         private const int _sectionWidth = 16;
@@ -29,7 +30,7 @@ namespace YksMC.Bot.Handlers
             _biomeRepository = biomeRepository;
         }
 
-        public IWorld ApplyEvent(ChunkDataPacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(ChunkDataPacket packet, IWorld world)
         {
             _reader.SetPacket(packet.DataAndBiomes.Values);
 
@@ -40,7 +41,7 @@ namespace YksMC.Bot.Handlers
 
             chunk = ParseChunk(packet, chunk, dimension.Type);
 
-            return world.ReplaceCurrentDimension(dimension.ChangeChunk(position, chunk));
+            return Result(world.ReplaceCurrentDimension(dimension.ChangeChunk(position, chunk)));
         }
 
         private IChunk ParseChunk(ChunkDataPacket packet, IChunk chunk, IDimensionType dimensionType)

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Bot.WorldEvent;
 using YksMC.Client;
 using YksMC.Client.EventBus;
+using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Common;
 
 namespace YksMC.Bot.Handlers
 {
-    public class KeepAliveHandler : IEventHandler<KeepAlivePacket>
+    public class KeepAliveHandler : WorldEventHandler, IWorldEventHandler<KeepAlivePacket>
     {
         private IMinecraftClient _client;
 
@@ -17,9 +19,13 @@ namespace YksMC.Bot.Handlers
             _client = client;
         }
 
-        public void Handle(KeepAlivePacket packet)
+        public IWorldEventResult ApplyEvent(KeepAlivePacket packet, IWorld world)
         {
-            _client.SendKeepAlive(packet.KeepAliveId);
+            KeepAlivePacket reply = new KeepAlivePacket()
+            {
+                KeepAliveId = packet.KeepAliveId
+            };
+            return Result(world, reply);
         }
     }
 }

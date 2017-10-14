@@ -12,10 +12,11 @@ using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Packets.Play.Clientbound;
 using YksMC.Protocol.Packets.Play.Serverbound;
 using YksMC.MinecraftModel.World;
+using YksMC.Bot.WorldEvent;
 
 namespace YksMC.Bot.Handlers
 {
-    public class LoginHandler : IEventHandler<DisconnectPacket>, IEventHandler<EncryptionRequestPacket>, IEventHandler<SetCompressionPacket>, IWorldEventHandler<LoginSuccessPacket>
+    public class LoginHandler : WorldEventHandler, IEventHandler<DisconnectPacket>, IEventHandler<EncryptionRequestPacket>, IEventHandler<SetCompressionPacket>, IWorldEventHandler<LoginSuccessPacket>
     {
         private readonly IMinecraftClient _client;
         private readonly ILogger _logger;
@@ -42,17 +43,16 @@ namespace YksMC.Bot.Handlers
             throw new NotImplementedException();
         }
 
-        public IWorld ApplyEvent(LoginSuccessPacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(LoginSuccessPacket packet, IWorld world)
         {
             _logger.Information("Login successful! Username: {username}, UserId: {userId}", packet.Username, packet.UserId);
             _client.SetState(ConnectionState.Play);
-
-            //TODO: remove
-            _client.SendPacket(new ClientStatusPacket()
+            
+            ClientStatusPacket statusReply = new ClientStatusPacket()
             {
                 ActionId = 0
-            });
-            _client.SendPacket(new ClientSettingsPacket()
+            };
+            ClientSettingsPacket settingsReply = new ClientSettingsPacket()
             {
                 Locale = "en_GB",
                 ViewDistance = 32,
@@ -60,10 +60,10 @@ namespace YksMC.Bot.Handlers
                 UseChatColors = false,
                 DisplayedSkinParts = 0b01111111,
                 MainHand = 1
-            });
+            };
 
             IPlayer player = new Player(new PlayerId(packet.UserId), packet.Username);
-            return world.ReplaceLocalPlayer(player);
+            return Result(world.ReplaceLocalPlayer(player), statusReply, settingsReply);
         }
     }
 }

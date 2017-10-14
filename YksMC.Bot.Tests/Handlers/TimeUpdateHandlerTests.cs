@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using YksMC.Bot.Handlers;
+using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
@@ -29,10 +30,10 @@ namespace YksMC.Bot.Tests.Handlers
             };
             IWorld world = GetWorld();
 
-            IWorld result = handler.ApplyEvent(packet, world);
+            IWorldEventResult result = handler.ApplyEvent(packet, world);
 
-            Assert.AreEqual(12341337, result.GetCurrentDimension().AgeAndTime.AgeTicks);
-            Assert.AreEqual(1000, result.GetCurrentDimension().AgeAndTime.TimeTicks);
+            Assert.AreEqual(12341337, result.World.GetCurrentDimension().AgeAndTime.AgeTicks);
+            Assert.AreEqual(1000, result.World.GetCurrentDimension().AgeAndTime.TimeTicks);
         }
 
         private IWorld GetWorld()

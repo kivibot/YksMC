@@ -4,10 +4,10 @@ using System.Text;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
 
-namespace YksMC.Bot.Handlers
+namespace YksMC.Bot.WorldEvent
 {
     public interface IWorldEventHandler<T>
     {
-        IWorld ApplyEvent(T eventArgs, IWorld world);
+        IWorldEventResult ApplyEvent(T eventArgs, IWorld world);
     }
 }

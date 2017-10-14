@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
@@ -10,7 +11,7 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class BlockChangeHandler : IWorldEventHandler<BlockChangePacket>, IWorldEventHandler<MultiBlockChangePacket>
+    public class BlockChangeHandler : WorldEventHandler, IWorldEventHandler<BlockChangePacket>, IWorldEventHandler<MultiBlockChangePacket>
     {
         private readonly IBlockTypeRepository _blockTypeRepository;
 
@@ -19,7 +20,7 @@ namespace YksMC.Bot.Handlers
             _blockTypeRepository = blockTypeRepository;
         }
 
-        public IWorld ApplyEvent(BlockChangePacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(BlockChangePacket packet, IWorld world)
         {
             IDimension dimension = world.GetCurrentDimension();
             if (dimension == null)
@@ -32,10 +33,10 @@ namespace YksMC.Bot.Handlers
             IChunk chunk = dimension.GetChunk(chunkPosition);
             chunk = ReplaceBlockType(chunk, position, packet.BlockId);
 
-            return world.ReplaceCurrentDimension(dimension.ChangeChunk(chunkPosition, chunk));
+            return Result(world.ReplaceCurrentDimension(dimension.ChangeChunk(chunkPosition, chunk)));
         }
 
-        public IWorld ApplyEvent(MultiBlockChangePacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(MultiBlockChangePacket packet, IWorld world)
         {
             IDimension dimension = world.GetCurrentDimension();
             if (dimension == null)
@@ -52,7 +53,7 @@ namespace YksMC.Bot.Handlers
                 chunk = ReplaceBlockType(chunk, position, record.BlockId);
             }
 
-            return world.ReplaceCurrentDimension(dimension.ChangeChunk(chunkPosition, chunk));
+            return Result(world.ReplaceCurrentDimension(dimension.ChangeChunk(chunkPosition, chunk)));
         }
 
         private IChunk ReplaceBlockType(IChunk chunk, IBlockCoordinate position, int networkId)

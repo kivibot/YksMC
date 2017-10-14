@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.EntityType;
@@ -9,7 +10,7 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Bot.Handlers
 {
-    public class EntityHandler : IWorldEventHandler<SpawnMobPacket>
+    public class EntityHandler : WorldEventHandler, IWorldEventHandler<SpawnMobPacket>
     {
         private readonly IEntityTypeRepository _entityTypeRepository;
 
@@ -18,7 +19,7 @@ namespace YksMC.Bot.Handlers
             _entityTypeRepository = entityTypeRepository;
         }
 
-        public IWorld ApplyEvent(SpawnMobPacket packet, IWorld world)
+        public IWorldEventResult ApplyEvent(SpawnMobPacket packet, IWorld world)
         {
             IDimension dimension = world.GetCurrentDimension();
 
@@ -29,9 +30,9 @@ namespace YksMC.Bot.Handlers
 
             IEntity entity = new Entity(packet.EntityId, type, location, yaw, pitch, 0);
 
-            return world.ReplaceDimension(
+            return Result(world.ReplaceDimension(
                 dimension.ChangeEntity(entity)
-            );
+            ));
         }
     }
 }

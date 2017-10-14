@@ -26,6 +26,8 @@ using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Nbt;
+using YksMC.Protocol.Packets;
+using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Serializing;
 
 namespace YksMC.Client.IntegrationTests
@@ -59,7 +61,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
 
-            builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces();
+            builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<LoginHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<PlayerHandler>().AsImplementedInterfaces().AsSelf();
@@ -97,8 +99,18 @@ namespace YksMC.Client.IntegrationTests
             await client.ConnectAsync("localhost", 25565);
 
             client.SetState(ConnectionState.Login);
-            client.SendHandshake(ConnectionState.Login);
-            client.SendLoginStartPacket("testibotti");
+
+            client.SendPacket(new HandshakePacket()
+            {
+                NextState = ConnectionState.Login,
+                ProtocolVersion = client.ProtocolVersion,
+                ServerAddress = client.Address.Host,
+                ServerPort = client.Address.Port
+            });
+            client.SendPacket(new LoginStartPacket()
+            {
+                Name = "testibotti"
+            });
 
             await Task.Delay(100000);
         }

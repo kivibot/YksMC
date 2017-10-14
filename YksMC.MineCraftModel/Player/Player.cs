@@ -21,8 +21,7 @@ namespace YksMC.MinecraftModel.Player
         public int Level => _experienceInfo.Level;
         public double LevelProgress => _experienceInfo.LevelProgress;
         public int TotalExperiece => _experienceInfo.TotalExperience;
-
-
+        
         public Player(IPlayerId id, string name)
             : this(id, name, null, null, new ExperienceInfo(0, 0, 0))
         {
