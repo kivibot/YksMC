@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.MinecraftModel.Entity
 {
-    public interface IEntityCoordinate
+    public interface IEntityLocation
     {
         double X { get; }
         double Y { get; }

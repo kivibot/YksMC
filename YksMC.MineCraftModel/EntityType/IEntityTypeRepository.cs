@@ -7,5 +7,6 @@ namespace YksMC.MinecraftModel.EntityType
     public interface IEntityTypeRepository
     {
         IEntityType GetPlayerType();
+        IEntityType GetMobType(int id);
     }
 }

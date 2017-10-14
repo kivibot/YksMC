@@ -1,0 +1,542 @@
+﻿[
+    {
+        "Id": 1,
+        "Name": "item",
+        "Type": "mob"
+    },
+    {
+        "Id": 2,
+        "Name": "xp_orb",
+        "Type": "mob"
+    },
+    {
+        "Id": 3,
+        "Name": "area_effect_cloud",
+        "Type": "mob"
+    },
+    {
+        "Id": 4,
+        "Name": "elder_guardian",
+        "Type": "mob"
+    },
+    {
+        "Id": 5,
+        "Name": "wither_skeleton",
+        "Type": "mob"
+    },
+    {
+        "Id": 6,
+        "Name": "stray",
+        "Type": "mob"
+    },
+    {
+        "Id": 7,
+        "Name": "egg",
+        "Type": "mob"
+    },
+    {
+        "Id": 8,
+        "Name": "leash_knot",
+        "Type": "mob"
+    },
+    {
+        "Id": 9,
+        "Name": "painting",
+        "Type": "mob"
+    },
+    {
+        "Id": 10,
+        "Name": "arrow",
+        "Type": "mob"
+    },
+    {
+        "Id": 11,
+        "Name": "snowball",
+        "Type": "mob"
+    },
+    {
+        "Id": 12,
+        "Name": "fireball",
+        "Type": "mob"
+    },
+    {
+        "Id": 13,
+        "Name": "small_fireball",
+        "Type": "mob"
+    },
+    {
+        "Id": 14,
+        "Name": "ender_pearl",
+        "Type": "mob"
+    },
+    {
+        "Id": 15,
+        "Name": "eye_of_ender_signal",
+        "Type": "mob"
+    },
+    {
+        "Id": 16,
+        "Name": "potion",
+        "Type": "mob"
+    },
+    {
+        "Id": 17,
+        "Name": "xp_bottle",
+        "Type": "mob"
+    },
+    {
+        "Id": 18,
+        "Name": "item_frame",
+        "Type": "mob"
+    },
+    {
+        "Id": 19,
+        "Name": "wither_skull",
+        "Type": "mob"
+    },
+    {
+        "Id": 20,
+        "Name": "tnt",
+        "Type": "mob"
+    },
+    {
+        "Id": 21,
+        "Name": "falling_block",
+        "Type": "mob"
+    },
+    {
+        "Id": 22,
+        "Name": "fireworks_rocket",
+        "Type": "mob"
+    },
+    {
+        "Id": 23,
+        "Name": "husk",
+        "Type": "mob"
+    },
+    {
+        "Id": 24,
+        "Name": "spectral_arrow",
+        "Type": "mob"
+    },
+    {
+        "Id": 25,
+        "Name": "shulker_bullet",
+        "Type": "mob"
+    },
+    {
+        "Id": 26,
+        "Name": "dragon_fireball",
+        "Type": "mob"
+    },
+    {
+        "Id": 27,
+        "Name": "zombie_villager",
+        "Type": "mob"
+    },
+    {
+        "Id": 28,
+        "Name": "skeleton_horse",
+        "Type": "mob"
+    },
+    {
+        "Id": 29,
+        "Name": "zombie_horse",
+        "Type": "mob"
+    },
+    {
+        "Id": 30,
+        "Name": "armor_stand",
+        "Type": "mob"
+    },
+    {
+        "Id": 31,
+        "Name": "donkey",
+        "Type": "mob"
+    },
+    {
+        "Id": 32,
+        "Name": "mule",
+        "Type": "mob"
+    },
+    {
+        "Id": 33,
+        "Name": "evocation_fangs",
+        "Type": "mob"
+    },
+    {
+        "Id": 34,
+        "Name": "evocation_illager",
+        "Type": "mob"
+    },
+    {
+        "Id": 35,
+        "Name": "vex",
+        "Type": "mob"
+    },
+    {
+        "Id": 36,
+        "Name": "vindication_illager",
+        "Type": "mob"
+    },
+    {
+        "Id": 40,
+        "Name": "commandblock_minecart",
+        "Type": "mob"
+    },
+    {
+        "Id": 41,
+        "Name": "boat",
+        "Type": "mob"
+    },
+    {
+        "Id": 42,
+        "Name": "minecart",
+        "Type": "mob"
+    },
+    {
+        "Id": 43,
+        "Name": "chest_minecart",
+        "Type": "mob"
+    },
+    {
+        "Id": 44,
+        "Name": "furnace_minecart",
+        "Type": "mob"
+    },
+    {
+        "Id": 45,
+        "Name": "tnt_minecart",
+        "Type": "mob"
+    },
+    {
+        "Id": 46,
+        "Name": "hopper_minecart",
+        "Type": "mob"
+    },
+    {
+        "Id": 47,
+        "Name": "spawner_minecart",
+        "Type": "mob"
+    },
+    {
+        "Id": 50,
+        "Name": "creeper",
+        "Type": "mob"
+    },
+    {
+        "Id": 51,
+        "Name": "skeleton",
+        "Type": "mob"
+    },
+    {
+        "Id": 52,
+        "Name": "spider",
+        "Type": "mob"
+    },
+    {
+        "Id": 53,
+        "Name": "giant",
+        "Type": "mob"
+    },
+    {
+        "Id": 54,
+        "Name": "zombie",
+        "Type": "mob"
+    },
+    {
+        "Id": 55,
+        "Name": "slime",
+        "Type": "mob"
+    },
+    {
+        "Id": 56,
+        "Name": "ghast",
+        "Type": "mob"
+    },
+    {
+        "Id": 57,
+        "Name": "zombie_pigman",
+        "Type": "mob"
+    },
+    {
+        "Id": 58,
+        "Name": "enderman",
+        "Type": "mob"
+    },
+    {
+        "Id": 59,
+        "Name": "cave_spider",
+        "Type": "mob"
+    },
+    {
+        "Id": 60,
+        "Name": "silverfish",
+        "Type": "mob"
+    },
+    {
+        "Id": 61,
+        "Name": "blaze",
+        "Type": "mob"
+    },
+    {
+        "Id": 62,
+        "Name": "magma_cube",
+        "Type": "mob"
+    },
+    {
+        "Id": 63,
+        "Name": "ender_dragon",
+        "Type": "mob"
+    },
+    {
+        "Id": 64,
+        "Name": "wither",
+        "Type": "mob"
+    },
+    {
+        "Id": 65,
+        "Name": "bat",
+        "Type": "mob"
+    },
+    {
+        "Id": 66,
+        "Name": "witch",
+        "Type": "mob"
+    },
+    {
+        "Id": 67,
+        "Name": "endermite",
+        "Type": "mob"
+    },
+    {
+        "Id": 68,
+        "Name": "guardian",
+        "Type": "mob"
+    },
+    {
+        "Id": 69,
+        "Name": "shulker",
+        "Type": "mob"
+    },
+    {
+        "Id": 90,
+        "Name": "pig",
+        "Type": "mob"
+    },
+    {
+        "Id": 91,
+        "Name": "sheep",
+        "Type": "mob"
+    },
+    {
+        "Id": 92,
+        "Name": "cow",
+        "Type": "mob"
+    },
+    {
+        "Id": 93,
+        "Name": "chicken",
+        "Type": "mob"
+    },
+    {
+        "Id": 94,
+        "Name": "squid",
+        "Type": "mob"
+    },
+    {
+        "Id": 95,
+        "Name": "wolf",
+        "Type": "mob"
+    },
+    {
+        "Id": 96,
+        "Name": "mooshroom",
+        "Type": "mob"
+    },
+    {
+        "Id": 97,
+        "Name": "snowman",
+        "Type": "mob"
+    },
+    {
+        "Id": 98,
+        "Name": "ocelot",
+        "Type": "mob"
+    },
+    {
+        "Id": 99,
+        "Name": "villager_golem",
+        "Type": "mob"
+    },
+    {
+        "Id": 100,
+        "Name": "horse",
+        "Type": "mob"
+    },
+    {
+        "Id": 101,
+        "Name": "rabbit",
+        "Type": "mob"
+    },
+    {
+        "Id": 102,
+        "Name": "polar_bear",
+        "Type": "mob"
+    },
+    {
+        "Id": 103,
+        "Name": "llama",
+        "Type": "mob"
+    },
+    {
+        "Id": 104,
+        "Name": "llama_spit",
+        "Type": "mob"
+    },
+    {
+        "Id": 120,
+        "Name": "villager",
+        "Type": "mob"
+    },
+    {
+        "Id": 200,
+        "Name": "ender_crystal",
+        "Type": "mob"
+    },
+    {
+        "Id": 1,
+        "Name": "boat",
+        "Type": "object"
+    },
+    {
+        "Id": 2,
+        "Name": "item",
+        "Type": "object"
+    },
+    {
+        "Id": 3,
+        "Name": "area_effect_cloud",
+        "Type": "object"
+    },
+    {
+        "Id": 10,
+        "Name": "minecart",
+        "Type": "object"
+    },
+    {
+        "Id": 50,
+        "Name": "tnt",
+        "Type": "object"
+    },
+    {
+        "Id": 51,
+        "Name": "ender_crystal",
+        "Type": "object"
+    },
+    {
+        "Id": 60,
+        "Name": "arrow",
+        "Type": "object"
+    },
+    {
+        "Id": 61,
+        "Name": "snowball",
+        "Type": "object"
+    },
+    {
+        "Id": 62,
+        "Name": "egg",
+        "Type": "object"
+    },
+    {
+        "Id": 63,
+        "Name": "fireball",
+        "Type": "object"
+    },
+    {
+        "Id": 64,
+        "Name": "small_fireball",
+        "Type": "object"
+    },
+    {
+        "Id": 65,
+        "Name": "ender_pearl",
+        "Type": "object"
+    },
+    {
+        "Id": 66,
+        "Name": "wither_skull",
+        "Type": "object"
+    },
+    {
+        "Id": 67,
+        "Name": "shulker_bullet",
+        "Type": "object"
+    },
+    {
+        "Id": 68,
+        "Name": "llama_spit",
+        "Type": "object"
+    },
+    {
+        "Id": 70,
+        "Name": "falling_block",
+        "Type": "object"
+    },
+    {
+        "Id": 71,
+        "Name": "item_frame",
+        "Type": "object"
+    },
+    {
+        "Id": 72,
+        "Name": "eye_of_ender_signal",
+        "Type": "object"
+    },
+    {
+        "Id": 73,
+        "Name": "egg",
+        "Type": "object"
+    },
+    {
+        "Id": 75,
+        "Name": "snowball",
+        "Type": "object"
+    },
+    {
+        "Id": 76,
+        "Name": "fireworks_rocket",
+        "Type": "object"
+    },
+    {
+        "Id": 77,
+        "Name": "leash_knot",
+        "Type": "object"
+    },
+    {
+        "Id": 78,
+        "Name": "armor_stand",
+        "Type": "object"
+    },
+    {
+        "Id": 79,
+        "Name": "evocation_fangs",
+        "Type": "object"
+    },
+    {
+        "Id": 90,
+        "Name": "Fishing Hook",
+        "Type": "object"
+    },
+    {
+        "Id": 91,
+        "Name": "spectral_arrow",
+        "Type": "object"
+    },
+    {
+        "Id": 93,
+        "Name": "dragon_fireball",
+        "Type": "object"
+    }
+]

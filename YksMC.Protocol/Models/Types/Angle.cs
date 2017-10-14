@@ -22,5 +22,10 @@ namespace YksMC.Protocol.Models.Types
                 return false;
             return true;
         }
+
+        public double GetRadians()
+        {
+            return Value / 256.0 * 2 * Math.PI;
+        }
     }
 }

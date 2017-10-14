@@ -11,22 +11,27 @@ namespace YksMC.Bot.Handlers
 {
     public class WorldEventHandlerWrapper : IEventHandler<ChunkDataPacket>, IEventHandler<JoinGamePacket>,
         IEventHandler<PlayerPositionLookPacket>, IEventHandler<LoginSuccessPacket>, IEventHandler<TimeUpdatePacket>,
-        IEventHandler<BlockChangePacket>, IEventHandler<SetExperiencePacket>
+        IEventHandler<BlockChangePacket>, IEventHandler<SetExperiencePacket>, IEventHandler<SpawnMobPacket>
     {
         private readonly ChunkDataHandler _chunkDataHandler;
         private readonly PlayerHandler _playerHandler;
         private readonly LoginHandler _loginHandler;
         private readonly TimeUpdateHandler _timeUpdateHandler;
         private readonly BlockChangeHandler _blockChangeHandler;
+        private readonly EntityHandler _entityHandler;
         private IWorld _world;
 
-        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, LoginHandler loginHandler, TimeUpdateHandler timeUpdateHandler, BlockChangeHandler blockChangeHandler, IWorld dimension)
+        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, 
+            LoginHandler loginHandler, TimeUpdateHandler timeUpdateHandler, BlockChangeHandler blockChangeHandler, 
+            EntityHandler entityHandler,
+            IWorld dimension)
         {
             _chunkDataHandler = chunkDataHandler;
             _playerHandler = playerHandler;
             _loginHandler = loginHandler;
             _timeUpdateHandler = timeUpdateHandler;
             _blockChangeHandler = blockChangeHandler;
+            _entityHandler = entityHandler;
             _world = dimension;
         }
 
@@ -63,6 +68,11 @@ namespace YksMC.Bot.Handlers
         public void Handle(SetExperiencePacket args)
         {
             _world = _playerHandler.ApplyEvent(args, _world);
+        }
+
+        public void Handle(SpawnMobPacket args)
+        {
+            _world = _entityHandler.ApplyEvent(args, _world);
         }
     }
 }

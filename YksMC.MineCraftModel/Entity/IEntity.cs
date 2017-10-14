@@ -9,13 +9,13 @@ namespace YksMC.MinecraftModel.Entity
     {
         int Id { get; }
         IEntityType Type { get; }
-        IEntityCoordinate Position { get; }
+        IEntityLocation Location { get; }
         
         double Yaw { get; }
         double Pitch { get; }
         double HeadYaw { get; }
 
-        IEntity ChangePosition(IEntityCoordinate position);
+        IEntity ChangeLocation(IEntityLocation location);
         IEntity ChangeLook(double yaw, double pitch);
         IEntity ChangeHeadLook(double headYaw);
     }

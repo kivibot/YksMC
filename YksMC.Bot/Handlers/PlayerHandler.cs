@@ -24,7 +24,7 @@ namespace YksMC.Bot.Handlers
         public IWorld ApplyEvent(JoinGamePacket packet, IWorld world)
         {
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
-            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityCoordinate.Origin, 0, 0, 0);
+            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityLocation.Origin, 0, 0, 0);
 
             IDimension dimension = world.GetDimension(packet.Dimension)
                 .ChangeEntity(playerEntity);
@@ -55,13 +55,13 @@ namespace YksMC.Bot.Handlers
             IEntity playerEntity = dimension.GetEntity(player.EntityId);
 
             PlayerPositionLookPacketFlags flags = packet.Flags;
-            double x = (flags.RelativeX ? playerEntity.Position.X : 0) + packet.X;
-            double y = (flags.RelativeY ? playerEntity.Position.Y : 0) + packet.FeetY;
-            double z = (flags.RelativeZ ? playerEntity.Position.Z : 0) + packet.Z;
+            double x = (flags.RelativeX ? playerEntity.Location.X : 0) + packet.X;
+            double y = (flags.RelativeY ? playerEntity.Location.Y : 0) + packet.FeetY;
+            double z = (flags.RelativeZ ? playerEntity.Location.Z : 0) + packet.Z;
             double yaw = (flags.RelativeYaw ? playerEntity.Yaw : 0) + packet.Yaw;
             double pitch = (flags.RelativePitch ? playerEntity.Pitch : 0) + packet.Pitch;
 
-            playerEntity = playerEntity.ChangePosition(new EntityCoordinate(x, y, z))
+            playerEntity = playerEntity.ChangeLocation(new EntityLocation(x, y, z))
                 .ChangeLook(yaw, pitch);
 
             TeleportConfirmPacket confirmationPacket = new TeleportConfirmPacket()

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YksMC.MinecraftModel.Entity
 {
-    public class EntityCoordinate : IEntityCoordinate
+    public class EntityLocation : IEntityLocation
     {
         private readonly double _x;
         private readonly double _y;
@@ -14,13 +14,13 @@ namespace YksMC.MinecraftModel.Entity
         public double Y => _y;
         public double Z => _z;
 
-        public EntityCoordinate(double x, double y, double z)
+        public EntityLocation(double x, double y, double z)
         {
             _x = x;
             _y = y;
             _z = z;
         }
 
-        public static readonly IEntityCoordinate Origin = new EntityCoordinate(0, 0, 0);
+        public static readonly IEntityLocation Origin = new EntityLocation(0, 0, 0);
     }
 }

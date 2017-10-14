@@ -151,5 +151,43 @@ namespace YksMC.Data.Json {
                 return ResourceManager.GetString("BlockTypes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
+        ///    {
+        ///        &quot;Id&quot;: 1,
+        ///        &quot;Name&quot;: &quot;item&quot;,
+        ///        &quot;Type&quot;: &quot;mob&quot;
+        ///    },
+        ///    {
+        ///        &quot;Id&quot;: 2,
+        ///        &quot;Name&quot;: &quot;xp_orb&quot;,
+        ///        &quot;Type&quot;: &quot;mob&quot;
+        ///    },
+        ///    {
+        ///        &quot;Id&quot;: 3,
+        ///        &quot;Name&quot;: &quot;area_effect_cloud&quot;,
+        ///        &quot;Type&quot;: &quot;mob&quot;
+        ///    },
+        ///    {
+        ///        &quot;Id&quot;: 4,
+        ///        &quot;Name&quot;: &quot;elder_guardian&quot;,
+        ///        &quot;Type&quot;: &quot;mob&quot;
+        ///    },
+        ///    {
+        ///        &quot;Id&quot;: 5,
+        ///        &quot;Name&quot;: &quot;wither_skeleton&quot;,
+        ///        &quot;Type&quot;: &quot;mob&quot;
+        ///    },
+        ///    {
+        ///        &quot;Id&quot;: 6,
+        ///        &quot;Name&quot;: &quot;stray&quot;,
+        ///        &quot;Type&quot;: &quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EntityTypes {
+            get {
+                return ResourceManager.GetString("EntityTypes", resourceCulture);
+            }
+        }
     }
 }
