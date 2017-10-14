@@ -11,14 +11,11 @@ using YksMC.Protocol.Packets.Play.Common;
 
 namespace YksMC.Bot.Handlers
 {
-    public class WorldEventHandlerWrapper : IEventHandler<ChunkDataPacket>, IEventHandler<JoinGamePacket>,
-        IEventHandler<PlayerPositionLookPacket>, IEventHandler<LoginSuccessPacket>, IEventHandler<TimeUpdatePacket>,
-        IEventHandler<BlockChangePacket>, IEventHandler<SetExperiencePacket>, IEventHandler<SpawnMobPacket>,
-        IEventHandler<KeepAlivePacket>
+    [Obsolete("Will hopefully be replaced")]
+    public class WorldEventHandlerWrapper
     {
         private readonly ChunkDataHandler _chunkDataHandler;
         private readonly PlayerHandler _playerHandler;
-        private readonly LoginHandler _loginHandler;
         private readonly TimeUpdateHandler _timeUpdateHandler;
         private readonly BlockChangeHandler _blockChangeHandler;
         private readonly EntityHandler _entityHandler;
@@ -27,14 +24,12 @@ namespace YksMC.Bot.Handlers
         private readonly IMinecraftClient _client;
         private IWorld _world;
 
-        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, 
-            LoginHandler loginHandler, TimeUpdateHandler timeUpdateHandler, BlockChangeHandler blockChangeHandler, 
-            EntityHandler entityHandler, KeepAliveHandler keepAliveHandler,
+        public WorldEventHandlerWrapper(ChunkDataHandler chunkDataHandler, PlayerHandler playerHandler, TimeUpdateHandler timeUpdateHandler,
+            BlockChangeHandler blockChangeHandler, EntityHandler entityHandler, KeepAliveHandler keepAliveHandler,
             IMinecraftClient client, IWorld dimension)
         {
             _chunkDataHandler = chunkDataHandler;
             _playerHandler = playerHandler;
-            _loginHandler = loginHandler;
             _timeUpdateHandler = timeUpdateHandler;
             _blockChangeHandler = blockChangeHandler;
             _entityHandler = entityHandler;
@@ -47,7 +42,7 @@ namespace YksMC.Bot.Handlers
         public void Handle<T>(T packet, IWorldEventHandler<T> handler)
         {
             IWorldEventResult result = handler.ApplyEvent(packet, _world);
-            foreach(object replyPacket in result.ReplyPackets)
+            foreach (object replyPacket in result.ReplyPackets)
             {
                 _client.SendPacket(replyPacket);
             }
@@ -67,11 +62,6 @@ namespace YksMC.Bot.Handlers
         public void Handle(PlayerPositionLookPacket args)
         {
             Handle(args, _playerHandler);
-        }
-
-        public void Handle(LoginSuccessPacket args)
-        {
-            Handle(args, _loginHandler);
         }
 
         public void Handle(TimeUpdatePacket args)

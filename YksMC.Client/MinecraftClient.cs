@@ -23,9 +23,13 @@ namespace YksMC.Client
 
         private IMinecraftConnection _connection;
         private ServerAddress _address;
-
+        private ConnectionState _state;
+        
         public ProtocolVersion ProtocolVersion => _protocolVersion;
         public ServerAddress Address => _address;
+        public ConnectionState State => _state;
+
+        public event Action<object> PacketReceived = delegate { };
 
         public MinecraftClient(TcpClient tcpClient, IMinecraftClientWorker worker, StreamMinecraftConnection.Factory connectionFactory, ILogger logger)
         {
@@ -33,6 +37,7 @@ namespace YksMC.Client
             _worker = worker;
             _connectionFactory = connectionFactory;
             _logger = logger.ForContext<MinecraftClient>();
+            SetState(ConnectionState.None);
         }
 
         public async Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken))
@@ -42,8 +47,9 @@ namespace YksMC.Client
 
             await _tcpClient.ConnectAsync(host, port);
             _connection = _connectionFactory(_tcpClient.GetStream());
-            _worker.Start(_connection);
             _address = new ServerAddress(host, port);
+            _worker.PacketReceived += PacketReceived;
+            _worker.Start(_connection);
 
             SetState(ConnectionState.Handshake);
         }
@@ -75,6 +81,7 @@ namespace YksMC.Client
         {
             _logger.Information("Changing connection state: {state}", state);
             _worker.SetState(state);
+            _state = state;
         }
 
         public void Disconnect()

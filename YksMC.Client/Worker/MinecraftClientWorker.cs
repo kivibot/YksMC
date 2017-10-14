@@ -28,13 +28,16 @@ namespace YksMC.Client.Worker
         private readonly IPacketTypeMapper _typeMapper;
         private readonly MinecraftClientWorkerOptions _options;
         private readonly ILogger _logger;
-        private readonly IMinecraftClientPacketHandler _packetHandler;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
         private IMinecraftConnection _connection;
         private ConnectionState _state;
 
-        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader, IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options, ILogger logger, IMinecraftClientPacketHandler packetHandler)
+        public event Action<object> PacketReceived = delegate { };
+
+        public MinecraftClientWorker(IPacketSerializer serializer, IPacketBuilder packetBuilder, IPacketReader packetReader,
+            IPacketDeserializer deserializer, IPacketTypeMapper typeMapper, MinecraftClientWorkerOptions options,
+            ILogger logger)
         {
             _sendingQueue = new AsyncProducerConsumerQueue<object>();
             _serializer = serializer;
@@ -45,7 +48,6 @@ namespace YksMC.Client.Worker
             _options = options;
             _state = ConnectionState.None;
             _logger = logger.ForContext<MinecraftClientWorker>();
-            _packetHandler = packetHandler;
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -59,11 +61,8 @@ namespace YksMC.Client.Worker
             _connection = connection;
             SetState(ConnectionState.Handshake);
 
-            //TODO: fix
-            Task[] tasks = new Task[]{
-                HandleReceivingAsync(_cancellationTokenSource.Token),
-                HandleSendingAsync(_cancellationTokenSource.Token)
-            };
+            HandleReceivingAsync(_cancellationTokenSource.Token);
+            HandleSendingAsync(_cancellationTokenSource.Token);
         }
 
         public void Stop()
@@ -71,7 +70,7 @@ namespace YksMC.Client.Worker
             _cancellationTokenSource.Cancel();
         }
 
-        private async Task HandleSendingAsync(CancellationToken cancelToken)
+        private async void HandleSendingAsync(CancellationToken cancelToken)
         {
             while (!cancelToken.IsCancellationRequested)
             {
@@ -98,7 +97,7 @@ namespace YksMC.Client.Worker
             await _connection.SendPacketAsync(data, cancelToken);
         }
 
-        private async Task HandleReceivingAsync(CancellationToken cancelToken)
+        private async void HandleReceivingAsync(CancellationToken cancelToken)
         {
             while (!cancelToken.IsCancellationRequested)
             {
@@ -140,7 +139,7 @@ namespace YksMC.Client.Worker
             }
 
             LogPacketReceived(packet);
-            _packetHandler.HandlePacket(packet);
+            PacketReceived(packet);
         }
 
         private void LogPacketReceived(object packet)

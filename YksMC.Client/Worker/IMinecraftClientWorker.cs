@@ -13,5 +13,7 @@ namespace YksMC.Client.Worker
         void Stop();
         void EnqueuePacket(object packet);
         void SetState(ConnectionState state);
+
+        event Action<object> PacketReceived;
     }
 }

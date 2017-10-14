@@ -14,10 +14,13 @@ namespace YksMC.Client
     {
         ProtocolVersion ProtocolVersion { get; }
         ServerAddress Address { get; }
+        ConnectionState State { get; }
 
         Task ConnectAsync(string host, ushort port, CancellationToken cancelToken = default(CancellationToken));
+        void Disconnect();
         void SendPacket(object packet);
         void SetState(ConnectionState state);
-        void Disconnect();
+
+        event Action<object> PacketReceived;
     }
 }

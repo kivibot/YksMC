@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Bot.Core;
 using YksMC.Bot.Handlers;
+using YksMC.Bot.Login;
 using YksMC.Client.Mapper;
 using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
@@ -56,7 +58,6 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
 
             builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterType<LoginHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<ChunkDataHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<PlayerHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<TimeUpdateHandler>().AsImplementedInterfaces().AsSelf();
@@ -67,6 +68,9 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonEntityTypeRepository>().AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<LoginService>().AsImplementedInterfaces();
+            builder.RegisterType<YksClient>().AsSelf();
 
             IBlock emptyBlock = new Block(new BlockType("air"), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
@@ -88,25 +92,9 @@ namespace YksMC.Client.IntegrationTests
         [Test]
         public async Task ConnectAsync_WithRealServer_DoesNotCrash()
         {
-            MinecraftClient client = _container.Resolve<MinecraftClient>();
+            YksClient client = _container.Resolve<YksClient>();
 
-            await client.ConnectAsync("localhost", 25565);
-
-            client.SetState(ConnectionState.Login);
-
-            client.SendPacket(new HandshakePacket()
-            {
-                NextState = ConnectionState.Login,
-                ProtocolVersion = client.ProtocolVersion,
-                ServerAddress = client.Address.Host,
-                ServerPort = client.Address.Port
-            });
-            client.SendPacket(new LoginStartPacket()
-            {
-                Name = "testibotti"
-            });
-
-            await Task.Delay(100000);
+            await client.RunAsync();
         }
 
     }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YksMC.Client.EventBus
+namespace YksMC.Bot.Login
 {
-    public interface IEventHandler<T>
+    public interface ILoginService
     {
-        void Handle(T args);
+        Task<IPlayerInfo> LoginAsync();
     }
 }
