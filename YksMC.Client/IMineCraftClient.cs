@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using YksMC.Client.Models;
-using YksMC.Client.Models.Status;
 using YksMC.Protocol.Models;
 using YksMC.Protocol.Models.Constants;
 using YksMC.Protocol.Packets;

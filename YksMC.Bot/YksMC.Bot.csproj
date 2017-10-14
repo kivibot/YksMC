@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Bot\**" />
+    <EmbeddedResource Remove="Bot\**" />
+    <None Remove="Bot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Serilog" Version="2.5.0-dev-00839" />
   </ItemGroup>
 
@@ -13,10 +19,6 @@
     <ProjectReference Include="..\YksMC.MineCraftModel\YksMC.MinecraftModel.csproj" />
     <ProjectReference Include="..\YksMC.Protocol.Packets\YksMC.Protocol.Packets.csproj" />
     <ProjectReference Include="..\YksMC.Protocol\YksMC.Protocol.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Bot\" />
   </ItemGroup>
 
 </Project>

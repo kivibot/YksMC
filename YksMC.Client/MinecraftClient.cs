@@ -1,22 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using YksMC.Client.Models.Status;
 using YksMC.Client.Worker;
-using YksMC.Protocol;
 using YksMC.Protocol.Connection;
 using YksMC.Protocol.Models.Constants;
-using YksMC.Protocol.Packets;
-using YksMC.Protocol.Packets.Login;
-using YksMC.Protocol.Packets.Status;
-using YksMC.Protocol.Serializing;
 using YksMC.Client.Models;
 using Serilog;
-using YksMC.Protocol.Models;
 
 namespace YksMC.Client
 {
@@ -50,7 +42,7 @@ namespace YksMC.Client
 
             await _tcpClient.ConnectAsync(host, port);
             _connection = _connectionFactory(_tcpClient.GetStream());
-            _worker.StartHandling(_connection);
+            _worker.Start(_connection);
             _address = new ServerAddress(host, port);
 
             SetState(ConnectionState.Handshake);
@@ -66,13 +58,17 @@ namespace YksMC.Client
         private void EnsureNotConnected()
         {
             if (_connection != null)
+            {
                 throw new ArgumentException("Already connected!");
+            }
         }
 
         private void EnsureConnected()
         {
-            if(_connection == null)
+            if (_connection == null)
+            {
                 throw new ArgumentException("Not connected!");
+            }
         }
 
         public void SetState(ConnectionState state)
@@ -83,7 +79,8 @@ namespace YksMC.Client
 
         public void Disconnect()
         {
-            throw new NotImplementedException();
+            _worker.Stop();
+            //TODO: close connection
         }
     }
 }

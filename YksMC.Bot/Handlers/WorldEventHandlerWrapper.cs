@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Bot.WorldEvent;
 using YksMC.Client;
-using YksMC.Client.EventBus;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Login;

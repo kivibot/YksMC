@@ -9,7 +9,8 @@ namespace YksMC.Client.Worker
 {
     public interface IMinecraftClientWorker
     {
-        void StartHandling(IMinecraftConnection connection);
+        void Start(IMinecraftConnection connection);
+        void Stop();
         void EnqueuePacket(object packet);
         void SetState(ConnectionState state);
     }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Client;
-using YksMC.Client.EventBus;
 using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.Protocol.Models.Constants;
@@ -16,6 +15,7 @@ using YksMC.Bot.WorldEvent;
 
 namespace YksMC.Bot.Handlers
 {
+    [Obsolete("TODO")]
     public class LoginHandler : WorldEventHandler, IEventHandler<DisconnectPacket>, IEventHandler<EncryptionRequestPacket>, IEventHandler<SetCompressionPacket>, IWorldEventHandler<LoginSuccessPacket>
     {
         private readonly IMinecraftClient _client;

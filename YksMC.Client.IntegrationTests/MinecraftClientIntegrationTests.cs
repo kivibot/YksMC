@@ -7,10 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Bot.Handlers;
-using YksMC.Client.EventBus;
-using YksMC.Client.Injection;
 using YksMC.Client.Mapper;
-using YksMC.Client.Models.Status;
 using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
 using YksMC.Data.Json.BlockType;
@@ -50,15 +47,12 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<PacketBuilder>().AsImplementedInterfaces();
             builder.RegisterType<StreamMinecraftConnection>().AsSelf();
             builder.RegisterType<MinecraftClientWorker>().AsImplementedInterfaces();
-            builder.RegisterType<AutofacPacketHandlerFactory>().AsImplementedInterfaces();
             builder.RegisterInstance(new MinecraftClientWorkerOptions() { IgnoreUnsupportedPackets = true });
             builder.RegisterInstance(new LoggerConfiguration().MinimumLevel.Verbose().WriteTo.Seq("http://localhost:5341").CreateLogger()).As<ILogger>();
             PacketTypeMapper typeMapper = new PacketTypeMapper();
             typeMapper.RegisterVanillaPackets();
             builder.RegisterInstance(typeMapper).AsImplementedInterfaces();
-
-            builder.RegisterGeneric(typeof(AutofacOwnedWrapper<>)).AsImplementedInterfaces();
-            builder.RegisterType<EventDispatcher>().AsImplementedInterfaces();
+            
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
 
             builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces().AsSelf();
