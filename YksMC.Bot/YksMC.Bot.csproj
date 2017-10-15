@@ -21,4 +21,8 @@
     <ProjectReference Include="..\YksMC.Protocol\YksMC.Protocol.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

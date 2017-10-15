@@ -7,8 +7,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Bot.Core;
-using YksMC.Bot.Handlers;
 using YksMC.Bot.Login;
+using YksMC.Bot.PacketHandlers;
+using YksMC.Bot.TickHandlers;
 using YksMC.Client.Mapper;
 using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
@@ -64,6 +65,8 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<BlockChangeHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<EntityHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<WorldEventHandlerWrapper>().AsSelf().SingleInstance();
+
+            builder.RegisterType<PlayerMovementHandler>().AsSelf().SingleInstance();
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();

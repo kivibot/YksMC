@@ -3,10 +3,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Bot.Handlers;
 using YksMC.Bot.Login;
+using YksMC.Bot.PacketHandlers;
+using YksMC.Bot.TickHandlers;
 using YksMC.Bot.WorldEvent;
 using YksMC.Client;
+using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Models.Constants;
@@ -19,18 +21,20 @@ namespace YksMC.Bot.Core
         private readonly IMinecraftClient _minecraftClient;
         private readonly ILoginService _loginService;
         private readonly WorldEventHandlerWrapper _worldEventHandlerWrapper;
+        private readonly PlayerMovementHandler _playerMovementHandler;
 
         private readonly ConcurrentQueue<object> _packetQueue;
 
         private IWorld _world;
 
-        public YksClient(IMinecraftClient minecraftClient, ILoginService loginService, IWorld world, WorldEventHandlerWrapper worldEventHandlerWrapper)
+        public YksClient(IMinecraftClient minecraftClient, ILoginService loginService, IWorld world, WorldEventHandlerWrapper worldEventHandlerWrapper, PlayerMovementHandler playerMovementHandler)
         {
             _minecraftClient = minecraftClient;
             _minecraftClient.PacketReceived += OnPacketReceived;
             _loginService = loginService;
             _packetQueue = new ConcurrentQueue<object>();
             _worldEventHandlerWrapper = worldEventHandlerWrapper;
+            _playerMovementHandler = playerMovementHandler;
             _world = world;
         }
 
@@ -68,7 +72,17 @@ namespace YksMC.Bot.Core
                 }
                 _world = result.World;
             }
-            _minecraftClient.SendPacket(new PlayerPacket() { OnGround = true });
+
+            _world = _playerMovementHandler.ApplyEvent(null, _world).World;
+
+            IPlayer player = _world.GetLocalPlayer();
+            if (!player.HasEntity)
+            {
+                return;
+            }
+            IEntity entity = _world.GetCurrentDimension().GetEntity(player.EntityId);
+            bool onGround = (entity.Location.Y - Math.Round(entity.Location.Y)) == 0;
+            _minecraftClient.SendPacket(new PlayerPositionPacket() { X = entity.Location.X, FeetY = entity.Location.Y, Z = entity.Location.Z, OnGround = onGround });
         }
 
         private void OnPacketReceived(object packet)
