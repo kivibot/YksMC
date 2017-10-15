@@ -51,11 +51,11 @@ namespace YksMC.MinecraftModel.Chunk
             int localY = Mod(position.Y, Chunk.Height);
             int localZ = Mod(position.Z, Chunk.Width);
             IBlock[][][] blocks = (IBlock[][][])_blocks.Clone();
-            IBlock[][] slice = (IBlock[][])_blocks[localZ].Clone();
-            IBlock[] column = (IBlock[])_blocks[localZ][localY].Clone();
-            column[localX] = block;
+            IBlock[][] slice = (IBlock[][])_blocks[localX].Clone();
+            IBlock[] column = (IBlock[])_blocks[localX][localY].Clone();
+            column[localZ] = block;
             slice[localY] = column;
-            blocks[localZ] = slice;
+            blocks[localX] = slice;
             return new ChunkSection(blocks);
         }
 

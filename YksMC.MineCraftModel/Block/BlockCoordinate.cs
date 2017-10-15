@@ -20,7 +20,7 @@ namespace YksMC.MinecraftModel.Block
         {
             _x = x;
             _y = y;
-            _z = Z;
+            _z = z;
         }
 
         public IBlockCoordinate Add(int x, int y, int z)

@@ -17,7 +17,7 @@ namespace YksMC.Bot.TickHandlers
 {
     public class PlayerMovementHandler : WorldEventHandler, IWorldEventHandler<IGameTick>
     {
-        private const double _acceleration = 0.08;
+        private const double _acceleration = -0.08;
         private const double _drag = 0.02;
         private const double _dragFactor = 1.0 - _drag;
         private const double _maxVelocity = 3.92;
@@ -25,7 +25,7 @@ namespace YksMC.Bot.TickHandlers
         private const double _hitboxWidth = 0.3;
         private const double _hitboxHeight = 1.74;
 
-        private readonly IVector3<double> _gravityDirection = new Vector3d(0, -1, 0);
+        private const double _stepHeight = 0.6;
 
         public IWorldEventResult ApplyEvent(IGameTick tick, IWorld world)
         {
@@ -38,9 +38,9 @@ namespace YksMC.Bot.TickHandlers
             IEntity entity = dimension.GetEntity(player.EntityId);
 
             IVector3<double> velocity = GetNextVelocity(entity.Velocity);
-            double movedLength = TraceAll(dimension, entity.Location, velocity);
+            double movedLength = GetLongestValidLinearMovement(dimension, entity.Location, velocity);
             IEntityLocation endLocation = entity.Location.Add(velocity.Multiply(movedLength));
-            bool isOnGround = movedLength < velocity.Length();
+            bool isOnGround = movedLength < 1;
             if (isOnGround)
             {
                 velocity = new Vector3d(0, 0, 0);
@@ -53,78 +53,95 @@ namespace YksMC.Bot.TickHandlers
             return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(entity)));
         }
 
-        private double TraceAll(IDimension dimension, IEntityLocation entityLocation, IVector3<double> velocity)
+        private double GetLongestValidLinearMovement(IDimension dimension, IEntityLocation entityLocation, IVector3<double> velocity)
         {
             IReadOnlyList<IEntityLocation> hitboxPoints = GetRelevantHitboxPoints(velocity, entityLocation);
             if (hitboxPoints.Count == 0)
             {
                 return 1;
             }
-            return hitboxPoints.Select(location => TraceFull(dimension, location, velocity)).Min();
+            return hitboxPoints.Select(location => GetFirstHit(dimension, location, velocity)).Min();
         }
 
-        private double TraceFull(IDimension dimension, IEntityLocation startLocation, IVector3<double> velocity)
+        private double GetFirstHit(IDimension dimension, IEntityLocation startLocation, IVector3<double> velocity)
         {
-            double tracedLength = 0;
-            double maxLength = 1;
-            IEntityLocation location = startLocation;
+            IReadOnlyList<double> hits = RayCast(startLocation, velocity);
 
-            while (tracedLength < maxLength)
+            foreach (double hitDistance in hits)
             {
-                double nextCollision = TraceSingleStep(location, velocity);
-                tracedLength += nextCollision;
-                tracedLength = Math.Min(maxLength, tracedLength);
-                location = startLocation.Add(velocity.Multiply(tracedLength));
-
+                IEntityLocation location = startLocation.Add(velocity.Multiply(hitDistance));
                 IBlock block = GetBlock(dimension, location, velocity);
-                if (block.Type.Name != "air")
+                if (IsSolidBlock(block))
                 {
-                    break;
+                    return hitDistance;
                 }
             }
 
-            return tracedLength;
+            return 1;
         }
 
-        private double TraceSingleStep(IEntityLocation location, IVector3<double> ray)
+        private IReadOnlyList<double> RayCast(IEntityLocation location, IVector3<double> ray)
         {
-            double xDist = TraceSingleStepScalar(location.X, ray.X);
-            double yDist = TraceSingleStepScalar(location.Y, ray.Y);
-            double zDist = TraceSingleStepScalar(location.Z, ray.Z);
-            double min = Math.Min(xDist, Math.Min(yDist, zDist));
-            double factor;
-            if (xDist == min)
+            List<double> hits = new List<double>();
+            double rayLength = ray.Length();
+            foreach (double scalarDistance in RayCastScalar(location.X, ray.X))
             {
-                factor = xDist / ray.X;
+                hits.Add(scalarDistance * rayLength / Math.Abs(ray.X));
             }
-            else if (yDist == min)
+            foreach (double scalarDistance in RayCastScalar(location.Y, ray.Y))
             {
-                factor = yDist / ray.Y;
+                hits.Add(scalarDistance * rayLength / Math.Abs(ray.Y));
             }
-            else
+            foreach (double scalarDistance in RayCastScalar(location.Z, ray.Z))
             {
-                factor = zDist / ray.Z;
+                hits.Add(scalarDistance * rayLength / Math.Abs(ray.Z));
             }
-            return ray.Multiply(factor).Length();
+            hits.Sort();
+            return hits;
         }
 
-        private double TraceSingleStepScalar(double start, double ray)
+        //TODO: should this returns values from 0 to 1 instead of 0 to ray
+        private IEnumerable<double> RayCastScalar(double start, double ray)
         {
             if (ray == 0)
             {
-                return 1;
+                yield break;
             }
-            //TODO: expand
-            return (ray < 0 ? (start == Math.Floor(start) ? -1 : 0) : (ray > 0 ? 1 : 0)) + Math.Floor(start) - start;
+            double step;
+            double current;
+            if (ray > 0)
+            {
+                step = 1;
+                current = Math.Ceiling(start);
+            }
+            else
+            {
+                step = -1;
+                current = Math.Floor(start);
+            }
+            double distance;
+            while ((distance = Math.Abs(current - start)) < Math.Abs(ray))
+            {
+                yield return distance;
+                current = current + step;
+            }
         }
 
         private IBlock GetBlock(IDimension dimension, IEntityLocation entityLocation, IVector3<double> velocity)
         {
-            int blockX = (int)entityLocation.X;
-            int blockY = (int)entityLocation.Y;
-            int blockZ = (int)entityLocation.Z;
-
+            int blockX = GetBlockCoordinateScalar(entityLocation.X, velocity.X);
+            int blockY = GetBlockCoordinateScalar(entityLocation.Y, velocity.Y);
+            int blockZ = GetBlockCoordinateScalar(entityLocation.Z, velocity.Z);
             return dimension.GetBlock(new BlockCoordinate(blockX, blockY, blockZ));
+        }
+
+        private int GetBlockCoordinateScalar(double location, double direction)
+        {
+            if (direction < 0)
+            {
+                return (int)Math.Floor(location) - 1;
+            }
+            return (int)Math.Floor(location);
         }
 
         private IReadOnlyList<IEntityLocation> GetRelevantHitboxPoints(IVector3<double> velocity, IEntityLocation entityLocation)
@@ -146,16 +163,14 @@ namespace YksMC.Bot.TickHandlers
 
         private IVector3<double> GetNextVelocity(IVector3<double> previousVelocity)
         {
-            IVector3<double> additionalVelocity = _gravityDirection.Multiply(_acceleration);
-            IVector3<double> velocity = previousVelocity//.Multiply(_dragFactor)
-                .Add(additionalVelocity);
-            if (velocity.Length() > _maxVelocity)
-            {
-                //TODO: fix
-                velocity = velocity.Normalize()
-                    .Multiply(_maxVelocity);
-            }
+            IVector3<double> velocity = new Vector3d(previousVelocity.X, previousVelocity.Y * _dragFactor + _acceleration, previousVelocity.Z);
             return velocity;
         }
+
+        private bool IsSolidBlock(IBlock block)
+        {
+            return block.Type.Name != "air";
+        }
+
     }
 }

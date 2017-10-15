@@ -81,5 +81,10 @@ namespace YksMC.Bot.PacketHandlers
         {
             return _keepAliveHandler.ApplyEvent(args, world);
         }
+
+        private IWorldEventResult Handle(MultiBlockChangePacket args, IWorld world)
+        {
+            return _blockChangeHandler.ApplyEvent(args, world);
+        }
     }
 }

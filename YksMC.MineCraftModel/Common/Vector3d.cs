@@ -12,7 +12,7 @@ namespace YksMC.MinecraftModel.Common
 
         public double X => _x;
         public double Y => _y;
-        public double Z => _x;
+        public double Z => _z;
 
         public Vector3d(double x, double y, double z)
         {

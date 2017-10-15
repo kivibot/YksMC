@@ -39,7 +39,7 @@ namespace YksMC.MinecraftModel.Chunk
             ChunkSection[] sections = (ChunkSection[])_sections.Clone();
             int sectionY = position.Y / ChunkSection.Height;
             sections[sectionY] = sections[sectionY].ChangeBlock(position, block);
-            return new Chunk(_sections);
+            return new Chunk(sections);
         }
 
         public IBlock GetBlock(IBlockCoordinate position)

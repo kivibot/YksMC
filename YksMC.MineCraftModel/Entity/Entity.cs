@@ -34,7 +34,7 @@ namespace YksMC.MinecraftModel.Entity
             _yaw = yaw;
             _pitch = pitch;
             _headYaw = headYaw;
-            _isOnGround = IsOnGround;
+            _isOnGround = isOnGround;
             _velocity = velocity;
         }
 
@@ -53,9 +53,9 @@ namespace YksMC.MinecraftModel.Entity
             return new Entity(_id, _type, _location, _yaw, _pitch, headYaw, _isOnGround, _velocity);
         }
 
-        public IEntity ChangeOnGround(bool isOnGroud)
+        public IEntity ChangeOnGround(bool isOnGround)
         {
-            return new Entity(_id, _type, _location, _yaw, _pitch, _headYaw, _isOnGround, _velocity);
+            return new Entity(_id, _type, _location, _yaw, _pitch, _headYaw, isOnGround, _velocity);
         }
 
         public IEntity ChangeVelocity(IVector3<double> velocity)

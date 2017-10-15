@@ -23,7 +23,7 @@ namespace YksMC.MinecraftModel.Entity
         IEntity ChangeLocation(IEntityLocation location);
         IEntity ChangeLook(double yaw, double pitch);
         IEntity ChangeHeadLook(double headYaw);
-        IEntity ChangeOnGround(bool isOnGroud);
+        IEntity ChangeOnGround(bool isOnGround);
         IEntity ChangeVelocity(IVector3<double> velocity);
     }
 }

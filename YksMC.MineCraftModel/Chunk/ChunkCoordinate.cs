@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using YksMC.MinecraftModel.Block;
 
 namespace YksMC.MinecraftModel.Chunk
 {
+    [DebuggerDisplay("[{X}, {Z}]")]
     public class ChunkCoordinate : IChunkCoordinate
     {
         private readonly int _x;
