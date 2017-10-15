@@ -86,21 +86,20 @@ namespace YksMC.Bot.TickHandlers
             double rayLength = ray.Length();
             foreach (double scalarDistance in RayCastScalar(location.X, ray.X))
             {
-                hits.Add(scalarDistance * rayLength / Math.Abs(ray.X));
+                hits.Add(scalarDistance * rayLength);
             }
             foreach (double scalarDistance in RayCastScalar(location.Y, ray.Y))
             {
-                hits.Add(scalarDistance * rayLength / Math.Abs(ray.Y));
+                hits.Add(scalarDistance * rayLength);
             }
             foreach (double scalarDistance in RayCastScalar(location.Z, ray.Z))
             {
-                hits.Add(scalarDistance * rayLength / Math.Abs(ray.Z));
+                hits.Add(scalarDistance * rayLength);
             }
             hits.Sort();
             return hits;
         }
-
-        //TODO: should this returns values from 0 to 1 instead of 0 to ray
+        
         private IEnumerable<double> RayCastScalar(double start, double ray)
         {
             if (ray == 0)
@@ -122,7 +121,7 @@ namespace YksMC.Bot.TickHandlers
             double distance;
             while ((distance = Math.Abs(current - start)) < Math.Abs(ray))
             {
-                yield return distance;
+                yield return distance / Math.Abs(ray);
                 current = current + step;
             }
         }
@@ -169,7 +168,7 @@ namespace YksMC.Bot.TickHandlers
 
         private bool IsSolidBlock(IBlock block)
         {
-            return block.Type.Name != "air";
+            return block.Type.IsSolid;
         }
 
     }

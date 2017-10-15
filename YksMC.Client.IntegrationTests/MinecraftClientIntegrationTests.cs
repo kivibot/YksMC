@@ -75,7 +75,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<LoginService>().AsImplementedInterfaces();
             builder.RegisterType<YksClient>().AsSelf();
 
-            IBlock emptyBlock = new Block(new BlockType("air"), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();

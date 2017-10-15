@@ -14,7 +14,7 @@ namespace YksMC.Data.Json.BlockType
         public JsonBlockTypeRepository()
         {
             _blockTypes = JsonConvert.DeserializeObject<List<JsonBlockType>>(Resources.BlockTypes)
-                .ToDictionary(bt => bt.Id, bt => (IBlockType)new MinecraftModel.BlockType.BlockType(bt.Name));
+                .ToDictionary(bt => bt.Id, bt => (IBlockType)new MinecraftModel.BlockType.BlockType(bt.Name, bt.IsSolid));
         }
 
         public IBlockType GetBlockType(IBlockTypeIdentity identity)

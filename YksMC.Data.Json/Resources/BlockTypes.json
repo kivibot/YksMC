@@ -1,946 +1,1182 @@
 ﻿[
     {
         "Id": 0,
-        "Name": "air"
+        "Name": "air",
+        "IsSolid": false
     },
     {
         "Id": 1,
-        "Name": "stone"
+        "Name": "stone",
+        "IsSolid": true
     },
     {
         "Id": 2,
-        "Name": "grass"
+        "Name": "grass",
+        "IsSolid": true
     },
     {
         "Id": 3,
-        "Name": "dirt"
+        "Name": "dirt",
+        "IsSolid": true
     },
     {
         "Id": 4,
-        "Name": "cobblestone"
+        "Name": "cobblestone",
+        "IsSolid": true
     },
     {
         "Id": 5,
-        "Name": "planks"
+        "Name": "planks",
+        "IsSolid": true
     },
     {
         "Id": 6,
-        "Name": "sapling"
+        "Name": "sapling",
+        "IsSolid": false
     },
     {
         "Id": 7,
-        "Name": "bedrock"
+        "Name": "bedrock",
+        "IsSolid": true
     },
     {
         "Id": 8,
-        "Name": "flowing_water"
+        "Name": "flowing_water",
+        "IsSolid": false
     },
     {
         "Id": 9,
-        "Name": "water"
+        "Name": "water",
+        "IsSolid": false
     },
     {
         "Id": 10,
-        "Name": "flowing_lava"
+        "Name": "flowing_lava",
+        "IsSolid": false
     },
     {
         "Id": 11,
-        "Name": "lava"
+        "Name": "lava",
+        "IsSolid": false
     },
     {
         "Id": 12,
-        "Name": "sand"
+        "Name": "sand",
+        "IsSolid": true
     },
     {
         "Id": 13,
-        "Name": "gravel"
+        "Name": "gravel",
+        "IsSolid": true
     },
     {
         "Id": 14,
-        "Name": "gold_ore"
+        "Name": "gold_ore",
+        "IsSolid": true
     },
     {
         "Id": 15,
-        "Name": "iron_ore"
+        "Name": "iron_ore",
+        "IsSolid": true
     },
     {
         "Id": 16,
-        "Name": "coal_ore"
+        "Name": "coal_ore",
+        "IsSolid": true
     },
     {
         "Id": 17,
-        "Name": "log"
+        "Name": "log",
+        "IsSolid": true
     },
     {
         "Id": 18,
-        "Name": "leaves"
+        "Name": "leaves",
+        "IsSolid": true
     },
     {
         "Id": 19,
-        "Name": "sponge"
+        "Name": "sponge",
+        "IsSolid": true
     },
     {
         "Id": 20,
-        "Name": "glass"
+        "Name": "glass",
+        "IsSolid": true
     },
     {
         "Id": 21,
-        "Name": "lapis_ore"
+        "Name": "lapis_ore",
+        "IsSolid": true
     },
     {
         "Id": 22,
-        "Name": "lapis_block"
+        "Name": "lapis_block",
+        "IsSolid": true
     },
     {
         "Id": 23,
-        "Name": "dispenser"
+        "Name": "dispenser",
+        "IsSolid": true
     },
     {
         "Id": 24,
-        "Name": "sandstone"
+        "Name": "sandstone",
+        "IsSolid": true
     },
     {
         "Id": 25,
-        "Name": "noteblock"
+        "Name": "noteblock",
+        "IsSolid": true
     },
     {
         "Id": 26,
-        "Name": "bed"
+        "Name": "bed",
+        "IsSolid": true
     },
     {
         "Id": 27,
-        "Name": "golden_rail"
+        "Name": "golden_rail",
+        "IsSolid": false
     },
     {
         "Id": 28,
-        "Name": "detector_rail"
+        "Name": "detector_rail",
+        "IsSolid": false
     },
     {
         "Id": 29,
-        "Name": "sticky_piston"
+        "Name": "sticky_piston",
+        "IsSolid": true
     },
     {
         "Id": 30,
-        "Name": "web"
+        "Name": "web",
+        "IsSolid": false
     },
     {
         "Id": 31,
-        "Name": "tallgrass"
+        "Name": "tallgrass",
+        "IsSolid": false
     },
     {
         "Id": 32,
-        "Name": "deadbush"
+        "Name": "deadbush",
+        "IsSolid": false
     },
     {
         "Id": 33,
-        "Name": "piston"
+        "Name": "piston",
+        "IsSolid": true
     },
     {
         "Id": 34,
-        "Name": "piston_head"
+        "Name": "piston_head",
+        "IsSolid": true
     },
     {
         "Id": 35,
-        "Name": "wool"
+        "Name": "wool",
+        "IsSolid": true
     },
     {
         "Id": 36,
-        "Name": "piston_extension"
+        "Name": "piston_extension",
+        "IsSolid": true
     },
     {
         "Id": 37,
-        "Name": "yellow_flower"
+        "Name": "yellow_flower",
+        "IsSolid": false
     },
     {
         "Id": 38,
-        "Name": "red_flower"
+        "Name": "red_flower",
+        "IsSolid": false
     },
     {
         "Id": 39,
-        "Name": "brown_mushroom"
+        "Name": "brown_mushroom",
+        "IsSolid": true
     },
     {
         "Id": 40,
-        "Name": "red_mushroom"
+        "Name": "red_mushroom",
+        "IsSolid": true
     },
     {
         "Id": 41,
-        "Name": "gold_block"
+        "Name": "gold_block",
+        "IsSolid": true
     },
     {
         "Id": 42,
-        "Name": "iron_block"
+        "Name": "iron_block",
+        "IsSolid": true
     },
     {
         "Id": 43,
-        "Name": "double_stone_slab"
+        "Name": "double_stone_slab",
+        "IsSolid": true
     },
     {
         "Id": 44,
-        "Name": "stone_slab"
+        "Name": "stone_slab",
+        "IsSolid": true
     },
     {
         "Id": 45,
-        "Name": "brick_block"
+        "Name": "brick_block",
+        "IsSolid": true
     },
     {
         "Id": 46,
-        "Name": "tnt"
+        "Name": "tnt",
+        "IsSolid": true
     },
     {
         "Id": 47,
-        "Name": "bookshelf"
+        "Name": "bookshelf",
+        "IsSolid": true
     },
     {
         "Id": 48,
-        "Name": "mossy_cobblestone"
+        "Name": "mossy_cobblestone",
+        "IsSolid": true
     },
     {
         "Id": 49,
-        "Name": "obsidian"
+        "Name": "obsidian",
+        "IsSolid": true
     },
     {
         "Id": 50,
-        "Name": "torch"
+        "Name": "torch",
+        "IsSolid": false
     },
     {
         "Id": 51,
-        "Name": "fire"
+        "Name": "fire",
+        "IsSolid": false
     },
     {
         "Id": 52,
-        "Name": "mob_spawner"
+        "Name": "mob_spawner",
+        "IsSolid": true
     },
     {
         "Id": 53,
-        "Name": "oak_stairs"
+        "Name": "oak_stairs",
+        "IsSolid": true
     },
     {
         "Id": 54,
-        "Name": "chest"
+        "Name": "chest",
+        "IsSolid": true
     },
     {
         "Id": 55,
-        "Name": "redstone_wire"
+        "Name": "redstone_wire",
+        "IsSolid": true
     },
     {
         "Id": 56,
-        "Name": "diamond_ore"
+        "Name": "diamond_ore",
+        "IsSolid": true
     },
     {
         "Id": 57,
-        "Name": "diamond_block"
+        "Name": "diamond_block",
+        "IsSolid": true
     },
     {
         "Id": 58,
-        "Name": "crafting_table"
+        "Name": "crafting_table",
+        "IsSolid": true
     },
     {
         "Id": 59,
-        "Name": "wheat"
+        "Name": "wheat",
+        "IsSolid": false
     },
     {
         "Id": 60,
-        "Name": "farmland"
+        "Name": "farmland",
+        "IsSolid": true
     },
     {
         "Id": 61,
-        "Name": "furnace"
+        "Name": "furnace",
+        "IsSolid": true
     },
     {
         "Id": 62,
-        "Name": "lit_furnace"
+        "Name": "lit_furnace",
+        "IsSolid": true
     },
     {
         "Id": 63,
-        "Name": "standing_sign"
+        "Name": "standing_sign",
+        "IsSolid": false
     },
     {
         "Id": 64,
-        "Name": "wooden_door"
+        "Name": "wooden_door",
+        "IsSolid": true
     },
     {
         "Id": 65,
-        "Name": "ladder"
+        "Name": "ladder",
+        "IsSolid": true
     },
     {
         "Id": 66,
-        "Name": "rail"
+        "Name": "rail",
+        "IsSolid": false
     },
     {
         "Id": 67,
-        "Name": "stone_stairs"
+        "Name": "stone_stairs",
+        "IsSolid": true
     },
     {
         "Id": 68,
-        "Name": "wall_sign"
+        "Name": "wall_sign",
+        "IsSolid": false
     },
     {
         "Id": 69,
-        "Name": "lever"
+        "Name": "lever",
+        "IsSolid": false
     },
     {
         "Id": 70,
-        "Name": "stone_pressure_plate"
+        "Name": "stone_pressure_plate",
+        "IsSolid": false
     },
     {
         "Id": 71,
-        "Name": "iron_door"
+        "Name": "iron_door",
+        "IsSolid": true
     },
     {
         "Id": 72,
-        "Name": "wooden_pressure_plate"
+        "Name": "wooden_pressure_plate",
+        "IsSolid": false
     },
     {
         "Id": 73,
-        "Name": "redstone_ore"
+        "Name": "redstone_ore",
+        "IsSolid": true
     },
     {
         "Id": 74,
-        "Name": "lit_redstone_ore"
+        "Name": "lit_redstone_ore",
+        "IsSolid": true
     },
     {
         "Id": 75,
-        "Name": "unlit_redstone_torch"
+        "Name": "unlit_redstone_torch",
+        "IsSolid": false
     },
     {
         "Id": 76,
-        "Name": "redstone_torch"
+        "Name": "redstone_torch",
+        "IsSolid": false
     },
     {
         "Id": 77,
-        "Name": "stone_button"
+        "Name": "stone_button",
+        "IsSolid": false
     },
     {
         "Id": 78,
-        "Name": "snow_layer"
+        "Name": "snow_layer",
+        "IsSolid": true
     },
     {
         "Id": 79,
-        "Name": "ice"
+        "Name": "ice",
+        "IsSolid": true
     },
     {
         "Id": 80,
-        "Name": "snow"
+        "Name": "snow",
+        "IsSolid": true
     },
     {
         "Id": 81,
-        "Name": "cactus"
+        "Name": "cactus",
+        "IsSolid": true
     },
     {
         "Id": 82,
-        "Name": "clay"
+        "Name": "clay",
+        "IsSolid": true
     },
     {
         "Id": 83,
-        "Name": "reeds"
+        "Name": "reeds",
+        "IsSolid": false
     },
     {
         "Id": 84,
-        "Name": "jukebox"
+        "Name": "jukebox",
+        "IsSolid": true
     },
     {
         "Id": 85,
-        "Name": "fence"
+        "Name": "fence",
+        "IsSolid": true
     },
     {
         "Id": 86,
-        "Name": "pumpkin"
+        "Name": "pumpkin",
+        "IsSolid": true
     },
     {
         "Id": 87,
-        "Name": "netherrack"
+        "Name": "netherrack",
+        "IsSolid": true
     },
     {
         "Id": 88,
-        "Name": "soul_sand"
+        "Name": "soul_sand",
+        "IsSolid": true
     },
     {
         "Id": 89,
-        "Name": "glowstone"
+        "Name": "glowstone",
+        "IsSolid": true
     },
     {
         "Id": 90,
-        "Name": "portal"
+        "Name": "portal",
+        "IsSolid": false
     },
     {
         "Id": 91,
-        "Name": "lit_pumpkin"
+        "Name": "lit_pumpkin",
+        "IsSolid": true
     },
     {
         "Id": 92,
-        "Name": "cake"
+        "Name": "cake",
+        "IsSolid": false
     },
     {
         "Id": 93,
-        "Name": "unpowered_repeater"
+        "Name": "unpowered_repeater",
+        "IsSolid": true
     },
     {
         "Id": 94,
-        "Name": "powered_repeater"
+        "Name": "powered_repeater",
+        "IsSolid": true
     },
     {
         "Id": 95,
-        "Name": "stained_glass"
+        "Name": "stained_glass",
+        "IsSolid": true
     },
     {
         "Id": 96,
-        "Name": "trapdoor"
+        "Name": "trapdoor",
+        "IsSolid": true
     },
     {
         "Id": 97,
-        "Name": "monster_egg"
+        "Name": "monster_egg",
+        "IsSolid": true
     },
     {
         "Id": 98,
-        "Name": "stonebrick"
+        "Name": "stonebrick",
+        "IsSolid": true
     },
     {
         "Id": 99,
-        "Name": "brown_mushroom_block"
+        "Name": "brown_mushroom_block",
+        "IsSolid": true
     },
     {
         "Id": 100,
-        "Name": "red_mushroom_block"
+        "Name": "red_mushroom_block",
+        "IsSolid": true
     },
     {
         "Id": 101,
-        "Name": "iron_bars"
+        "Name": "iron_bars",
+        "IsSolid": true
     },
     {
         "Id": 102,
-        "Name": "glass_pane"
+        "Name": "glass_pane",
+        "IsSolid": true
     },
     {
         "Id": 103,
-        "Name": "melon_block"
+        "Name": "melon_block",
+        "IsSolid": true
     },
     {
         "Id": 104,
-        "Name": "pumpkin_stem"
+        "Name": "pumpkin_stem",
+        "IsSolid": false
     },
     {
         "Id": 105,
-        "Name": "melon_stem"
+        "Name": "melon_stem",
+        "IsSolid": false
     },
     {
         "Id": 106,
-        "Name": "vine"
+        "Name": "vine",
+        "IsSolid": false
     },
     {
         "Id": 107,
-        "Name": "fence_gate"
+        "Name": "fence_gate",
+        "IsSolid": true
     },
     {
         "Id": 108,
-        "Name": "brick_stairs"
+        "Name": "brick_stairs",
+        "IsSolid": true
     },
     {
         "Id": 109,
-        "Name": "stone_brick_stairs"
+        "Name": "stone_brick_stairs",
+        "IsSolid": true
     },
     {
         "Id": 110,
-        "Name": "mycelium"
+        "Name": "mycelium",
+        "IsSolid": true
     },
     {
         "Id": 111,
-        "Name": "waterlily"
+        "Name": "waterlily",
+        "IsSolid": true
     },
     {
         "Id": 112,
-        "Name": "nether_brick"
+        "Name": "nether_brick",
+        "IsSolid": true
     },
     {
         "Id": 113,
-        "Name": "nether_brick_fence"
+        "Name": "nether_brick_fence",
+        "IsSolid": true
     },
     {
         "Id": 114,
-        "Name": "nether_brick_stairs"
+        "Name": "nether_brick_stairs",
+        "IsSolid": true
     },
     {
         "Id": 115,
-        "Name": "nether_wart"
+        "Name": "nether_wart",
+        "IsSolid": false
     },
     {
         "Id": 116,
-        "Name": "enchanting_table"
+        "Name": "enchanting_table",
+        "IsSolid": true
     },
     {
         "Id": 117,
-        "Name": "brewing_stand"
+        "Name": "brewing_stand",
+        "IsSolid": true
     },
     {
         "Id": 118,
-        "Name": "cauldron"
+        "Name": "cauldron",
+        "IsSolid": true
     },
     {
         "Id": 119,
-        "Name": "end_portal"
+        "Name": "end_portal",
+        "IsSolid": false
     },
     {
         "Id": 120,
-        "Name": "end_portal_frame"
+        "Name": "end_portal_frame",
+        "IsSolid": true
     },
     {
         "Id": 121,
-        "Name": "end_stone"
+        "Name": "end_stone",
+        "IsSolid": true
     },
     {
         "Id": 122,
-        "Name": "dragon_egg"
+        "Name": "dragon_egg",
+        "IsSolid": true
     },
     {
         "Id": 123,
-        "Name": "redstone_lamp"
+        "Name": "redstone_lamp",
+        "IsSolid": true
     },
     {
         "Id": 124,
-        "Name": "lit_redstone_lamp"
+        "Name": "lit_redstone_lamp",
+        "IsSolid": true
     },
     {
         "Id": 125,
-        "Name": "double_wooden_slab"
+        "Name": "double_wooden_slab",
+        "IsSolid": true
     },
     {
         "Id": 126,
-        "Name": "wooden_slab"
+        "Name": "wooden_slab",
+        "IsSolid": true
     },
     {
         "Id": 127,
-        "Name": "cocoa"
+        "Name": "cocoa",
+        "IsSolid": true
     },
     {
         "Id": 128,
-        "Name": "sandstone_stairs"
+        "Name": "sandstone_stairs",
+        "IsSolid": true
     },
     {
         "Id": 129,
-        "Name": "emerald_ore"
+        "Name": "emerald_ore",
+        "IsSolid": true
     },
     {
         "Id": 130,
-        "Name": "ender_chest"
+        "Name": "ender_chest",
+        "IsSolid": true
     },
     {
         "Id": 131,
-        "Name": "tripwire_hook"
+        "Name": "tripwire_hook",
+        "IsSolid": false
     },
     {
         "Id": 132,
-        "Name": "tripwire"
+        "Name": "tripwire",
+        "IsSolid": false
     },
     {
         "Id": 133,
-        "Name": "emerald_block"
+        "Name": "emerald_block",
+        "IsSolid": true
     },
     {
         "Id": 134,
-        "Name": "spruce_stairs"
+        "Name": "spruce_stairs",
+        "IsSolid": true
     },
     {
         "Id": 135,
-        "Name": "birch_stairs"
+        "Name": "birch_stairs",
+        "IsSolid": true
     },
     {
         "Id": 136,
-        "Name": "jungle_stairs"
+        "Name": "jungle_stairs",
+        "IsSolid": true
     },
     {
         "Id": 137,
-        "Name": "command_block"
+        "Name": "command_block",
+        "IsSolid": true
     },
     {
         "Id": 138,
-        "Name": "beacon"
+        "Name": "beacon",
+        "IsSolid": true
     },
     {
         "Id": 139,
-        "Name": "cobblestone_wall"
+        "Name": "cobblestone_wall",
+        "IsSolid": true
     },
     {
         "Id": 140,
-        "Name": "flower_pot"
+        "Name": "flower_pot",
+        "IsSolid": true
     },
     {
         "Id": 141,
-        "Name": "carrots"
+        "Name": "carrots",
+        "IsSolid": false
     },
     {
         "Id": 142,
-        "Name": "potatoes"
+        "Name": "potatoes",
+        "IsSolid": false
     },
     {
         "Id": 143,
-        "Name": "wooden_button"
+        "Name": "wooden_button",
+        "IsSolid": false
     },
     {
         "Id": 144,
-        "Name": "skull"
+        "Name": "skull",
+        "IsSolid": true
     },
     {
         "Id": 145,
-        "Name": "anvil"
+        "Name": "anvil",
+        "IsSolid": true
     },
     {
         "Id": 146,
-        "Name": "trapped_chest"
+        "Name": "trapped_chest",
+        "IsSolid": true
     },
     {
         "Id": 147,
-        "Name": "light_weighted_pressure_plate"
+        "Name": "light_weighted_pressure_plate",
+        "IsSolid": false
     },
     {
         "Id": 148,
-        "Name": "heavy_weighted_pressure_plate"
+        "Name": "heavy_weighted_pressure_plate",
+        "IsSolid": false
     },
     {
         "Id": 149,
-        "Name": "unpowered_comparator"
+        "Name": "unpowered_comparator",
+        "IsSolid": true
     },
     {
         "Id": 150,
-        "Name": "powered_comparator"
+        "Name": "powered_comparator",
+        "IsSolid": true
     },
     {
         "Id": 151,
-        "Name": "daylight_detector"
+        "Name": "daylight_detector",
+        "IsSolid": true
     },
     {
         "Id": 152,
-        "Name": "redstone_block"
+        "Name": "redstone_block",
+        "IsSolid": true
     },
     {
         "Id": 153,
-        "Name": "quartz_ore"
+        "Name": "quartz_ore",
+        "IsSolid": true
     },
     {
         "Id": 154,
-        "Name": "hopper"
+        "Name": "hopper",
+        "IsSolid": true
     },
     {
         "Id": 155,
-        "Name": "quartz_block"
+        "Name": "quartz_block",
+        "IsSolid": true
     },
     {
         "Id": 156,
-        "Name": "quartz_stairs"
+        "Name": "quartz_stairs",
+        "IsSolid": true
     },
     {
         "Id": 157,
-        "Name": "activator_rail"
+        "Name": "activator_rail",
+        "IsSolid": false
     },
     {
         "Id": 158,
-        "Name": "dropper"
+        "Name": "dropper",
+        "IsSolid": true
     },
     {
         "Id": 159,
-        "Name": "stained_hardened_clay"
+        "Name": "stained_hardened_clay",
+        "IsSolid": true
     },
     {
         "Id": 160,
-        "Name": "stained_glass_pane"
+        "Name": "stained_glass_pane",
+        "IsSolid": true
     },
     {
         "Id": 161,
-        "Name": "leaves2"
+        "Name": "leaves2",
+        "IsSolid": true
     },
     {
         "Id": 162,
-        "Name": "log2"
+        "Name": "log2",
+        "IsSolid": true
     },
     {
         "Id": 163,
-        "Name": "acacia_stairs"
+        "Name": "acacia_stairs",
+        "IsSolid": true
     },
     {
         "Id": 164,
-        "Name": "dark_oak_stairs"
+        "Name": "dark_oak_stairs",
+        "IsSolid": true
     },
     {
         "Id": 165,
-        "Name": "slime"
+        "Name": "slime",
+        "IsSolid": true
     },
     {
         "Id": 166,
-        "Name": "barrier"
+        "Name": "barrier",
+        "IsSolid": true
     },
     {
         "Id": 167,
-        "Name": "iron_trapdoor"
+        "Name": "iron_trapdoor",
+        "IsSolid": true
     },
     {
         "Id": 168,
-        "Name": "prismarine"
+        "Name": "prismarine",
+        "IsSolid": true
     },
     {
         "Id": 169,
-        "Name": "sea_lantern"
+        "Name": "sea_lantern",
+        "IsSolid": true
     },
     {
         "Id": 170,
-        "Name": "hay_block"
+        "Name": "hay_block",
+        "IsSolid": true
     },
     {
         "Id": 171,
-        "Name": "carpet"
+        "Name": "carpet",
+        "IsSolid": true
     },
     {
         "Id": 172,
-        "Name": "hardened_clay"
+        "Name": "hardened_clay",
+        "IsSolid": true
     },
     {
         "Id": 173,
-        "Name": "coal_block"
+        "Name": "coal_block",
+        "IsSolid": true
     },
     {
         "Id": 174,
-        "Name": "packed_ice"
+        "Name": "packed_ice",
+        "IsSolid": true
     },
     {
         "Id": 175,
-        "Name": "double_plant"
+        "Name": "double_plant",
+        "IsSolid": false
     },
     {
         "Id": 176,
-        "Name": "standing_banner"
+        "Name": "standing_banner",
+        "IsSolid": false
     },
     {
         "Id": 177,
-        "Name": "wall_banner"
+        "Name": "wall_banner",
+        "IsSolid": false
     },
     {
         "Id": 178,
-        "Name": "daylight_detector_inverted"
+        "Name": "daylight_detector_inverted",
+        "IsSolid": true
     },
     {
         "Id": 179,
-        "Name": "red_sandstone"
+        "Name": "red_sandstone",
+        "IsSolid": true
     },
     {
         "Id": 180,
-        "Name": "red_sandstone_stairs"
+        "Name": "red_sandstone_stairs",
+        "IsSolid": true
     },
     {
         "Id": 181,
-        "Name": "double_stone_slab2"
+        "Name": "double_stone_slab2",
+        "IsSolid": true
     },
     {
         "Id": 182,
-        "Name": "stone_slab2"
+        "Name": "stone_slab2",
+        "IsSolid": true
     },
     {
         "Id": 183,
-        "Name": "spruce_fence_gate"
+        "Name": "spruce_fence_gate",
+        "IsSolid": true
     },
     {
         "Id": 184,
-        "Name": "birch_fence_gate"
+        "Name": "birch_fence_gate",
+        "IsSolid": true
     },
     {
         "Id": 185,
-        "Name": "jungle_fence_gate"
+        "Name": "jungle_fence_gate",
+        "IsSolid": true
     },
     {
         "Id": 186,
-        "Name": "dark_oak_fence_gate"
+        "Name": "dark_oak_fence_gate",
+        "IsSolid": true
     },
     {
         "Id": 187,
-        "Name": "acacia_fence_gate"
+        "Name": "acacia_fence_gate",
+        "IsSolid": true
     },
     {
         "Id": 188,
-        "Name": "spruce_fence"
+        "Name": "spruce_fence",
+        "IsSolid": true
     },
     {
         "Id": 189,
-        "Name": "birch_fence"
+        "Name": "birch_fence",
+        "IsSolid": true
     },
     {
         "Id": 190,
-        "Name": "jungle_fence"
+        "Name": "jungle_fence",
+        "IsSolid": true
     },
     {
         "Id": 191,
-        "Name": "dark_oak_fence"
+        "Name": "dark_oak_fence",
+        "IsSolid": true
     },
     {
         "Id": 192,
-        "Name": "acacia_fence"
+        "Name": "acacia_fence",
+        "IsSolid": true
     },
     {
         "Id": 193,
-        "Name": "spruce_door"
+        "Name": "spruce_door",
+        "IsSolid": true
     },
     {
         "Id": 194,
-        "Name": "birch_door"
+        "Name": "birch_door",
+        "IsSolid": true
     },
     {
         "Id": 195,
-        "Name": "jungle_door"
+        "Name": "jungle_door",
+        "IsSolid": true
     },
     {
         "Id": 196,
-        "Name": "acacia_door"
+        "Name": "acacia_door",
+        "IsSolid": true
     },
     {
         "Id": 197,
-        "Name": "dark_oak_door"
+        "Name": "dark_oak_door",
+        "IsSolid": true
     },
     {
         "Id": 198,
-        "Name": "end_rod"
+        "Name": "end_rod",
+        "IsSolid": true
     },
     {
         "Id": 199,
-        "Name": "chorus_plant"
+        "Name": "chorus_plant",
+        "IsSolid": true
     },
     {
         "Id": 200,
-        "Name": "chorus_flower"
+        "Name": "chorus_flower",
+        "IsSolid": true
     },
     {
         "Id": 201,
-        "Name": "purpur_block"
+        "Name": "purpur_block",
+        "IsSolid": true
     },
     {
         "Id": 202,
-        "Name": "purpur_pillar"
+        "Name": "purpur_pillar",
+        "IsSolid": true
     },
     {
         "Id": 203,
-        "Name": "purpur_stairs"
+        "Name": "purpur_stairs",
+        "IsSolid": true
     },
     {
         "Id": 204,
-        "Name": "purpur_double_slab"
+        "Name": "purpur_double_slab",
+        "IsSolid": true
     },
     {
         "Id": 205,
-        "Name": "purpur_slab"
+        "Name": "purpur_slab",
+        "IsSolid": true
     },
     {
         "Id": 206,
-        "Name": "end_bricks"
+        "Name": "end_bricks",
+        "IsSolid": true
     },
     {
         "Id": 207,
-        "Name": "beetroots"
+        "Name": "beetroots",
+        "IsSolid": false
     },
     {
         "Id": 208,
-        "Name": "grass_path"
+        "Name": "grass_path",
+        "IsSolid": true
     },
     {
         "Id": 209,
-        "Name": "end_gateway"
+        "Name": "end_gateway",
+        "IsSolid": false
     },
     {
         "Id": 210,
-        "Name": "repeating_command_block"
+        "Name": "repeating_command_block",
+        "IsSolid": true
     },
     {
         "Id": 211,
-        "Name": "chain_command_block"
+        "Name": "chain_command_block",
+        "IsSolid": true
     },
     {
         "Id": 212,
-        "Name": "frosted_ice"
+        "Name": "frosted_ice",
+        "IsSolid": true
     },
     {
         "Id": 213,
-        "Name": "magma"
+        "Name": "magma",
+        "IsSolid": true
     },
     {
         "Id": 214,
-        "Name": "nether_wart_block"
+        "Name": "nether_wart_block",
+        "IsSolid": true
     },
     {
         "Id": 215,
-        "Name": "red_nether_brick"
+        "Name": "red_nether_brick",
+        "IsSolid": true
     },
     {
         "Id": 216,
-        "Name": "bone_block"
+        "Name": "bone_block",
+        "IsSolid": true
     },
     {
         "Id": 217,
-        "Name": "structure_void"
+        "Name": "structure_void",
+        "IsSolid": true
     },
     {
         "Id": 218,
-        "Name": "observer"
+        "Name": "observer",
+        "IsSolid": true
     },
     {
         "Id": 219,
-        "Name": "white_shulker_box"
+        "Name": "white_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 220,
-        "Name": "orange_shulker_box"
+        "Name": "orange_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 221,
-        "Name": "magenta_shulker_box"
+        "Name": "magenta_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 222,
-        "Name": "light_blue_shulker_box"
+        "Name": "light_blue_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 223,
-        "Name": "yellow_shulker_box"
+        "Name": "yellow_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 224,
-        "Name": "lime_shulker_box"
+        "Name": "lime_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 225,
-        "Name": "pink_shulker_box"
+        "Name": "pink_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 226,
-        "Name": "gray_shulker_box"
+        "Name": "gray_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 227,
-        "Name": "light_gray_shulker_box"
+        "Name": "light_gray_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 228,
-        "Name": "cyan_shulker_box"
+        "Name": "cyan_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 229,
-        "Name": "purple_shulker_box"
+        "Name": "purple_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 230,
-        "Name": "blue_shulker_box"
+        "Name": "blue_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 231,
-        "Name": "brown_shulker_box"
+        "Name": "brown_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 232,
-        "Name": "green_shulker_box"
+        "Name": "green_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 233,
-        "Name": "red_shulker_box"
+        "Name": "red_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 234,
-        "Name": "black_shulker_box"
+        "Name": "black_shulker_box",
+        "IsSolid": true
     },
     {
         "Id": 255,
-        "Name": "structure_block"
+        "Name": "structure_block",
+        "IsSolid": true
     }
 ]
