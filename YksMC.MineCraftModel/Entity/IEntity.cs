@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.EntityType;
 
 namespace YksMC.MinecraftModel.Entity
@@ -15,8 +16,14 @@ namespace YksMC.MinecraftModel.Entity
         double Pitch { get; }
         double HeadYaw { get; }
 
+        IVector3<double> Velocity { get; }
+
+        bool IsOnGround { get; }
+
         IEntity ChangeLocation(IEntityLocation location);
         IEntity ChangeLook(double yaw, double pitch);
         IEntity ChangeHeadLook(double headYaw);
+        IEntity ChangeOnGround(bool isOnGroud);
+        IEntity ChangeVelocity(IVector3<double> velocity);
     }
 }

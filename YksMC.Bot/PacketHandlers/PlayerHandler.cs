@@ -9,6 +9,7 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 using YksMC.Protocol.Packets.Play.Serverbound;
 using YksMC.MinecraftModel.World;
 using YksMC.Bot.WorldEvent;
+using YksMC.MinecraftModel.Common;
 
 namespace YksMC.Bot.PacketHandlers
 {
@@ -25,7 +26,7 @@ namespace YksMC.Bot.PacketHandlers
         public IWorldEventResult ApplyEvent(JoinGamePacket packet, IWorld world)
         {
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
-            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityLocation.Origin, 0, 0, 0);
+            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityLocation.Origin, 0, 0, 0, false, new Vector3d(0, 0, 0));
 
             IDimension dimension = world.GetDimension(packet.Dimension)
                 .ChangeEntity(playerEntity);

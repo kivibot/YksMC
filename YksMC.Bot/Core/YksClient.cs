@@ -82,7 +82,7 @@ namespace YksMC.Bot.Core
             }
             IEntity entity = _world.GetCurrentDimension().GetEntity(player.EntityId);
             bool onGround = (entity.Location.Y - Math.Round(entity.Location.Y)) == 0;
-            _minecraftClient.SendPacket(new PlayerPositionPacket() { X = entity.Location.X, FeetY = entity.Location.Y, Z = entity.Location.Z, OnGround = onGround });
+            _minecraftClient.SendPacket(new PlayerPositionPacket() { X = entity.Location.X, FeetY = entity.Location.Y, Z = entity.Location.Z, OnGround = entity.IsOnGround });
         }
 
         private void OnPacketReceived(object packet)
