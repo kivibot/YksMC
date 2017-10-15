@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.Common;
 
 namespace YksMC.MinecraftModel.Entity
 {
@@ -19,6 +20,11 @@ namespace YksMC.MinecraftModel.Entity
             _x = x;
             _y = y;
             _z = z;
+        }
+
+        public IEntityLocation Add(IVector3<double> vector)
+        {
+            return new EntityLocation(_x + vector.X, _y + vector.Y, _z + vector.Z);
         }
 
         public static readonly IEntityLocation Origin = new EntityLocation(0, 0, 0);

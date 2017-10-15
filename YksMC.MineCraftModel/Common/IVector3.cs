@@ -9,8 +9,11 @@ namespace YksMC.MinecraftModel.Common
         T X { get; }
         T Y { get; }
         T Z { get; }
-
+                
         IVector3<T> Multiply(T scalar);
         IVector3<T> Add(IVector3<T> vector);
+        IVector3<T> Substract(IVector3<T> vector);
+        double Length();
+        IVector3<T> Normalize();
     }
 }

@@ -42,7 +42,7 @@ namespace YksMC.MinecraftModel.Chunk
 
         public IBlock GetBlock(IBlockCoordinate position)
         {
-            return _blocks[Mod(position.X, Chunk.Width)][Mod(position.Y, Chunk.Height)][Mod(position.Z, Chunk.Width)];
+            return _blocks[Mod(position.X, ChunkSection.Width)][Mod(position.Y, ChunkSection.Height)][Mod(position.Z, ChunkSection.Width)];
         }
 
         public ChunkSection ChangeBlock(IBlockCoordinate position, IBlock block)
@@ -62,7 +62,8 @@ namespace YksMC.MinecraftModel.Chunk
         [Obsolete("Use a library implemention instead")]
         private int Mod(int x, int m)
         {
-            return (x % m + m) % m;
+            var a = (x % m + m) % m;
+            return a;
         }
     }
 }

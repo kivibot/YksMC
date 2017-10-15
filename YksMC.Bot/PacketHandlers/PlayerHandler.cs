@@ -65,7 +65,9 @@ namespace YksMC.Bot.PacketHandlers
             double pitch = (flags.RelativePitch ? playerEntity.Pitch : 0) + packet.Pitch;
 
             playerEntity = playerEntity.ChangeLocation(new EntityLocation(x, y, z))
-                .ChangeLook(yaw, pitch);
+                .ChangeLook(yaw, pitch)
+                .ChangeVelocity(new Vector3d(0, 0, 0))
+                .ChangeOnGround(true);
 
             TeleportConfirmPacket confirmationPacket = new TeleportConfirmPacket()
             {

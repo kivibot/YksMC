@@ -30,5 +30,20 @@ namespace YksMC.MinecraftModel.Common
         {
             return new Vector3d(_x + vector.X, _y + vector.Y, _z + vector.Z);
         }
+
+        public double Length()
+        {
+            return Math.Sqrt(_x * _x + _y * _y + _z * _z);
+        }
+
+        public IVector3<double> Normalize()
+        {
+            return Multiply(1 / Length());
+        }
+
+        public IVector3<double> Substract(IVector3<double> vector)
+        {
+            return new Vector3d(_x - vector.X, _y - vector.Y, _z - vector.Z);
+        }
     }
 }

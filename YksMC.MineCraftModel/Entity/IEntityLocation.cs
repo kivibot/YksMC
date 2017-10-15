@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.Common;
 
 namespace YksMC.MinecraftModel.Entity
 {
@@ -9,5 +10,7 @@ namespace YksMC.MinecraftModel.Entity
         double X { get; }
         double Y { get; }
         double Z { get; }
+
+        IEntityLocation Add(IVector3<double> vector);
     }
 }
