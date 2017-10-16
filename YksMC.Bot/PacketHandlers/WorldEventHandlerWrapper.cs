@@ -86,5 +86,20 @@ namespace YksMC.Bot.PacketHandlers
         {
             return _blockChangeHandler.ApplyEvent(args, world);
         }
+
+        private IWorldEventResult Handle(SpawnPlayerPacket args, IWorld world)
+        {
+            return _playerHandler.ApplyEvent(args, world);
+        }
+
+        private IWorldEventResult Handle(EntityRelativeMovePacket args, IWorld world)
+        {
+            return _entityHandler.ApplyEvent(args, world);
+        }
+
+        private IWorldEventResult Handle(EntityLookAndRelativeMovePacket args, IWorld world)
+        {
+            return _entityHandler.ApplyEvent(args, world);
+        }
     }
 }

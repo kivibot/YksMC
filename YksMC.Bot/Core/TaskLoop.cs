@@ -3,12 +3,16 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using YksMC.Behavior.Task;
 using YksMC.Behavior.Urge;
 using YksMC.Bot.PacketHandlers;
 using YksMC.Bot.WorldEvent;
 using YksMC.Client;
+using YksMC.MinecraftModel.Entity;
+using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
+using YksMC.Protocol.Packets.Play.Serverbound;
 
 namespace YksMC.Bot.Core
 {
@@ -24,7 +28,7 @@ namespace YksMC.Bot.Core
         private IBehaviorTask _task;
         private IWorld _world;
 
-        public TaskLoop(ILogger logger, IUrgeManager urgeManager, IBehaviorTaskManager behaviorTaskManager, 
+        public TaskLoop(ILogger logger, IUrgeManager urgeManager, IBehaviorTaskManager behaviorTaskManager,
             IMinecraftClient minecraftClient, WorldEventHandlerWrapper worldEventHandlerWrapper, IWorld world)
         {
             _logger = logger;
@@ -38,32 +42,62 @@ namespace YksMC.Bot.Core
             _minecraftClient.PacketReceived += _packetQueue.Enqueue;
         }
 
-        public void Run()
+        public async Task LoopAsync()
         {
-            //TODO: better condition
             while (true)
             {
                 LoopOnce();
+                await Task.Delay(50);
             }
         }
 
         private void LoopOnce()
         {
-            if(_task == null || _task.IsCompleted)
+            if (_task == null || _task.IsCompleted)
             {
-                _logger.Information("Scheduling new task.");
-                IUrge urge = _urgeManager.GetLargestUrge(_world);
-                _logger.Information("Largest urge: {Name}, {Score}", urge.Name, urge.GetScore(_world));
-                _task = _behaviorTaskManager.GetTask(urge.TaskName);
-                _world = _task.OnStart(_world);
+                GetNextTask();
             }
 
             HandlePackets();
 
-            if(_task != null)
+            if (_task != null)
             {
                 _world = _task.OnTick(_world);
             }
+
+            SendChanges();
+        }
+
+        private void SendChanges()
+        {
+            IPlayer player = _world.GetLocalPlayer();
+            if (!player.HasEntity)
+            {
+                return;
+            }
+            IEntity entity = _world.GetCurrentDimension().GetEntity(player.EntityId);
+            _minecraftClient.SendPacket(new PlayerPositionAndLookPacket()
+            {
+                X = entity.Location.X,
+                FeetY = entity.Location.Y,
+                Z = entity.Location.Z,
+                Yaw = (float)(entity.Yaw / Math.PI * 180.0),
+                Pitch = (float)(entity.Pitch / Math.PI * 180.0),
+                OnGround = entity.IsOnGround
+            });
+        }
+
+        private void GetNextTask()
+        {
+            _logger.Information("Scheduling new task.");
+            IUrge urge = _urgeManager.GetLargestUrge(_world);
+            if (urge == null)
+            {
+                return;
+            }
+            _logger.Information("Largest urge: {Name}, {Score}", urge.Name, urge.GetScore(_world));
+            _task = _behaviorTaskManager.GetTask(urge.TaskName);
+            _world = _task.OnStart(_world);
         }
 
         private void HandlePackets()

@@ -9,12 +9,12 @@ namespace YksMC.MinecraftModel.World
 {
     public class World : IWorld
     {
-        private readonly IReadOnlyDictionary<IPlayerId, IPlayer> _players;
+        private readonly IReadOnlyDictionary<Guid, IPlayer> _players;
         private readonly IPlayer _localPlayer;
         private readonly IReadOnlyDictionary<int, IDimension> _dimensions;
         private readonly IDimension _currentDimension;
 
-        public World(IReadOnlyDictionary<IPlayerId, IPlayer> players, IPlayer localPlayer, IReadOnlyDictionary<int, IDimension> dimensions, IDimension currentDimension)
+        public World(IReadOnlyDictionary<Guid, IPlayer> players, IPlayer localPlayer, IReadOnlyDictionary<int, IDimension> dimensions, IDimension currentDimension)
         {
             _players = players;
             _localPlayer = localPlayer;
@@ -64,7 +64,7 @@ namespace YksMC.MinecraftModel.World
 
         public IWorld ReplaceLocalPlayer(IPlayer player)
         {
-            Dictionary<IPlayerId, IPlayer> players = _players.ToDictionary(e => e.Key, e => e.Value);
+            Dictionary<Guid, IPlayer> players = _players.ToDictionary(e => e.Key, e => e.Value);
             players[player.Id] = player;
             return new World(players, player, _dimensions, _currentDimension);
         }
@@ -76,7 +76,7 @@ namespace YksMC.MinecraftModel.World
                 return ReplaceLocalPlayer(player);
             }
 
-            Dictionary<IPlayerId, IPlayer> players = _players.ToDictionary(e => e.Key, e => e.Value);
+            Dictionary<Guid, IPlayer> players = _players.ToDictionary(e => e.Key, e => e.Value);
             players[player.Id] = player;
             return new World(players, _localPlayer, _dimensions, _currentDimension);
         }

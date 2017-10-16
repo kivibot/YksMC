@@ -10,6 +10,7 @@ using YksMC.Protocol.Packets.Play.Serverbound;
 using YksMC.MinecraftModel.World;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Common;
+using System.Linq;
 
 namespace YksMC.Bot.PacketHandlers
 {
@@ -87,6 +88,22 @@ namespace YksMC.Bot.PacketHandlers
                 player.ChangeExperience(packet.Level, packet.ExperienceBar, packet.TotalExperience)
             );
             return Result(world);
+        }
+
+        public IWorldEventResult ApplyEvent(SpawnPlayerPacket packet, IWorld world)
+        {
+            if(world.GetPlayers().Any(p => p.Id == packet.PlayerId))
+            {
+                return Result(world);
+            }
+            
+            IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
+            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, new EntityLocation(packet.Position.X, packet.Position.Y, packet.Position.Z), 0, 0, 0, false, new Vector3d(0, 0, 0));
+
+            IPlayer player = new Player(packet.PlayerId, "<Unknown>")
+                .ChangeEntity(playerEntity.Id, world.GetCurrentDimension().Id);
+
+            return Result(world.ReplacePlayer(player).ChangeCurrentDimension(dimension => dimension.ChangeEntity(playerEntity)));
         }
     }
 }

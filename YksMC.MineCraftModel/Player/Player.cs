@@ -6,13 +6,13 @@ namespace YksMC.MinecraftModel.Player
 {
     public class Player : IPlayer
     {
-        private readonly IPlayerId _id;
+        private readonly Guid _id;
         private readonly int? _entityId;
         private readonly int? _dimensionId;
         private readonly string _name;
         private readonly ExperienceInfo _experienceInfo;
 
-        public IPlayerId Id => _id;
+        public Guid Id => _id;
         public int EntityId => _entityId.Value;
         public int DimensionId => _dimensionId.Value;
         public bool HasEntity => _entityId.HasValue;
@@ -22,12 +22,12 @@ namespace YksMC.MinecraftModel.Player
         public double LevelProgress => _experienceInfo.LevelProgress;
         public int TotalExperiece => _experienceInfo.TotalExperience;
         
-        public Player(IPlayerId id, string name)
+        public Player(Guid id, string name)
             : this(id, name, null, null, new ExperienceInfo(0, 0, 0))
         {
         }
 
-        private Player(IPlayerId id, string name, int? entityId, int? dimensionId, ExperienceInfo experienceInfo)
+        private Player(Guid id, string name, int? entityId, int? dimensionId, ExperienceInfo experienceInfo)
         {
             _id = id;
             _name = name;

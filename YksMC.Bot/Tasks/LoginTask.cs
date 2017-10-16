@@ -39,7 +39,7 @@ namespace YksMC.Bot.Tasks
             IsCompleted = true;
 
             //TODO: should this be removed from here?
-            return world.ReplaceLocalPlayer(new Player(new PlayerId(playerInfo.Id), playerInfo.Username));
+            return world.ReplaceLocalPlayer(new Player(Guid.Parse(playerInfo.Id), playerInfo.Username));
         }
 
         public IWorld OnTick(IWorld world)

@@ -12,5 +12,6 @@ namespace YksMC.MinecraftModel.Entity
         double Z { get; }
 
         IEntityLocation Add(IVector3<double> vector);
+        IVector3<double> AsVector();
     }
 }

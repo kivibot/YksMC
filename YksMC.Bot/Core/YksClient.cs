@@ -50,7 +50,7 @@ namespace YksMC.Bot.Core
             await _minecraftClient.ConnectAsync("localhost", 25565);
             IPlayerInfo playerInfo = await _loginService.LoginAsync();
             //TODO: should this be removed from here?
-            _world = _world.ReplaceLocalPlayer(new Player(new PlayerId(playerInfo.Id), playerInfo.Username));
+            _world = _world.ReplaceLocalPlayer(new Player(Guid.Parse(playerInfo.Id), playerInfo.Username));
         }
 
         public async Task LoopAsync()

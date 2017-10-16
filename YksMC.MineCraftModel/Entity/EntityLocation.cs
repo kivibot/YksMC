@@ -27,6 +27,11 @@ namespace YksMC.MinecraftModel.Entity
             return new EntityLocation(_x + vector.X, _y + vector.Y, _z + vector.Z);
         }
 
+        public IVector3<double> AsVector()
+        {
+            return new Vector3d(_x, _y, _z);
+        }
+
         public static readonly IEntityLocation Origin = new EntityLocation(0, 0, 0);
     }
 }

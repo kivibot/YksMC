@@ -11,9 +11,11 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Bot.PacketHandlers
 {
-    public class EntityHandler : WorldEventHandler, IWorldEventHandler<SpawnMobPacket>
+    public class EntityHandler : WorldEventHandler, IWorldEventHandler<SpawnMobPacket>, IWorldEventHandler<EntityRelativeMovePacket>, IWorldEventHandler<EntityLookAndRelativeMovePacket>
     {
         private const double _velocityFactor = 1.0 / 8000.0;
+
+        private const double _relativeMoveFactor = 1.0 / 4096.0;
 
         private readonly IEntityTypeRepository _entityTypeRepository;
 
@@ -39,6 +41,34 @@ namespace YksMC.Bot.PacketHandlers
             return Result(world.ReplaceDimension(
                 dimension.ChangeEntity(entity)
             ));
+        }
+
+        public IWorldEventResult ApplyEvent(EntityRelativeMovePacket packet, IWorld world)
+        {
+            IDimension dimension = world.GetCurrentDimension();
+
+            try
+            {
+                IEntity entity = dimension.GetEntity(packet.EntityId);
+                entity = entity.ChangeLocation(entity.Location.Add(new Vector3d(packet.DeltaPosition.X * _relativeMoveFactor, packet.DeltaPosition.Y * _relativeMoveFactor, packet.DeltaPosition.Z * _relativeMoveFactor)));
+
+                return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(entity)));
+            }
+            catch (Exception ex) { return Result(world); }
+        }
+
+        public IWorldEventResult ApplyEvent(EntityLookAndRelativeMovePacket packet, IWorld world)
+        {
+            IDimension dimension = world.GetCurrentDimension();
+
+            try
+            {
+                IEntity entity = dimension.GetEntity(packet.EntityId);
+                entity = entity.ChangeLocation(entity.Location.Add(new Vector3d(packet.DeltaPosition.X * _relativeMoveFactor, packet.DeltaPosition.Y * _relativeMoveFactor, packet.DeltaPosition.Z * _relativeMoveFactor)));
+
+                return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(entity)));
+            }
+            catch (Exception ex) { return Result(world); }
         }
     }
 }
