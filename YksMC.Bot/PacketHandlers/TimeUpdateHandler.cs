@@ -10,8 +10,10 @@ namespace YksMC.Bot.PacketHandlers
 {
     public class TimeUpdateHandler : WorldEventHandler, IWorldEventHandler<TimeUpdatePacket>
     {
-        public IWorldEventResult ApplyEvent(TimeUpdatePacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<TimeUpdatePacket> message)
         {
+            IWorld world = message.World;
+            TimeUpdatePacket packet = message.Event;
             IDimension dimension = world.GetCurrentDimension();
             if (dimension == null)
             {

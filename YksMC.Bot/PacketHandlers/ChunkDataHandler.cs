@@ -30,8 +30,11 @@ namespace YksMC.Bot.PacketHandlers
             _biomeRepository = biomeRepository;
         }
 
-        public IWorldEventResult ApplyEvent(ChunkDataPacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<ChunkDataPacket> message)
         {
+            IWorld world = message.World;
+            ChunkDataPacket packet = message.Event;
+
             _reader.SetPacket(packet.DataAndBiomes.Values);
 
             IDimension dimension = world.GetCurrentDimension();

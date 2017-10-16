@@ -171,5 +171,9 @@ namespace YksMC.Bot.TickHandlers
             return block.Type.IsSolid;
         }
 
+        public IWorldEventResult Handle(IWorldEvent<IGameTick> message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

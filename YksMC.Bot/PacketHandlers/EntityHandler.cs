@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.EntityType;
+using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
 namespace YksMC.Bot.PacketHandlers
 {
-    public class EntityHandler : WorldEventHandler, IWorldEventHandler<SpawnMobPacket>, IWorldEventHandler<EntityRelativeMovePacket>, IWorldEventHandler<EntityLookAndRelativeMovePacket>
+    public class EntityHandler : WorldEventHandler, IWorldEventHandler<SpawnMobPacket>, IWorldEventHandler<EntityRelativeMovePacket>, IWorldEventHandler<EntityLookAndRelativeMovePacket>, IWorldEventHandler<SpawnPlayerPacket>
     {
         private const double _velocityFactor = 1.0 / 8000.0;
-
         private const double _relativeMoveFactor = 1.0 / 4096.0;
 
         private readonly IEntityTypeRepository _entityTypeRepository;
@@ -24,8 +25,10 @@ namespace YksMC.Bot.PacketHandlers
             _entityTypeRepository = entityTypeRepository;
         }
 
-        public IWorldEventResult ApplyEvent(SpawnMobPacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<SpawnMobPacket> message)
         {
+            IWorld world = message.World;
+            SpawnMobPacket packet = message.Event;
             IDimension dimension = world.GetCurrentDimension();
 
             IEntityLocation location = new EntityLocation(packet.Location.X, packet.Location.Y, packet.Location.Z);
@@ -43,8 +46,10 @@ namespace YksMC.Bot.PacketHandlers
             ));
         }
 
-        public IWorldEventResult ApplyEvent(EntityRelativeMovePacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<EntityRelativeMovePacket> message)
         {
+            IWorld world = message.World;
+            EntityRelativeMovePacket packet = message.Event;
             IDimension dimension = world.GetCurrentDimension();
 
             try
@@ -57,8 +62,10 @@ namespace YksMC.Bot.PacketHandlers
             catch (Exception ex) { return Result(world); }
         }
 
-        public IWorldEventResult ApplyEvent(EntityLookAndRelativeMovePacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<EntityLookAndRelativeMovePacket> message)
         {
+            IWorld world = message.World;
+            EntityLookAndRelativeMovePacket packet = message.Event;
             IDimension dimension = world.GetCurrentDimension();
 
             try
@@ -69,6 +76,25 @@ namespace YksMC.Bot.PacketHandlers
                 return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(entity)));
             }
             catch (Exception ex) { return Result(world); }
+        }
+
+        public IWorldEventResult Handle(IWorldEvent<SpawnPlayerPacket> message)
+        {
+            IWorld world = message.World;
+            SpawnPlayerPacket packet = message.Event;
+
+            if (world.GetPlayers().Any(p => p.Id == packet.PlayerId))
+            {
+                return Result(world);
+            }
+
+            IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
+            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, new EntityLocation(packet.Position.X, packet.Position.Y, packet.Position.Z), 0, 0, 0, false, new Vector3d(0, 0, 0));
+
+            IPlayer player = new Player(packet.PlayerId, "<Unknown>")
+                .ChangeEntity(playerEntity.Id, world.GetCurrentDimension().Id);
+
+            return Result(world.ReplacePlayer(player).ChangeCurrentDimension(dimension => dimension.ChangeEntity(playerEntity)));
         }
     }
 }

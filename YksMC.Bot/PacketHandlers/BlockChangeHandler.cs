@@ -20,8 +20,11 @@ namespace YksMC.Bot.PacketHandlers
             _blockTypeRepository = blockTypeRepository;
         }
 
-        public IWorldEventResult ApplyEvent(BlockChangePacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<BlockChangePacket> args)
         {
+            IWorld world = args.World;
+            BlockChangePacket packet = args.Event;
+
             IDimension dimension = world.GetCurrentDimension();
             if (dimension == null)
             {
@@ -36,8 +39,11 @@ namespace YksMC.Bot.PacketHandlers
             return Result(world.ReplaceCurrentDimension(dimension.ChangeChunk(chunkPosition, chunk)));
         }
 
-        public IWorldEventResult ApplyEvent(MultiBlockChangePacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<MultiBlockChangePacket> args)
         {
+            IWorld world = args.World;
+            MultiBlockChangePacket packet = args.Event;
+
             IDimension dimension = world.GetCurrentDimension();
             if (dimension == null)
             {

@@ -10,13 +10,13 @@ namespace YksMC.Bot.PacketHandlers
 {
     public class KeepAliveHandler : WorldEventHandler, IWorldEventHandler<KeepAlivePacket>
     {
-        public IWorldEventResult ApplyEvent(KeepAlivePacket packet, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<KeepAlivePacket> message)
         {
             KeepAlivePacket reply = new KeepAlivePacket()
             {
-                KeepAliveId = packet.KeepAliveId
+                KeepAliveId = message.Event.KeepAliveId
             };
-            return Result(world, reply);
+            return Result(message.World, reply);
         }
     }
 }

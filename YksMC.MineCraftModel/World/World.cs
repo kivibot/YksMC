@@ -45,6 +45,10 @@ namespace YksMC.MinecraftModel.World
 
         public IWorld ReplaceCurrentDimension(IDimension dimension)
         {
+            if (dimension == null)
+            {
+                throw new ArgumentNullException(nameof(dimension));
+            }
             Dictionary<int, IDimension> dimensions = _dimensions.ToDictionary(e => e.Key, e => e.Value);
             dimensions[dimension.Id] = dimension;
             return new World(_players, _localPlayer, dimensions, dimension);
@@ -52,6 +56,10 @@ namespace YksMC.MinecraftModel.World
 
         public IWorld ReplaceDimension(IDimension dimension)
         {
+            if(dimension == null)
+            {
+                throw new ArgumentNullException(nameof(dimension));
+            }
             if(_currentDimension?.Id == dimension.Id)
             {
                 return ReplaceCurrentDimension(dimension);

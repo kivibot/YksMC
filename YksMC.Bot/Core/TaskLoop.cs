@@ -9,6 +9,7 @@ using YksMC.Behavior.Urge;
 using YksMC.Bot.PacketHandlers;
 using YksMC.Bot.WorldEvent;
 using YksMC.Client;
+using YksMC.EventBus.Bus;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
@@ -22,20 +23,20 @@ namespace YksMC.Bot.Core
         private readonly IUrgeManager _urgeManager;
         private readonly IBehaviorTaskManager _behaviorTaskManager;
         private readonly IMinecraftClient _minecraftClient;
-        private readonly WorldEventHandlerWrapper _worldEventHandlerWrapper;
+        private readonly IEventBus _eventBus;
         private readonly ConcurrentQueue<object> _packetQueue;
 
         private IBehaviorTask _task;
         private IWorld _world;
 
         public TaskLoop(ILogger logger, IUrgeManager urgeManager, IBehaviorTaskManager behaviorTaskManager,
-            IMinecraftClient minecraftClient, WorldEventHandlerWrapper worldEventHandlerWrapper, IWorld world)
+            IMinecraftClient minecraftClient, IEventBus eventBus, IWorld world)
         {
             _logger = logger;
             _urgeManager = urgeManager;
             _behaviorTaskManager = behaviorTaskManager;
             _minecraftClient = minecraftClient;
-            _worldEventHandlerWrapper = worldEventHandlerWrapper;
+            _eventBus = eventBus;
             _world = world;
 
             _packetQueue = new ConcurrentQueue<object>();
@@ -104,16 +105,27 @@ namespace YksMC.Bot.Core
         {
             while (_packetQueue.TryDequeue(out object packet))
             {
-                IWorldEventResult result = _worldEventHandlerWrapper.ApplyEvent(packet, _world);
-                foreach (object replyPacket in result.ReplyPackets)
-                {
-                    _minecraftClient.SendPacket(replyPacket);
-                }
-                _world = result.World;
-                _task?.OnPacketReceived(packet);
+                HandlePacket((dynamic)packet);
             }
         }
 
+        private void HandlePacket<T>(T packet)
+        {
+            IReadOnlyList<IWorldEventResult> results = _eventBus.Handle<IWorldEvent<T>, IWorldEventResult>(new WorldEvent<T>(_world, packet));
+            foreach (IWorldEventResult result in results)
+            {
+                HandleWorldEventResult(result);
+            }
+            _task?.OnPacketReceived(packet);
+        }
 
+        private void HandleWorldEventResult(IWorldEventResult result)
+        {
+            foreach (object replyPacket in result.ReplyPackets)
+            {
+                _minecraftClient.SendPacket(replyPacket);
+            }
+            _world = result.World;
+        }
     }
 }

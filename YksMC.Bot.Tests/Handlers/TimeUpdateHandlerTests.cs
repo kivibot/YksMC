@@ -30,7 +30,7 @@ namespace YksMC.Bot.Tests.Handlers
             };
             IWorld world = GetWorld();
 
-            IWorldEventResult result = handler.ApplyEvent(packet, world);
+            IWorldEventResult result = handler.Handle(new WorldEvent<TimeUpdatePacket>(world, packet));
 
             Assert.AreEqual(12341337, result.World.GetCurrentDimension().AgeAndTime.AgeTicks);
             Assert.AreEqual(1000, result.World.GetCurrentDimension().AgeAndTime.TimeTicks);

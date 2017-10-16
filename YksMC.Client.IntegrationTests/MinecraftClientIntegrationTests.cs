@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
 using YksMC.Data.Json.BlockType;
 using YksMC.Data.Json.EntityType;
+using YksMC.EventBus.Bus;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
@@ -70,7 +72,9 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<TimeUpdateHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<BlockChangeHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<EntityHandler>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterType<WorldEventHandlerWrapper>().AsSelf().SingleInstance();
+
+            builder.RegisterType<EventBus.Bus.EventBus>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<AutofacHandlerContainer>().AsImplementedInterfaces();
 
             builder.RegisterType<PlayerMovementHandler>().AsSelf().SingleInstance();
 
@@ -138,11 +142,31 @@ namespace YksMC.Client.IntegrationTests
         public IBehaviorTask GetTask(string name)
         {
             IBehaviorTask task = _componentContext.ResolveNamed<IBehaviorTask>($"bt-{name}");
-            if(task == null)
+            if (task == null)
             {
                 throw new ArgumentException($"unknown task: {name}");
             }
             return task;
+        }
+    }
+
+    internal class AutofacHandlerContainer : IHandlerContainer
+    {
+        private readonly IComponentContext _componentContext;
+
+        public AutofacHandlerContainer(IComponentContext componentContext)
+        {
+            _componentContext = componentContext;
+        }
+
+        public IReadOnlyList<IEventHandler<TEvent, TResult>> GetHandlers<TEvent, TResult>()
+        {
+            return _componentContext.Resolve<IEnumerable<IEventHandler<TEvent, TResult>>>().ToList();
+        }
+
+        public void ReturnHandler<TEvent, TResult>(IEventHandler<TEvent, TResult> handler)
+        {
+            //TODO: implement
         }
     }
 }
