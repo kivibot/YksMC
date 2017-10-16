@@ -6,10 +6,15 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using YksMC.Behavior.Task;
+using YksMC.Behavior.Urge;
+using YksMC.Behavior.Urge.Scorers;
 using YksMC.Bot.Core;
 using YksMC.Bot.Login;
 using YksMC.Bot.PacketHandlers;
+using YksMC.Bot.Tasks;
 using YksMC.Bot.TickHandlers;
+using YksMC.Bot.UrgeConditions;
 using YksMC.Client.Mapper;
 using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
@@ -29,6 +34,7 @@ using YksMC.Protocol.Nbt;
 using YksMC.Protocol.Packets;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Serializing;
+using Urge = YksMC.Behavior.Urge.Urge;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -55,7 +61,7 @@ namespace YksMC.Client.IntegrationTests
             PacketTypeMapper typeMapper = new PacketTypeMapper();
             typeMapper.RegisterVanillaPackets();
             builder.RegisterInstance(typeMapper).AsImplementedInterfaces();
-            
+
             builder.RegisterType<NbtReader>().AsImplementedInterfaces();
 
             builder.RegisterType<KeepAliveHandler>().AsImplementedInterfaces().AsSelf();
@@ -72,8 +78,15 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonEntityTypeRepository>().AsImplementedInterfaces().SingleInstance();
 
+            builder.RegisterType<UrgeManager>().AsImplementedInterfaces().SingleInstance();
+
             builder.RegisterType<LoginService>().AsImplementedInterfaces();
-            builder.RegisterType<YksClient>().AsSelf();
+            builder.RegisterType<TaskLoop>().AsSelf();
+
+            builder.RegisterType<AutofacBehaviorTaskManager>().AsImplementedInterfaces();
+
+            builder.RegisterType<LoginTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-Login");
+
 
             IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
@@ -84,6 +97,15 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterInstance(world);
 
             _container = builder.Build();
+
+            IUrgeManager urgeManager = _container.Resolve<IUrgeManager>();
+            IMinecraftClient client = _container.Resolve<IMinecraftClient>();
+            RegisterUrges(urgeManager, client);
+        }
+
+        private void RegisterUrges(IUrgeManager manager, IMinecraftClient client)
+        {
+            manager.AddUrge(new Urge("Login", "Login", new IUrgeScorer[] { new ConstantScorer(1) }, new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.None) }));
         }
 
         [TearDown]
@@ -93,12 +115,27 @@ namespace YksMC.Client.IntegrationTests
         }
 
         [Test]
-        public async Task ConnectAsync_WithRealServer_DoesNotCrash()
+        public void ConnectAsync_WithRealServer_DoesNotCrash()
         {
-            YksClient client = _container.Resolve<YksClient>();
+            TaskLoop client = _container.Resolve<TaskLoop>();
 
-            await client.RunAsync();
+            client.Run();
         }
 
+    }
+
+    internal class AutofacBehaviorTaskManager : IBehaviorTaskManager
+    {
+        private readonly IComponentContext _componentContext;
+
+        public AutofacBehaviorTaskManager(IComponentContext componentContext)
+        {
+            _componentContext = componentContext;
+        }
+
+        public IBehaviorTask GetTask(string name)
+        {
+            return _componentContext.ResolveNamed<IBehaviorTask>($"bt-{name}");
+        }
     }
 }

@@ -16,6 +16,7 @@ using YksMC.Protocol.Packets.Play.Serverbound;
 
 namespace YksMC.Bot.Core
 {
+    [Obsolete("Old loop")]
     public class YksClient
     {
         private readonly IMinecraftClient _minecraftClient;
