@@ -20,11 +20,6 @@ namespace YksMC.Bot.Tasks
         public bool IsCompleted => _isCompleted;
         public bool IsFailed => _isFailed;
 
-        public void OnPacketReceived(object packet)
-        {
-            return;
-        }
-
         public IWorld OnStart(IWorld world)
         {
             IPlayer localPlayer = world.GetLocalPlayer();

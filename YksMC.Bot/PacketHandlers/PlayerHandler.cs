@@ -15,7 +15,7 @@ using System.Linq;
 namespace YksMC.Bot.PacketHandlers
 {
     public class PlayerHandler : WorldEventHandler, IWorldEventHandler<JoinGamePacket>, IWorldEventHandler<PlayerPositionLookPacket>,
-        IWorldEventHandler<SetExperiencePacket>
+        IWorldEventHandler<SetExperiencePacket>, IWorldEventHandler<UpdateHealthPacket>
     {
         private readonly IEntityTypeRepository _entityTypeRepository;
 
@@ -29,7 +29,7 @@ namespace YksMC.Bot.PacketHandlers
             IWorld world = message.World;
             JoinGamePacket packet = message.Event;
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
-            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityLocation.Origin, 0, 0, 0, false, new Vector3d(0, 0, 0));
+            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityLocation.Origin, 0, 0, 0, false, new Vector3d(0, 0, 0), 20);
 
             IDimension dimension = world.GetDimension(packet.Dimension)
                 .ChangeEntity(playerEntity);
@@ -94,6 +94,30 @@ namespace YksMC.Bot.PacketHandlers
                 player.ChangeExperience(packet.Level, packet.ExperienceBar, packet.TotalExperience)
             );
             return Result(world);
+        }
+
+        public IWorldEventResult Handle(IWorldEvent<UpdateHealthPacket> message)
+        {
+            IWorld world = message.World;
+            UpdateHealthPacket packet = message.Event;
+            IDimension dimension = world.GetCurrentDimension();
+            if (dimension == null)
+            {
+                throw new ArgumentException("No current dimension!");
+            }
+            IPlayer player = world.GetLocalPlayer();
+            if (player == null)
+            {
+                throw new ArgumentException("Local player not initialized.");
+            }
+            if (!player.HasEntity)
+            {
+                throw new ArgumentException("Local player not spawned.");
+            }
+            IEntity playerEntity = dimension.GetEntity(player.EntityId)
+                .ChangeHealth((int)Math.Floor(packet.Health));
+
+            return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(playerEntity)));
         }
     }
 }

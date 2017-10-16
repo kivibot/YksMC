@@ -39,7 +39,7 @@ namespace YksMC.Bot.PacketHandlers
             IVector3<double> velocity = new Vector3d(packet.VelocityX, packet.VelocityY, packet.VelocityZ)
                 .Multiply(_velocityFactor);
 
-            IEntity entity = new Entity(packet.EntityId, type, location, yaw, pitch, 0, false, velocity);
+            IEntity entity = new Entity(packet.EntityId, type, location, yaw, pitch, 0, false, velocity, 1);
 
             return Result(world.ReplaceDimension(
                 dimension.ChangeEntity(entity)
@@ -89,7 +89,7 @@ namespace YksMC.Bot.PacketHandlers
             }
 
             IEntityType playerEntityType = _entityTypeRepository.GetPlayerType();
-            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, new EntityLocation(packet.Position.X, packet.Position.Y, packet.Position.Z), 0, 0, 0, false, new Vector3d(0, 0, 0));
+            IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, new EntityLocation(packet.Position.X, packet.Position.Y, packet.Position.Z), 0, 0, 0, false, new Vector3d(0, 0, 0), 1);
 
             IPlayer player = new Player(packet.PlayerId, "<Unknown>")
                 .ChangeEntity(playerEntity.Id, world.GetCurrentDimension().Id);

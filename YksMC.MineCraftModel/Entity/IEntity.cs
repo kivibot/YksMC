@@ -20,10 +20,14 @@ namespace YksMC.MinecraftModel.Entity
 
         bool IsOnGround { get; }
 
+        int Health { get; }
+        bool IsAlive { get; }
+
         IEntity ChangeLocation(IEntityLocation location);
         IEntity ChangeLook(double yaw, double pitch);
         IEntity ChangeHeadLook(double headYaw);
         IEntity ChangeOnGround(bool isOnGround);
         IEntity ChangeVelocity(IVector3<double> velocity);
+        IEntity ChangeHealth(int health);
     }
 }

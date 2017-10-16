@@ -11,5 +11,8 @@ namespace YksMC.Protocol.Packets.Play.Serverbound
     public class ClientStatusPacket
     {
         public VarInt ActionId { get; set; }
+
+        public static int Respawn = 0;
+        public static int RequestStatus = 1;
     }
 }

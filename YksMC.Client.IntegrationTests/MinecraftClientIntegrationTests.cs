@@ -91,6 +91,7 @@ namespace YksMC.Client.IntegrationTests
 
             builder.RegisterType<LoginTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-Login");
             builder.RegisterType<LookAtNearestPlayerTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LookAtNearestPlayer");
+            builder.RegisterType<RespawnTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-Respawn");
 
 
             IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
@@ -111,7 +112,23 @@ namespace YksMC.Client.IntegrationTests
         private void RegisterUrges(IUrgeManager manager, IMinecraftClient client)
         {
             manager.AddUrge(new Urge("Login", "Login", new IUrgeScorer[] { new ConstantScorer(1) }, new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.None) }));
-            manager.AddUrge(new Urge("LookAtNearestPlayer", "LookAtNearestPlayer", new IUrgeScorer[] { new ConstantScorer(0.1) }, new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.Play) }));
+            manager.AddUrge(new Urge("LookAtNearestPlayer", "LookAtNearestPlayer",
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.1)
+                },
+                new IUrgeCondition[] {
+                    new ConnectionStateCondition(client, ConnectionState.Play)
+                }
+            ));
+            manager.AddUrge(new Urge("Respawn", "Respawn",
+                new IUrgeScorer[] {
+                    new ConstantScorer(1)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new NotCondition(new AliveCondition())
+                }
+            ));
         }
 
         [TearDown]

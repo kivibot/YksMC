@@ -14,6 +14,5 @@ namespace YksMC.Behavior.Task
 
         IWorld OnStart(IWorld world);
         IWorld OnTick(IWorld world);
-        void OnPacketReceived(object packet);
     }
 }

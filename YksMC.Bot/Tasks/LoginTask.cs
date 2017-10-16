@@ -25,11 +25,6 @@ namespace YksMC.Bot.Tasks
             _minecraftClient = minecraftClient;
         }
 
-        public void OnPacketReceived(object packet)
-        {
-            return;
-        }
-
         public IWorld OnStart(IWorld world)
         {
             _minecraftClient.ConnectAsync("localhost", 25565).Wait();

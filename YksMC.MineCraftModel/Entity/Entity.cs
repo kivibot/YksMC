@@ -16,6 +16,7 @@ namespace YksMC.MinecraftModel.Entity
         private readonly double _headYaw;
         private readonly bool _isOnGround;
         private readonly IVector3<double> _velocity;
+        private readonly int _health;
 
         public int Id => _id;
         public IEntityType Type => _type;
@@ -26,7 +27,10 @@ namespace YksMC.MinecraftModel.Entity
         public bool IsOnGround => _isOnGround;
         public IVector3<double> Velocity => _velocity;
 
-        public Entity(int id, IEntityType type, IEntityLocation location, double yaw, double pitch, double headYaw, bool isOnGround, IVector3<double> velocity)
+        public int Health => _health;
+        public bool IsAlive => _health > 0;
+
+        public Entity(int id, IEntityType type, IEntityLocation location, double yaw, double pitch, double headYaw, bool isOnGround, IVector3<double> velocity, int health)
         {
             _id = id;
             _type = type;
@@ -36,31 +40,37 @@ namespace YksMC.MinecraftModel.Entity
             _headYaw = headYaw;
             _isOnGround = isOnGround;
             _velocity = velocity;
+            _health = health;
         }
 
         public IEntity ChangeLocation(IEntityLocation location)
         {
-            return new Entity(_id, _type, location, _yaw, _pitch, _headYaw, _isOnGround, _velocity);
+            return new Entity(_id, _type, location, _yaw, _pitch, _headYaw, _isOnGround, _velocity, _health);
         }
 
         public IEntity ChangeLook(double yaw, double pitch)
         {
-            return new Entity(_id, _type, _location, yaw, pitch, _headYaw, _isOnGround, _velocity);
+            return new Entity(_id, _type, _location, yaw, pitch, _headYaw, _isOnGround, _velocity, _health);
         }
 
         public IEntity ChangeHeadLook(double headYaw)
         {
-            return new Entity(_id, _type, _location, _yaw, _pitch, headYaw, _isOnGround, _velocity);
+            return new Entity(_id, _type, _location, _yaw, _pitch, headYaw, _isOnGround, _velocity, _health);
         }
 
         public IEntity ChangeOnGround(bool isOnGround)
         {
-            return new Entity(_id, _type, _location, _yaw, _pitch, _headYaw, isOnGround, _velocity);
+            return new Entity(_id, _type, _location, _yaw, _pitch, _headYaw, isOnGround, _velocity, _health);
         }
 
         public IEntity ChangeVelocity(IVector3<double> velocity)
         {
-            return new Entity(_id, _type, _location, _yaw, _pitch, _headYaw, _isOnGround, velocity);
+            return new Entity(_id, _type, _location, _yaw, _pitch, _headYaw, _isOnGround, velocity, _health);
+        }
+
+        public IEntity ChangeHealth(int health)
+        {
+            return new Entity(_id, _type, _location, _yaw, _pitch, _headYaw, _isOnGround, _velocity, health);
         }
     }
 }

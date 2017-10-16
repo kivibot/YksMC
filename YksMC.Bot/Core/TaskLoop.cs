@@ -116,7 +116,6 @@ namespace YksMC.Bot.Core
             {
                 HandleWorldEventResult(result);
             }
-            _task?.OnPacketReceived(packet);
         }
 
         private void HandleWorldEventResult(IWorldEventResult result)
