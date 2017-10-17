@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\YksMC.Behavior\YksMC.Behavior.csproj" />
     <ProjectReference Include="..\YksMC.Bot\YksMC.Bot.csproj" />
     <ProjectReference Include="..\YksMC.Client\YksMC.Client.csproj" />
     <ProjectReference Include="..\YksMC.Data.Json\YksMC.Data.Json.csproj" />
     <ProjectReference Include="..\YksMC.Protocol\YksMC.Protocol.csproj" />
-    <ProjectReference Include="..\YksMC.TaskSystem\YksMC.Behavior.csproj" />
   </ItemGroup>
 
   <ItemGroup>
