@@ -7,15 +7,10 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Behavior.Task;
-using YksMC.Behavior.Urge;
-using YksMC.Behavior.Urge.Scorers;
+using YksMC.Bot.BehaviorTask;
+using YksMC.Bot.Urge;
 using YksMC.Bot.Core;
 using YksMC.Bot.Login;
-using YksMC.Bot.PacketHandlers;
-using YksMC.Bot.Tasks;
-using YksMC.Bot.TickHandlers;
-using YksMC.Bot.UrgeConditions;
 using YksMC.Client.Mapper;
 using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
@@ -36,7 +31,12 @@ using YksMC.Protocol.Nbt;
 using YksMC.Protocol.Packets;
 using YksMC.Protocol.Packets.Login;
 using YksMC.Protocol.Serializing;
-using Urge = YksMC.Behavior.Urge.Urge;
+using Urge = YksMC.Bot.Urge.Urge;
+using YksMC.Behavior.PacketHandlers;
+using YksMC.Behavior.TickHandlers;
+using YksMC.Behavior.Tasks;
+using YksMC.Behavior.UrgeScorers;
+using YksMC.Behavior.UrgeConditions;
 
 namespace YksMC.Client.IntegrationTests
 {

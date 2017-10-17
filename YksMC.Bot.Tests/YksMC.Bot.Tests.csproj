@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\YksMC.Bot\YksMC.Bot.csproj" />
+    <ProjectReference Include="..\YksMC.TaskSystem\YksMC.Behavior.csproj" />
   </ItemGroup>
 
 </Project>

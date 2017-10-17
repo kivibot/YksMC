@@ -20,7 +20,6 @@
     <ProjectReference Include="..\YksMC.MineCraftModel\YksMC.MinecraftModel.csproj" />
     <ProjectReference Include="..\YksMC.Protocol.Packets\YksMC.Protocol.Packets.csproj" />
     <ProjectReference Include="..\YksMC.Protocol\YksMC.Protocol.csproj" />
-    <ProjectReference Include="..\YksMC.TaskSystem\YksMC.Behavior.csproj" />
   </ItemGroup>
 
 </Project>

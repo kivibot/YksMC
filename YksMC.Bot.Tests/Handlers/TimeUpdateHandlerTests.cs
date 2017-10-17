@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.Bot.PacketHandlers;
+using YksMC.Behavior.PacketHandlers;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;

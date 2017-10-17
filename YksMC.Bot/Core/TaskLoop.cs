@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using YksMC.Behavior.Task;
-using YksMC.Behavior.Urge;
-using YksMC.Bot.PacketHandlers;
+using YksMC.Bot.BehaviorTask;
+using YksMC.Bot.Urge;
 using YksMC.Bot.WorldEvent;
 using YksMC.Client;
 using YksMC.EventBus.Bus;
@@ -28,19 +27,21 @@ namespace YksMC.Bot.Core
         private readonly IBehaviorTaskManager _behaviorTaskManager;
         private readonly IMinecraftClient _minecraftClient;
         private readonly IEventBus _eventBus;
+        private readonly ITaskScheduler _taskScheduler;
         private readonly ConcurrentQueue<object> _packetQueue;
 
         private IBehaviorTask _task;
         private IWorld _world;
 
         public TaskLoop(ILogger logger, IUrgeManager urgeManager, IBehaviorTaskManager behaviorTaskManager,
-            IMinecraftClient minecraftClient, IEventBus eventBus, IWorld world)
+            IMinecraftClient minecraftClient, IEventBus eventBus, ITaskScheduler taskScheduler, IWorld world)
         {
             _logger = logger;
             _urgeManager = urgeManager;
             _behaviorTaskManager = behaviorTaskManager;
             _minecraftClient = minecraftClient;
             _eventBus = eventBus;
+            _taskScheduler = taskScheduler;
             _world = world;
 
             _packetQueue = new ConcurrentQueue<object>();
@@ -72,7 +73,7 @@ namespace YksMC.Bot.Core
         {
             if (_task == null || _task.IsCompleted)
             {
-                GetNextTask();
+                StartNextTask();
             }
 
             HandlePackets();
@@ -81,7 +82,7 @@ namespace YksMC.Bot.Core
 
             if (_task != null)
             {
-                _world = _task.OnTick(_world);
+                _task.OnTick(_world);
             }
 
             SendChanges();
@@ -106,7 +107,7 @@ namespace YksMC.Bot.Core
             });
         }
 
-        private void GetNextTask()
+        private void StartNextTask()
         {
             _logger.Information("Scheduling new task.");
             IUrge urge = _urgeManager.GetLargestUrge(_world);
@@ -116,7 +117,7 @@ namespace YksMC.Bot.Core
             }
             _logger.Information("Largest urge: {Name}, {Score}", urge.Name, urge.GetScore(_world));
             _task = _behaviorTaskManager.GetTask(urge.TaskName);
-            _world = _task.OnStart(_world);
+            _taskScheduler.EnqueueTask(_task);
         }
 
         private void HandlePackets()

@@ -1,11 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YksMC.Bot\YksMC.Bot.csproj" />
+    <ProjectReference Include="..\YksMC.Client\YksMC.Client.csproj" />
+    <ProjectReference Include="..\YksMC.EventBus\YksMC.EventBus.csproj" />
     <ProjectReference Include="..\YksMC.MineCraftModel\YksMC.MinecraftModel.csproj" />
+    <ProjectReference Include="..\YksMC.Protocol.Nbt\YksMC.Protocol.Nbt.csproj" />
+    <ProjectReference Include="..\YksMC.Protocol.Packets\YksMC.Protocol.Packets.csproj" />
+    <ProjectReference Include="..\YksMC.Protocol\YksMC.Protocol.csproj" />
   </ItemGroup>
 
 </Project>
