@@ -94,7 +94,7 @@ namespace YksMC.Bot.Core
             {
                 return;
             }
-            IEntity entity = _world.GetCurrentDimension().GetEntity(player.EntityId);
+            IEntity entity = _world.GetCurrentDimension().Entities[player.EntityId];
             _minecraftClient.SendPacket(new PlayerPositionAndLookPacket()
             {
                 X = entity.Location.X,

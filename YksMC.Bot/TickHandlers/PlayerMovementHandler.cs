@@ -37,7 +37,7 @@ namespace YksMC.Bot.TickHandlers
                 return Result(world);
             }
             IDimension dimension = world.GetCurrentDimension();
-            IEntity entity = dimension.GetEntity(player.EntityId);
+            IEntity entity = dimension.Entities[player.EntityId];
 
             IVector3<double> velocity = GetNextVelocity(entity.Velocity);
             double movedLength = GetLongestValidLinearMovement(dimension, entity.Location, velocity);
@@ -52,7 +52,7 @@ namespace YksMC.Bot.TickHandlers
                 .ChangeVelocity(velocity)
                 .ChangeOnGround(isOnGround);
 
-            return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(entity)));
+            return Result(world.ReplaceCurrentDimension(dimension.ReplaceEntity(entity)));
         }
 
         private double GetLongestValidLinearMovement(IDimension dimension, IEntityLocation entityLocation, IVector3<double> velocity)

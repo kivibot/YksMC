@@ -42,7 +42,7 @@ namespace YksMC.Bot.PacketHandlers
             IEntity entity = new Entity(packet.EntityId, type, location, yaw, pitch, 0, false, velocity, 1);
 
             return Result(world.ReplaceDimension(
-                dimension.ChangeEntity(entity)
+                dimension.ReplaceEntity(entity)
             ));
         }
 
@@ -54,10 +54,10 @@ namespace YksMC.Bot.PacketHandlers
 
             try
             {
-                IEntity entity = dimension.GetEntity(packet.EntityId);
+                IEntity entity = dimension.Entities[packet.EntityId];
                 entity = entity.ChangeLocation(entity.Location.Add(new Vector3d(packet.DeltaPosition.X * _relativeMoveFactor, packet.DeltaPosition.Y * _relativeMoveFactor, packet.DeltaPosition.Z * _relativeMoveFactor)));
 
-                return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(entity)));
+                return Result(world.ReplaceCurrentDimension(dimension.ReplaceEntity(entity)));
             }
             catch (Exception ex) { return Result(world); }
         }
@@ -70,10 +70,10 @@ namespace YksMC.Bot.PacketHandlers
 
             try
             {
-                IEntity entity = dimension.GetEntity(packet.EntityId);
+                IEntity entity = dimension.Entities[packet.EntityId];
                 entity = entity.ChangeLocation(entity.Location.Add(new Vector3d(packet.DeltaPosition.X * _relativeMoveFactor, packet.DeltaPosition.Y * _relativeMoveFactor, packet.DeltaPosition.Z * _relativeMoveFactor)));
 
-                return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(entity)));
+                return Result(world.ReplaceCurrentDimension(dimension.ReplaceEntity(entity)));
             }
             catch (Exception ex) { return Result(world); }
         }
@@ -94,7 +94,7 @@ namespace YksMC.Bot.PacketHandlers
             IPlayer player = new Player(packet.PlayerId, "<Unknown>")
                 .ChangeEntity(playerEntity.Id, world.GetCurrentDimension().Id);
 
-            return Result(world.ReplacePlayer(player).ChangeCurrentDimension(dimension => dimension.ChangeEntity(playerEntity)));
+            return Result(world.ReplacePlayer(player).ChangeCurrentDimension(dimension => dimension.ReplaceEntity(playerEntity)));
         }
     }
 }

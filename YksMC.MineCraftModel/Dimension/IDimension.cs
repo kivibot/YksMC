@@ -12,15 +12,12 @@ namespace YksMC.MinecraftModel.Dimension
     {
         int Id { get; }
         IDimensionType Type { get; }
+        IAgeTime AgeAndTime { get; }
+        IEntityCollection Entities { get; }
 
         IChunk GetChunk(IChunkCoordinate position);
-        IDimension ChangeChunk(IChunkCoordinate position, IChunk chunk);
-
-        IEntity GetEntity(int id);
-        IDimension ChangeEntity(IEntity entity);
-
-        IAgeTime AgeAndTime { get; }
-
+        IDimension ReplaceChunk(IChunkCoordinate position, IChunk chunk);        
+        IDimension ReplaceEntity(IEntity entity);
         IDimension ChangeAgeAndTime(IAgeTime ageAndTime);
     }
 }

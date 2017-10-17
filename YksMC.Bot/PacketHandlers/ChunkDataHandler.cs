@@ -44,7 +44,7 @@ namespace YksMC.Bot.PacketHandlers
 
             chunk = ParseChunk(packet, chunk, dimension.Type);
 
-            return Result(world.ReplaceCurrentDimension(dimension.ChangeChunk(position, chunk)));
+            return Result(world.ReplaceCurrentDimension(dimension.ReplaceChunk(position, chunk)));
         }
 
         private IChunk ParseChunk(ChunkDataPacket packet, IChunk chunk, IDimensionType dimensionType)

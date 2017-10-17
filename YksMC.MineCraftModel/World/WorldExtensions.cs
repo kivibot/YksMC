@@ -17,7 +17,7 @@ namespace YksMC.MinecraftModel.World
         public static IEntity GetPlayerEntity(this IWorld world)
         {
             IPlayer player = world.GetLocalPlayer();
-            return world.GetDimension(player.DimensionId).GetEntity(player.EntityId);
+            return world.GetDimension(player.DimensionId).Entities[player.EntityId];
         }
     }
 }

@@ -32,7 +32,7 @@ namespace YksMC.Bot.PacketHandlers
             IEntity playerEntity = new Entity(packet.EntityId, playerEntityType, EntityLocation.Origin, 0, 0, 0, false, new Vector3d(0, 0, 0), 20);
 
             IDimension dimension = world.GetDimension(packet.Dimension)
-                .ChangeEntity(playerEntity);
+                .ReplaceEntity(playerEntity);
 
             IPlayer player = world.GetLocalPlayer()
                 .ChangeEntity(playerEntity.Id, dimension.Id);
@@ -60,7 +60,7 @@ namespace YksMC.Bot.PacketHandlers
             {
                 throw new ArgumentException("Local player not spawned.");
             }
-            IEntity playerEntity = dimension.GetEntity(player.EntityId);
+            IEntity playerEntity = dimension.Entities[player.EntityId];
 
             PlayerPositionLookPacketFlags flags = packet.Flags;
             double x = (flags.RelativeX ? playerEntity.Location.X : 0) + packet.X;
@@ -77,7 +77,7 @@ namespace YksMC.Bot.PacketHandlers
                 TeleportId = packet.TeleportId
             };
 
-            world = world.ReplaceCurrentDimension(dimension.ChangeEntity(playerEntity));
+            world = world.ReplaceCurrentDimension(dimension.ReplaceEntity(playerEntity));
             return Result(world, confirmationPacket);
         }
 
@@ -114,10 +114,10 @@ namespace YksMC.Bot.PacketHandlers
             {
                 throw new ArgumentException("Local player not spawned.");
             }
-            IEntity playerEntity = dimension.GetEntity(player.EntityId)
+            IEntity playerEntity = dimension.Entities[player.EntityId]
                 .ChangeHealth((int)Math.Floor(packet.Health));
 
-            return Result(world.ReplaceCurrentDimension(dimension.ChangeEntity(playerEntity)));
+            return Result(world.ReplaceCurrentDimension(dimension.ReplaceEntity(playerEntity)));
         }
     }
 }

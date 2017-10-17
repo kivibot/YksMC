@@ -36,7 +36,7 @@ namespace YksMC.Bot.PacketHandlers
             IChunk chunk = dimension.GetChunk(chunkPosition);
             chunk = ReplaceBlockType(chunk, position, packet.BlockId);
 
-            return Result(world.ReplaceCurrentDimension(dimension.ChangeChunk(chunkPosition, chunk)));
+            return Result(world.ReplaceCurrentDimension(dimension.ReplaceChunk(chunkPosition, chunk)));
         }
 
         public IWorldEventResult Handle(IWorldEvent<MultiBlockChangePacket> args)
@@ -59,7 +59,7 @@ namespace YksMC.Bot.PacketHandlers
                 chunk = ReplaceBlockType(chunk, position, record.BlockId);
             }
 
-            return Result(world.ReplaceCurrentDimension(dimension.ChangeChunk(chunkPosition, chunk)));
+            return Result(world.ReplaceCurrentDimension(dimension.ReplaceChunk(chunkPosition, chunk)));
         }
 
         private IChunk ReplaceBlockType(IChunk chunk, IBlockCoordinate position, int networkId)

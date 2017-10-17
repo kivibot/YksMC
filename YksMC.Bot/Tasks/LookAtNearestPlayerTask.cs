@@ -34,10 +34,10 @@ namespace YksMC.Bot.Tasks
                 return world;
             }
             IDimension dimension = world.GetCurrentDimension();
-            IEntity localEntity = dimension.GetEntity(localPlayer.EntityId);
+            IEntity localEntity = dimension.Entities[localPlayer.EntityId];
             IEntityLocation nearest = world.GetPlayers()
                 .Where(player => player.Id != localPlayer.Id && player.HasEntity && player.DimensionId == localPlayer.DimensionId)
-                .Select(player => dimension.GetEntity(player.EntityId).Location)
+                .Select(player => dimension.Entities[player.EntityId].Location)
                 .OrderBy(location => localEntity.Location.AsVector().Substract(location.AsVector()).Length())
                 .FirstOrDefault();
             if (nearest == null)
@@ -60,7 +60,7 @@ namespace YksMC.Bot.Tasks
             localEntity = localEntity.ChangeLook(yaw, pitch);
 
             Complete();
-            return world.ReplaceCurrentDimension(dimension.ChangeEntity(localEntity));
+            return world.ReplaceCurrentDimension(dimension.ReplaceEntity(localEntity));
         }
 
         private void Fail()

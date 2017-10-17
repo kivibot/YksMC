@@ -14,21 +14,22 @@ namespace YksMC.MinecraftModel.Dimension
         private readonly IDimensionType _type;
         private readonly IChunk _emptyChunk;
         private readonly IReadOnlyDictionary<IChunkCoordinate, IChunk> _chunks;
-        private readonly IReadOnlyDictionary<int, IEntity> _entities;
+        private readonly IEntityCollection _entities;
         private readonly IAgeTime _ageAndTime;
 
         public int Id => _id;
         public IDimensionType Type => _type;
         public IAgeTime AgeAndTime => _ageAndTime;
+        public IEntityCollection Entities => _entities;
 
         public Dimension(int id, IDimensionType type, IChunk emptyChunk)
             : this(id, type, emptyChunk, new Dictionary<IChunkCoordinate, IChunk>(),
-                  new Dictionary<int, IEntity>(), new AgeTime(0, 0, 24000))
+                  new EntityCollection(), new AgeTime(0, 0, 24000))
         {
         }
 
         public Dimension(int id, IDimensionType type, IChunk emptyChunk, IReadOnlyDictionary<IChunkCoordinate, IChunk> chunks,
-            IReadOnlyDictionary<int, IEntity> entities, IAgeTime ageAndTime)
+            IEntityCollection entities, IAgeTime ageAndTime)
         {
             _id = id;
             _type = type;
@@ -38,7 +39,7 @@ namespace YksMC.MinecraftModel.Dimension
             _ageAndTime = ageAndTime;
         }
 
-        public IDimension ChangeChunk(IChunkCoordinate position, IChunk chunk)
+        public IDimension ReplaceChunk(IChunkCoordinate position, IChunk chunk)
         {
             Dictionary<IChunkCoordinate, IChunk> chunks = _chunks.ToDictionary(e => e.Key, e => e.Value);
             chunks[position] = chunk;
@@ -59,10 +60,9 @@ namespace YksMC.MinecraftModel.Dimension
             return _entities[id];
         }
 
-        public IDimension ChangeEntity(IEntity entity)
+        public IDimension ReplaceEntity(IEntity entity)
         {
-            Dictionary<int, IEntity> entities = _entities.ToDictionary(e => e.Key, e => e.Value);
-            entities[entity.Id] = entity;
+            IEntityCollection entities = _entities.ReplaceEntity(entity);
             return new Dimension(_id, _type, _emptyChunk, _chunks, entities, _ageAndTime);
         }
 
