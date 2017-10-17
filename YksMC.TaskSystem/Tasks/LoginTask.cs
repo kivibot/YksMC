@@ -6,38 +6,36 @@ using YksMC.Bot.BehaviorTask;
 using YksMC.Client;
 using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
+using YksMC.Bot.WorldEvent;
+using YksMC.Bot.Core;
 
 namespace YksMC.Behavior.Tasks
 {
-    public class LoginTask : IBehaviorTask
+    [Obsolete("uses task.wait!!!")]
+    public class LoginTask : BehaviorTask
     {
         private readonly IMinecraftClient _minecraftClient;
         private readonly ILoginService _loginService;
 
-        public string Name => "Login";
-
-        public bool IsCompleted { get; set; }
-        public bool IsFailed { get; set; }
-
         public LoginTask(ILoginService loginService, IMinecraftClient minecraftClient)
+            : base("Login")
         {
             _loginService = loginService;
             _minecraftClient = minecraftClient;
         }
 
-        public IWorld OnStart(IWorld world)
+        public override IWorldEventResult OnStart(IWorld world)
         {
             _minecraftClient.ConnectAsync("localhost", 25565).Wait();
 
             IPlayerInfo playerInfo = _loginService.LoginAsync().Result;
 
-            IsCompleted = true;
-
+            Complete();
             //TODO: should this be removed from here?
-            return world.ReplaceLocalPlayer(new Player(Guid.Parse(playerInfo.Id), playerInfo.Username));
+            return Result(world.ReplaceLocalPlayer(new Player(Guid.Parse(playerInfo.Id), playerInfo.Username)));
         }
 
-        public void OnTick(IWorld world)
+        public override void OnTick(IWorld world, IGameTick tick)
         {
             return;
         }

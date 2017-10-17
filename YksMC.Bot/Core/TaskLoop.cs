@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Bot.BehaviorTask;
@@ -27,14 +28,14 @@ namespace YksMC.Bot.Core
         private readonly IBehaviorTaskManager _behaviorTaskManager;
         private readonly IMinecraftClient _minecraftClient;
         private readonly IEventBus _eventBus;
-        private readonly ITaskScheduler _taskScheduler;
+        private readonly IBehaviorTaskScheduler _taskScheduler;
         private readonly ConcurrentQueue<object> _packetQueue;
 
         private IBehaviorTask _task;
         private IWorld _world;
 
         public TaskLoop(ILogger logger, IUrgeManager urgeManager, IBehaviorTaskManager behaviorTaskManager,
-            IMinecraftClient minecraftClient, IEventBus eventBus, ITaskScheduler taskScheduler, IWorld world)
+            IMinecraftClient minecraftClient, IEventBus eventBus, IBehaviorTaskScheduler taskScheduler, IWorld world)
         {
             _logger = logger;
             _urgeManager = urgeManager;
@@ -80,18 +81,13 @@ namespace YksMC.Bot.Core
 
             HandleTick();
 
-            if (_task != null)
-            {
-                _task.OnTick(_world);
-            }
-
             SendChanges();
         }
 
         private void SendChanges()
         {
             IPlayer player = _world.GetLocalPlayer();
-            if (!player.HasEntity)
+            if (player == null || !player.HasEntity)
             {
                 return;
             }
@@ -154,10 +150,19 @@ namespace YksMC.Bot.Core
         private void HandleTick()
         {
             GameTick tick = new GameTick();
+
+            IWorldEventResult taskResult = _taskScheduler.HandleTick(_world, tick);
+            foreach (object replyPacket in taskResult.ReplyPackets)
+            {
+                _minecraftClient.SendPacket(replyPacket);
+            }
+            _world = taskResult.World;
+
             IWorldEventResult result = _eventBus.HandleAsPipeline<IWorldEvent<IGameTick>, IWorldEventResult>(
                 new WorldEvent<IGameTick>(_world, tick),
                 (intermediateResult) => new WorldEvent<IGameTick>(intermediateResult.World, tick)
             );
+
             if (result == null)
             {
                 return;

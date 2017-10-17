@@ -32,7 +32,7 @@ namespace YksMC.Behavior.TickHandlers
             IWorld world = message.World;
             IGameTick tick = message.Event;
             IPlayer player = world.GetLocalPlayer();
-            if (!player.HasEntity)
+            if (player == null || !player.HasEntity)
             {
                 return Result(world);
             }

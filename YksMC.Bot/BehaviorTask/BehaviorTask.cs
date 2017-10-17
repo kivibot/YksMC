@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Bot.Core;
+using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.World;
 
 namespace YksMC.Bot.BehaviorTask
 {
-    public abstract class BehaviorTask : IBehaviorTask
+    public abstract class BehaviorTask : WorldEventHandler, IBehaviorTask
     {
         private readonly string _name;
         private bool _isCompleted;
@@ -20,9 +22,9 @@ namespace YksMC.Bot.BehaviorTask
             _name = name;
         }
 
-        public abstract IWorld OnStart(IWorld world);
+        public abstract IWorldEventResult OnStart(IWorld world);
 
-        public abstract void OnTick(IWorld world);
+        public abstract void OnTick(IWorld world, IGameTick tick);
 
         protected void Fail()
         {

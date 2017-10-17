@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.Bot.BehaviorTask;
+using YksMC.Bot.Core;
+using YksMC.Bot.WorldEvent;
 using YksMC.Client;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.World;
@@ -23,15 +25,15 @@ namespace YksMC.Behavior.Tasks
             _client = client;
         }
 
-        public override IWorld OnStart(IWorld world)
+        public override IWorldEventResult OnStart(IWorld world)
         {
             _client.SendPacket(new ClientStatusPacket() {
                 ActionId = ClientStatusPacket.Respawn
             });
-            return world;
+            return Result(world);
         }
 
-        public override void OnTick(IWorld world)
+        public override void OnTick(IWorld world, IGameTick tick)
         {
             IEntity entity = world.GetPlayerEntity();
             if (entity.IsAlive)

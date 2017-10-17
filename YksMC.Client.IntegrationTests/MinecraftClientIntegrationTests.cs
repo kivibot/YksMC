@@ -94,6 +94,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<LookAtNearestPlayerTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LookAtNearestPlayer");
             builder.RegisterType<RespawnTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-Respawn");
 
+            builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces();
 
             IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);

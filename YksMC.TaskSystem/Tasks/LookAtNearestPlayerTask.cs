@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using YksMC.Bot.BehaviorTask;
+using YksMC.Bot.Core;
+using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
@@ -11,27 +13,28 @@ using YksMC.MinecraftModel.World;
 
 namespace YksMC.Behavior.Tasks
 {
-    public class LookAtNearestPlayerTask : IBehaviorTask
+    public class LookAtNearestPlayerTask : BehaviorTask
     {
         private bool _isCompleted;
         private bool _isFailed;
 
-        public string Name => "LookAtNearestPlayer";
-        public bool IsCompleted => _isCompleted;
-        public bool IsFailed => _isFailed;
+        public LookAtNearestPlayerTask()
+            : base("LookAtNearestPlayer")
+        {
+        }
 
-        public IWorld OnStart(IWorld world)
+        public override IWorldEventResult OnStart(IWorld world)
         {
             IPlayer localPlayer = world.GetLocalPlayer();
             if (localPlayer == null)
             {
                 Fail();
-                return world;
+                return Result(world);
             }
             if (!localPlayer.HasEntity)
             {
                 Fail();
-                return world;
+                return Result(world);
             }
             IDimension dimension = world.GetCurrentDimension();
             IEntity localEntity = dimension.Entities[localPlayer.EntityId];
@@ -43,14 +46,14 @@ namespace YksMC.Behavior.Tasks
             if (nearest == null)
             {
                 Fail();
-                return world;
+                return Result(world);
             }
 
             IVector3<double> lookVector = nearest.AsVector().Substract(localEntity.Location.AsVector());
             if (lookVector == Vector3d.Zero)
             {
                 Complete();
-                return world;
+                return Result(world);
             }
 
 
@@ -60,23 +63,13 @@ namespace YksMC.Behavior.Tasks
             localEntity = localEntity.ChangeLook(yaw, pitch);
 
             Complete();
-            return world.ReplaceCurrentDimension(dimension.ReplaceEntity(localEntity));
+            return Result(world.ReplaceCurrentDimension(dimension.ReplaceEntity(localEntity)));
         }
 
-        private void Fail()
-        {
-            _isFailed = true;
-            _isCompleted = true;
-        }
-
-        private void Complete()
-        {
-            _isCompleted = true;
-        }
-
-        public void OnTick(IWorld world)
+        public override void OnTick(IWorld world, IGameTick tick)
         {
             return;
         }
+
     }
 }
