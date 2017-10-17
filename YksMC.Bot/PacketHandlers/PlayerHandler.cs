@@ -66,8 +66,8 @@ namespace YksMC.Bot.PacketHandlers
             double x = (flags.RelativeX ? playerEntity.Location.X : 0) + packet.X;
             double y = (flags.RelativeY ? playerEntity.Location.Y : 0) + packet.FeetY;
             double z = (flags.RelativeZ ? playerEntity.Location.Z : 0) + packet.Z;
-            double yaw = (flags.RelativeYaw ? playerEntity.Yaw : 0) + packet.Yaw;
-            double pitch = (flags.RelativePitch ? playerEntity.Pitch : 0) + packet.Pitch;
+            double yaw = (flags.RelativeYaw ? playerEntity.Yaw : 0) + packet.Yaw * Math.PI / 180.0;
+            double pitch = (flags.RelativePitch ? playerEntity.Pitch : 0) + packet.Pitch * Math.PI / 180.0;
 
             playerEntity = playerEntity.ChangeLocation(new EntityLocation(x, y, z))
                 .ChangeLook(yaw, pitch);

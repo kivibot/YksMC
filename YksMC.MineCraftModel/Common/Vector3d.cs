@@ -45,5 +45,26 @@ namespace YksMC.MinecraftModel.Common
         {
             return new Vector3d(_x - vector.X, _y - vector.Y, _z - vector.Z);
         }
+
+        public override bool Equals(object obj)
+        {
+            IVector3<double> other = obj as IVector3<double>;
+            if(other == null)
+            {
+                return false;
+            }
+            return _x == other.X && _y == other.Y && _z == other.Z;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1753160635;
+            hashCode = hashCode * -1521134295 + _x.GetHashCode();
+            hashCode = hashCode * -1521134295 + _y.GetHashCode();
+            hashCode = hashCode * -1521134295 + _z.GetHashCode();
+            return hashCode;
+        }
+
+        public static readonly IVector3<double> Zero = new Vector3d(0, 0, 0);
     }
 }

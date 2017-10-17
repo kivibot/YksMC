@@ -23,7 +23,7 @@ namespace YksMC.Bot.Tasks
         public IWorld OnStart(IWorld world)
         {
             IPlayer localPlayer = world.GetLocalPlayer();
-            if(localPlayer == null)
+            if (localPlayer == null)
             {
                 Fail();
                 return world;
@@ -40,14 +40,21 @@ namespace YksMC.Bot.Tasks
                 .Select(player => dimension.GetEntity(player.EntityId).Location)
                 .OrderBy(location => localEntity.Location.AsVector().Substract(location.AsVector()).Length())
                 .FirstOrDefault();
-            if(nearest == null)
+            if (nearest == null)
             {
                 Fail();
                 return world;
             }
 
-            IVector3<double> lookVector = nearest.AsVector().Substract(localEntity.Location.AsVector()).Normalize();
-            double pitch = -Math.Asin(lookVector.Y);
+            IVector3<double> lookVector = nearest.AsVector().Substract(localEntity.Location.AsVector());
+            if (lookVector == Vector3d.Zero)
+            {
+                Complete();
+                return world;
+            }
+
+
+            double pitch = -Math.Atan2(lookVector.Y, new Vector3d(lookVector.X, 0, lookVector.Z).Length());
             double yaw = -Math.Atan2(lookVector.X, lookVector.Z);
 
             localEntity = localEntity.ChangeLook(yaw, pitch);
