@@ -21,7 +21,7 @@ namespace YksMC.MinecraftModel.Chunk
             _z = z;
         }
 
-        public ChunkCoordinate(IBlockCoordinate blockPosition)
+        public ChunkCoordinate(IBlockLocation blockPosition)
         {
             _x = (int)Math.Floor(blockPosition.X / (double)Chunk.Width);
             _z = (int)Math.Floor(blockPosition.Z / (double)Chunk.Width);

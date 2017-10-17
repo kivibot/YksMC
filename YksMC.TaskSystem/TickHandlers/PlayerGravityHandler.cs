@@ -43,8 +43,15 @@ namespace YksMC.Behavior.TickHandlers
             IEntity entity = dimension.Entities[player.EntityId];
 
             IVector3<double> velocity = GetNextVelocity(entity.Velocity);
-            
-            return Result(_playerCollisionDetectionService.UpdatePlayerPosition(world, velocity));
+
+            entity = _playerCollisionDetectionService.UpdatePlayerPosition(world, velocity);
+            if (entity.IsOnGround)
+            {
+                velocity = Vector3d.Zero;
+            }
+            entity = entity.ChangeVelocity(velocity);
+
+            return Result(world.ChangeCurrentDimension(d => d.ReplaceEntity(entity)));
         }
                
         private IVector3<double> GetNextVelocity(IVector3<double> previousVelocity)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace YksMC.MinecraftModel.Common
@@ -38,6 +39,10 @@ namespace YksMC.MinecraftModel.Common
 
         public IVector3<double> Normalize()
         {
+            if(_x == 0 && _y==0 && _z == 0)
+            {
+                throw new InvalidOperationException("Cannot normalize a vector with the length 0.");
+            }
             return Multiply(1 / Length());
         }
 
@@ -63,6 +68,11 @@ namespace YksMC.MinecraftModel.Common
             hashCode = hashCode * -1521134295 + _y.GetHashCode();
             hashCode = hashCode * -1521134295 + _z.GetHashCode();
             return hashCode;
+        }
+
+        public double DotProduct(IVector3<double> vector)
+        {
+            return _x * vector.X + _y * vector.Y + _z * vector.Z;
         }
 
         public static readonly IVector3<double> Zero = new Vector3d(0, 0, 0);

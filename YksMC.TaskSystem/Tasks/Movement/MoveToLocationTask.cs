@@ -49,7 +49,7 @@ namespace YksMC.Behavior.Tasks.Movement
                 Complete();
                 return;
             }
-            if(_tickCount > _timeout)
+            if (_tickCount > _timeout)
             {
                 Fail();
                 return;
@@ -57,6 +57,12 @@ namespace YksMC.Behavior.Tasks.Movement
             _tickCount++;
             if (_task != null && !_task.IsCompleted)
             {
+                return;
+            }
+            delta = new Vector3d(delta.X, 0, delta.Z);
+            if(delta.Length() == 0)
+            {
+                Complete();
                 return;
             }
             IVector3<double> nextMovement = delta.Normalize().Multiply(Math.Min(delta.Length(), _velocity));

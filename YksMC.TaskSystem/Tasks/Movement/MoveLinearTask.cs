@@ -38,10 +38,10 @@ namespace YksMC.Behavior.Tasks.Movement
 
             IVector3<double> vector = _command.Movement;
             
-            world = _playerCollisionDetectionService.UpdatePlayerPosition(world, vector);
+            entity = _playerCollisionDetectionService.UpdatePlayerPosition(world, vector);
 
             Complete();
-            return Result(world);
+            return Result(world.ChangeCurrentDimension(d => d.ReplaceEntity(entity)));
         }
 
         public override void OnTick(IWorld world, IGameTick tick)

@@ -40,12 +40,12 @@ namespace YksMC.MinecraftModel.Chunk
             _blocks = blocks;
         }
 
-        public IBlock GetBlock(IBlockCoordinate position)
+        public IBlock GetBlock(IBlockLocation position)
         {
             return _blocks[Mod(position.X, ChunkSection.Width)][Mod(position.Y, ChunkSection.Height)][Mod(position.Z, ChunkSection.Width)];
         }
 
-        public ChunkSection ChangeBlock(IBlockCoordinate position, IBlock block)
+        public ChunkSection ChangeBlock(IBlockLocation position, IBlock block)
         {
             int localX = Mod(position.X, Chunk.Width);
             int localY = Mod(position.Y, Chunk.Height);

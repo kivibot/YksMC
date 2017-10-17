@@ -101,8 +101,11 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<RespawnTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-RespawnCommand");
             builder.RegisterType<MoveLinearTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-MoveLinearCommand");
             builder.RegisterType<MoveToLocationTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-MoveToLocationCommand");
+            builder.RegisterType<WalkToLocationTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-WalkToLocationCommand");
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<PathFinder>().AsImplementedInterfaces();
 
             IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
@@ -134,7 +137,9 @@ namespace YksMC.Client.IntegrationTests
                     new ConstantScorer(0.1)
                 },
                 new IUrgeCondition[] {
-                    new ConnectionStateCondition(client, ConnectionState.Play)
+                    new LoggedInCondition(),
+                    new ConnectionStateCondition(client, ConnectionState.Play),
+                    new AliveCondition()
                 }
             ));
             manager.AddUrge(new Urge(
@@ -150,7 +155,7 @@ namespace YksMC.Client.IntegrationTests
             ));
             manager.AddUrge(new Urge(
                 "MoveToHardCoded",
-                new MoveToLocationCommand(new EntityLocation(2683, 4, -806)),
+                new WalkToLocationCommand(new BlockLocation(2683, 4, -806)),
                 new IUrgeScorer[] {
                     new ConstantScorer(0.2)
                 },

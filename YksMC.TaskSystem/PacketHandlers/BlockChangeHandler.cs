@@ -31,7 +31,7 @@ namespace YksMC.Behavior.PacketHandlers
                 throw new ArgumentException("Dimension is loaded");
             }
 
-            IBlockCoordinate position = new BlockCoordinate(packet.Location.X, packet.Location.Y, packet.Location.Z);
+            IBlockLocation position = new BlockLocation(packet.Location.X, packet.Location.Y, packet.Location.Z);
             IChunkCoordinate chunkPosition = new ChunkCoordinate(position);
             IChunk chunk = dimension.GetChunk(chunkPosition);
             chunk = ReplaceBlockType(chunk, position, packet.BlockId);
@@ -55,14 +55,14 @@ namespace YksMC.Behavior.PacketHandlers
 
             foreach (MultiBlockChangePacketRecord record in packet.Records.Values)
             {
-                IBlockCoordinate position = new BlockCoordinate(record.HorizontalPosition >> 4, record.Y, record.HorizontalPosition & 0xF);
+                IBlockLocation position = new BlockLocation(record.HorizontalPosition >> 4, record.Y, record.HorizontalPosition & 0xF);
                 chunk = ReplaceBlockType(chunk, position, record.BlockId);
             }
 
             return Result(world.ReplaceCurrentDimension(dimension.ReplaceChunk(chunkPosition, chunk)));
         }
 
-        private IChunk ReplaceBlockType(IChunk chunk, IBlockCoordinate position, int networkId)
+        private IChunk ReplaceBlockType(IChunk chunk, IBlockLocation position, int networkId)
         {
             IBlockTypeIdentity blockTypeId = new BlockTypeIdentity(networkId >> 4, networkId & 0b1111);
             IBlockType blockType = _blockTypeRepository.GetBlockType(blockTypeId);

@@ -15,5 +15,6 @@ namespace YksMC.MinecraftModel.Common
         IVector3<T> Substract(IVector3<T> vector);
         double Length();
         IVector3<T> Normalize();
+        double DotProduct(IVector3<T> vector);
     }
 }

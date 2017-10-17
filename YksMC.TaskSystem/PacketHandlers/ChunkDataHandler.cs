@@ -74,7 +74,7 @@ namespace YksMC.Behavior.PacketHandlers
                 {
                     for (int x = 0; x < _sectionWidth; x++)
                     {
-                        IBlockCoordinate position = new BlockCoordinate(x, sectionY * _sectionHeight + localY, z);
+                        IBlockLocation position = new BlockLocation(x, sectionY * _sectionHeight + localY, z);
                         IBlock block = chunk.GetBlock(position);
 
                         block = ParseType(block, position, bitsPerBlock, typePalette, typeData);
@@ -130,7 +130,7 @@ namespace YksMC.Behavior.PacketHandlers
             return _reader.GetBytes(bytes);
         }
 
-        private IBlock ParseType(IBlock block, IBlockCoordinate position, int bitsPerBlock, int[] typePalette, ulong[] typeData)
+        private IBlock ParseType(IBlock block, IBlockLocation position, int bitsPerBlock, int[] typePalette, ulong[] typeData)
         {
             int blockIndex = (((position.Y * _sectionHeight) + position.Z) * _sectionWidth + position.X);
             int bitsPerUlong = sizeof(ulong) * 8;
@@ -163,7 +163,7 @@ namespace YksMC.Behavior.PacketHandlers
             return block.ChangeType(type);
         }
 
-        private IBlock ParseLightLevels(IBlock block, IBlockCoordinate position, byte[] lightData, IDimensionType dimensionType)
+        private IBlock ParseLightLevels(IBlock block, IBlockLocation position, byte[] lightData, IDimensionType dimensionType)
         {
             int lightIndex = ((position.Y * _sectionHeight) + position.Z) * _sectionWidth + position.X;
             int lightBitOffset = 4 * (lightIndex % 2);
@@ -180,7 +180,7 @@ namespace YksMC.Behavior.PacketHandlers
             return block.ChangeLightLevels(new LightLevel(lightLevel), new LightLevel(skylightLevel));
         }
 
-        private IBlock ParseBiome(ChunkDataPacket packet, IBlock block, IBlockCoordinate position)
+        private IBlock ParseBiome(ChunkDataPacket packet, IBlock block, IBlockLocation position)
         {
             if (!packet.GroundUpContinuous)
             {

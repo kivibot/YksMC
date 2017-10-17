@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.Common;
 
 namespace YksMC.MinecraftModel.Block
 {
-    public interface IBlockCoordinate
+    public interface IBlockLocation
     {
         int X { get; }
         int Y { get; }
         int Z { get; }
 
-        IBlockCoordinate Add(int x, int y, int z);
+        IBlockLocation Add(int x, int y, int z);
+        IVector3<double> AsVector();
     }
 }

@@ -9,6 +9,6 @@ namespace YksMC.Behavior.Misc
 {
     public interface IPlayerCollisionDetectionService
     {
-        IWorld UpdatePlayerPosition(IWorld world, IVector3<double> movement);
+        IEntity UpdatePlayerPosition(IWorld world, IVector3<double> movement);
     }
 }
