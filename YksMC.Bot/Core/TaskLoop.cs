@@ -112,7 +112,7 @@ namespace YksMC.Bot.Core
                 return;
             }
             _logger.Information("Largest urge: {Name}, {Score}", urge.Name, urge.GetScore(_world));
-            _task = _behaviorTaskManager.GetTask(urge.TaskName);
+            _task = _behaviorTaskManager.GetTask(urge.Command);
             _taskScheduler.EnqueueTask(_task);
         }
 

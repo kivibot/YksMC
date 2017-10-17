@@ -17,7 +17,7 @@ namespace YksMC.Behavior.Tasks
         private readonly IMinecraftClient _minecraftClient;
         private readonly ILoginService _loginService;
 
-        public LoginTask(ILoginService loginService, IMinecraftClient minecraftClient)
+        public LoginTask(LoginCommand command, ILoginService loginService, IMinecraftClient minecraftClient)
             : base("Login")
         {
             _loginService = loginService;

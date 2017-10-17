@@ -15,10 +15,8 @@ namespace YksMC.Behavior.Tasks
 {
     public class LookAtNearestPlayerTask : BehaviorTask
     {
-        private bool _isCompleted;
-        private bool _isFailed;
 
-        public LookAtNearestPlayerTask()
+        public LookAtNearestPlayerTask(LookAtNearestPlayerCommand command)
             : base("LookAtNearestPlayer")
         {
         }

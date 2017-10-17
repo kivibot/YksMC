@@ -8,7 +8,7 @@ namespace YksMC.Bot.Urge
     public interface IUrge
     {
         string Name { get; }
-        string TaskName { get; }
+        object Command { get; }
         IEnumerable<IUrgeScorer> Scorers { get; }
         IEnumerable<IUrgeCondition> Conditions { get; }
         

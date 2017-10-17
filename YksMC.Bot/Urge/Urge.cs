@@ -9,19 +9,20 @@ namespace YksMC.Bot.Urge
     public class Urge : IUrge
     {
         private readonly string _name;
-        private readonly string _taskName;
+        private readonly object _command;
         private readonly IEnumerable<IUrgeScorer> _scorers;
         private readonly IEnumerable<IUrgeCondition> _conditions;
 
         public string Name => _name;
-        public string TaskName => _taskName;
+        public object Command => _command;
         public IEnumerable<IUrgeScorer> Scorers => _scorers;
         public IEnumerable<IUrgeCondition> Conditions => _conditions;
 
-        public Urge(string name, string taskName, IEnumerable<IUrgeScorer> scorers, IEnumerable<IUrgeCondition> conditions)
+
+        public Urge(string name, object command, IEnumerable<IUrgeScorer> scorers, IEnumerable<IUrgeCondition> conditions)
         {
             _name = name;
-            _taskName = taskName;
+            _command = command;
             _scorers = scorers;
             _conditions = conditions;
         }

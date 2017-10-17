@@ -6,6 +6,6 @@ namespace YksMC.Bot.BehaviorTask
 {
     public interface IBehaviorTaskManager
     {
-        IBehaviorTask GetTask(string name);
+        IBehaviorTask GetTask(object command);
     }
 }

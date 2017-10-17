@@ -15,22 +15,20 @@ namespace YksMC.Behavior.Tasks
     {
         private const int _timeout = 5 * 20;
 
-        private readonly IMinecraftClient _client;
-
         private int _ticksWaited = 0;
 
-        public RespawnTask(IMinecraftClient client) 
+        public RespawnTask(RespawnCommand command)
             : base("Respawn")
         {
-            _client = client;
         }
 
         public override IWorldEventResult OnStart(IWorld world)
         {
-            _client.SendPacket(new ClientStatusPacket() {
+            ClientStatusPacket reply = new ClientStatusPacket()
+            {
                 ActionId = ClientStatusPacket.Respawn
-            });
-            return Result(world);
+            };
+            return Result(world, reply);
         }
 
         public override void OnTick(IWorld world, IGameTick tick)
@@ -40,7 +38,7 @@ namespace YksMC.Behavior.Tasks
             {
                 Complete();
             }
-            if(_ticksWaited > _timeout)
+            if (_ticksWaited > _timeout)
             {
                 Fail();
             }

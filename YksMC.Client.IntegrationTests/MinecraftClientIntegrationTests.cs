@@ -37,6 +37,7 @@ using YksMC.Behavior.TickHandlers;
 using YksMC.Behavior.Tasks;
 using YksMC.Behavior.UrgeScorers;
 using YksMC.Behavior.UrgeConditions;
+using System.Reflection.Metadata;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -90,9 +91,9 @@ namespace YksMC.Client.IntegrationTests
 
             builder.RegisterType<AutofacBehaviorTaskManager>().AsImplementedInterfaces();
 
-            builder.RegisterType<LoginTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-Login");
-            builder.RegisterType<LookAtNearestPlayerTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LookAtNearestPlayer");
-            builder.RegisterType<RespawnTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-Respawn");
+            builder.RegisterType<LoginTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LoginCommand");
+            builder.RegisterType<LookAtNearestPlayerTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LookAtNearestPlayerCommand");
+            builder.RegisterType<RespawnTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-RespawnCommand");
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces();
 
@@ -113,8 +114,15 @@ namespace YksMC.Client.IntegrationTests
 
         private void RegisterUrges(IUrgeManager manager, IMinecraftClient client)
         {
-            manager.AddUrge(new Urge("Login", "Login", new IUrgeScorer[] { new ConstantScorer(1) }, new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.None) }));
-            manager.AddUrge(new Urge("LookAtNearestPlayer", "LookAtNearestPlayer",
+            manager.AddUrge(new Urge(
+                "Login",
+                new LoginCommand(),
+                new IUrgeScorer[] { new ConstantScorer(1) },
+                new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.None) }
+            ));
+            manager.AddUrge(new Urge(
+                "LookAtNearestPlayer", 
+                new LookAtNearestPlayerCommand(),
                 new IUrgeScorer[] {
                     new ConstantScorer(0.1)
                 },
@@ -122,7 +130,9 @@ namespace YksMC.Client.IntegrationTests
                     new ConnectionStateCondition(client, ConnectionState.Play)
                 }
             ));
-            manager.AddUrge(new Urge("Respawn", "Respawn",
+            manager.AddUrge(new Urge(
+                "Respawn", 
+                new RespawnCommand(),
                 new IUrgeScorer[] {
                     new ConstantScorer(1)
                 },
@@ -158,14 +168,15 @@ namespace YksMC.Client.IntegrationTests
             _componentContext = componentContext;
         }
 
-        public IBehaviorTask GetTask(string name)
+        public IBehaviorTask GetTask(object command)
         {
-            IBehaviorTask task = _componentContext.ResolveNamed<IBehaviorTask>($"bt-{name}");
-            if (task == null)
-            {
-                throw new ArgumentException($"unknown task: {name}");
-            }
-            return task;
+            return GetTaskInner((dynamic)command);
+        }
+
+        public IBehaviorTask GetTaskInner<T>(T command)
+        {
+            string commandName = typeof(T).Name;
+            return _componentContext.ResolveNamed<IBehaviorTask>($"bt-{commandName}", TypedParameter.From(command));
         }
     }
 
