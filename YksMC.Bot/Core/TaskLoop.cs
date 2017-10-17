@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Behavior.Task;
@@ -19,6 +20,9 @@ namespace YksMC.Bot.Core
 {
     public class TaskLoop
     {
+        private const long _ticksPerSecond = 20;
+        private const long _millisecondsPerTick = 1000 / _ticksPerSecond;
+
         private readonly ILogger _logger;
         private readonly IUrgeManager _urgeManager;
         private readonly IBehaviorTaskManager _behaviorTaskManager;
@@ -45,10 +49,22 @@ namespace YksMC.Bot.Core
 
         public async Task LoopAsync()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            long nextTickMilliseconds = stopwatch.ElapsedMilliseconds;
             while (true)
             {
+                long tickStart = stopwatch.ElapsedMilliseconds;
+
                 LoopOnce();
-                await Task.Delay(50);
+
+                long tickEnd = stopwatch.ElapsedMilliseconds;
+                nextTickMilliseconds += _millisecondsPerTick;
+                long sleepMilliseconds = Math.Max(nextTickMilliseconds - tickEnd, 0);
+                _logger.ForContext("TickEnd", tickEnd)
+                    .ForContext("NextTick", nextTickMilliseconds)
+                    .Verbose("Tick took {TickMillis}ms. Sleeping for {SleepMillis}ms.", (tickEnd - tickStart), sleepMilliseconds);
+                await Task.Delay(TimeSpan.FromMilliseconds(sleepMilliseconds));
             }
         }
 
@@ -60,6 +76,8 @@ namespace YksMC.Bot.Core
             }
 
             HandlePackets();
+
+            HandleTick();
 
             if (_task != null)
             {
@@ -111,18 +129,37 @@ namespace YksMC.Bot.Core
 
         private void HandlePacket<T>(T packet)
         {
-            IReadOnlyList<IWorldEventResult> results = _eventBus.Handle<IWorldEvent<T>, IWorldEventResult>(new WorldEvent<T>(_world, packet));
-            foreach (IWorldEventResult result in results)
+            List<object> replyPackets = new List<object>();
+            IWorldEventResult result = _eventBus.HandleAsPipeline<IWorldEvent<T>, IWorldEventResult>(
+                new WorldEvent<T>(_world, packet),
+                (intermediateResult) =>
+                {
+                    replyPackets.AddRange(intermediateResult.ReplyPackets);
+                    return new WorldEvent<T>(intermediateResult.World, packet);
+                }
+            );
+            if (result == null)
             {
-                HandleWorldEventResult(result);
+                return;
             }
-        }
-
-        private void HandleWorldEventResult(IWorldEventResult result)
-        {
-            foreach (object replyPacket in result.ReplyPackets)
+            replyPackets.AddRange(result.ReplyPackets);
+            foreach (object replyPacket in replyPackets)
             {
                 _minecraftClient.SendPacket(replyPacket);
+            }
+            _world = result.World;
+        }
+
+        private void HandleTick()
+        {
+            GameTick tick = new GameTick();
+            IWorldEventResult result = _eventBus.HandleAsPipeline<IWorldEvent<IGameTick>, IWorldEventResult>(
+                new WorldEvent<IGameTick>(_world, tick),
+                (intermediateResult) => new WorldEvent<IGameTick>(intermediateResult.World, tick)
+            );
+            if (result == null)
+            {
+                return;
             }
             _world = result.World;
         }

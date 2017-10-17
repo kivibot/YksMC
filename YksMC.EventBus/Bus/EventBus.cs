@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,6 +34,28 @@ namespace YksMC.EventBus.Bus
             }
 
             return results;
+        }
+
+        public TResult HandleAsPipeline<TEvent, TResult>(TEvent message, Func<TResult, TEvent> resultTransformer)
+        {
+            TResult result = default(TResult);
+            IReadOnlyList<IEventHandler<TEvent, TResult>> handlers = _handlerContainer.GetHandlers<TEvent, TResult>();
+            try
+            {
+                if (handlers.Any())
+                {
+                    result = ActivateHandler(message, handlers.First());
+                }
+                foreach (IEventHandler<TEvent, TResult> handler in handlers.Skip(1))
+                {
+                    result = ActivateHandler(resultTransformer(result), handler);
+                }
+            }
+            finally
+            {
+                ReturnHandlers(handlers);
+            }
+            return result;
         }
 
         private TResult ActivateHandler<TEvent, TResult>(TEvent message, IEventHandler<TEvent, TResult> handler)

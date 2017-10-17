@@ -76,7 +76,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<EventBus.Bus.EventBus>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<AutofacHandlerContainer>().AsImplementedInterfaces();
 
-            builder.RegisterType<PlayerMovementHandler>().AsSelf().SingleInstance();
+            builder.RegisterType<PlayerMovementHandler>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();

@@ -27,8 +27,10 @@ namespace YksMC.Bot.TickHandlers
 
         private const double _stepHeight = 0.6;
 
-        public IWorldEventResult ApplyEvent(IGameTick tick, IWorld world)
+        public IWorldEventResult Handle(IWorldEvent<IGameTick> message)
         {
+            IWorld world = message.World;
+            IGameTick tick = message.Event;
             IPlayer player = world.GetLocalPlayer();
             if (!player.HasEntity)
             {
@@ -169,11 +171,6 @@ namespace YksMC.Bot.TickHandlers
         private bool IsSolidBlock(IBlock block)
         {
             return block.Type.IsSolid;
-        }
-
-        public IWorldEventResult Handle(IWorldEvent<IGameTick> message)
-        {
-            throw new NotImplementedException();
         }
     }
 }
