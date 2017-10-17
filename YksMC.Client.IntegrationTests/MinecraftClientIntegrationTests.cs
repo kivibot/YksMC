@@ -38,6 +38,10 @@ using YksMC.Behavior.Tasks;
 using YksMC.Behavior.UrgeScorers;
 using YksMC.Behavior.UrgeConditions;
 using System.Reflection.Metadata;
+using YksMC.MinecraftModel.Entity;
+using YksMC.Behavior.Misc;
+using YksMC.MinecraftModel.Common;
+using YksMC.Behavior.Tasks.Movement;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -78,7 +82,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<EventBus.Bus.EventBus>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<AutofacHandlerContainer>().AsImplementedInterfaces();
 
-            builder.RegisterType<PlayerMovementHandler>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<PlayerGravityHandler>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();
@@ -90,12 +94,15 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<TaskLoop>().AsSelf();
 
             builder.RegisterType<AutofacBehaviorTaskManager>().AsImplementedInterfaces();
+            builder.RegisterType<PlayerCollisionDetectionService>().AsImplementedInterfaces();
 
             builder.RegisterType<LoginTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LoginCommand");
             builder.RegisterType<LookAtNearestPlayerTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LookAtNearestPlayerCommand");
             builder.RegisterType<RespawnTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-RespawnCommand");
+            builder.RegisterType<MoveLinearTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-MoveLinearCommand");
+            builder.RegisterType<MoveToLocationTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-MoveToLocationCommand");
 
-            builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces();
+            builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 
             IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
@@ -121,7 +128,7 @@ namespace YksMC.Client.IntegrationTests
                 new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.None) }
             ));
             manager.AddUrge(new Urge(
-                "LookAtNearestPlayer", 
+                "LookAtNearestPlayer",
                 new LookAtNearestPlayerCommand(),
                 new IUrgeScorer[] {
                     new ConstantScorer(0.1)
@@ -131,7 +138,7 @@ namespace YksMC.Client.IntegrationTests
                 }
             ));
             manager.AddUrge(new Urge(
-                "Respawn", 
+                "Respawn",
                 new RespawnCommand(),
                 new IUrgeScorer[] {
                     new ConstantScorer(1)
@@ -139,6 +146,17 @@ namespace YksMC.Client.IntegrationTests
                 new IUrgeCondition[] {
                     new LoggedInCondition(),
                     new NotCondition(new AliveCondition())
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "MoveToHardCoded",
+                new MoveToLocationCommand(new EntityLocation(2683, 4, -806)),
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.2)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition()
                 }
             ));
         }

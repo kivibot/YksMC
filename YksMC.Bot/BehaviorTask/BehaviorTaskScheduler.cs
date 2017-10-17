@@ -11,18 +11,28 @@ namespace YksMC.Bot.BehaviorTask
 {
     public class BehaviorTaskScheduler : IBehaviorTaskScheduler
     {
+        private readonly IBehaviorTaskManager _taskManager;
+
         private ConcurrentQueue<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> _enqueuedTasks;
         private IList<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> _runningTasks;
 
-        public BehaviorTaskScheduler()
+        public BehaviorTaskScheduler(IBehaviorTaskManager taskManager)
         {
             _enqueuedTasks = new ConcurrentQueue<Tuple<IBehaviorTask, TaskCompletionSource<bool>>>();
             _runningTasks = new List<Tuple<IBehaviorTask, TaskCompletionSource<bool>>>();
+            _taskManager = taskManager;
         }
 
         public void EnqueueTask(IBehaviorTask task)
         {
             _enqueuedTasks.Enqueue(new Tuple<IBehaviorTask, TaskCompletionSource<bool>>(task, null));
+        }
+
+        public IBehaviorTask EnqueueTask(object command)
+        {
+            IBehaviorTask task = _taskManager.GetTask(command);
+            EnqueueTask(task);
+            return task;
         }
 
         public IWorldEventResult HandleTick(IWorld world, IGameTick tick)
@@ -53,12 +63,19 @@ namespace YksMC.Bot.BehaviorTask
             return new WorldEventResult(world, replyPackets);
         }
 
-        public async Task<IBehaviorTask> RunTaskAsync(IBehaviorTask task)
+        public async Task RunTaskAsync(IBehaviorTask task)
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
             _enqueuedTasks.Enqueue(new Tuple<IBehaviorTask, TaskCompletionSource<bool>>(task, tcs));
             await tcs.Task;
+        }
+
+        public async Task<IBehaviorTask> RunTaskAsync(object command)
+        {
+            IBehaviorTask task = _taskManager.GetTask(command);
+            await RunTaskAsync(task);
             return task;
         }
+
     }
 }

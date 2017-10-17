@@ -13,11 +13,12 @@ using YksMC.MinecraftModel.World;
 
 namespace YksMC.Behavior.Tasks
 {
-    public class LookAtNearestPlayerTask : BehaviorTask
+    public class LookAtNearestPlayerTask : BehaviorTask<LookAtNearestPlayerCommand>
     {
+        public override string Name => "LookAtNearestPlayer";
 
         public LookAtNearestPlayerTask(LookAtNearestPlayerCommand command)
-            : base("LookAtNearestPlayer")
+            : base(command)
         {
         }
 

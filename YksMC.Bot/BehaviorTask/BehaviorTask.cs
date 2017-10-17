@@ -7,19 +7,20 @@ using YksMC.MinecraftModel.World;
 
 namespace YksMC.Bot.BehaviorTask
 {
-    public abstract class BehaviorTask : WorldEventHandler, IBehaviorTask
+    public abstract class BehaviorTask<T> : WorldEventHandler, IBehaviorTask
     {
-        private readonly string _name;
         private bool _isCompleted;
         private bool _isFailed;
 
-        public string Name => _name;
+        protected T _command;
+
+        public abstract string Name { get; }
         public bool IsCompleted => _isCompleted;
         public bool IsFailed => _isFailed;
 
-        public BehaviorTask(string name)
+        public BehaviorTask(T command)
         {
-            _name = name;
+            _command = command;
         }
 
         public abstract IWorldEventResult OnStart(IWorld world);

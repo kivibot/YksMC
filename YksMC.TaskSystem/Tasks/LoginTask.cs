@@ -12,13 +12,15 @@ using YksMC.Bot.Core;
 namespace YksMC.Behavior.Tasks
 {
     [Obsolete("uses task.wait!!!")]
-    public class LoginTask : BehaviorTask
+    public class LoginTask : BehaviorTask<LoginCommand>
     {
         private readonly IMinecraftClient _minecraftClient;
         private readonly ILoginService _loginService;
 
+        public override string Name => "Login";
+
         public LoginTask(LoginCommand command, ILoginService loginService, IMinecraftClient minecraftClient)
-            : base("Login")
+            : base(command)
         {
             _loginService = loginService;
             _minecraftClient = minecraftClient;

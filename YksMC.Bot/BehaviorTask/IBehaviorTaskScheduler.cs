@@ -11,7 +11,9 @@ namespace YksMC.Bot.BehaviorTask
     public interface IBehaviorTaskScheduler
     {
         void EnqueueTask(IBehaviorTask task);
+        IBehaviorTask EnqueueTask(object command);
         IWorldEventResult HandleTick(IWorld world, IGameTick tick);
-        Task<IBehaviorTask> RunTaskAsync(IBehaviorTask task);
+        Task RunTaskAsync(IBehaviorTask task);
+        Task<IBehaviorTask> RunTaskAsync(object command);
     }
 }

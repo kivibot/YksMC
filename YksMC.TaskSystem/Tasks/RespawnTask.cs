@@ -11,14 +11,16 @@ using YksMC.Protocol.Packets.Play.Serverbound;
 
 namespace YksMC.Behavior.Tasks
 {
-    public class RespawnTask : BehaviorTask
+    public class RespawnTask : BehaviorTask<RespawnCommand>
     {
         private const int _timeout = 5 * 20;
 
         private int _ticksWaited = 0;
 
+        public override string Name => "Respawn";
+
         public RespawnTask(RespawnCommand command)
-            : base("Respawn")
+            : base(command)
         {
         }
 
