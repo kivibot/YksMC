@@ -71,7 +71,8 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<PlayerHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<TimeUpdateHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<BlockChangeHandler>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterType<EntityHandler>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<EntitySpawnPacketHandler>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<EntityMovementPacketHandler>().AsImplementedInterfaces().AsSelf();
 
             builder.RegisterType<EventBus.Bus.EventBus>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<AutofacHandlerContainer>().AsImplementedInterfaces();

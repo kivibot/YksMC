@@ -11,6 +11,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     [Packet(0x49, ConnectionState.Play, BoundTo.Client)]
     public class EntityTeleportPacket 
     {
+        public VarInt EntityId { get; set; }
         public Vector<double> Position { get; set; }
         public Angle Yaw { get; set; }
         public Angle Pitch { get; set; }

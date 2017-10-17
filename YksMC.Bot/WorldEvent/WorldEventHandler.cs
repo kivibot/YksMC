@@ -12,5 +12,10 @@ namespace YksMC.Bot.WorldEvent
         {
             return new WorldEventResult(world, replyPackets.ToList());
         }
+
+        protected IWorldEventResult Result<T>(IWorldEvent<T> eventArgs)
+        {
+            return Result(eventArgs.World);
+        }
     }
 }
