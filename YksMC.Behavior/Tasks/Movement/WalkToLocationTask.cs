@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YksMC.Behavior.Misc;
+using YksMC.Behavior.Misc.Pathfinder;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
@@ -50,11 +51,11 @@ namespace YksMC.Behavior.Tasks.Movement
                 Fail();
                 return;
             }
-
-            IEnumerable<IBlockLocation> path = result.Path;
-
-            foreach (IBlockLocation blockLocation in path)
+            
+            foreach (IPathWaypoint waypoint in result.Path)
             {
+                IBlockLocation blockLocation = waypoint.Target;
+
                 IEntityLocation location = new EntityLocation(blockLocation.X + 0.5, blockLocation.Y, blockLocation.Z + 0.5);
                 IBehaviorTask task = await _taskScheduler.RunTaskAsync(new MoveToLocationCommand(location, 0.2));
                 if (task.IsFailed)

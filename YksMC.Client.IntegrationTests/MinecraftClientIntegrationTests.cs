@@ -42,6 +42,7 @@ using YksMC.MinecraftModel.Entity;
 using YksMC.Behavior.Misc;
 using YksMC.MinecraftModel.Common;
 using YksMC.Behavior.Tasks.Movement;
+using YksMC.Behavior.Misc.Pathfinder;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -106,6 +107,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<PathFinder>().AsImplementedInterfaces();
+            builder.RegisterType<Random>().SingleInstance();
 
             IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);

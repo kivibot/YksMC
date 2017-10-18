@@ -56,7 +56,7 @@ namespace YksMC.Behavior.TickHandlers
                
         private IVector3<double> GetNextVelocity(IVector3<double> previousVelocity)
         {
-            IVector3<double> velocity = new Vector3d(0, previousVelocity.Y * _dragFactor + _acceleration, 0);
+            IVector3<double> velocity = new Vector3d(0, _dragFactor * (previousVelocity.Y + _acceleration), 0);
             return velocity;
         }
     }

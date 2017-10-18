@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.MinecraftModel.Block;
 
-namespace YksMC.Behavior.Misc
+namespace YksMC.Behavior.Misc.Pathfinder
 {
-    public class PathFindingResult : IPathFindingResult
+    internal class PathFindingResult : IPathFindingResult
     {
         private readonly bool _failed;
-        private readonly IReadOnlyList<IBlockLocation> _path;
+        private readonly IReadOnlyList<IPathWaypoint> _path;
 
         public bool Failed => _failed;
-        public IReadOnlyList<IBlockLocation> Path => _path;
+        public IReadOnlyList<IPathWaypoint> Path => _path;
 
         public PathFindingResult()
         {
             _failed = true;
         }
 
-        public PathFindingResult(IReadOnlyList<IBlockLocation> path)
+        public PathFindingResult(IReadOnlyList<IPathWaypoint> path)
         {
+            _failed = path.Count == 0;
             _path = path;
         }
     }

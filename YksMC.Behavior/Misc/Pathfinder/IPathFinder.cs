@@ -5,7 +5,7 @@ using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
 
-namespace YksMC.Behavior.Misc
+namespace YksMC.Behavior.Misc.Pathfinder
 {
     public interface IPathFinder
     {
