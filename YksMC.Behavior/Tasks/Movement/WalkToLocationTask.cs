@@ -51,7 +51,7 @@ namespace YksMC.Behavior.Tasks.Movement
                 return;
             }
 
-            IEnumerable<IBlockLocation> path = OptimizePath(result.Path);
+            IEnumerable<IBlockLocation> path = result.Path;
 
             foreach (IBlockLocation blockLocation in path)
             {
@@ -65,32 +65,6 @@ namespace YksMC.Behavior.Tasks.Movement
             }
 
             Complete();
-        }
-
-        private IEnumerable<IBlockLocation> OptimizePath(IReadOnlyList<IBlockLocation> path)
-        {
-            yield return path[0];
-            for (int i = 0; i < path.Count - 2; i++)
-            {
-                IVector3<double> a = path[i].AsVector();
-                IVector3<double> b = path[i + 1].AsVector();
-                IVector3<double> c = path[i + 2].AsVector();
-                IVector3<double> ab = b.Substract(a);
-                IVector3<double> cb = b.Substract(c);
-                if (ab.DotProduct(cb) != 0)
-                {
-                    continue;
-                }
-                yield return path[i + 1];
-            }
-            if (path.Count > 2)
-            {
-                yield return path[path.Count - 2];
-            }
-            if (path.Count > 1)
-            {
-                yield return path[path.Count - 1];
-            }
         }
 
         public override void OnTick(IWorld world, IGameTick tick)
