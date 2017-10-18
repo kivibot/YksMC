@@ -11,8 +11,9 @@ namespace YksMC.Behavior.Misc.Pathfinder
 {
     public class PathFinder : IPathFinder
     {
-        private const double _fallingCost = 1;
+        private const double _fallingCost = 1.1;
         private const double _walkingCost = 1;
+        private const double _jumpingCost = 2;
         private const double _costVariationFactor = 0.02;
         private readonly Random _random;
 
@@ -106,6 +107,10 @@ namespace YksMC.Behavior.Misc.Pathfinder
                     continue;
                 }
                 yield return new PathEdge(blockLocation, neighbor, PathMovementType.Walk, _walkingCost * Math.Sqrt(5));
+            }
+            if(IsValidLocation(blockLocation.Add(0, 1, 0), dimension) && IsSolid(blockLocation.Add(0, -1, 0), dimension))
+            {
+                yield return new PathEdge(blockLocation, blockLocation.Add(0, 1, 0), PathMovementType.Jump, _jumpingCost);
             }
         }
 

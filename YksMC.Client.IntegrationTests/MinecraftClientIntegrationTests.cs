@@ -103,6 +103,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<MoveLinearTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-MoveLinearCommand");
             builder.RegisterType<MoveToLocationTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-MoveToLocationCommand");
             builder.RegisterType<WalkToLocationTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-WalkToLocationCommand");
+            builder.RegisterType<JumpTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-JumpCommand");
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 

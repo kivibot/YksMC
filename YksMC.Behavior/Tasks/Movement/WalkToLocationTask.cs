@@ -56,6 +56,15 @@ namespace YksMC.Behavior.Tasks.Movement
             {
                 IBlockLocation blockLocation = waypoint.Target;
 
+                if(waypoint.MovementType == PathMovementType.Jump)
+                {
+                    if (!await JumpAsync())
+                    {
+                        return;
+                    }
+                    continue;
+                }
+
                 IEntityLocation location = new EntityLocation(blockLocation.X + 0.5, blockLocation.Y, blockLocation.Z + 0.5);
                 IBehaviorTask task = await _taskScheduler.RunTaskAsync(new MoveToLocationCommand(location, 0.2));
                 if (task.IsFailed)
@@ -66,6 +75,17 @@ namespace YksMC.Behavior.Tasks.Movement
             }
 
             Complete();
+        }
+
+        private async Task<bool> JumpAsync()
+        {
+            IBehaviorTask task = await _taskScheduler.RunTaskAsync(new JumpCommand());
+            if (task.IsFailed)
+            {
+                Fail();
+                return false;
+            }
+            return true;
         }
 
         public override void OnTick(IWorld world, IGameTick tick)
