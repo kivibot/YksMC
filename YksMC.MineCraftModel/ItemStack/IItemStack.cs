@@ -8,7 +8,7 @@ namespace YksMC.MinecraftModel.ItemStack
     {
         string Name { get; }
         int Size { get; }
-        int MaximumSize { get; }
+        int MaxSize { get; }
         int Durability { get; }
         int MaxDurability { get; }
 

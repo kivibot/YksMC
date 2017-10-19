@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.Inventory;
 
 namespace YksMC.MinecraftModel.Player
 {
@@ -19,5 +20,8 @@ namespace YksMC.MinecraftModel.Player
         IPlayer ChangeEntity(int entityId, int dimensionId);
 
         IPlayer ChangeExperience(int level, double levelProgress, int totalExperience);
+
+        IPlayerInventory GetInventory();
+        IPlayer ChangeInvetory(IPlayerInventory playerInventory);
     }
 }

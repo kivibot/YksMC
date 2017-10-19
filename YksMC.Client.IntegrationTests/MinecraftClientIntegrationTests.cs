@@ -46,6 +46,8 @@ using YksMC.Behavior.Misc.Pathfinder;
 using YksMC.MinecraftModel.Window;
 using YksMC.Data.Json.Window;
 using YksMC.Data.Json.ItemType;
+using YksMC.Bot.GameObjectRegistry;
+using YksMC.MinecraftModel.Inventory;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -117,6 +119,10 @@ namespace YksMC.Client.IntegrationTests
 
             builder.RegisterType<PathFinder>().AsImplementedInterfaces();
             builder.RegisterType<Random>().SingleInstance();
+
+            IGameObjectRegistry<IInventory> inventoryRegistry = new GameObjectRegistry<IInventory>();
+            inventoryRegistry.Register(new PlayerInventory(), "minecraft:player");
+            builder.RegisterInstance(inventoryRegistry).As<IGameObjectRegistry<IInventory>>();
 
             IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
