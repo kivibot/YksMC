@@ -19,6 +19,8 @@ namespace YksMC.Behavior.Tasks
         private const int _ticksPerSecond = 20;
         private const int _timeout = 2 * _ticksPerSecond;
         private const double _flyingMultiplier = 5;
+        private const double _harvestableMultiplier = 1.5;
+        private const double _unharvestableMultiplier = 5;
 
         private readonly IBehaviorTaskScheduler _taskScheduler;
 
@@ -71,7 +73,7 @@ namespace YksMC.Behavior.Tasks
                 Complete();
                 return;
             }
-            if(_ticksWaited > _ticksNeeded + _timeout)
+            if (_ticksWaited > _ticksNeeded + _timeout)
             {
                 Fail();
                 return;
@@ -81,7 +83,7 @@ namespace YksMC.Behavior.Tasks
 
         private void CalculateTicksNeeded(IBlockType blockType)
         {
-            double ticks = blockType.Hardness * _ticksPerSecond;
+            double ticks = _unharvestableMultiplier * blockType.Hardness * _ticksPerSecond;
             _ticksNeeded = (int)Math.Ceiling(ticks);
         }
     }

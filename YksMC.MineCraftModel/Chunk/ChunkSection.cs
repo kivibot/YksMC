@@ -47,9 +47,9 @@ namespace YksMC.MinecraftModel.Chunk
 
         public ChunkSection ChangeBlock(IBlockLocation position, IBlock block)
         {
-            int localX = Mod(position.X, Chunk.Width);
-            int localY = Mod(position.Y, Chunk.Height);
-            int localZ = Mod(position.Z, Chunk.Width);
+            int localX = Mod(position.X, ChunkSection.Width);
+            int localY = Mod(position.Y, ChunkSection.Height);
+            int localZ = Mod(position.Z, ChunkSection.Width);
             IBlock[][][] blocks = (IBlock[][][])_blocks.Clone();
             IBlock[][] slice = (IBlock[][])_blocks[localX].Clone();
             IBlock[] column = (IBlock[])_blocks[localX][localY].Clone();

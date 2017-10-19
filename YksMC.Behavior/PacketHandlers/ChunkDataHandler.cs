@@ -132,7 +132,7 @@ namespace YksMC.Behavior.PacketHandlers
 
         private IBlock ParseType(IBlock block, IBlockLocation position, int bitsPerBlock, int[] typePalette, ulong[] typeData)
         {
-            int blockIndex = (((position.Y * _sectionHeight) + position.Z) * _sectionWidth + position.X);
+            int blockIndex = ((((position.Y % _sectionHeight) * _sectionHeight) + position.Z) * _sectionWidth + position.X);
             int bitsPerUlong = sizeof(ulong) * 8;
             int bitOffset = (blockIndex * bitsPerBlock) % bitsPerUlong;
             int offset = (blockIndex * bitsPerBlock) / bitsPerUlong;
@@ -148,7 +148,7 @@ namespace YksMC.Behavior.PacketHandlers
             paletteIndex &= (ulong)((1 << bitsPerBlock) - 1);
 
             int paletteValue;
-            if(typePalette.Length > 0)
+            if (typePalette.Length > 0)
             {
                 paletteValue = typePalette[paletteIndex];
             }
@@ -165,7 +165,7 @@ namespace YksMC.Behavior.PacketHandlers
 
         private IBlock ParseLightLevels(IBlock block, IBlockLocation position, byte[] lightData, IDimensionType dimensionType)
         {
-            int lightIndex = ((position.Y * _sectionHeight) + position.Z) * _sectionWidth + position.X;
+            int lightIndex = (((position.Y % _sectionHeight) * _sectionHeight) + position.Z) * _sectionWidth + position.X;
             int lightBitOffset = 4 * (lightIndex % 2);
             int lightLevel = (lightData[lightIndex / 2] >> lightBitOffset) & 0b1111;
 
