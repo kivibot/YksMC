@@ -118,7 +118,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<PathFinder>().AsImplementedInterfaces();
             builder.RegisterType<Random>().SingleInstance();
 
-            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();

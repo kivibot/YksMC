@@ -11,5 +11,6 @@ namespace YksMC.Data.Json.BlockType
         public bool IsSolid { get; set; }
         public bool IsDiggable { get; set; }
         public double Hardness { get; set; }
+        public int Tier { get; set; }
     }
 }
