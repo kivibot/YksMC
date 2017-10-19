@@ -43,6 +43,9 @@ using YksMC.Behavior.Misc;
 using YksMC.MinecraftModel.Common;
 using YksMC.Behavior.Tasks.Movement;
 using YksMC.Behavior.Misc.Pathfinder;
+using YksMC.MinecraftModel.Window;
+using YksMC.Data.Json.Window;
+using YksMC.Data.Json.ItemType;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -79,6 +82,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<BlockChangeHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<EntitySpawnPacketHandler>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<EntityMovementPacketHandler>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<WindowPacketHandler>().AsImplementedInterfaces().AsSelf();
 
             builder.RegisterType<EventBus.Bus.EventBus>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<AutofacHandlerContainer>().AsImplementedInterfaces();
@@ -88,6 +92,8 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonEntityTypeRepository>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<JsonWindowTypeRepository>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<JsonItemTypeRepository>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<UrgeManager>().AsImplementedInterfaces().SingleInstance();
 
@@ -115,7 +121,10 @@ namespace YksMC.Client.IntegrationTests
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
             dimensions[0] = dimension;
-            IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, null);
+            IWindow inventoryWindow = new Window(0, "inventory", new List<IWindowSlot>());
+            IWindowCollection windowCollection = new WindowCollection()
+                .ReplaceWindow(inventoryWindow);
+            IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, null, windowCollection);
             builder.RegisterInstance(world);
 
             _container = builder.Build();

@@ -12,6 +12,6 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
     public class WindowItemsPacket
     {
         public byte WindowId { get; set; }
-        public VarArray<short, WindowSlot> Slots { get; set; }
+        public VarArray<short, WindowSlotData> Slots { get; set; }
     }
 }

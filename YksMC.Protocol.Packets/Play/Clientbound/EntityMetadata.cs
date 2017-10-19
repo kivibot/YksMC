@@ -23,7 +23,7 @@ namespace YksMC.Protocol.Packets.Play.Clientbound
         [Conditional(nameof(Type), Condition.Is, (byte)4)]
         public Chat ChatValue { get; set; }
         [Conditional(nameof(Type), Condition.Is, (byte)5)]
-        public WindowSlot SlotValue { get; set; }
+        public WindowSlotData SlotValue { get; set; }
         [Conditional(nameof(Type), Condition.Is, (byte)6)]
         public bool BooleanValue { get; set; }
         [Conditional(nameof(Type), Condition.Is, (byte)7)]

@@ -21,5 +21,7 @@ namespace YksMC.MinecraftModel.World
         IDimension GetCurrentDimension();
         IDimension GetDimension(int id);
 
+        IWorld ReplaceWindow(IWindow window);
+
     }
 }

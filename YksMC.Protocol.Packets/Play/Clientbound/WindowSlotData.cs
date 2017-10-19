@@ -7,7 +7,7 @@ using YksMC.Protocol.Nbt.Models;
 
 namespace YksMC.Protocol.Packets.Play.Clientbound
 {
-    public class WindowSlot
+    public class WindowSlotData
     {
         public short BlockId { get; set; }
 
