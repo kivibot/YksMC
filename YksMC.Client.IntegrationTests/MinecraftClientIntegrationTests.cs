@@ -110,13 +110,15 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<MoveToLocationTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-MoveToLocationCommand");
             builder.RegisterType<WalkToLocationTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-WalkToLocationCommand");
             builder.RegisterType<JumpTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-JumpCommand");
+            builder.RegisterType<LookAtTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LookAtCommand");
+            builder.RegisterType<BreakBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-BreakBlockCommand");
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<PathFinder>().AsImplementedInterfaces();
             builder.RegisterType<Random>().SingleInstance();
 
-            IBlock emptyBlock = new Block(new BlockType("air", false), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
@@ -146,7 +148,7 @@ namespace YksMC.Client.IntegrationTests
                 "LookAtNearestPlayer",
                 new LookAtNearestPlayerCommand(),
                 new IUrgeScorer[] {
-                    new ConstantScorer(0.1)
+                    new ConstantScorer(0.2)
                 },
                 new IUrgeCondition[] {
                     new LoggedInCondition(),
@@ -167,13 +169,25 @@ namespace YksMC.Client.IntegrationTests
             ));
             manager.AddUrge(new Urge(
                 "MoveToHardCoded",
-                new WalkToLocationCommand(new BlockLocation(2683, 4, -806)),
+                new WalkToLocationCommand(new BlockLocation(2678, 4, -796)),
                 new IUrgeScorer[] {
-                    new ConstantScorer(0.2)
+                    new DistanceScorer(new EntityLocation(2678.5, 4, -795.5), 1)
                 },
                 new IUrgeCondition[] {
                     new LoggedInCondition(),
                     new AliveCondition()
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "BreakBlockHardCoded",
+                new BreakBlockCommand(new BlockLocation(2676, 4, -796)),
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.5)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition(),
+                    new SolidBlockCondition(new BlockLocation(2676, 4, -796))
                 }
             ));
         }

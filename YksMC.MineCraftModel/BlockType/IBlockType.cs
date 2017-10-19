@@ -8,5 +8,7 @@ namespace YksMC.MinecraftModel.BlockType
     {
         string Name { get; }
         bool IsSolid { get; }
+        bool IsDiggable { get; }
+        double Hardness { get; }
     }
 }

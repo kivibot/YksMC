@@ -15,11 +15,14 @@ namespace YksMC.Behavior.Tasks
 {
     public class LookAtNearestPlayerTask : BehaviorTask<LookAtNearestPlayerCommand>
     {
+        private readonly IBehaviorTaskScheduler _taskScheduler;
+
         public override string Name => "LookAtNearestPlayer";
 
-        public LookAtNearestPlayerTask(LookAtNearestPlayerCommand command)
+        public LookAtNearestPlayerTask(LookAtNearestPlayerCommand command, IBehaviorTaskScheduler taskScheduler)
             : base(command)
         {
+            _taskScheduler = taskScheduler;
         }
 
         public override IWorldEventResult OnStart(IWorld world)
@@ -48,21 +51,17 @@ namespace YksMC.Behavior.Tasks
                 return Result(world);
             }
 
-            IVector3<double> lookVector = nearest.AsVector().Substract(localEntity.Location.AsVector());
-            if (lookVector == Vector3d.Zero)
+            PerformLookAsync(nearest);
+            return Result(world);
+        }
+
+        private async void PerformLookAsync(IEntityLocation location)
+        {
+            if((await _taskScheduler.RunTaskAsync(new LookAtCommand(location))).IsFailed)
             {
-                Complete();
-                return Result(world);
+                Fail();
             }
-
-
-            double pitch = -Math.Atan2(lookVector.Y, new Vector3d(lookVector.X, 0, lookVector.Z).Length());
-            double yaw = -Math.Atan2(lookVector.X, lookVector.Z);
-
-            localEntity = localEntity.ChangeLook(yaw, pitch);
-
             Complete();
-            return Result(world.ReplaceCurrentDimension(dimension.ReplaceEntity(localEntity)));
         }
 
         public override void OnTick(IWorld world, IGameTick tick)

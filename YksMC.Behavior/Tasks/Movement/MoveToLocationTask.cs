@@ -67,6 +67,7 @@ namespace YksMC.Behavior.Tasks.Movement
             }
             IVector3<double> nextMovement = delta.Normalize().Multiply(Math.Min(delta.Length(), _velocity));
             _task = _taskScheduler.EnqueueTask(new MoveLinearCommand(nextMovement));
+            _taskScheduler.EnqueueTask(new LookAtCommand(_command.Location));
             return;
         }
     }

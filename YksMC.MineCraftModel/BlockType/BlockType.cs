@@ -10,14 +10,20 @@ namespace YksMC.MinecraftModel.BlockType
     {
         private readonly string _name;
         private readonly bool _isSolid;
+        private readonly bool _isDiggable;
+        private readonly double _hardness;
 
         public string Name => _name;
         public bool IsSolid => _isSolid;
+        public bool IsDiggable => _isDiggable;
+        public double Hardness => _hardness;
 
-        public BlockType(string name, bool isSolid)
+        public BlockType(string name, bool isSolid, bool isDiggable, double hardness)
         {
             _name = name;
             _isSolid = isSolid;
+            _isDiggable = isDiggable;
+            _hardness = hardness;
         }
     }
 }
