@@ -108,13 +108,39 @@ namespace YksMC.Behavior.Misc.Pathfinder
                 }
                 yield return new PathEdge(blockLocation, neighbor, PathMovementType.Walk, _walkingCost * Math.Sqrt(5));
             }
-            if(IsValidLocation(blockLocation.Add(0, 1, 0), dimension) && IsSolid(blockLocation.Add(0, -1, 0), dimension))
+            if (IsValidLocation(blockLocation, dimension, height: 3, requireSolidFloor: true))
             {
                 yield return new PathEdge(blockLocation, blockLocation.Add(0, 1, 0), PathMovementType.Jump, _jumpingCost);
             }
+
+
+            if (IsValidLocation(blockLocation, dimension, height: 3, requireSolidFloor: true)
+                && IsValidLocation(blockLocation.Add(-1, 0, 0), dimension, height: 3)
+                && IsValidLocation(blockLocation.Add(-2, 0, 0), dimension, height: 3))
+            {
+                yield return new PathEdge(blockLocation, blockLocation.Add(-2, 0, 0), PathMovementType.JumpTo, _jumpingCost * 2);
+            }
+            if (IsValidLocation(blockLocation, dimension, height: 3, requireSolidFloor: true)
+                && IsValidLocation(blockLocation.Add(1, 0, 0), dimension, height: 3)
+                && IsValidLocation(blockLocation.Add(2, 0, 0), dimension, height: 3))
+            {
+                yield return new PathEdge(blockLocation, blockLocation.Add(2, 0, 0), PathMovementType.JumpTo, _jumpingCost * 2);
+            }
+            if (IsValidLocation(blockLocation, dimension, height: 3, requireSolidFloor: true)
+                && IsValidLocation(blockLocation.Add(0, 0, -1), dimension, height: 3)
+                && IsValidLocation(blockLocation.Add(0, 0, -2), dimension, height: 3))
+            {
+                yield return new PathEdge(blockLocation, blockLocation.Add(0, 0, -2), PathMovementType.JumpTo, _jumpingCost * 2);
+            }
+            if (IsValidLocation(blockLocation, dimension, height: 3, requireSolidFloor: true)
+                && IsValidLocation(blockLocation.Add(0, 0, 1), dimension, height: 3)
+                && IsValidLocation(blockLocation.Add(0, 0, 2), dimension, height: 3))
+            {
+                yield return new PathEdge(blockLocation, blockLocation.Add(0, 0, 2), PathMovementType.JumpTo, _jumpingCost * 2);
+            }
         }
 
-        private bool IsValidLocation(IBlockLocation location, IDimension dimension, int width = 1, bool requireSolidFloor = false)
+        private bool IsValidLocation(IBlockLocation location, IDimension dimension, int width = 1, bool requireSolidFloor = false, int height = 2)
         {
             //TODO: handle unloaded chunks
             if (!dimension.GetChunk(new ChunkCoordinate(location)).GetBlock(new BlockLocation(0, 0, 0)).Type.IsSolid)
@@ -125,11 +151,13 @@ namespace YksMC.Behavior.Misc.Pathfinder
             {
                 for (int z = 0; z < width; z++)
                 {
-                    IBlock midBlock = dimension.GetBlock(location.Add(x, 0, z));
-                    IBlock upperBlock = dimension.GetBlock(location.Add(x, 1, z));
-                    if (midBlock.Type.IsSolid || upperBlock.Type.IsSolid)
+                    for (int y = 0; y < height; y++)
                     {
-                        return false;
+                        IBlock block = dimension.GetBlock(location.Add(x, y, z));
+                        if (block.Type.IsSolid)
+                        {
+                            return false;
+                        }
                     }
                     if (requireSolidFloor)
                     {

@@ -10,6 +10,7 @@ using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Player;
+using YksMC.MinecraftModel.Window;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Clientbound;
 
@@ -43,7 +44,10 @@ namespace YksMC.Bot.Tests.Handlers
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
             dimensions[0] = dimension;
-            IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, dimension);
+            IWindow inventoryWindow = new Window(0, "inventory", new List<IWindowSlot>());
+            IWindowCollection windowCollection = new WindowCollection()
+                .ReplaceWindow(inventoryWindow);
+            IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, dimension, windowCollection);
             return world;
         }
 

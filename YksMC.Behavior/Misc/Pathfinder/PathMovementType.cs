@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.Behavior.Misc
+namespace YksMC.Behavior.Misc.Pathfinder
 {
     public enum PathMovementType
     {
-        Walk, Fall, Jump
+        Walk, Fall, Jump, JumpTo
     }
 }

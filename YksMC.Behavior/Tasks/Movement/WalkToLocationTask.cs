@@ -64,6 +64,13 @@ namespace YksMC.Behavior.Tasks.Movement
                     }
                     continue;
                 }
+                if(waypoint.MovementType == PathMovementType.JumpTo)
+                {
+                    if (!await JumpAsync())
+                    {
+                        return;
+                    }
+                }
 
                 IEntityLocation location = new EntityLocation(blockLocation.X + 0.5, blockLocation.Y, blockLocation.Z + 0.5);
                 IBehaviorTask task = await _taskScheduler.RunTaskAsync(new MoveToLocationCommand(location, 0.2));
