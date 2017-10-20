@@ -49,6 +49,7 @@ using YksMC.Data.Json.ItemType;
 using YksMC.Bot.GameObjectRegistry;
 using YksMC.MinecraftModel.Inventory;
 using YksMC.MinecraftModel.ItemStack;
+using YksMC.Behavior.Tasks.InventoryManagement;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -115,6 +116,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<JumpTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-JumpCommand");
             builder.RegisterType<LookAtTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-LookAtCommand");
             builder.RegisterType<BreakBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-BreakBlockCommand");
+            builder.RegisterType<ChangeHeldItemTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-ChangeHeldItemCommand");
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 
@@ -585,6 +587,8 @@ namespace YksMC.Client.IntegrationTests
 
         private void RegisterUrges(IUrgeManager manager, IMinecraftClient client)
         {
+            Random random = new Random();
+
             manager.AddUrge(new Urge(
                 "Login",
                 new LoginCommand(),
