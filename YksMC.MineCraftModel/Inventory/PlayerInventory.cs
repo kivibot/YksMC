@@ -16,15 +16,28 @@ namespace YksMC.MinecraftModel.Inventory
         private const int _craftingGridOffset = 1;
         private const int _craftingWidth = 2;
 
+        private readonly int _heldItemIndex;
+
         public PlayerInventory()
-            : base(_slotCount)
+            : this(new IItemStack[_slotCount], 0)
         {
         }
 
-        protected PlayerInventory(IItemStack[] slots)
+        protected PlayerInventory(IItemStack[] slots, int heldItemIndex)
             : base(slots)
         {
+            if (heldItemIndex < 0 || heldItemIndex >= _hotbarSize)
+            {
+                throw new ArgumentException($"{nameof(heldItemIndex)}: {heldItemIndex}");
+            }
+            _heldItemIndex = heldItemIndex;
+        }
 
+        public int HeldItemIndex => _heldItemIndex;
+
+        public IPlayerInventory ChangeHeldItem(int slotIndex)
+        {
+            return CreatePlayerInventory(_slots, slotIndex);
         }
 
         public TSlot GetCraftingSlot<TSlot>(int x, int y) where TSlot : class, IItemStack
@@ -66,7 +79,17 @@ namespace YksMC.MinecraftModel.Inventory
 
         protected override IInventory CreateInventory(IItemStack[] slots)
         {
-            return new PlayerInventory(slots);
+            return CreatePlayerInventory(slots, _heldItemIndex);
+        }
+
+        public TSlot GetHeldItem<TSlot>() where TSlot : class, IItemStack
+        {
+            return GetHotbarSlot<TSlot>(_heldItemIndex);
+        }
+
+        protected virtual IPlayerInventory CreatePlayerInventory(IItemStack[] slots, int heldItemIndex)
+        {
+            return new PlayerInventory(slots, heldItemIndex);
         }
     }
 }
