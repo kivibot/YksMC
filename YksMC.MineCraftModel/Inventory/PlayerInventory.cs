@@ -66,7 +66,7 @@ namespace YksMC.MinecraftModel.Inventory
 
         protected override IInventory CreateInventory(IItemStack[] slots)
         {
-            return base.CreateInventory(slots);
+            return new PlayerInventory(slots);
         }
     }
 }

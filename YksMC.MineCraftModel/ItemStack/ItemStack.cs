@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace YksMC.MinecraftModel.ItemStack
 {
+    [DebuggerDisplay("{Name}, {Size}, {Durability}")]
     public class ItemStack : IItemStack
     {
         protected readonly string _name;

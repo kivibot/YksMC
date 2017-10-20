@@ -9,7 +9,7 @@ namespace YksMC.MinecraftModel.Inventory
     {
         int SlotCount { get; }
 
-        IInventory ChangeSlot(int slotInde, IItemStack itemStack);
-        TSlot GetSlot<TSlot>(int slotInde) where TSlot : class, IItemStack;
+        IInventory ChangeSlot(int slotIndex, IItemStack itemStack);
+        TSlot GetSlot<TSlot>(int slotIndex) where TSlot : class, IItemStack;
     }
 }
