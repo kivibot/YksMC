@@ -33,7 +33,7 @@ namespace YksMC.Behavior.PacketHandlers
             for (int index = 0; index < packet.Slots.Count; index++)
             {
                 WindowSlotData slotData = packet.Slots.Values[index];
-                IItemStack itemStack = _itemStacks.Get(slotData.BlockId)
+                IItemStack itemStack = _itemStacks.Get<IItemStack>(slotData.BlockId)
                     .ChangeSize(slotData.ItemCount);
                 //.ChangeDurability(slotData.ItemDamage);
 
@@ -57,7 +57,7 @@ namespace YksMC.Behavior.PacketHandlers
             IPlayer player = world.GetLocalPlayer();
             IPlayerInventory inventory = player.GetInventory();
 
-            IItemStack itemStack = _itemStacks.Get(packet.Slot.BlockId)
+            IItemStack itemStack = _itemStacks.Get<IItemStack>(packet.Slot.BlockId)
                     .ChangeSize(packet.Slot.ItemCount);
             //.ChangeDurability(packet.Slot.ItemDamage);
 

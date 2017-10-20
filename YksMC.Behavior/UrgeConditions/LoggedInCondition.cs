@@ -12,7 +12,7 @@ namespace YksMC.Behavior.UrgeConditions
 
         public bool IsPossible(IWorld world)
         {
-            return world.GetLocalPlayer() != null;
+            return world.GetLocalPlayer() != null && world.GetLocalPlayer().HasEntity;
         }
     }
 }

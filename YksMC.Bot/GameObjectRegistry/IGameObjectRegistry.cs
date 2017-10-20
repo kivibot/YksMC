@@ -4,13 +4,13 @@ using System.Text;
 
 namespace YksMC.Bot.GameObjectRegistry
 {
-    public interface IGameObjectRegistry<T>
+    public interface IGameObjectRegistry<TBase> where TBase : class
     {
-        void Register(T gameObject, int id);
-        void Register(T gameObject, string name);
-        void Register(T gameObject, int id, string name);
+        void Register(TBase gameObject, int id);
+        void Register(TBase gameObject, string name);
+        void Register(TBase gameObject, int id, string name);
 
-        T Get(int id);
-        T Get(string name);
+        T Get<T>(int id) where T : class, TBase;
+        T Get<T>(string name) where T : class, TBase;
     }
 }

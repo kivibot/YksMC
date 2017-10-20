@@ -4,28 +4,28 @@ using System.Text;
 
 namespace YksMC.Bot.GameObjectRegistry
 {
-    public class GameObjectRegistry<T> : IGameObjectRegistry<T>
+    public class GameObjectRegistry<TBase> : IGameObjectRegistry<TBase> where TBase : class
     {
-        private readonly IDictionary<int, T> _objectsById;
-        private readonly IDictionary<string, T> _objectsByName;
+        private readonly IDictionary<int, TBase> _objectsById;
+        private readonly IDictionary<string, TBase> _objectsByName;
 
         public GameObjectRegistry()
         {
-            _objectsById = new Dictionary<int, T>();
-            _objectsByName = new Dictionary<string, T>();
+            _objectsById = new Dictionary<int, TBase>();
+            _objectsByName = new Dictionary<string, TBase>();
         }
 
-        public T Get(int id)
+        public T Get<T>(int id) where T : class, TBase
         {
-            return _objectsById[id];
+            return _objectsById[id] as T;
         }
 
-        public T Get(string name)
+        public T Get<T>(string name) where T : class, TBase
         {
-            return _objectsByName[name];
+            return _objectsByName[name] as T;
         }
 
-        public void Register(T gameObject, int id)
+        public void Register(TBase gameObject, int id)
         {
             if (_objectsById.ContainsKey(id))
             {
@@ -34,7 +34,7 @@ namespace YksMC.Bot.GameObjectRegistry
             _objectsById[id] = gameObject;
         }
 
-        public void Register(T gameObject, string name)
+        public void Register(TBase gameObject, string name)
         {
             if (_objectsByName.ContainsKey(name))
             {
@@ -43,7 +43,7 @@ namespace YksMC.Bot.GameObjectRegistry
             _objectsByName[name] = gameObject;
         }
 
-        public void Register(T gameObject, int id, string name)
+        public void Register(TBase gameObject, int id, string name)
         {
             Register(gameObject, id);
             Register(gameObject, name);

@@ -149,7 +149,8 @@ namespace YksMC.Client.IntegrationTests
 
         private static void RegisterVanillaItems(IGameObjectRegistry<IItemStack> itemRegistry)
         {
-            itemRegistry.Register(new ItemStack("empty", 0, 0), -1, "empty");
+            itemRegistry.Register(new HarvestingTool("yksmc:hand", 1, HarvestTier.Hand, 1), "yksmc:hand");
+            itemRegistry.Register(new ItemStack("yksmc:empty", 0, 0), -1, "yksmc:empty");
 
             // Blocks
             itemRegistry.Register(new ItemStack("minecraft:air", 64, 1), 0, "minecraft:air");
@@ -210,7 +211,7 @@ namespace YksMC.Client.IntegrationTests
 
             itemRegistry.Register(new ItemStack("minecraft:farmland", 64, 1), 60, "minecraft:farmland");
             itemRegistry.Register(new ItemStack("minecraft:furnace", 64, 1), 61, "minecraft:furnace");
-            
+
             itemRegistry.Register(new ItemStack("minecraft:ladder", 64, 1), 65, "minecraft:ladder");
             itemRegistry.Register(new ItemStack("minecraft:rail", 64, 1), 66, "minecraft:rail");
             itemRegistry.Register(new ItemStack("minecraft:stone_stairs", 64, 1), 67, "minecraft:stone_stairs");
@@ -220,7 +221,7 @@ namespace YksMC.Client.IntegrationTests
 
             itemRegistry.Register(new ItemStack("minecraft:wooden_pressure_plate", 64, 1), 72, "minecraft:wooden_pressure_plate");
             itemRegistry.Register(new ItemStack("minecraft:redstone_ore", 64, 1), 73, "minecraft:redstone_ore");
-            
+
             itemRegistry.Register(new ItemStack("minecraft:redstone_torch", 64, 1), 76, "minecraft:redstone_torch");
             itemRegistry.Register(new ItemStack("minecraft:stone_button", 64, 1), 77, "minecraft:stone_button");
             itemRegistry.Register(new ItemStack("minecraft:snow_layer", 64, 1), 78, "minecraft:snow_layer");
@@ -237,7 +238,7 @@ namespace YksMC.Client.IntegrationTests
             itemRegistry.Register(new ItemStack("minecraft:glowstone", 64, 1), 89, "minecraft:glowstone");
 
             itemRegistry.Register(new ItemStack("minecraft:lit_pumpkin", 64, 1), 91, "minecraft:lit_pumpkin");
-            
+
             itemRegistry.Register(new ItemStack("minecraft:stained_glass", 64, 1), 95, "minecraft:stained_glass");
             itemRegistry.Register(new ItemStack("minecraft:trapdoor", 64, 1), 96, "minecraft:trapdoor");
             itemRegistry.Register(new ItemStack("minecraft:monster_egg", 64, 1), 97, "minecraft:monster_egg");
@@ -259,7 +260,7 @@ namespace YksMC.Client.IntegrationTests
             itemRegistry.Register(new ItemStack("minecraft:nether_brick_stairs", 64, 1), 114, "minecraft:nether_brick_stairs");
 
             itemRegistry.Register(new ItemStack("minecraft:enchanting_table", 64, 1), 116, "minecraft:enchanting_table");
-            
+
             itemRegistry.Register(new ItemStack("minecraft:end_portal_frame", 64, 1), 120, "minecraft:end_portal_frame");
             itemRegistry.Register(new ItemStack("minecraft:end_stone", 64, 1), 121, "minecraft:end_stone");
             itemRegistry.Register(new ItemStack("minecraft:dragon_egg", 64, 1), 122, "minecraft:dragon_egg");
@@ -372,7 +373,6 @@ namespace YksMC.Client.IntegrationTests
             itemRegistry.Register(new ItemStack("minecraft:structure_block", 64, 1), 255, "minecraft:structure_block");
             //Items
             itemRegistry.Register(new ItemStack("minecraft:iron_shovel", 1, 1), 256, "minecraft:iron_shovel");
-            itemRegistry.Register(new ItemStack("minecraft:iron_pickaxe", 1, 1), 257, "minecraft:iron_pickaxe");
             itemRegistry.Register(new ItemStack("minecraft:iron_axe", 1, 1), 258, "minecraft:iron_axe");
             itemRegistry.Register(new ItemStack("minecraft:flint_and_steel", 1, 1), 259, "minecraft:flint_and_steel");
             itemRegistry.Register(new ItemStack("minecraft:apple", 64, 1), 260, "minecraft:apple");
@@ -385,22 +385,18 @@ namespace YksMC.Client.IntegrationTests
             itemRegistry.Register(new ItemStack("minecraft:iron_sword", 1, 1), 267, "minecraft:iron_sword");
             itemRegistry.Register(new ItemStack("minecraft:wooden_sword", 1, 1), 268, "minecraft:wooden_sword");
             itemRegistry.Register(new ItemStack("minecraft:wooden_shovel", 1, 1), 269, "minecraft:wooden_shovel");
-            itemRegistry.Register(new ItemStack("minecraft:wooden_pickaxe", 1, 1), 270, "minecraft:wooden_pickaxe");
             itemRegistry.Register(new ItemStack("minecraft:wooden_axe", 1, 1), 271, "minecraft:wooden_axe");
             itemRegistry.Register(new ItemStack("minecraft:stone_sword", 1, 1), 272, "minecraft:stone_sword");
             itemRegistry.Register(new ItemStack("minecraft:stone_shovel", 1, 1), 273, "minecraft:stone_shovel");
-            itemRegistry.Register(new ItemStack("minecraft:stone_pickaxe", 1, 1), 274, "minecraft:stone_pickaxe");
             itemRegistry.Register(new ItemStack("minecraft:stone_axe", 1, 1), 275, "minecraft:stone_axe");
             itemRegistry.Register(new ItemStack("minecraft:diamond_sword", 1, 1), 276, "minecraft:diamond_sword");
             itemRegistry.Register(new ItemStack("minecraft:diamond_shovel", 1, 1), 277, "minecraft:diamond_shovel");
-            itemRegistry.Register(new ItemStack("minecraft:diamond_pickaxe", 1, 1), 278, "minecraft:diamond_pickaxe");
             itemRegistry.Register(new ItemStack("minecraft:diamond_axe", 1, 1), 279, "minecraft:diamond_axe");
             itemRegistry.Register(new ItemStack("minecraft:stick", 64, 1), 280, "minecraft:stick");
             itemRegistry.Register(new ItemStack("minecraft:bowl", 64, 1), 281, "minecraft:bowl");
             itemRegistry.Register(new ItemStack("minecraft:mushroom_stew", 1, 1), 282, "minecraft:mushroom_stew");
             itemRegistry.Register(new ItemStack("minecraft:golden_sword", 1, 1), 283, "minecraft:golden_sword");
             itemRegistry.Register(new ItemStack("minecraft:golden_shovel", 1, 1), 284, "minecraft:golden_shovel");
-            itemRegistry.Register(new ItemStack("minecraft:golden_pickaxe", 1, 1), 285, "minecraft:golden_pickaxe");
             itemRegistry.Register(new ItemStack("minecraft:golden_axe", 1, 1), 286, "minecraft:golden_axe");
             itemRegistry.Register(new ItemStack("minecraft:string", 64, 1), 287, "minecraft:string");
             itemRegistry.Register(new ItemStack("minecraft:feather", 64, 1), 288, "minecraft:feather");
@@ -579,6 +575,12 @@ namespace YksMC.Client.IntegrationTests
             itemRegistry.Register(new ItemStack("minecraft:record_ward", 1, 1), 2265, "minecraft:record_ward");
             itemRegistry.Register(new ItemStack("minecraft:record_11", 1, 1), 2266, "minecraft:record_11");
             itemRegistry.Register(new ItemStack("minecraft:record_wait", 1, 1), 2267, "minecraft:record_wait");
+
+            itemRegistry.Register(new HarvestingTool("minecraft:wooden_pickaxe", 60, HarvestTier.Wooden, 2), 270, "minecraft:wooden_pickaxe");
+            itemRegistry.Register(new HarvestingTool("minecraft:stone_pickaxe", 132, HarvestTier.Stone, 4), 274, "minecraft:stone_pickaxe");
+            itemRegistry.Register(new HarvestingTool("minecraft:iron_pickaxe", 251, HarvestTier.Iron, 6), 257, "minecraft:iron_pickaxe");
+            itemRegistry.Register(new HarvestingTool("minecraft:diamond_pickaxe", 1562, HarvestTier.Diamond, 8), 278, "minecraft:diamond_pickaxe");
+            itemRegistry.Register(new HarvestingTool("minecraft:golden_pickaxe", 33, HarvestTier.Wooden, 12), 285, "minecraft:golden_pickaxe");
         }
 
         private void RegisterUrges(IUrgeManager manager, IMinecraftClient client)

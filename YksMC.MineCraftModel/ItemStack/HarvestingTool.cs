@@ -38,7 +38,7 @@ namespace YksMC.MinecraftModel.ItemStack
             {
                 return 0.2;
             }
-            return (1.0 / 1.5) * _breakingMultiplier;
+            return _breakingMultiplier / 1.5;
         }
 
         protected override IItemStack CreateItemStack(string name, int size, int maxSize, int durability, int maxDurability)

@@ -35,7 +35,14 @@ namespace YksMC.Bot.Urge
 
         public bool IsPossible(IWorld world)
         {
-            return !_conditions.Select(condition => condition.IsPossible(world)).Any(isPossible => !isPossible);
+            foreach(IUrgeCondition condition in _conditions)
+            {
+                if (!condition.IsPossible(world))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

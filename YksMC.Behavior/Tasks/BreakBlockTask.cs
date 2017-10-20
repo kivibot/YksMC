@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
+using YksMC.Bot.GameObjectRegistry;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
+using YksMC.MinecraftModel.ItemStack;
+using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Packets.Play.Serverbound;
@@ -18,20 +21,20 @@ namespace YksMC.Behavior.Tasks
     {
         private const int _ticksPerSecond = 20;
         private const int _timeout = 2 * _ticksPerSecond;
-        private const double _flyingMultiplier = 5;
-        private const double _harvestableMultiplier = 1.5;
-        private const double _unharvestableMultiplier = 5;
 
         private readonly IBehaviorTaskScheduler _taskScheduler;
+        private readonly IHarvestingTool _handTool;
 
         private int _ticksWaited;
         private int _ticksNeeded;
 
         public override string Name => $"BreakBlock({_command.Location.X}, {_command.Location.Y}, {_command.Location.Z})";
 
-        public BreakBlockTask(BreakBlockCommand command, IBehaviorTaskScheduler taskScheduler) : base(command)
+        public BreakBlockTask(BreakBlockCommand command, IBehaviorTaskScheduler taskScheduler, IGameObjectRegistry<IItemStack> items)
+            : base(command)
         {
             _taskScheduler = taskScheduler;
+            _handTool = items.Get<IHarvestingTool>("yksmc:hand");
             _ticksWaited = 0;
         }
 
@@ -44,8 +47,10 @@ namespace YksMC.Behavior.Tasks
                 return Result(world);
             }
             IEntity entity = world.GetPlayerEntity();
+            IPlayer player = world.GetLocalPlayer();
+            IHarvestingTool tool = player.GetInventory().GetHeldItem<IHarvestingTool>() ?? _handTool;
 
-            CalculateTicksNeeded(block.Type);
+            CalculateTicksNeeded(block.Type, tool);
 
             PlayerDiggingPacket startPacket = new PlayerDiggingPacket()
             {
@@ -67,9 +72,9 @@ namespace YksMC.Behavior.Tasks
 
         public override void OnTick(IWorld world, IGameTick tick)
         {
-            if (_ticksWaited == _ticksNeeded)
+            IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
+            if (block.Type.Name == "air")
             {
-                //TODO: check if worked
                 Complete();
                 return;
             }
@@ -81,9 +86,9 @@ namespace YksMC.Behavior.Tasks
             _ticksWaited++;
         }
 
-        private void CalculateTicksNeeded(IBlockType blockType)
+        private void CalculateTicksNeeded(IBlockType blockType, IHarvestingTool tool)
         {
-            double ticks = _unharvestableMultiplier * blockType.Hardness * _ticksPerSecond;
+            double ticks = blockType.Hardness * _ticksPerSecond / tool.GetBreakingSpeed(blockType);
             _ticksNeeded = (int)Math.Ceiling(ticks);
         }
     }
