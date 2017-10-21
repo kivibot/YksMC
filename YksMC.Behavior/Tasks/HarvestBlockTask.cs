@@ -86,7 +86,7 @@ namespace YksMC.Behavior.Tasks
             }
             if (bestTool == null)
             {
-                return true;
+                return !_command.FailWhenNoRightToolAvailable;
             }
             if ((await _taskScheduler.RunTaskAsync(new ChangeHeldItemCommand(bestToolSlot))).IsFailed)
             {

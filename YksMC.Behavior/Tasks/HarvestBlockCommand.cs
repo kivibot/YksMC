@@ -8,10 +8,12 @@ namespace YksMC.Behavior.Tasks
     public class HarvestBlockCommand
     {
         public IBlockLocation Location { get; private set; }
+        public bool FailWhenNoRightToolAvailable { get; set; }
 
-        public HarvestBlockCommand(IBlockLocation location)
+        public HarvestBlockCommand(IBlockLocation location, bool failWhenNoRightToolAvailable = false)
         {
             Location = location;
+            FailWhenNoRightToolAvailable = failWhenNoRightToolAvailable;
         }
     }
 }

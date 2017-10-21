@@ -52,7 +52,7 @@ namespace YksMC.Behavior.Misc.Pathfinder
 
         private IEnumerable<PathEdge> GetEdges(IBlockLocation blockLocation, PathMovementType previousMove, IDimension dimension)
         {
-            if (previousMove != PathMovementType.Jump && !IsSolid(blockLocation.Add(0, -1, 0), dimension))
+            if (previousMove != PathMovementType.Jump && !IsSolidAndSafe(blockLocation.Add(0, -1, 0), dimension))
             {
                 yield return new PathEdge(blockLocation, blockLocation.Add(0, -1, 0), PathMovementType.Fall, _fallingCost);
                 yield break;
@@ -154,28 +154,32 @@ namespace YksMC.Behavior.Misc.Pathfinder
                     for (int y = 0; y < height; y++)
                     {
                         IBlock block = dimension.GetBlock(location.Add(x, y, z));
-                        if (block.Type.IsSolid)
+                        if (block.Type.IsSolid || block.Type.IsDangerous)
                         {
                             return false;
                         }
                     }
+                    IBlock floorBlock = dimension.GetBlock(location.Add(x, -1, z));
                     if (requireSolidFloor)
                     {
-                        IBlock floorBlock = dimension.GetBlock(location.Add(x, -1, z));
                         if (!floorBlock.Type.IsSolid)
                         {
                             return false;
                         }
+                    }
+                    if (floorBlock.Type.IsDangerous)
+                    {
+                        return false;
                     }
                 }
             }
             return true;
         }
 
-        private bool IsSolid(IBlockLocation location, IDimension dimension)
+        private bool IsSolidAndSafe(IBlockLocation location, IDimension dimension)
         {
             IBlock block = dimension.GetBlock(location);
-            return block.Type.IsSolid;
+            return block.Type.IsSolid && !block.Type.IsDangerous;
         }
 
         private IPathFindingResult GetPath(IPathfinderDatastructure<IBlockLocation, PathEdge> datastructure, IBlockLocation startLocation, IBlockLocation endLocation)

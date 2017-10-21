@@ -132,7 +132,7 @@ namespace YksMC.Client.IntegrationTests
             RegisterVanillaItems(itemRegistry);
             builder.RegisterInstance(itemRegistry).As<IGameObjectRegistry<IItemStack>>();
 
-            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
@@ -634,7 +634,7 @@ namespace YksMC.Client.IntegrationTests
             ));
             manager.AddUrge(new Urge(
                 "BreakBlockHardCoded",
-                new HarvestBlockCommand(new BlockLocation(2676, 4, -796)),
+                new HarvestBlockCommand(new BlockLocation(2676, 4, -796), true),
                 new IUrgeScorer[] {
                     new ConstantScorer(0.5)
                 },

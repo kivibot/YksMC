@@ -6,7 +6,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 1,
@@ -15,7 +16,8 @@
         "IsDiggable": true,
         "Hardness": 1.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 2,
@@ -24,7 +26,8 @@
         "IsDiggable": true,
         "Hardness": 0.6,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 3,
@@ -33,7 +36,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 4,
@@ -42,7 +46,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 5,
@@ -51,7 +56,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 6,
@@ -60,7 +66,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 7,
@@ -69,7 +76,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 8,
@@ -78,7 +86,8 @@
         "IsDiggable": false,
         "Hardness": 100,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 9,
@@ -87,7 +96,8 @@
         "IsDiggable": false,
         "Hardness": 100,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 10,
@@ -96,7 +106,8 @@
         "IsDiggable": false,
         "Hardness": 100,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": true
     },
     {
         "Id": 11,
@@ -105,7 +116,8 @@
         "IsDiggable": false,
         "Hardness": 100,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": true
     },
     {
         "Id": 12,
@@ -114,7 +126,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 13,
@@ -123,7 +136,8 @@
         "IsDiggable": true,
         "Hardness": 0.6,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 14,
@@ -132,7 +146,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 15,
@@ -141,7 +156,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 2,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 16,
@@ -150,7 +166,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 17,
@@ -159,7 +176,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 18,
@@ -168,7 +186,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 19,
@@ -177,7 +196,8 @@
         "IsDiggable": true,
         "Hardness": 0.6,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 20,
@@ -186,7 +206,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 21,
@@ -195,7 +216,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 2,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 22,
@@ -204,7 +226,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 2,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 23,
@@ -213,7 +236,8 @@
         "IsDiggable": true,
         "Hardness": 3.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 24,
@@ -222,7 +246,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 25,
@@ -231,7 +256,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 26,
@@ -240,7 +266,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 27,
@@ -249,7 +276,8 @@
         "IsDiggable": true,
         "Hardness": 0.7,
         "Tier": 0,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 28,
@@ -258,7 +286,8 @@
         "IsDiggable": true,
         "Hardness": 0.7,
         "Tier": 0,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 29,
@@ -267,7 +296,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 30,
@@ -276,7 +306,8 @@
         "IsDiggable": true,
         "Hardness": 4,
         "Tier": 1,
-        "Material": "Web"
+        "Material": "Web",
+        "IsDangerous": false
     },
     {
         "Id": 31,
@@ -285,7 +316,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 32,
@@ -294,7 +326,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 33,
@@ -303,7 +336,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 34,
@@ -312,7 +346,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 35,
@@ -321,7 +356,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 0,
-        "Material": "Wool"
+        "Material": "Wool",
+        "IsDangerous": false
     },
     {
         "Id": 36,
@@ -330,7 +366,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 37,
@@ -339,7 +376,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 38,
@@ -348,7 +386,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 39,
@@ -357,7 +396,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 40,
@@ -366,7 +406,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 41,
@@ -375,7 +416,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 42,
@@ -384,7 +426,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 2,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 43,
@@ -393,7 +436,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 44,
@@ -402,7 +446,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 45,
@@ -411,7 +456,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 46,
@@ -420,7 +466,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 47,
@@ -429,7 +476,8 @@
         "IsDiggable": true,
         "Hardness": 1.5,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 48,
@@ -438,7 +486,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 49,
@@ -447,7 +496,8 @@
         "IsDiggable": true,
         "Hardness": 50,
         "Tier": 4,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 50,
@@ -456,7 +506,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 51,
@@ -465,7 +516,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 52,
@@ -474,7 +526,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 53,
@@ -483,7 +536,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 54,
@@ -492,7 +546,8 @@
         "IsDiggable": true,
         "Hardness": 2.5,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 55,
@@ -501,7 +556,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 56,
@@ -510,7 +566,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 57,
@@ -519,7 +576,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 58,
@@ -528,7 +586,8 @@
         "IsDiggable": true,
         "Hardness": 2.5,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 59,
@@ -537,7 +596,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 60,
@@ -546,7 +606,8 @@
         "IsDiggable": true,
         "Hardness": 0.6,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 61,
@@ -555,7 +616,8 @@
         "IsDiggable": true,
         "Hardness": 3.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 62,
@@ -564,7 +626,8 @@
         "IsDiggable": true,
         "Hardness": 3.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 63,
@@ -573,7 +636,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 64,
@@ -582,7 +646,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 65,
@@ -591,7 +656,8 @@
         "IsDiggable": true,
         "Hardness": 0.4,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 66,
@@ -600,7 +666,8 @@
         "IsDiggable": true,
         "Hardness": 0.7,
         "Tier": 0,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 67,
@@ -609,7 +676,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 68,
@@ -618,7 +686,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 69,
@@ -627,7 +696,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 70,
@@ -636,7 +706,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 71,
@@ -645,7 +716,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 72,
@@ -654,7 +726,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 73,
@@ -663,7 +736,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 74,
@@ -672,7 +746,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 75,
@@ -681,7 +756,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 76,
@@ -690,7 +766,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 77,
@@ -699,7 +776,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 78,
@@ -708,7 +786,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 1,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 79,
@@ -717,7 +796,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 80,
@@ -726,7 +806,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 1,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 81,
@@ -735,7 +816,8 @@
         "IsDiggable": true,
         "Hardness": 0.4,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": true
     },
     {
         "Id": 82,
@@ -744,7 +826,8 @@
         "IsDiggable": true,
         "Hardness": 0.6,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 83,
@@ -753,7 +836,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 84,
@@ -762,7 +846,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 85,
@@ -771,7 +856,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 86,
@@ -780,7 +866,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 87,
@@ -789,7 +876,8 @@
         "IsDiggable": true,
         "Hardness": 0.4,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 88,
@@ -798,7 +886,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 89,
@@ -807,7 +896,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 90,
@@ -816,7 +906,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 91,
@@ -825,7 +916,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 92,
@@ -834,7 +926,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 93,
@@ -843,7 +936,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 94,
@@ -852,7 +946,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 95,
@@ -861,7 +956,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 96,
@@ -870,7 +966,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 97,
@@ -879,7 +976,8 @@
         "IsDiggable": true,
         "Hardness": 0.75,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 98,
@@ -888,7 +986,8 @@
         "IsDiggable": true,
         "Hardness": 1.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 99,
@@ -897,7 +996,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 100,
@@ -906,7 +1006,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 101,
@@ -915,7 +1016,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 102,
@@ -924,7 +1026,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 103,
@@ -933,7 +1036,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 104,
@@ -942,7 +1046,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 105,
@@ -951,7 +1056,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 106,
@@ -960,7 +1066,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 107,
@@ -969,7 +1076,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 108,
@@ -978,7 +1086,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 109,
@@ -987,7 +1096,8 @@
         "IsDiggable": true,
         "Hardness": 1.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 110,
@@ -996,7 +1106,8 @@
         "IsDiggable": true,
         "Hardness": 0.6,
         "Tier": 0,
-        "Material": "Dirt"
+        "Material": "Dirt",
+        "IsDangerous": false
     },
     {
         "Id": 111,
@@ -1005,7 +1116,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 112,
@@ -1014,7 +1126,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 113,
@@ -1023,7 +1136,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 114,
@@ -1032,7 +1146,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 115,
@@ -1041,7 +1156,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 116,
@@ -1050,7 +1166,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 117,
@@ -1059,7 +1176,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 118,
@@ -1068,7 +1186,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 119,
@@ -1077,7 +1196,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 120,
@@ -1086,7 +1206,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 121,
@@ -1095,7 +1216,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 122,
@@ -1104,7 +1226,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 123,
@@ -1113,7 +1236,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 124,
@@ -1122,7 +1246,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 125,
@@ -1131,7 +1256,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 126,
@@ -1140,7 +1266,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 127,
@@ -1149,7 +1276,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 128,
@@ -1158,7 +1286,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 129,
@@ -1167,7 +1296,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 130,
@@ -1176,7 +1306,8 @@
         "IsDiggable": true,
         "Hardness": 22.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 131,
@@ -1185,7 +1316,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 132,
@@ -1194,7 +1326,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 133,
@@ -1203,7 +1336,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 3,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 134,
@@ -1212,7 +1346,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 135,
@@ -1221,7 +1356,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 136,
@@ -1230,7 +1366,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 137,
@@ -1239,7 +1376,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 138,
@@ -1248,7 +1386,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 139,
@@ -1257,7 +1396,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 140,
@@ -1266,7 +1406,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 141,
@@ -1275,7 +1416,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 142,
@@ -1284,7 +1426,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 143,
@@ -1293,7 +1436,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 144,
@@ -1302,7 +1446,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 145,
@@ -1311,7 +1456,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 146,
@@ -1320,7 +1466,8 @@
         "IsDiggable": true,
         "Hardness": 2.5,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 147,
@@ -1329,7 +1476,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 148,
@@ -1338,7 +1486,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 149,
@@ -1347,7 +1496,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 150,
@@ -1356,7 +1506,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 151,
@@ -1365,7 +1516,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 152,
@@ -1374,7 +1526,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 153,
@@ -1383,7 +1536,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 154,
@@ -1392,7 +1546,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 155,
@@ -1401,7 +1556,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 156,
@@ -1410,7 +1566,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 157,
@@ -1419,7 +1576,8 @@
         "IsDiggable": true,
         "Hardness": 0.7,
         "Tier": 0,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 158,
@@ -1428,7 +1586,8 @@
         "IsDiggable": true,
         "Hardness": 3.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 159,
@@ -1437,7 +1596,8 @@
         "IsDiggable": true,
         "Hardness": 1.25,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 160,
@@ -1446,7 +1606,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 161,
@@ -1455,7 +1616,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 162,
@@ -1464,7 +1626,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 163,
@@ -1473,7 +1636,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 164,
@@ -1482,7 +1646,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 165,
@@ -1491,7 +1656,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 166,
@@ -1500,7 +1666,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 167,
@@ -1509,7 +1676,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 168,
@@ -1518,7 +1686,8 @@
         "IsDiggable": true,
         "Hardness": 1.5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 169,
@@ -1527,7 +1696,8 @@
         "IsDiggable": true,
         "Hardness": 0.3,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 170,
@@ -1536,7 +1706,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 171,
@@ -1545,7 +1716,8 @@
         "IsDiggable": true,
         "Hardness": 0.1,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 172,
@@ -1554,7 +1726,8 @@
         "IsDiggable": true,
         "Hardness": 1.25,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 173,
@@ -1563,7 +1736,8 @@
         "IsDiggable": true,
         "Hardness": 5,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 174,
@@ -1572,7 +1746,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 175,
@@ -1581,7 +1756,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 176,
@@ -1590,7 +1766,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 177,
@@ -1599,7 +1776,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 178,
@@ -1608,7 +1786,8 @@
         "IsDiggable": true,
         "Hardness": 0.2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 179,
@@ -1617,7 +1796,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 180,
@@ -1626,7 +1806,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 181,
@@ -1635,7 +1816,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 182,
@@ -1644,7 +1826,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 183,
@@ -1653,7 +1836,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 184,
@@ -1662,7 +1846,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 185,
@@ -1671,7 +1856,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 186,
@@ -1680,7 +1866,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 187,
@@ -1689,7 +1876,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 188,
@@ -1698,7 +1886,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 189,
@@ -1707,7 +1896,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 190,
@@ -1716,7 +1906,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 191,
@@ -1725,7 +1916,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 192,
@@ -1734,7 +1926,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 193,
@@ -1743,7 +1936,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 194,
@@ -1752,7 +1946,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 195,
@@ -1761,7 +1956,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 196,
@@ -1770,7 +1966,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 197,
@@ -1779,7 +1976,8 @@
         "IsDiggable": true,
         "Hardness": 3,
         "Tier": 0,
-        "Material": "Wood"
+        "Material": "Wood",
+        "IsDangerous": false
     },
     {
         "Id": 198,
@@ -1788,7 +1986,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 199,
@@ -1797,7 +1996,8 @@
         "IsDiggable": true,
         "Hardness": 0.4,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 200,
@@ -1806,7 +2006,8 @@
         "IsDiggable": true,
         "Hardness": 0.4,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 201,
@@ -1815,7 +2016,8 @@
         "IsDiggable": true,
         "Hardness": 1.5,
         "Tier": 1,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 202,
@@ -1824,7 +2026,8 @@
         "IsDiggable": true,
         "Hardness": 1.5,
         "Tier": 1,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 203,
@@ -1833,7 +2036,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 204,
@@ -1842,7 +2046,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 205,
@@ -1851,7 +2056,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Rock"
+        "Material": "Rock",
+        "IsDangerous": false
     },
     {
         "Id": 206,
@@ -1860,7 +2066,8 @@
         "IsDiggable": true,
         "Hardness": 0.8,
         "Tier": 1,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 207,
@@ -1869,7 +2076,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 208,
@@ -1878,7 +2086,8 @@
         "IsDiggable": true,
         "Hardness": 0.6,
         "Tier": 0,
-        "Material": "Plant"
+        "Material": "Plant",
+        "IsDangerous": false
     },
     {
         "Id": 209,
@@ -1887,7 +2096,8 @@
         "IsDiggable": false,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 210,
@@ -1896,7 +2106,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 211,
@@ -1905,7 +2116,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 212,
@@ -1914,7 +2126,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 213,
@@ -1923,7 +2136,8 @@
         "IsDiggable": true,
         "Hardness": 0.5,
         "Tier": 1,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": true
     },
     {
         "Id": 214,
@@ -1932,7 +2146,8 @@
         "IsDiggable": true,
         "Hardness": 1,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 215,
@@ -1941,7 +2156,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 216,
@@ -1950,7 +2166,8 @@
         "IsDiggable": true,
         "Hardness": 2,
         "Tier": 1,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 217,
@@ -1959,7 +2176,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 218,
@@ -1968,7 +2186,8 @@
         "IsDiggable": true,
         "Hardness": 3.5,
         "Tier": 1,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 219,
@@ -1977,7 +2196,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 220,
@@ -1986,7 +2206,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 221,
@@ -1995,7 +2216,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 222,
@@ -2004,7 +2226,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 223,
@@ -2013,7 +2236,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 224,
@@ -2022,7 +2246,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 225,
@@ -2031,7 +2256,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 226,
@@ -2040,7 +2266,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 227,
@@ -2049,7 +2276,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 228,
@@ -2058,7 +2286,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 229,
@@ -2067,7 +2296,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 230,
@@ -2076,7 +2306,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 231,
@@ -2085,7 +2316,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 232,
@@ -2094,7 +2326,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 233,
@@ -2103,7 +2336,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 234,
@@ -2112,7 +2346,8 @@
         "IsDiggable": true,
         "Hardness": 0,
         "Tier": 0,
-        "Material": "Normal"
+        "Material": "Normal",
+        "IsDangerous": false
     },
     {
         "Id": 255,

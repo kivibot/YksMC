@@ -12,5 +12,6 @@ namespace YksMC.MinecraftModel.BlockType
         double Hardness { get; }
         HarvestTier HarvestTier { get; }
         BlockMaterial Material { get; }
+        bool IsDangerous { get; }
     }
 }

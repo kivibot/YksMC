@@ -22,7 +22,8 @@ namespace YksMC.Data.Json.BlockType
                         bt.IsDiggable,
                         bt.Hardness, 
                         (HarvestTier)bt.Tier, 
-                        (BlockMaterial)Enum.Parse(typeof(BlockMaterial), bt.Material)
+                        (BlockMaterial)Enum.Parse(typeof(BlockMaterial), bt.Material),
+                        bt.IsDangerous
                 )
             );
         }
