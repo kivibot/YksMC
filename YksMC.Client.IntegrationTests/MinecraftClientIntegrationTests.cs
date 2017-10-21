@@ -50,6 +50,7 @@ using YksMC.Bot.GameObjectRegistry;
 using YksMC.MinecraftModel.Inventory;
 using YksMC.MinecraftModel.ItemStack;
 using YksMC.Behavior.Tasks.InventoryManagement;
+using YksMC.Behavior.Tasks.Building;
 
 namespace YksMC.Client.IntegrationTests
 {
@@ -118,6 +119,8 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<BreakBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-BreakBlockCommand");
             builder.RegisterType<ChangeHeldItemTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-ChangeHeldItemCommand");
             builder.RegisterType<HarvestBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-HarvestBlockCommand");
+            builder.RegisterType<PlaceHeldBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-PlaceHeldBlockCommand");
+            builder.RegisterType<OpenBlockWindowTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-OpenBlockWindowCommand");
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 
@@ -132,7 +135,7 @@ namespace YksMC.Client.IntegrationTests
             RegisterVanillaItems(itemRegistry);
             builder.RegisterInstance(itemRegistry).As<IGameObjectRegistry<IItemStack>>();
 
-            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, true), new LightLevel(0), new LightLevel(0), new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
@@ -634,9 +637,33 @@ namespace YksMC.Client.IntegrationTests
             ));
             manager.AddUrge(new Urge(
                 "BreakBlockHardCoded",
-                new HarvestBlockCommand(new BlockLocation(2676, 4, -796), true),
+                new HarvestBlockCommand(new BlockLocation(2676, 4, -796), false),
                 new IUrgeScorer[] {
                     new ConstantScorer(0.5)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition(),
+                    new SolidBlockCondition(new BlockLocation(2676, 4, -796))
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "PlaceBlockHardCoded",
+                new PlaceHeldBlockCommand(new BlockLocation(2676, 4, -796)),
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.5)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition(),
+                    new NotCondition(new SolidBlockCondition(new BlockLocation(2676, 4, -796)))
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "OpenBlockWindowHardCoded",
+                new OpenBlockWindowCommand(new BlockLocation(2676, 4, -796)),
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.6)
                 },
                 new IUrgeCondition[] {
                     new LoggedInCondition(),

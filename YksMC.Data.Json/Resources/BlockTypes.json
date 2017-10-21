@@ -7,7 +7,8 @@
         "Hardness": 0,
         "Tier": 0,
         "Material": "Normal",
-        "IsDangerous": false
+        "IsDangerous": false,
+        "IsEmpty":  true
     },
     {
         "Id": 1,

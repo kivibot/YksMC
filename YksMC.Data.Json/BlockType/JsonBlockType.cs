@@ -14,5 +14,6 @@ namespace YksMC.Data.Json.BlockType
         public int Tier { get; set; }
         public string Material { get; set; }
         public bool IsDangerous { get; set; }
+        public bool IsEmpty { get; set; }
     }
 }

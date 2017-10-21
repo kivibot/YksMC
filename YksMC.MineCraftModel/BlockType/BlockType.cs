@@ -15,6 +15,7 @@ namespace YksMC.MinecraftModel.BlockType
         private readonly HarvestTier _harvestTier;
         private readonly BlockMaterial _material;
         private readonly bool _isDangerous;
+        private readonly bool _isEmpty;
 
         public string Name => _name;
         public bool IsSolid => _isSolid;
@@ -23,8 +24,9 @@ namespace YksMC.MinecraftModel.BlockType
         public HarvestTier HarvestTier => _harvestTier;
         public BlockMaterial Material => _material;
         public bool IsDangerous => _isDangerous;
+        public bool IsEmpty => _isEmpty;
 
-        public BlockType(string name, bool isSolid, bool isDiggable, double hardness, HarvestTier harvestTier, BlockMaterial material, bool isDangerous)
+        public BlockType(string name, bool isSolid, bool isDiggable, double hardness, HarvestTier harvestTier, BlockMaterial material, bool isDangerous, bool isEmpty)
         {
             _name = name;
             _isSolid = isSolid;
@@ -33,6 +35,7 @@ namespace YksMC.MinecraftModel.BlockType
             _harvestTier = harvestTier;
             _material = material;
             _isDangerous = isDangerous;
+            _isEmpty = isEmpty;
         }
     }
 }

@@ -13,5 +13,6 @@ namespace YksMC.MinecraftModel.BlockType
         HarvestTier HarvestTier { get; }
         BlockMaterial Material { get; }
         bool IsDangerous { get; }
+        bool IsEmpty { get; }
     }
 }

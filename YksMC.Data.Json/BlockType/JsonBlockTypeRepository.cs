@@ -7,7 +7,7 @@ using YksMC.MinecraftModel.BlockType;
 
 namespace YksMC.Data.Json.BlockType
 {
-   public  class JsonBlockTypeRepository : IBlockTypeRepository
+    public class JsonBlockTypeRepository : IBlockTypeRepository
     {
         private readonly IReadOnlyDictionary<int, IBlockType> _blockTypes;
 
@@ -15,15 +15,16 @@ namespace YksMC.Data.Json.BlockType
         {
             _blockTypes = JsonConvert.DeserializeObject<List<JsonBlockType>>(Resources.BlockTypes)
                 .ToDictionary(
-                    bt => bt.Id, 
+                    bt => bt.Id,
                     bt => (IBlockType)new MinecraftModel.BlockType.BlockType(
-                        bt.Name, 
-                        bt.IsSolid, 
+                        bt.Name,
+                        bt.IsSolid,
                         bt.IsDiggable,
-                        bt.Hardness, 
-                        (HarvestTier)bt.Tier, 
+                        bt.Hardness,
+                        (HarvestTier)bt.Tier,
                         (BlockMaterial)Enum.Parse(typeof(BlockMaterial), bt.Material),
-                        bt.IsDangerous
+                        bt.IsDangerous,
+                        bt.IsEmpty
                 )
             );
         }

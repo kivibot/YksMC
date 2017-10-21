@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,9 +23,23 @@ namespace YksMC.Bot.Urge
 
         public IUrge GetLargestUrge(IWorld world)
         {
-            return _urges.Where(urge => urge.IsPossible(world))
-                .OrderByDescending(urge => urge.GetScore(world))
-                .FirstOrDefault();
+            double largestScore = double.MinValue;
+            IUrge largestUrge = null;
+            foreach(IUrge urge in _urges)
+            {
+                if (!urge.IsPossible(world))
+                {
+                    continue;
+                }
+                double score = urge.GetScore(world);
+                if(score < largestScore)
+                {
+                    continue;
+                }
+                largestUrge = urge;
+                largestScore = score;
+            }
+            return largestUrge;
         }
     }
 }
