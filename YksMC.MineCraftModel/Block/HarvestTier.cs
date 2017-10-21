@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YksMC.MinecraftModel.BlockType
+namespace YksMC.MinecraftModel.Block
 {
     public enum HarvestTier
     {

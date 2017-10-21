@@ -6,7 +6,6 @@ using YksMC.Bot.Core;
 using YksMC.Bot.GameObjectRegistry;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Block;
-using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.ItemStack;
@@ -41,7 +40,7 @@ namespace YksMC.Behavior.Tasks
         public override IWorldEventResult OnStart(IWorld world)
         {
             IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
-            if (!block.Type.IsDiggable)
+            if (!block.IsDiggable)
             {
                 Fail();
                 return Result(world);
@@ -50,7 +49,7 @@ namespace YksMC.Behavior.Tasks
             IPlayer player = world.GetLocalPlayer();
             IHarvestingTool tool = player.GetInventory().GetHeldItem<IHarvestingTool>() ?? _handTool;
 
-            CalculateTicksNeeded(block.Type, tool);
+            CalculateTicksNeeded(block, tool);
 
             PlayerDiggingPacket startPacket = new PlayerDiggingPacket()
             {
@@ -73,7 +72,7 @@ namespace YksMC.Behavior.Tasks
         public override void OnTick(IWorld world, IGameTick tick)
         {
             IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
-            if (block.Type.Name == "air")
+            if (block.IsEmpty)
             {
                 Complete();
                 return;
@@ -86,7 +85,7 @@ namespace YksMC.Behavior.Tasks
             _ticksWaited++;
         }
 
-        private void CalculateTicksNeeded(IBlockType blockType, IHarvestingTool tool)
+        private void CalculateTicksNeeded(IBlock blockType, IHarvestingTool tool)
         {
             double ticks = blockType.Hardness * _ticksPerSecond / tool.GetBreakingSpeed(blockType);
             _ticksNeeded = (int)Math.Ceiling(ticks);

@@ -8,7 +8,6 @@ using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Block;
-using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.Inventory;
@@ -33,7 +32,7 @@ namespace YksMC.Behavior.Tasks
         public override IWorldEventResult OnStart(IWorld world)
         {
             IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
-            if (!block.Type.IsDiggable)
+            if (!block.IsDiggable)
             {
                 Fail();
                 return Result(world);
@@ -49,7 +48,7 @@ namespace YksMC.Behavior.Tasks
 
         private async void HarvestBlockAsync(IBlock block, IPlayerInventory inventory)
         {
-            if (!await SelectBestToolInHotbarAsync(block.Type, inventory))
+            if (!await SelectBestToolInHotbarAsync(block, inventory))
             {
                 Fail();
                 return;
@@ -62,7 +61,7 @@ namespace YksMC.Behavior.Tasks
             Complete();
         }
 
-        private async Task<bool> SelectBestToolInHotbarAsync(IBlockType blockType, IPlayerInventory inventory)
+        private async Task<bool> SelectBestToolInHotbarAsync(IBlock block, IPlayerInventory inventory)
         {
             int bestToolSlot = -1;
             IHarvestingTool bestTool = null;
@@ -73,11 +72,11 @@ namespace YksMC.Behavior.Tasks
                 {
                     continue;
                 }
-                if (!tool.CanHarvest(blockType))
+                if (!tool.CanHarvest(block))
                 {
                     continue;
                 }
-                if (bestTool != null && bestTool.GetBreakingSpeed(blockType) >= tool.GetBreakingSpeed(blockType))
+                if (bestTool != null && bestTool.GetBreakingSpeed(block) >= tool.GetBreakingSpeed(block))
                 {
                     continue;
                 }

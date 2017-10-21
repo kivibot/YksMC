@@ -29,7 +29,7 @@ namespace YksMC.Behavior.Tasks.Building
         public override IWorldEventResult OnStart(IWorld world)
         {
             IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
-            if (!block.Type.IsEmpty)
+            if (!block.IsEmpty)
             {
                 Fail();
                 return Result(world);
@@ -50,7 +50,7 @@ namespace YksMC.Behavior.Tasks.Building
         public override void OnTick(IWorld world, IGameTick tick)
         {
             IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
-            if (!block.Type.IsEmpty)
+            if (!block.IsEmpty)
             {
                 Complete();
                 return;

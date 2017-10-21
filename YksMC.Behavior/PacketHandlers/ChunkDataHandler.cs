@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Bot.GameObjectRegistry;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
-using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
@@ -20,13 +20,13 @@ namespace YksMC.Behavior.PacketHandlers
         private const int _sectionHeight = 16;
 
         private readonly IPacketReader _reader;
-        private readonly IBlockTypeRepository _blockTypeRepository;
+        private readonly IGameObjectRegistry<IBlock> _blockRegistry;
         private readonly IBiomeRepository _biomeRepository;
 
-        public ChunkDataHandler(IPacketReader packetReader, IBlockTypeRepository blockTypeRepository, IBiomeRepository biomeRepository)
+        public ChunkDataHandler(IPacketReader packetReader, IGameObjectRegistry<IBlock> blocks, IBiomeRepository biomeRepository)
         {
             _reader = packetReader;
-            _blockTypeRepository = blockTypeRepository;
+            _blockRegistry = blocks;
             _biomeRepository = biomeRepository;
         }
 
@@ -75,9 +75,8 @@ namespace YksMC.Behavior.PacketHandlers
                     for (int x = 0; x < _sectionWidth; x++)
                     {
                         IBlockLocation position = new BlockLocation(x, sectionY * _sectionHeight + localY, z);
-                        IBlock block = chunk.GetBlock(position);
 
-                        block = ParseType(block, position, bitsPerBlock, typePalette, typeData);
+                        IBlock block = ParseType(position, bitsPerBlock, typePalette, typeData);
                         block = ParseLightLevels(block, position, lightData, dimensionType);
                         if (packet.GroundUpContinuous)
                         {
@@ -130,7 +129,7 @@ namespace YksMC.Behavior.PacketHandlers
             return _reader.GetBytes(bytes);
         }
 
-        private IBlock ParseType(IBlock block, IBlockLocation position, int bitsPerBlock, int[] typePalette, ulong[] typeData)
+        private IBlock ParseType(IBlockLocation position, int bitsPerBlock, int[] typePalette, ulong[] typeData)
         {
             int blockIndex = ((((position.Y % _sectionHeight) * _sectionHeight) + position.Z) * _sectionWidth + position.X);
             int bitsPerUlong = sizeof(ulong) * 8;
@@ -157,10 +156,12 @@ namespace YksMC.Behavior.PacketHandlers
                 paletteValue = (int)paletteIndex;
             }
 
-            int metadata = paletteValue & 0b1111;
             int typeId = paletteValue >> 4;
-            IBlockType type = _blockTypeRepository.GetBlockType(new BlockTypeIdentity(typeId, metadata));
-            return block.ChangeType(type);
+            byte metadata = (byte)(paletteValue & 0b1111);
+
+            IBlock block = _blockRegistry.Get<IBlock>(typeId)
+                .WithDataValue(metadata);
+            return block;
         }
 
         private IBlock ParseLightLevels(IBlock block, IBlockLocation position, byte[] lightData, IDimensionType dimensionType)
@@ -169,15 +170,17 @@ namespace YksMC.Behavior.PacketHandlers
             int lightBitOffset = 4 * (lightIndex % 2);
             int lightLevel = (lightData[lightIndex / 2] >> lightBitOffset) & 0b1111;
 
+            block = block.WithLightFromBlocks((byte)lightLevel);
+
             if (!dimensionType.HasSkylight)
             {
-                return block.ChangeLightLevel(new LightLevel(lightLevel));
+                return block;
             }
 
             int skylightOffset = (_sectionHeight * _sectionWidth * _sectionWidth) / 2;
             int skylightLevel = (lightData[skylightOffset + lightIndex / 2] >> lightBitOffset) & 0b1111;
 
-            return block.ChangeLightLevels(new LightLevel(lightLevel), new LightLevel(skylightLevel));
+            return block.WithLightFromSky((byte)skylightLevel);
         }
 
         private IBlock ParseBiome(ChunkDataPacket packet, IBlock block, IBlockLocation position)
@@ -190,7 +193,7 @@ namespace YksMC.Behavior.PacketHandlers
             int biomeIndex = position.Z * _sectionWidth + position.X;
             byte biomeId = packet.DataAndBiomes[biomeDataOffset + biomeIndex];
             IBiome biome = _biomeRepository.GetBiome(biomeId);
-            return block.ChangeBiome(biome);
+            return block.WithBiome(biome);
         }
     }
 }

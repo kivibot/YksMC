@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.Bot.GameObjectRegistry;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Block;
-using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
@@ -13,11 +13,11 @@ namespace YksMC.Behavior.PacketHandlers
 {
     public class BlockChangeHandler : WorldEventHandler, IWorldEventHandler<BlockChangePacket>, IWorldEventHandler<MultiBlockChangePacket>
     {
-        private readonly IBlockTypeRepository _blockTypeRepository;
+        private readonly IGameObjectRegistry<IBlock> _blockRegistry;
 
-        public BlockChangeHandler(IBlockTypeRepository blockTypeRepository)
+        public BlockChangeHandler(IGameObjectRegistry<IBlock> blockRegistry)
         {
-            _blockTypeRepository = blockTypeRepository;
+            _blockRegistry = blockRegistry;
         }
 
         public IWorldEventResult Handle(IWorldEvent<BlockChangePacket> args)
@@ -64,14 +64,17 @@ namespace YksMC.Behavior.PacketHandlers
 
         private IChunk ReplaceBlockType(IChunk chunk, IBlockLocation position, int networkId)
         {
-            IBlockTypeIdentity blockTypeId = new BlockTypeIdentity(networkId >> 4, networkId & 0b1111);
-            IBlockType blockType = _blockTypeRepository.GetBlockType(blockTypeId);
-            if (blockType == null)
-            {
-                throw new ArgumentException($"Invalid block type: {blockTypeId}");
-            }
-            IBlock block = chunk.GetBlock(position)
-                .ChangeType(blockType);
+            int blockId = networkId >> 4;
+            byte blockMetadata = (byte)(networkId & 0b1111);
+
+            IBlock oldBlock = chunk.GetBlock(position);
+
+            IBlock block = _blockRegistry.Get<IBlock>(blockId)
+                .WithDataValue(blockMetadata)
+                .WithBiome(oldBlock.Biome)
+                .WithLightFromBlocks(oldBlock.LightFromBlocks)
+                .WithLightFromSky(oldBlock.LightFromSky);
+
             return chunk.ChangeBlock(position, block);
         }
     }

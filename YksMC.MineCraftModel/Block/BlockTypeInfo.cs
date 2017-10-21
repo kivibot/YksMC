@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 
-namespace YksMC.MinecraftModel.BlockType
+namespace YksMC.MinecraftModel.Block
 {
-    [DebuggerDisplay("{Name}")]
-    public class BlockType : IBlockType
+    public class BlockTypeInfo
     {
         private readonly string _name;
         private readonly bool _isSolid;
@@ -26,14 +24,14 @@ namespace YksMC.MinecraftModel.BlockType
         public bool IsDangerous => _isDangerous;
         public bool IsEmpty => _isEmpty;
 
-        public BlockType(string name, bool isSolid, bool isDiggable, double hardness, HarvestTier harvestTier, BlockMaterial material, bool isDangerous, bool isEmpty)
+        public BlockTypeInfo(string name, bool isSolid, bool isDiggable, double hardness, HarvestTier harvestTier, BlockMaterial blockMaterial, bool isDangerous, bool isEmpty)
         {
             _name = name;
             _isSolid = isSolid;
             _isDiggable = isDiggable;
             _hardness = hardness;
             _harvestTier = harvestTier;
-            _material = material;
+            _material = blockMaterial;
             _isDangerous = isDangerous;
             _isEmpty = isEmpty;
         }

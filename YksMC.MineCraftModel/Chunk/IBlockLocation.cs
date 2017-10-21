@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using YksMC.MinecraftModel.Common;
 
-namespace YksMC.MinecraftModel.Block
+namespace YksMC.MinecraftModel.Chunk
 {
     public interface IBlockLocation
     {

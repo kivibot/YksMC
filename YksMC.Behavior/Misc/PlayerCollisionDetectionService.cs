@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using YksMC.MinecraftModel.Block;
+using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
@@ -164,7 +165,7 @@ namespace YksMC.Behavior.Misc
 
         private bool IsSolidBlock(IBlock block)
         {
-            return block.Type.IsSolid;
+            return block.IsSolid;
         }
 
         private class Hit

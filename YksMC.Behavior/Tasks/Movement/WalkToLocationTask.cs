@@ -9,6 +9,7 @@ using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Block;
+using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;

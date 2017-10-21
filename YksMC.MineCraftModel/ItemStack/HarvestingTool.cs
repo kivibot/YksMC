@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MinecraftModel.BlockType;
+using YksMC.MinecraftModel.Block;
 
 namespace YksMC.MinecraftModel.ItemStack
 {
@@ -24,7 +24,7 @@ namespace YksMC.MinecraftModel.ItemStack
             _effectiveMaterial = effectiveMaterial;
         }
 
-        public bool CanHarvest(IBlockType blockType)
+        public bool CanHarvest(IBlock blockType)
         {
             if (blockType.HarvestTier == HarvestTier.Hand)
             {
@@ -37,7 +37,7 @@ namespace YksMC.MinecraftModel.ItemStack
             return blockType.HarvestTier <= _tier;
         }
 
-        public double GetBreakingSpeed(IBlockType blockType)
+        public double GetBreakingSpeed(IBlock blockType)
         {
             if (!CanHarvest(blockType) || blockType.Material != _effectiveMaterial)
             {

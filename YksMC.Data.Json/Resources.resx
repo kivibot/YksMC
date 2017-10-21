@@ -121,9 +121,6 @@
   <data name="Biomes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Biomes.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="BlockTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\BlockTypes.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="EntityTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\EntityTypes.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

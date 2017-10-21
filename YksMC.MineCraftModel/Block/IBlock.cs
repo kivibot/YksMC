@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.MinecraftModel.Biome;
-using YksMC.MinecraftModel.BlockType;
 
 namespace YksMC.MinecraftModel.Block
 {
     public interface IBlock
     {
-        IBlockType Type { get; }
-        ILightLevel LightLevel { get; }
-        ILightLevel SkylightLevel { get; }
+        string Name { get; }
+        byte LightFromBlocks { get; }
+        byte LightFromSky { get; }
         IBiome Biome { get; }
+        bool IsSolid { get; }
+        bool IsDiggable { get; }
+        double Hardness { get; }
+        HarvestTier HarvestTier { get; }
+        BlockMaterial Material { get; }
+        bool IsDangerous { get; }
+        bool IsEmpty { get; }
 
-        IBlock ChangeLightLevels(ILightLevel lightLevel, ILightLevel skylightLevel);
-        IBlock ChangeLightLevel(ILightLevel lightLevel);
-        IBlock ChangeType(IBlockType type);
-        IBlock ChangeBiome(IBiome biome);
+        IBlock WithLightFromBlocks(byte lightLevel);
+        IBlock WithLightFromSky(byte lightLevel);
+        IBlock WithBiome(IBiome biome);
+        IBlock WithDataValue(byte metadata);
     }
 }

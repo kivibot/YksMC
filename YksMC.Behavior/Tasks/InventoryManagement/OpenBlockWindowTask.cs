@@ -26,7 +26,7 @@ namespace YksMC.Behavior.Tasks.InventoryManagement
         public override IWorldEventResult OnStart(IWorld world)
         {
             IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
-            if (block.Type.IsEmpty)
+            if (block.IsEmpty)
             {
                 Fail();
                 return Result(world);

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YksMC.MinecraftModel.BlockType;
+using YksMC.MinecraftModel.Block;
 
 namespace YksMC.MinecraftModel.ItemStack
 {
     public interface IHarvestingTool : IItemStack
     {
-        bool CanHarvest(IBlockType blockType);
-        double GetBreakingSpeed(IBlockType blockType);
+        bool CanHarvest(IBlock blockType);
+        double GetBreakingSpeed(IBlock blockType);
     }
 }

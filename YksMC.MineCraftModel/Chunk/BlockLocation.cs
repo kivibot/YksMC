@@ -5,7 +5,7 @@ using System.Text;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.Entity;
 
-namespace YksMC.MinecraftModel.Block
+namespace YksMC.MinecraftModel.Chunk
 {
     [DebuggerDisplay("[{X}, {Y}, {Z}]")]
     public class BlockLocation : IBlockLocation

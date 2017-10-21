@@ -14,12 +14,10 @@ using YksMC.Bot.Login;
 using YksMC.Client.Mapper;
 using YksMC.Client.Worker;
 using YksMC.Data.Json.Biome;
-using YksMC.Data.Json.BlockType;
 using YksMC.Data.Json.EntityType;
 using YksMC.EventBus.Bus;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
-using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Player;
@@ -95,7 +93,6 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<PlayerGravityHandler>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<JsonBlockTypeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonEntityTypeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonWindowTypeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonItemTypeRepository>().AsImplementedInterfaces().SingleInstance();
@@ -135,7 +132,12 @@ namespace YksMC.Client.IntegrationTests
             RegisterVanillaItems(itemRegistry);
             builder.RegisterInstance(itemRegistry).As<IGameObjectRegistry<IItemStack>>();
 
-            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, true), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IGameObjectRegistry<IBlock> blockRegistry = new GameObjectRegistry<IBlock>();
+            RegisterVanillaBlocks(blockRegistry);
+            builder.RegisterInstance(blockRegistry).As<IGameObjectRegistry<IBlock>>();
+
+            IBlock emptyBlock = blockRegistry.Get<IBlock>("minecraft:air")
+                .WithBiome(new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
@@ -151,6 +153,344 @@ namespace YksMC.Client.IntegrationTests
             IUrgeManager urgeManager = _container.Resolve<IUrgeManager>();
             IMinecraftClient client = _container.Resolve<IMinecraftClient>();
             RegisterUrges(urgeManager, client);
+        }
+
+        private void RegisterUrges(IUrgeManager manager, IMinecraftClient client)
+        {
+            Random random = new Random();
+
+            manager.AddUrge(new Urge(
+                "Login",
+                new LoginCommand(),
+                new IUrgeScorer[] { new ConstantScorer(1) },
+                new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.None) }
+            ));
+            manager.AddUrge(new Urge(
+                "LookAtNearestPlayer",
+                new LookAtNearestPlayerCommand(),
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.2)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new ConnectionStateCondition(client, ConnectionState.Play),
+                    new AliveCondition()
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "Respawn",
+                new RespawnCommand(),
+                new IUrgeScorer[] {
+                    new ConstantScorer(1)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new NotCondition(new AliveCondition())
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "MoveToHardCoded",
+                new WalkToLocationCommand(new BlockLocation(2678, 4, -796)),
+                new IUrgeScorer[] {
+                    new DistanceScorer(new EntityLocation(2678.5, 4, -795.5), 1)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition()
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "BreakBlockHardCoded",
+                new HarvestBlockCommand(new BlockLocation(2676, 4, -796), false),
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.5)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition(),
+                    new SolidBlockCondition(new BlockLocation(2676, 4, -796))
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "PlaceBlockHardCoded",
+                new PlaceHeldBlockCommand(new BlockLocation(2676, 4, -796)),
+                new IUrgeScorer[] {
+                    new ConstantScorer(0.5)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition(),
+                    new NotCondition(new SolidBlockCondition(new BlockLocation(2676, 4, -796)))
+                }
+            ));
+            manager.AddUrge(new Urge(
+                "OpenBlockWindowHardCoded",
+                new OpenBlockWindowCommand(new BlockLocation(2676, 4, -796)),
+                new IUrgeScorer[] {
+                    new ConstantScorer(-0.6)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition(),
+                    new SolidBlockCondition(new BlockLocation(2676, 4, -796))
+                }
+            ));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _container.Dispose();
+        }
+
+        [Test]
+        public async Task ConnectAsync_WithRealServer_DoesNotCrash()
+        {
+            TaskLoop client = _container.Resolve<TaskLoop>();
+
+            await client.LoopAsync();
+        }
+
+#region Game objects
+
+        private void RegisterVanillaBlocks(IGameObjectRegistry<IBlock> blockRegistry)
+        {
+            blockRegistry.Register(new Block("minecraft:air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, true), 0, "minecraft:air");
+            blockRegistry.Register(new Block("minecraft:stone", true, true, 1.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 1, "minecraft:stone");
+            blockRegistry.Register(new Block("minecraft:grass", true, true, 0.6, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 2, "minecraft:grass");
+            blockRegistry.Register(new Block("minecraft:dirt", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 3, "minecraft:dirt");
+            blockRegistry.Register(new Block("minecraft:cobblestone", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 4, "minecraft:cobblestone");
+            blockRegistry.Register(new Block("minecraft:planks", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 5, "minecraft:planks");
+            blockRegistry.Register(new Block("minecraft:sapling", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 6, "minecraft:sapling");
+            blockRegistry.Register(new Block("minecraft:bedrock", true, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 7, "minecraft:bedrock");
+            blockRegistry.Register(new Block("minecraft:flowing_water", false, false, 100, HarvestTier.Hand, BlockMaterial.Normal, false, false), 8, "minecraft:flowing_water");
+            blockRegistry.Register(new Block("minecraft:water", false, false, 100, HarvestTier.Hand, BlockMaterial.Normal, false, false), 9, "minecraft:water");
+            blockRegistry.Register(new Block("minecraft:flowing_lava", false, false, 100, HarvestTier.Hand, BlockMaterial.Normal, true, false), 10, "minecraft:flowing_lava");
+            blockRegistry.Register(new Block("minecraft:lava", false, false, 100, HarvestTier.Hand, BlockMaterial.Normal, true, false), 11, "minecraft:lava");
+            blockRegistry.Register(new Block("minecraft:sand", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 12, "minecraft:sand");
+            blockRegistry.Register(new Block("minecraft:gravel", true, true, 0.6, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 13, "minecraft:gravel");
+            blockRegistry.Register(new Block("minecraft:gold_ore", true, true, 3, HarvestTier.Iron, BlockMaterial.Rock, false, false), 14, "minecraft:gold_ore");
+            blockRegistry.Register(new Block("minecraft:iron_ore", true, true, 3, HarvestTier.Stone, BlockMaterial.Rock, false, false), 15, "minecraft:iron_ore");
+            blockRegistry.Register(new Block("minecraft:coal_ore", true, true, 3, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 16, "minecraft:coal_ore");
+            blockRegistry.Register(new Block("minecraft:log", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 17, "minecraft:log");
+            blockRegistry.Register(new Block("minecraft:leaves", true, true, 0.2, HarvestTier.Hand, BlockMaterial.Plant, false, false), 18, "minecraft:leaves");
+            blockRegistry.Register(new Block("minecraft:sponge", true, true, 0.6, HarvestTier.Hand, BlockMaterial.Normal, false, false), 19, "minecraft:sponge");
+            blockRegistry.Register(new Block("minecraft:glass", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 20, "minecraft:glass");
+            blockRegistry.Register(new Block("minecraft:lapis_ore", true, true, 3, HarvestTier.Stone, BlockMaterial.Rock, false, false), 21, "minecraft:lapis_ore");
+            blockRegistry.Register(new Block("minecraft:lapis_block", true, true, 3, HarvestTier.Stone, BlockMaterial.Rock, false, false), 22, "minecraft:lapis_block");
+            blockRegistry.Register(new Block("minecraft:dispenser", true, true, 3.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 23, "minecraft:dispenser");
+            blockRegistry.Register(new Block("minecraft:sandstone", true, true, 0.8, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 24, "minecraft:sandstone");
+            blockRegistry.Register(new Block("minecraft:noteblock", true, true, 0.8, HarvestTier.Hand, BlockMaterial.Wood, false, false), 25, "minecraft:noteblock");
+            blockRegistry.Register(new Block("minecraft:bed", true, true, 0.2, HarvestTier.Hand, BlockMaterial.Normal, false, false), 26, "minecraft:bed");
+            blockRegistry.Register(new Block("minecraft:golden_rail", false, true, 0.7, HarvestTier.Hand, BlockMaterial.Rock, false, false), 27, "minecraft:golden_rail");
+            blockRegistry.Register(new Block("minecraft:detector_rail", false, true, 0.7, HarvestTier.Hand, BlockMaterial.Rock, false, false), 28, "minecraft:detector_rail");
+            blockRegistry.Register(new Block("minecraft:sticky_piston", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 29, "minecraft:sticky_piston");
+            blockRegistry.Register(new Block("minecraft:web", false, true, 4, HarvestTier.Wooden, BlockMaterial.Web, false, false), 30, "minecraft:web");
+            blockRegistry.Register(new Block("minecraft:tallgrass", false, true, 0, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 31, "minecraft:tallgrass");
+            blockRegistry.Register(new Block("minecraft:deadbush", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 32, "minecraft:deadbush");
+            blockRegistry.Register(new Block("minecraft:piston", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 33, "minecraft:piston");
+            blockRegistry.Register(new Block("minecraft:piston_head", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 34, "minecraft:piston_head");
+            blockRegistry.Register(new Block("minecraft:wool", true, true, 0.8, HarvestTier.Hand, BlockMaterial.Wool, false, false), 35, "minecraft:wool");
+            blockRegistry.Register(new Block("minecraft:piston_extension", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 36, "minecraft:piston_extension");
+            blockRegistry.Register(new Block("minecraft:yellow_flower", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 37, "minecraft:yellow_flower");
+            blockRegistry.Register(new Block("minecraft:red_flower", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 38, "minecraft:red_flower");
+            blockRegistry.Register(new Block("minecraft:brown_mushroom", true, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 39, "minecraft:brown_mushroom");
+            blockRegistry.Register(new Block("minecraft:red_mushroom", true, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 40, "minecraft:red_mushroom");
+            blockRegistry.Register(new Block("minecraft:gold_block", true, true, 3, HarvestTier.Iron, BlockMaterial.Rock, false, false), 41, "minecraft:gold_block");
+            blockRegistry.Register(new Block("minecraft:iron_block", true, true, 5, HarvestTier.Stone, BlockMaterial.Rock, false, false), 42, "minecraft:iron_block");
+            blockRegistry.Register(new Block("minecraft:double_stone_slab", true, true, 0, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 43, "minecraft:double_stone_slab");
+            blockRegistry.Register(new Block("minecraft:stone_slab", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 44, "minecraft:stone_slab");
+            blockRegistry.Register(new Block("minecraft:brick_block", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 45, "minecraft:brick_block");
+            blockRegistry.Register(new Block("minecraft:tnt", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 46, "minecraft:tnt");
+            blockRegistry.Register(new Block("minecraft:bookshelf", true, true, 1.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 47, "minecraft:bookshelf");
+            blockRegistry.Register(new Block("minecraft:mossy_cobblestone", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 48, "minecraft:mossy_cobblestone");
+            blockRegistry.Register(new Block("minecraft:obsidian", true, true, 50, HarvestTier.Diamond, BlockMaterial.Rock, false, false), 49, "minecraft:obsidian");
+            blockRegistry.Register(new Block("minecraft:torch", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 50, "minecraft:torch");
+            blockRegistry.Register(new Block("minecraft:fire", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 51, "minecraft:fire");
+            blockRegistry.Register(new Block("minecraft:mob_spawner", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 52, "minecraft:mob_spawner");
+            blockRegistry.Register(new Block("minecraft:oak_stairs", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 53, "minecraft:oak_stairs");
+            blockRegistry.Register(new Block("minecraft:chest", true, true, 2.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 54, "minecraft:chest");
+            blockRegistry.Register(new Block("minecraft:redstone_wire", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 55, "minecraft:redstone_wire");
+            blockRegistry.Register(new Block("minecraft:diamond_ore", true, true, 3, HarvestTier.Iron, BlockMaterial.Rock, false, false), 56, "minecraft:diamond_ore");
+            blockRegistry.Register(new Block("minecraft:diamond_block", true, true, 5, HarvestTier.Iron, BlockMaterial.Rock, false, false), 57, "minecraft:diamond_block");
+            blockRegistry.Register(new Block("minecraft:crafting_table", true, true, 2.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 58, "minecraft:crafting_table");
+            blockRegistry.Register(new Block("minecraft:wheat", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 59, "minecraft:wheat");
+            blockRegistry.Register(new Block("minecraft:farmland", true, true, 0.6, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 60, "minecraft:farmland");
+            blockRegistry.Register(new Block("minecraft:furnace", true, true, 3.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 61, "minecraft:furnace");
+            blockRegistry.Register(new Block("minecraft:lit_furnace", true, true, 3.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 62, "minecraft:lit_furnace");
+            blockRegistry.Register(new Block("minecraft:standing_sign", false, true, 1, HarvestTier.Hand, BlockMaterial.Wood, false, false), 63, "minecraft:standing_sign");
+            blockRegistry.Register(new Block("minecraft:wooden_door", true, true, 3, HarvestTier.Hand, BlockMaterial.Wood, false, false), 64, "minecraft:wooden_door");
+            blockRegistry.Register(new Block("minecraft:ladder", true, true, 0.4, HarvestTier.Hand, BlockMaterial.Normal, false, false), 65, "minecraft:ladder");
+            blockRegistry.Register(new Block("minecraft:rail", false, true, 0.7, HarvestTier.Hand, BlockMaterial.Rock, false, false), 66, "minecraft:rail");
+            blockRegistry.Register(new Block("minecraft:stone_stairs", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 67, "minecraft:stone_stairs");
+            blockRegistry.Register(new Block("minecraft:wall_sign", false, true, 1, HarvestTier.Hand, BlockMaterial.Wood, false, false), 68, "minecraft:wall_sign");
+            blockRegistry.Register(new Block("minecraft:lever", false, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 69, "minecraft:lever");
+            blockRegistry.Register(new Block("minecraft:stone_pressure_plate", false, true, 0.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 70, "minecraft:stone_pressure_plate");
+            blockRegistry.Register(new Block("minecraft:iron_door", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 71, "minecraft:iron_door");
+            blockRegistry.Register(new Block("minecraft:wooden_pressure_plate", false, true, 0.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 72, "minecraft:wooden_pressure_plate");
+            blockRegistry.Register(new Block("minecraft:redstone_ore", true, true, 3, HarvestTier.Iron, BlockMaterial.Rock, false, false), 73, "minecraft:redstone_ore");
+            blockRegistry.Register(new Block("minecraft:lit_redstone_ore", true, true, 3, HarvestTier.Iron, BlockMaterial.Rock, false, false), 74, "minecraft:lit_redstone_ore");
+            blockRegistry.Register(new Block("minecraft:unlit_redstone_torch", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 75, "minecraft:unlit_redstone_torch");
+            blockRegistry.Register(new Block("minecraft:redstone_torch", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 76, "minecraft:redstone_torch");
+            blockRegistry.Register(new Block("minecraft:stone_button", false, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 77, "minecraft:stone_button");
+            blockRegistry.Register(new Block("minecraft:snow_layer", true, true, 0.2, HarvestTier.Wooden, BlockMaterial.Dirt, false, false), 78, "minecraft:snow_layer");
+            blockRegistry.Register(new Block("minecraft:ice", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Rock, false, false), 79, "minecraft:ice");
+            blockRegistry.Register(new Block("minecraft:snow", true, true, 0.2, HarvestTier.Wooden, BlockMaterial.Dirt, false, false), 80, "minecraft:snow");
+            blockRegistry.Register(new Block("minecraft:cactus", true, true, 0.4, HarvestTier.Hand, BlockMaterial.Plant, true, false), 81, "minecraft:cactus");
+            blockRegistry.Register(new Block("minecraft:clay", true, true, 0.6, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 82, "minecraft:clay");
+            blockRegistry.Register(new Block("minecraft:reeds", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 83, "minecraft:reeds");
+            blockRegistry.Register(new Block("minecraft:jukebox", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 84, "minecraft:jukebox");
+            blockRegistry.Register(new Block("minecraft:fence", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 85, "minecraft:fence");
+            blockRegistry.Register(new Block("minecraft:pumpkin", true, true, 1, HarvestTier.Hand, BlockMaterial.Plant, false, false), 86, "minecraft:pumpkin");
+            blockRegistry.Register(new Block("minecraft:netherrack", true, true, 0.4, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 87, "minecraft:netherrack");
+            blockRegistry.Register(new Block("minecraft:soul_sand", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 88, "minecraft:soul_sand");
+            blockRegistry.Register(new Block("minecraft:glowstone", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 89, "minecraft:glowstone");
+            blockRegistry.Register(new Block("minecraft:portal", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 90, "minecraft:portal");
+            blockRegistry.Register(new Block("minecraft:lit_pumpkin", true, true, 1, HarvestTier.Hand, BlockMaterial.Plant, false, false), 91, "minecraft:lit_pumpkin");
+            blockRegistry.Register(new Block("minecraft:cake", false, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 92, "minecraft:cake");
+            blockRegistry.Register(new Block("minecraft:unpowered_repeater", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 93, "minecraft:unpowered_repeater");
+            blockRegistry.Register(new Block("minecraft:powered_repeater", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 94, "minecraft:powered_repeater");
+            blockRegistry.Register(new Block("minecraft:stained_glass", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 95, "minecraft:stained_glass");
+            blockRegistry.Register(new Block("minecraft:trapdoor", true, true, 3, HarvestTier.Hand, BlockMaterial.Wood, false, false), 96, "minecraft:trapdoor");
+            blockRegistry.Register(new Block("minecraft:monster_egg", true, true, 0.75, HarvestTier.Hand, BlockMaterial.Normal, false, false), 97, "minecraft:monster_egg");
+            blockRegistry.Register(new Block("minecraft:stonebrick", true, true, 1.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 98, "minecraft:stonebrick");
+            blockRegistry.Register(new Block("minecraft:brown_mushroom_block", true, true, 0, HarvestTier.Hand, BlockMaterial.Wood, false, false), 99, "minecraft:brown_mushroom_block");
+            blockRegistry.Register(new Block("minecraft:red_mushroom_block", true, true, 0, HarvestTier.Hand, BlockMaterial.Wood, false, false), 100, "minecraft:red_mushroom_block");
+            blockRegistry.Register(new Block("minecraft:iron_bars", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 101, "minecraft:iron_bars");
+            blockRegistry.Register(new Block("minecraft:glass_pane", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 102, "minecraft:glass_pane");
+            blockRegistry.Register(new Block("minecraft:melon_block", true, true, 1, HarvestTier.Hand, BlockMaterial.Plant, false, false), 103, "minecraft:melon_block");
+            blockRegistry.Register(new Block("minecraft:pumpkin_stem", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 104, "minecraft:pumpkin_stem");
+            blockRegistry.Register(new Block("minecraft:melon_stem", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 105, "minecraft:melon_stem");
+            blockRegistry.Register(new Block("minecraft:vine", false, true, 0.2, HarvestTier.Hand, BlockMaterial.Plant, false, false), 106, "minecraft:vine");
+            blockRegistry.Register(new Block("minecraft:fence_gate", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 107, "minecraft:fence_gate");
+            blockRegistry.Register(new Block("minecraft:brick_stairs", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 108, "minecraft:brick_stairs");
+            blockRegistry.Register(new Block("minecraft:stone_brick_stairs", true, true, 1.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 109, "minecraft:stone_brick_stairs");
+            blockRegistry.Register(new Block("minecraft:mycelium", true, true, 0.6, HarvestTier.Hand, BlockMaterial.Dirt, false, false), 110, "minecraft:mycelium");
+            blockRegistry.Register(new Block("minecraft:waterlily", true, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 111, "minecraft:waterlily");
+            blockRegistry.Register(new Block("minecraft:nether_brick", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 112, "minecraft:nether_brick");
+            blockRegistry.Register(new Block("minecraft:nether_brick_fence", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 113, "minecraft:nether_brick_fence");
+            blockRegistry.Register(new Block("minecraft:nether_brick_stairs", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 114, "minecraft:nether_brick_stairs");
+            blockRegistry.Register(new Block("minecraft:nether_wart", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 115, "minecraft:nether_wart");
+            blockRegistry.Register(new Block("minecraft:enchanting_table", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 116, "minecraft:enchanting_table");
+            blockRegistry.Register(new Block("minecraft:brewing_stand", true, true, 0.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 117, "minecraft:brewing_stand");
+            blockRegistry.Register(new Block("minecraft:cauldron", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 118, "minecraft:cauldron");
+            blockRegistry.Register(new Block("minecraft:end_portal", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 119, "minecraft:end_portal");
+            blockRegistry.Register(new Block("minecraft:end_portal_frame", true, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 120, "minecraft:end_portal_frame");
+            blockRegistry.Register(new Block("minecraft:end_stone", true, true, 3, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 121, "minecraft:end_stone");
+            blockRegistry.Register(new Block("minecraft:dragon_egg", true, true, 3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 122, "minecraft:dragon_egg");
+            blockRegistry.Register(new Block("minecraft:redstone_lamp", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 123, "minecraft:redstone_lamp");
+            blockRegistry.Register(new Block("minecraft:lit_redstone_lamp", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 124, "minecraft:lit_redstone_lamp");
+            blockRegistry.Register(new Block("minecraft:double_wooden_slab", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 125, "minecraft:double_wooden_slab");
+            blockRegistry.Register(new Block("minecraft:wooden_slab", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 126, "minecraft:wooden_slab");
+            blockRegistry.Register(new Block("minecraft:cocoa", true, true, 0.2, HarvestTier.Hand, BlockMaterial.Plant, false, false), 127, "minecraft:cocoa");
+            blockRegistry.Register(new Block("minecraft:sandstone_stairs", true, true, 0.8, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 128, "minecraft:sandstone_stairs");
+            blockRegistry.Register(new Block("minecraft:emerald_ore", true, true, 3, HarvestTier.Iron, BlockMaterial.Rock, false, false), 129, "minecraft:emerald_ore");
+            blockRegistry.Register(new Block("minecraft:ender_chest", true, true, 22.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 130, "minecraft:ender_chest");
+            blockRegistry.Register(new Block("minecraft:tripwire_hook", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 131, "minecraft:tripwire_hook");
+            blockRegistry.Register(new Block("minecraft:tripwire", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 132, "minecraft:tripwire");
+            blockRegistry.Register(new Block("minecraft:emerald_block", true, true, 5, HarvestTier.Iron, BlockMaterial.Rock, false, false), 133, "minecraft:emerald_block");
+            blockRegistry.Register(new Block("minecraft:spruce_stairs", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 134, "minecraft:spruce_stairs");
+            blockRegistry.Register(new Block("minecraft:birch_stairs", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 135, "minecraft:birch_stairs");
+            blockRegistry.Register(new Block("minecraft:jungle_stairs", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 136, "minecraft:jungle_stairs");
+            blockRegistry.Register(new Block("minecraft:command_block", true, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 137, "minecraft:command_block");
+            blockRegistry.Register(new Block("minecraft:beacon", true, true, 3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 138, "minecraft:beacon");
+            blockRegistry.Register(new Block("minecraft:cobblestone_wall", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 139, "minecraft:cobblestone_wall");
+            blockRegistry.Register(new Block("minecraft:flower_pot", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 140, "minecraft:flower_pot");
+            blockRegistry.Register(new Block("minecraft:carrots", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 141, "minecraft:carrots");
+            blockRegistry.Register(new Block("minecraft:potatoes", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 142, "minecraft:potatoes");
+            blockRegistry.Register(new Block("minecraft:wooden_button", false, true, 0.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 143, "minecraft:wooden_button");
+            blockRegistry.Register(new Block("minecraft:skull", true, true, 1, HarvestTier.Hand, BlockMaterial.Normal, false, false), 144, "minecraft:skull");
+            blockRegistry.Register(new Block("minecraft:anvil", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 145, "minecraft:anvil");
+            blockRegistry.Register(new Block("minecraft:trapped_chest", true, true, 2.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 146, "minecraft:trapped_chest");
+            blockRegistry.Register(new Block("minecraft:light_weighted_pressure_plate", false, true, 0.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 147, "minecraft:light_weighted_pressure_plate");
+            blockRegistry.Register(new Block("minecraft:heavy_weighted_pressure_plate", false, true, 0.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 148, "minecraft:heavy_weighted_pressure_plate");
+            blockRegistry.Register(new Block("minecraft:unpowered_comparator", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 149, "minecraft:unpowered_comparator");
+            blockRegistry.Register(new Block("minecraft:powered_comparator", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 150, "minecraft:powered_comparator");
+            blockRegistry.Register(new Block("minecraft:daylight_detector", true, true, 0.2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 151, "minecraft:daylight_detector");
+            blockRegistry.Register(new Block("minecraft:redstone_block", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 152, "minecraft:redstone_block");
+            blockRegistry.Register(new Block("minecraft:quartz_ore", true, true, 3, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 153, "minecraft:quartz_ore");
+            blockRegistry.Register(new Block("minecraft:hopper", true, true, 3, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 154, "minecraft:hopper");
+            blockRegistry.Register(new Block("minecraft:quartz_block", true, true, 0.8, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 155, "minecraft:quartz_block");
+            blockRegistry.Register(new Block("minecraft:quartz_stairs", true, true, 0.8, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 156, "minecraft:quartz_stairs");
+            blockRegistry.Register(new Block("minecraft:activator_rail", false, true, 0.7, HarvestTier.Hand, BlockMaterial.Rock, false, false), 157, "minecraft:activator_rail");
+            blockRegistry.Register(new Block("minecraft:dropper", true, true, 3.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 158, "minecraft:dropper");
+            blockRegistry.Register(new Block("minecraft:stained_hardened_clay", true, true, 1.25, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 159, "minecraft:stained_hardened_clay");
+            blockRegistry.Register(new Block("minecraft:stained_glass_pane", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 160, "minecraft:stained_glass_pane");
+            blockRegistry.Register(new Block("minecraft:leaves2", true, true, 0.2, HarvestTier.Hand, BlockMaterial.Plant, false, false), 161, "minecraft:leaves2");
+            blockRegistry.Register(new Block("minecraft:log2", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 162, "minecraft:log2");
+            blockRegistry.Register(new Block("minecraft:acacia_stairs", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 163, "minecraft:acacia_stairs");
+            blockRegistry.Register(new Block("minecraft:dark_oak_stairs", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 164, "minecraft:dark_oak_stairs");
+            blockRegistry.Register(new Block("minecraft:slime", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 165, "minecraft:slime");
+            blockRegistry.Register(new Block("minecraft:barrier", true, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 166, "minecraft:barrier");
+            blockRegistry.Register(new Block("minecraft:iron_trapdoor", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 167, "minecraft:iron_trapdoor");
+            blockRegistry.Register(new Block("minecraft:prismarine", true, true, 1.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 168, "minecraft:prismarine");
+            blockRegistry.Register(new Block("minecraft:sea_lantern", true, true, 0.3, HarvestTier.Hand, BlockMaterial.Normal, false, false), 169, "minecraft:sea_lantern");
+            blockRegistry.Register(new Block("minecraft:hay_block", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 170, "minecraft:hay_block");
+            blockRegistry.Register(new Block("minecraft:carpet", true, true, 0.1, HarvestTier.Hand, BlockMaterial.Normal, false, false), 171, "minecraft:carpet");
+            blockRegistry.Register(new Block("minecraft:hardened_clay", true, true, 1.25, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 172, "minecraft:hardened_clay");
+            blockRegistry.Register(new Block("minecraft:coal_block", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 173, "minecraft:coal_block");
+            blockRegistry.Register(new Block("minecraft:packed_ice", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Rock, false, false), 174, "minecraft:packed_ice");
+            blockRegistry.Register(new Block("minecraft:double_plant", false, true, 0, HarvestTier.Hand, BlockMaterial.Plant, false, false), 175, "minecraft:double_plant");
+            blockRegistry.Register(new Block("minecraft:standing_banner", false, true, 1, HarvestTier.Hand, BlockMaterial.Wood, false, false), 176, "minecraft:standing_banner");
+            blockRegistry.Register(new Block("minecraft:wall_banner", false, true, 1, HarvestTier.Hand, BlockMaterial.Wood, false, false), 177, "minecraft:wall_banner");
+            blockRegistry.Register(new Block("minecraft:daylight_detector_inverted", true, true, 0.2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 178, "minecraft:daylight_detector_inverted");
+            blockRegistry.Register(new Block("minecraft:red_sandstone", true, true, 0.8, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 179, "minecraft:red_sandstone");
+            blockRegistry.Register(new Block("minecraft:red_sandstone_stairs", true, true, 0.8, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 180, "minecraft:red_sandstone_stairs");
+            blockRegistry.Register(new Block("minecraft:double_stone_slab2", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 181, "minecraft:double_stone_slab2");
+            blockRegistry.Register(new Block("minecraft:stone_slab2", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 182, "minecraft:stone_slab2");
+            blockRegistry.Register(new Block("minecraft:spruce_fence_gate", true, true, 0, HarvestTier.Hand, BlockMaterial.Wood, false, false), 183, "minecraft:spruce_fence_gate");
+            blockRegistry.Register(new Block("minecraft:birch_fence_gate", true, true, 0, HarvestTier.Hand, BlockMaterial.Wood, false, false), 184, "minecraft:birch_fence_gate");
+            blockRegistry.Register(new Block("minecraft:jungle_fence_gate", true, true, 0, HarvestTier.Hand, BlockMaterial.Wood, false, false), 185, "minecraft:jungle_fence_gate");
+            blockRegistry.Register(new Block("minecraft:dark_oak_fence_gate", true, true, 0, HarvestTier.Hand, BlockMaterial.Wood, false, false), 186, "minecraft:dark_oak_fence_gate");
+            blockRegistry.Register(new Block("minecraft:acacia_fence_gate", true, true, 0, HarvestTier.Hand, BlockMaterial.Wood, false, false), 187, "minecraft:acacia_fence_gate");
+            blockRegistry.Register(new Block("minecraft:spruce_fence", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 188, "minecraft:spruce_fence");
+            blockRegistry.Register(new Block("minecraft:birch_fence", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 189, "minecraft:birch_fence");
+            blockRegistry.Register(new Block("minecraft:jungle_fence", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 190, "minecraft:jungle_fence");
+            blockRegistry.Register(new Block("minecraft:dark_oak_fence", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 191, "minecraft:dark_oak_fence");
+            blockRegistry.Register(new Block("minecraft:acacia_fence", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 192, "minecraft:acacia_fence");
+            blockRegistry.Register(new Block("minecraft:spruce_door", true, true, 3, HarvestTier.Hand, BlockMaterial.Wood, false, false), 193, "minecraft:spruce_door");
+            blockRegistry.Register(new Block("minecraft:birch_door", true, true, 3, HarvestTier.Hand, BlockMaterial.Wood, false, false), 194, "minecraft:birch_door");
+            blockRegistry.Register(new Block("minecraft:jungle_door", true, true, 3, HarvestTier.Hand, BlockMaterial.Wood, false, false), 195, "minecraft:jungle_door");
+            blockRegistry.Register(new Block("minecraft:acacia_door", true, true, 3, HarvestTier.Hand, BlockMaterial.Wood, false, false), 196, "minecraft:acacia_door");
+            blockRegistry.Register(new Block("minecraft:dark_oak_door", true, true, 3, HarvestTier.Hand, BlockMaterial.Wood, false, false), 197, "minecraft:dark_oak_door");
+            blockRegistry.Register(new Block("minecraft:end_rod", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 198, "minecraft:end_rod");
+            blockRegistry.Register(new Block("minecraft:chorus_plant", true, true, 0.4, HarvestTier.Hand, BlockMaterial.Normal, false, false), 199, "minecraft:chorus_plant");
+            blockRegistry.Register(new Block("minecraft:chorus_flower", true, true, 0.4, HarvestTier.Hand, BlockMaterial.Normal, false, false), 200, "minecraft:chorus_flower");
+            blockRegistry.Register(new Block("minecraft:purpur_block", true, true, 1.5, HarvestTier.Wooden, BlockMaterial.Normal, false, false), 201, "minecraft:purpur_block");
+            blockRegistry.Register(new Block("minecraft:purpur_pillar", true, true, 1.5, HarvestTier.Wooden, BlockMaterial.Normal, false, false), 202, "minecraft:purpur_pillar");
+            blockRegistry.Register(new Block("minecraft:purpur_stairs", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 203, "minecraft:purpur_stairs");
+            blockRegistry.Register(new Block("minecraft:purpur_double_slab", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 204, "minecraft:purpur_double_slab");
+            blockRegistry.Register(new Block("minecraft:purpur_slab", true, true, 2, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 205, "minecraft:purpur_slab");
+            blockRegistry.Register(new Block("minecraft:end_bricks", true, true, 0.8, HarvestTier.Wooden, BlockMaterial.Normal, false, false), 206, "minecraft:end_bricks");
+            blockRegistry.Register(new Block("minecraft:beetroots", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 207, "minecraft:beetroots");
+            blockRegistry.Register(new Block("minecraft:grass_path", true, true, 0.6, HarvestTier.Hand, BlockMaterial.Plant, false, false), 208, "minecraft:grass_path");
+            blockRegistry.Register(new Block("minecraft:end_gateway", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 209, "minecraft:end_gateway");
+            blockRegistry.Register(new Block("minecraft:repeating_command_block", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 210, "minecraft:repeating_command_block");
+            blockRegistry.Register(new Block("minecraft:chain_command_block", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 211, "minecraft:chain_command_block");
+            blockRegistry.Register(new Block("minecraft:frosted_ice", true, true, 0.5, HarvestTier.Hand, BlockMaterial.Normal, false, false), 212, "minecraft:frosted_ice");
+            blockRegistry.Register(new Block("minecraft:magma", true, true, 0.5, HarvestTier.Wooden, BlockMaterial.Normal, true, false), 213, "minecraft:magma");
+            blockRegistry.Register(new Block("minecraft:nether_wart_block", true, true, 1, HarvestTier.Hand, BlockMaterial.Normal, false, false), 214, "minecraft:nether_wart_block");
+            blockRegistry.Register(new Block("minecraft:red_nether_brick", true, true, 2, HarvestTier.Wooden, BlockMaterial.Normal, false, false), 215, "minecraft:red_nether_brick");
+            blockRegistry.Register(new Block("minecraft:bone_block", true, true, 2, HarvestTier.Wooden, BlockMaterial.Normal, false, false), 216, "minecraft:bone_block");
+            blockRegistry.Register(new Block("minecraft:structure_void", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 217, "minecraft:structure_void");
+            blockRegistry.Register(new Block("minecraft:observer", true, true, 3.5, HarvestTier.Wooden, BlockMaterial.Normal, false, false), 218, "minecraft:observer");
+            blockRegistry.Register(new Block("minecraft:white_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 219, "minecraft:white_shulker_box");
+            blockRegistry.Register(new Block("minecraft:orange_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 220, "minecraft:orange_shulker_box");
+            blockRegistry.Register(new Block("minecraft:magenta_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 221, "minecraft:magenta_shulker_box");
+            blockRegistry.Register(new Block("minecraft:light_blue_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 222, "minecraft:light_blue_shulker_box");
+            blockRegistry.Register(new Block("minecraft:yellow_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 223, "minecraft:yellow_shulker_box");
+            blockRegistry.Register(new Block("minecraft:lime_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 224, "minecraft:lime_shulker_box");
+            blockRegistry.Register(new Block("minecraft:pink_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 225, "minecraft:pink_shulker_box");
+            blockRegistry.Register(new Block("minecraft:gray_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 226, "minecraft:gray_shulker_box");
+            blockRegistry.Register(new Block("minecraft:light_gray_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 227, "minecraft:light_gray_shulker_box");
+            blockRegistry.Register(new Block("minecraft:cyan_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 228, "minecraft:cyan_shulker_box");
+            blockRegistry.Register(new Block("minecraft:purple_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 229, "minecraft:purple_shulker_box");
+            blockRegistry.Register(new Block("minecraft:blue_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 230, "minecraft:blue_shulker_box");
+            blockRegistry.Register(new Block("minecraft:brown_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 231, "minecraft:brown_shulker_box");
+            blockRegistry.Register(new Block("minecraft:green_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 232, "minecraft:green_shulker_box");
+            blockRegistry.Register(new Block("minecraft:red_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 233, "minecraft:red_shulker_box");
+            blockRegistry.Register(new Block("minecraft:black_shulker_box", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 234, "minecraft:black_shulker_box");
+            blockRegistry.Register(new Block("minecraft:structure_block", true, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 255, "minecraft:structure_block");
         }
 
         private static void RegisterVanillaItems(IGameObjectRegistry<IItemStack> itemRegistry)
@@ -574,120 +914,25 @@ namespace YksMC.Client.IntegrationTests
 
             itemRegistry.Register(new HarvestingTool("minecraft:wooden_pickaxe", 60, HarvestTier.Wooden, 2, BlockMaterial.Rock), 270, "minecraft:wooden_pickaxe");
             itemRegistry.Register(new HarvestingTool("minecraft:stone_pickaxe", 132, HarvestTier.Stone, 4, BlockMaterial.Rock), 274, "minecraft:stone_pickaxe");
-            itemRegistry.Register(new HarvestingTool("minecraft:iron_pickaxe", 251, HarvestTier.Iron, 6, BlockMaterial.Rock), 257, "minecraft:iron_pickaxe");
+            itemRegistry.Register(new HarvestingTool("minecraft:iron_pickaxe", 251, HarvestTier.Stone, 6, BlockMaterial.Rock), 257, "minecraft:iron_pickaxe");
             itemRegistry.Register(new HarvestingTool("minecraft:diamond_pickaxe", 1562, HarvestTier.Diamond, 8, BlockMaterial.Rock), 278, "minecraft:diamond_pickaxe");
             itemRegistry.Register(new HarvestingTool("minecraft:golden_pickaxe", 33, HarvestTier.Wooden, 12, BlockMaterial.Rock), 285, "minecraft:golden_pickaxe");
 
             itemRegistry.Register(new HarvestingTool("minecraft:wooden_shovel", 60, HarvestTier.Wooden, 2, BlockMaterial.Dirt), 269, "minecraft:wooden_shovel");
             itemRegistry.Register(new HarvestingTool("minecraft:stone_shovel", 132, HarvestTier.Stone, 4, BlockMaterial.Dirt), 273, "minecraft:stone_shovel");
-            itemRegistry.Register(new HarvestingTool("minecraft:iron_shovel", 251, HarvestTier.Iron, 6, BlockMaterial.Dirt), 256, "minecraft:iron_shovel");
+            itemRegistry.Register(new HarvestingTool("minecraft:iron_shovel", 251, HarvestTier.Stone, 6, BlockMaterial.Dirt), 256, "minecraft:iron_shovel");
             itemRegistry.Register(new HarvestingTool("minecraft:diamond_shovel", 1562, HarvestTier.Diamond, 8, BlockMaterial.Dirt), 277, "minecraft:diamond_shovel");
             itemRegistry.Register(new HarvestingTool("minecraft:golden_shovel", 33, HarvestTier.Wooden, 12, BlockMaterial.Dirt), 284, "minecraft:golden_shovel");
 
             itemRegistry.Register(new HarvestingTool("minecraft:wooden_axe", 60, HarvestTier.Wooden, 2, BlockMaterial.Wood), 271, "minecraft:wooden_axe");
             itemRegistry.Register(new HarvestingTool("minecraft:stone_axe", 132, HarvestTier.Stone, 4, BlockMaterial.Wood), 275, "minecraft:stone_axe");
-            itemRegistry.Register(new HarvestingTool("minecraft:iron_axe", 251, HarvestTier.Iron, 6, BlockMaterial.Wood), 258, "minecraft:iron_axe");
+            itemRegistry.Register(new HarvestingTool("minecraft:iron_axe", 251, HarvestTier.Stone, 6, BlockMaterial.Wood), 258, "minecraft:iron_axe");
             itemRegistry.Register(new HarvestingTool("minecraft:diamond_axe", 1562, HarvestTier.Diamond, 8, BlockMaterial.Wood), 279, "minecraft:diamond_axe");
             itemRegistry.Register(new HarvestingTool("minecraft:golden_axe", 33, HarvestTier.Wooden, 12, BlockMaterial.Wood), 286, "minecraft:golden_axe");
         }
-
-        private void RegisterUrges(IUrgeManager manager, IMinecraftClient client)
-        {
-            Random random = new Random();
-
-            manager.AddUrge(new Urge(
-                "Login",
-                new LoginCommand(),
-                new IUrgeScorer[] { new ConstantScorer(1) },
-                new IUrgeCondition[] { new ConnectionStateCondition(client, ConnectionState.None) }
-            ));
-            manager.AddUrge(new Urge(
-                "LookAtNearestPlayer",
-                new LookAtNearestPlayerCommand(),
-                new IUrgeScorer[] {
-                    new ConstantScorer(0.2)
-                },
-                new IUrgeCondition[] {
-                    new LoggedInCondition(),
-                    new ConnectionStateCondition(client, ConnectionState.Play),
-                    new AliveCondition()
-                }
-            ));
-            manager.AddUrge(new Urge(
-                "Respawn",
-                new RespawnCommand(),
-                new IUrgeScorer[] {
-                    new ConstantScorer(1)
-                },
-                new IUrgeCondition[] {
-                    new LoggedInCondition(),
-                    new NotCondition(new AliveCondition())
-                }
-            ));
-            manager.AddUrge(new Urge(
-                "MoveToHardCoded",
-                new WalkToLocationCommand(new BlockLocation(2678, 4, -796)),
-                new IUrgeScorer[] {
-                    new DistanceScorer(new EntityLocation(2678.5, 4, -795.5), 1)
-                },
-                new IUrgeCondition[] {
-                    new LoggedInCondition(),
-                    new AliveCondition()
-                }
-            ));
-            manager.AddUrge(new Urge(
-                "BreakBlockHardCoded",
-                new HarvestBlockCommand(new BlockLocation(2676, 4, -796), false),
-                new IUrgeScorer[] {
-                    new ConstantScorer(0.5)
-                },
-                new IUrgeCondition[] {
-                    new LoggedInCondition(),
-                    new AliveCondition(),
-                    new SolidBlockCondition(new BlockLocation(2676, 4, -796))
-                }
-            ));
-            manager.AddUrge(new Urge(
-                "PlaceBlockHardCoded",
-                new PlaceHeldBlockCommand(new BlockLocation(2676, 4, -796)),
-                new IUrgeScorer[] {
-                    new ConstantScorer(0.5)
-                },
-                new IUrgeCondition[] {
-                    new LoggedInCondition(),
-                    new AliveCondition(),
-                    new NotCondition(new SolidBlockCondition(new BlockLocation(2676, 4, -796)))
-                }
-            ));
-            manager.AddUrge(new Urge(
-                "OpenBlockWindowHardCoded",
-                new OpenBlockWindowCommand(new BlockLocation(2676, 4, -796)),
-                new IUrgeScorer[] {
-                    new ConstantScorer(0.6)
-                },
-                new IUrgeCondition[] {
-                    new LoggedInCondition(),
-                    new AliveCondition(),
-                    new SolidBlockCondition(new BlockLocation(2676, 4, -796))
-                }
-            ));
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _container.Dispose();
-        }
-
-        [Test]
-        public async Task ConnectAsync_WithRealServer_DoesNotCrash()
-        {
-            TaskLoop client = _container.Resolve<TaskLoop>();
-
-            await client.LoopAsync();
-        }
-
+#endregion
     }
+
 
     internal class AutofacBehaviorTaskManager : IBehaviorTaskManager
     {

@@ -111,40 +111,6 @@ namespace YksMC.Data.Json {
         /// <summary>
         ///   Looks up a localized string similar to [
         ///    {
-        ///        &quot;Id&quot;: 0,
-        ///        &quot;Name&quot;: &quot;air&quot;,
-        ///        &quot;IsSolid&quot;: false,
-        ///        &quot;IsDiggable&quot;: false,
-        ///        &quot;Hardness&quot;: 0,
-        ///        &quot;Tier&quot;: 0,
-        ///        &quot;Material&quot;: &quot;Normal&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 1,
-        ///        &quot;Name&quot;: &quot;stone&quot;,
-        ///        &quot;IsSolid&quot;: true,
-        ///        &quot;IsDiggable&quot;: true,
-        ///        &quot;Hardness&quot;: 1.5,
-        ///        &quot;Tier&quot;: 1,
-        ///        &quot;Material&quot;: &quot;Rock&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 2,
-        ///        &quot;Name&quot;: &quot;grass&quot;,
-        ///        &quot;IsSolid&quot;: true,
-        ///        &quot;IsDiggable&quot;: true,
-        ///        &quot;Hardness&quot;: 0.6,
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string BlockTypes {
-            get {
-                return ResourceManager.GetString("BlockTypes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [
-        ///    {
         ///        &quot;Id&quot;: 1,
         ///        &quot;Name&quot;: &quot;item&quot;,
         ///        &quot;Type&quot;: &quot;mob&quot;

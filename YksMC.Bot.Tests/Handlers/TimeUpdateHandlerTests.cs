@@ -6,7 +6,6 @@ using YksMC.Behavior.PacketHandlers;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Biome;
 using YksMC.MinecraftModel.Block;
-using YksMC.MinecraftModel.BlockType;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Player;
@@ -39,7 +38,7 @@ namespace YksMC.Bot.Tests.Handlers
 
         private IWorld GetWorld()
         {
-            IBlock emptyBlock = new Block(new BlockType("air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, true), new LightLevel(0), new LightLevel(0), new Biome("void"));
+            IBlock emptyBlock = new Block("air", false, false, 0, HarvestTier.Hand, BlockMaterial.Normal, false, true);
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();

@@ -3,49 +3,72 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using YksMC.MinecraftModel.Biome;
-using YksMC.MinecraftModel.BlockType;
 
 namespace YksMC.MinecraftModel.Block
 {
-    [DebuggerDisplay("{Type.Name}")]
     public class Block : IBlock
     {
-        private readonly IBlockType _type;
-        private readonly ILightLevel _lightLevel;
-        private readonly ILightLevel _skylightLevel;
+        // Ram usage optimization
+        private readonly BlockTypeInfo _typeInfo;
+        private readonly byte _lightFromBlocks;
+        private readonly byte _lightFromSky;
         private readonly IBiome _biome;
+        private readonly byte _dataValue;
 
-        public IBlockType Type => _type;
-        public ILightLevel LightLevel => LightLevel;
-        public ILightLevel SkylightLevel => SkylightLevel;
-        public IBiome Biome => Biome;
+        public string Name => _typeInfo.Name;
+        public byte LightFromBlocks => _lightFromBlocks;
+        public byte LightFromSky => _lightFromSky;
+        public IBiome Biome => _biome;
+        public bool IsSolid => _typeInfo.IsSolid;
+        public bool IsDiggable => _typeInfo.IsDiggable;
+        public double Hardness => _typeInfo.Hardness;
+        public HarvestTier HarvestTier => _typeInfo.HarvestTier;
+        public BlockMaterial Material => _typeInfo.Material;
+        public bool IsDangerous => _typeInfo.IsDangerous;
+        public bool IsEmpty => _typeInfo.IsEmpty;
 
-        public Block(IBlockType type, ILightLevel lightLevel, ILightLevel skylightLevel, IBiome biome)
+        public Block(string name, bool isSolid, bool isDiggable, double hardness, HarvestTier harvestTier,
+            BlockMaterial material, bool isDangerous, bool isEmpty)
         {
-            _type = type;
-            _lightLevel = lightLevel;
-            _skylightLevel = skylightLevel;
+            _typeInfo = new BlockTypeInfo(name, isSolid, isDiggable, hardness, harvestTier, material, isDangerous, isEmpty);
+            _lightFromBlocks = 0;
+            _lightFromSky = 0;
+            _biome = null; //TODO?
+            _dataValue = 0;
+        }
+
+        protected Block(BlockTypeInfo blockTypeInfo, byte lightFromBlocks, byte lightFromSky, IBiome biome, byte dataValue)
+        {
+            _typeInfo = blockTypeInfo;
+            _lightFromBlocks = lightFromBlocks;
+            _lightFromSky = lightFromSky;
             _biome = biome;
+            _dataValue = dataValue;
         }
 
-        public IBlock ChangeLightLevels(ILightLevel lightLevel, ILightLevel skylightLevel)
+        public IBlock WithBiome(IBiome biome)
         {
-            return new Block(_type, lightLevel, skylightLevel, _biome);
+            return CreateBlock(biome, _lightFromBlocks, _lightFromSky, _dataValue);
         }
 
-        public IBlock ChangeType(IBlockType type)
+        public IBlock WithLightFromBlocks(byte lightLevel)
         {
-            return new Block(type, _lightLevel, _skylightLevel, _biome);
+            return CreateBlock(_biome, lightLevel, _lightFromSky, _dataValue);
         }
 
-        public IBlock ChangeBiome(IBiome biome)
+        public IBlock WithLightFromSky(byte lightLevel)
         {
-            return new Block(_type, _lightLevel, _skylightLevel, biome);
+            return CreateBlock(_biome, _lightFromBlocks, lightLevel, _dataValue);
         }
 
-        public IBlock ChangeLightLevel(ILightLevel lightLevel)
+        protected virtual Block CreateBlock(IBiome biome, byte lightFromBlocks, byte lightFromSky, byte dataValue)
         {
-            return new Block(_type, lightLevel, _skylightLevel, _biome);
+            return new Block(_typeInfo, lightFromBlocks, lightFromSky, biome, dataValue);
+        }
+
+        public IBlock WithDataValue(byte metadata)
+        {
+            return CreateBlock(_biome, _lightFromBlocks, _lightFromSky, metadata);
         }
     }
 }

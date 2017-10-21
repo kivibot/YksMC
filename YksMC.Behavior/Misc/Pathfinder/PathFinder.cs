@@ -143,7 +143,7 @@ namespace YksMC.Behavior.Misc.Pathfinder
         private bool IsValidLocation(IBlockLocation location, IDimension dimension, int width = 1, bool requireSolidFloor = false, int height = 2)
         {
             //TODO: handle unloaded chunks
-            if (!dimension.GetChunk(new ChunkCoordinate(location)).GetBlock(new BlockLocation(0, 0, 0)).Type.IsSolid)
+            if (!dimension.GetChunk(new ChunkCoordinate(location)).GetBlock(new BlockLocation(0, 0, 0)).IsSolid)
             {
                 return false;
             }
@@ -154,7 +154,7 @@ namespace YksMC.Behavior.Misc.Pathfinder
                     for (int y = 0; y < height; y++)
                     {
                         IBlock block = dimension.GetBlock(location.Add(x, y, z));
-                        if (block.Type.IsSolid || block.Type.IsDangerous)
+                        if (block.IsSolid || block.IsDangerous)
                         {
                             return false;
                         }
@@ -162,12 +162,12 @@ namespace YksMC.Behavior.Misc.Pathfinder
                     IBlock floorBlock = dimension.GetBlock(location.Add(x, -1, z));
                     if (requireSolidFloor)
                     {
-                        if (!floorBlock.Type.IsSolid)
+                        if (!floorBlock.IsSolid)
                         {
                             return false;
                         }
                     }
-                    if (floorBlock.Type.IsDangerous)
+                    if (floorBlock.IsDangerous)
                     {
                         return false;
                     }
@@ -179,7 +179,7 @@ namespace YksMC.Behavior.Misc.Pathfinder
         private bool IsSolidAndSafe(IBlockLocation location, IDimension dimension)
         {
             IBlock block = dimension.GetBlock(location);
-            return block.Type.IsSolid && !block.Type.IsDangerous;
+            return block.IsSolid && !block.IsDangerous;
         }
 
         private IPathFindingResult GetPath(IPathfinderDatastructure<IBlockLocation, PathEdge> datastructure, IBlockLocation startLocation, IBlockLocation endLocation)
