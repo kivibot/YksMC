@@ -13,20 +13,23 @@ namespace YksMC.MinecraftModel.BlockType
         private readonly bool _isDiggable;
         private readonly double _hardness;
         private readonly HarvestTier _harvestTier;
+        private readonly BlockMaterial _material;
 
         public string Name => _name;
         public bool IsSolid => _isSolid;
         public bool IsDiggable => _isDiggable;
         public double Hardness => _hardness;
         public HarvestTier HarvestTier => _harvestTier;
+        public BlockMaterial Material => _material;
 
-        public BlockType(string name, bool isSolid, bool isDiggable, double hardness, HarvestTier harvestTier)
+        public BlockType(string name, bool isSolid, bool isDiggable, double hardness, HarvestTier harvestTier, BlockMaterial material)
         {
             _name = name;
             _isSolid = isSolid;
             _isDiggable = isDiggable;
             _hardness = hardness;
             _harvestTier = harvestTier;
+            _material = material;
         }
     }
 }

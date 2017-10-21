@@ -9,7 +9,7 @@ namespace YksMC.MinecraftModel.BlockType
         Hand = 0,
         Wooden = 1,
         Stone = 2,
-        Iron = 2,
-        Diamond = 3
+        Iron = 3,
+        Diamond = 4
     }
 }

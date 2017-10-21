@@ -59,5 +59,10 @@ namespace YksMC.MinecraftModel.Block
         {
             return new Vector3d(_x, _y, _z);
         }
+
+        public override string ToString()
+        {
+            return $"{_x}, {_y}, {_z}";
+        }
     }
 }

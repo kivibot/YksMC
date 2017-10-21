@@ -5,7 +5,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 1,
@@ -13,7 +14,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 2,
@@ -21,7 +23,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.6,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 3,
@@ -29,7 +32,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 4,
@@ -37,7 +41,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 5,
@@ -45,7 +50,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 6,
@@ -53,7 +59,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 7,
@@ -61,7 +68,8 @@
         "IsSolid": true,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 8,
@@ -69,7 +77,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 100,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 9,
@@ -77,7 +86,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 100,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 10,
@@ -85,7 +95,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 100,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 11,
@@ -93,7 +104,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 100,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 12,
@@ -101,7 +113,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 13,
@@ -109,7 +122,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.6,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 14,
@@ -117,7 +131,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 15,
@@ -125,7 +140,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 2
+        "Tier": 2,
+        "Material": "Rock"
     },
     {
         "Id": 16,
@@ -133,7 +149,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 17,
@@ -141,7 +158,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 18,
@@ -149,7 +167,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 19,
@@ -157,7 +176,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.6,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 20,
@@ -165,7 +185,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 21,
@@ -173,7 +194,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 2
+        "Tier": 2,
+        "Material": "Rock"
     },
     {
         "Id": 22,
@@ -181,7 +203,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 2
+        "Tier": 2,
+        "Material": "Rock"
     },
     {
         "Id": 23,
@@ -189,7 +212,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 24,
@@ -197,7 +221,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 25,
@@ -205,7 +230,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 26,
@@ -213,7 +239,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 27,
@@ -221,7 +248,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.7,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Rock"
     },
     {
         "Id": 28,
@@ -229,7 +257,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.7,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Rock"
     },
     {
         "Id": 29,
@@ -237,7 +266,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 30,
@@ -245,7 +275,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 4,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Web"
     },
     {
         "Id": 31,
@@ -253,7 +284,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 32,
@@ -261,7 +293,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 33,
@@ -269,7 +302,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 34,
@@ -277,7 +311,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 35,
@@ -285,7 +320,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wool"
     },
     {
         "Id": 36,
@@ -293,7 +329,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 37,
@@ -301,7 +338,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 38,
@@ -309,7 +347,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 39,
@@ -317,7 +356,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 40,
@@ -325,7 +365,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 41,
@@ -333,7 +374,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 42,
@@ -341,7 +383,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 2
+        "Tier": 2,
+        "Material": "Rock"
     },
     {
         "Id": 43,
@@ -349,7 +392,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 44,
@@ -357,7 +401,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 45,
@@ -365,7 +410,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 46,
@@ -373,7 +419,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 47,
@@ -381,7 +428,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 48,
@@ -389,7 +437,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 49,
@@ -397,7 +446,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 50,
-        "Tier": 4
+        "Tier": 4,
+        "Material": "Rock"
     },
     {
         "Id": 50,
@@ -405,7 +455,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 51,
@@ -413,7 +464,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 52,
@@ -421,7 +473,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 53,
@@ -429,7 +482,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 54,
@@ -437,7 +491,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 55,
@@ -445,7 +500,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 56,
@@ -453,7 +509,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 57,
@@ -461,7 +518,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 58,
@@ -469,7 +527,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 59,
@@ -477,7 +536,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 60,
@@ -485,7 +545,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.6,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 61,
@@ -493,7 +554,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 62,
@@ -501,7 +563,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 63,
@@ -509,7 +572,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 64,
@@ -517,7 +581,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 65,
@@ -525,7 +590,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.4,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 66,
@@ -533,7 +599,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.7,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Rock"
     },
     {
         "Id": 67,
@@ -541,7 +608,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 68,
@@ -549,7 +617,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 69,
@@ -557,7 +626,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 70,
@@ -565,7 +635,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 71,
@@ -573,7 +644,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 72,
@@ -581,7 +653,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 73,
@@ -589,7 +662,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 74,
@@ -597,7 +671,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 75,
@@ -605,7 +680,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 76,
@@ -613,7 +689,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 77,
@@ -621,7 +698,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 78,
@@ -629,7 +707,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Dirt"
     },
     {
         "Id": 79,
@@ -637,7 +716,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Rock"
     },
     {
         "Id": 80,
@@ -645,7 +725,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Dirt"
     },
     {
         "Id": 81,
@@ -653,7 +734,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.4,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 82,
@@ -661,7 +743,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.6,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 83,
@@ -669,7 +752,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 84,
@@ -677,7 +761,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 85,
@@ -685,7 +770,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 86,
@@ -693,7 +779,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 87,
@@ -701,7 +788,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.4,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 88,
@@ -709,7 +797,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 89,
@@ -717,7 +806,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 90,
@@ -725,7 +815,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 91,
@@ -733,7 +824,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 92,
@@ -741,7 +833,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 93,
@@ -749,7 +842,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 94,
@@ -757,7 +851,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 95,
@@ -765,7 +860,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 96,
@@ -773,7 +869,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 97,
@@ -781,7 +878,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.75,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 98,
@@ -789,7 +887,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 99,
@@ -797,7 +896,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 100,
@@ -805,7 +905,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 101,
@@ -813,7 +914,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 102,
@@ -821,7 +923,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 103,
@@ -829,7 +932,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 104,
@@ -837,7 +941,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 105,
@@ -845,7 +950,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 106,
@@ -853,7 +959,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 107,
@@ -861,7 +968,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 108,
@@ -869,7 +977,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 109,
@@ -877,7 +986,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 110,
@@ -885,7 +995,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.6,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Dirt"
     },
     {
         "Id": 111,
@@ -893,7 +1004,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 112,
@@ -901,7 +1013,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 113,
@@ -909,7 +1022,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 114,
@@ -917,7 +1031,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 115,
@@ -925,7 +1040,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 116,
@@ -933,7 +1049,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 117,
@@ -941,7 +1058,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 118,
@@ -949,7 +1067,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 119,
@@ -957,7 +1076,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 120,
@@ -965,7 +1085,8 @@
         "IsSolid": true,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 121,
@@ -973,7 +1094,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 122,
@@ -981,7 +1103,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 123,
@@ -989,7 +1112,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 124,
@@ -997,7 +1121,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 125,
@@ -1005,7 +1130,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 126,
@@ -1013,7 +1139,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 127,
@@ -1021,7 +1148,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 128,
@@ -1029,7 +1157,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 129,
@@ -1037,7 +1166,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 130,
@@ -1045,7 +1175,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 22.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 131,
@@ -1053,7 +1184,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 132,
@@ -1061,7 +1193,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 133,
@@ -1069,7 +1202,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 3
+        "Tier": 3,
+        "Material": "Rock"
     },
     {
         "Id": 134,
@@ -1077,7 +1211,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 135,
@@ -1085,7 +1220,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 136,
@@ -1093,7 +1229,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 137,
@@ -1101,7 +1238,8 @@
         "IsSolid": true,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 138,
@@ -1109,7 +1247,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 139,
@@ -1117,7 +1256,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 140,
@@ -1125,7 +1265,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 141,
@@ -1133,7 +1274,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 142,
@@ -1141,7 +1283,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 143,
@@ -1149,7 +1292,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 144,
@@ -1157,7 +1301,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 145,
@@ -1165,7 +1310,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 146,
@@ -1173,7 +1319,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 147,
@@ -1181,7 +1328,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 148,
@@ -1189,7 +1337,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 149,
@@ -1197,7 +1346,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 150,
@@ -1205,7 +1355,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 151,
@@ -1213,7 +1364,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 152,
@@ -1221,7 +1373,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 153,
@@ -1229,7 +1382,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 154,
@@ -1237,7 +1391,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 155,
@@ -1245,7 +1400,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 156,
@@ -1253,7 +1409,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 157,
@@ -1261,7 +1418,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0.7,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Rock"
     },
     {
         "Id": 158,
@@ -1269,7 +1427,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 159,
@@ -1277,7 +1436,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.25,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 160,
@@ -1285,7 +1445,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 161,
@@ -1293,7 +1454,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 162,
@@ -1301,7 +1463,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 163,
@@ -1309,7 +1472,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 164,
@@ -1317,7 +1481,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 165,
@@ -1325,7 +1490,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 166,
@@ -1333,7 +1499,8 @@
         "IsSolid": true,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 167,
@@ -1341,7 +1508,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 168,
@@ -1349,7 +1517,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 169,
@@ -1357,7 +1526,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 170,
@@ -1365,7 +1535,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 171,
@@ -1373,7 +1544,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 172,
@@ -1381,7 +1553,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.25,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 173,
@@ -1389,7 +1562,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 174,
@@ -1397,7 +1571,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Rock"
     },
     {
         "Id": 175,
@@ -1405,7 +1580,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 176,
@@ -1413,7 +1589,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 177,
@@ -1421,7 +1598,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 178,
@@ -1429,7 +1607,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 179,
@@ -1437,7 +1616,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 180,
@@ -1445,7 +1625,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 181,
@@ -1453,7 +1634,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 182,
@@ -1461,7 +1643,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 183,
@@ -1469,7 +1652,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 184,
@@ -1477,7 +1661,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 185,
@@ -1485,7 +1670,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 186,
@@ -1493,7 +1679,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 187,
@@ -1501,7 +1688,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 188,
@@ -1509,7 +1697,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 189,
@@ -1517,7 +1706,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 190,
@@ -1525,7 +1715,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 191,
@@ -1533,7 +1724,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 192,
@@ -1541,7 +1733,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 193,
@@ -1549,7 +1742,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 194,
@@ -1557,7 +1751,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 195,
@@ -1565,7 +1760,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 196,
@@ -1573,7 +1769,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 197,
@@ -1581,7 +1778,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Wood"
     },
     {
         "Id": 198,
@@ -1589,7 +1787,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 199,
@@ -1597,7 +1796,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.4,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 200,
@@ -1605,7 +1805,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.4,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 201,
@@ -1613,7 +1814,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Normal"
     },
     {
         "Id": 202,
@@ -1621,7 +1823,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Normal"
     },
     {
         "Id": 203,
@@ -1629,7 +1832,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 204,
@@ -1637,7 +1841,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 205,
@@ -1645,7 +1850,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Rock"
     },
     {
         "Id": 206,
@@ -1653,7 +1859,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.8,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Normal"
     },
     {
         "Id": 207,
@@ -1661,7 +1868,8 @@
         "IsSolid": false,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 208,
@@ -1669,7 +1877,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.6,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Plant"
     },
     {
         "Id": 209,
@@ -1677,7 +1886,8 @@
         "IsSolid": false,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 210,
@@ -1685,7 +1895,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 211,
@@ -1693,7 +1904,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 212,
@@ -1701,7 +1913,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 213,
@@ -1709,7 +1922,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Normal"
     },
     {
         "Id": 214,
@@ -1717,7 +1931,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 1,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 215,
@@ -1725,7 +1940,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Normal"
     },
     {
         "Id": 216,
@@ -1733,7 +1949,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 2,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Normal"
     },
     {
         "Id": 217,
@@ -1741,7 +1958,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 218,
@@ -1749,7 +1967,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 3.5,
-        "Tier": 1
+        "Tier": 1,
+        "Material": "Normal"
     },
     {
         "Id": 219,
@@ -1757,7 +1976,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 220,
@@ -1765,7 +1985,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 221,
@@ -1773,7 +1994,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 222,
@@ -1781,7 +2003,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 223,
@@ -1789,7 +2012,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 224,
@@ -1797,7 +2021,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 225,
@@ -1805,7 +2030,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 226,
@@ -1813,7 +2039,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 227,
@@ -1821,7 +2048,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 228,
@@ -1829,7 +2057,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 229,
@@ -1837,7 +2066,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 230,
@@ -1845,7 +2075,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 231,
@@ -1853,7 +2084,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 232,
@@ -1861,7 +2093,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 233,
@@ -1869,7 +2102,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 234,
@@ -1877,7 +2111,8 @@
         "IsSolid": true,
         "IsDiggable": true,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     },
     {
         "Id": 255,
@@ -1885,6 +2120,7 @@
         "IsSolid": true,
         "IsDiggable": false,
         "Hardness": 0,
-        "Tier": 0
+        "Tier": 0,
+        "Material": "Normal"
     }
 ]

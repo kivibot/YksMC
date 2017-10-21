@@ -11,5 +11,6 @@ namespace YksMC.MinecraftModel.BlockType
         bool IsDiggable { get; }
         double Hardness { get; }
         HarvestTier HarvestTier { get; }
+        BlockMaterial Material { get; }
     }
 }

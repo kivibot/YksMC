@@ -112,39 +112,29 @@ namespace YksMC.Data.Json {
         ///   Looks up a localized string similar to [
         ///    {
         ///        &quot;Id&quot;: 0,
-        ///        &quot;Name&quot;: &quot;air&quot;
+        ///        &quot;Name&quot;: &quot;air&quot;,
+        ///        &quot;IsSolid&quot;: false,
+        ///        &quot;IsDiggable&quot;: false,
+        ///        &quot;Hardness&quot;: 0,
+        ///        &quot;Tier&quot;: 0,
+        ///        &quot;Material&quot;: &quot;Normal&quot;
         ///    },
         ///    {
         ///        &quot;Id&quot;: 1,
-        ///        &quot;Name&quot;: &quot;stone&quot;
+        ///        &quot;Name&quot;: &quot;stone&quot;,
+        ///        &quot;IsSolid&quot;: true,
+        ///        &quot;IsDiggable&quot;: true,
+        ///        &quot;Hardness&quot;: 1.5,
+        ///        &quot;Tier&quot;: 1,
+        ///        &quot;Material&quot;: &quot;Rock&quot;
         ///    },
         ///    {
         ///        &quot;Id&quot;: 2,
-        ///        &quot;Name&quot;: &quot;grass&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 3,
-        ///        &quot;Name&quot;: &quot;dirt&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 4,
-        ///        &quot;Name&quot;: &quot;cobblestone&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 5,
-        ///        &quot;Name&quot;: &quot;planks&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 6,
-        ///        &quot;Name&quot;: &quot;sapling&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 7,
-        ///        &quot;Name&quot;: &quot;bedrock&quot;
-        ///    },
-        ///    {
-        ///        &quot;Id&quot;: 8,
-        ///        &quot;Nam [rest of string was truncated]&quot;;.
+        ///        &quot;Name&quot;: &quot;grass&quot;,
+        ///        &quot;IsSolid&quot;: true,
+        ///        &quot;IsDiggable&quot;: true,
+        ///        &quot;Hardness&quot;: 0.6,
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string BlockTypes {
             get {
