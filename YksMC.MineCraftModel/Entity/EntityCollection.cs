@@ -24,7 +24,7 @@ namespace YksMC.MinecraftModel.Entity
 
         public IEntityCollection ReplaceEntity(IEntity entity)
         {
-            IImmutableDictionary<int, IEntity> entities = _entities.Replace(entity.Id, entity);
+            IImmutableDictionary<int, IEntity> entities = _entities.WithEntry(entity.Id, entity);
             return new EntityCollection(entities);
         }
 

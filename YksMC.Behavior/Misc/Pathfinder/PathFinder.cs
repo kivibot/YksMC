@@ -178,6 +178,11 @@ namespace YksMC.Behavior.Misc.Pathfinder
 
         private bool IsSolidAndSafe(IBlockLocation location, IDimension dimension)
         {
+            //TODO: handle unloaded chunks
+            if (!dimension.GetChunk(new ChunkCoordinate(location)).GetBlock<IBlock>(new BlockLocation(0, 0, 0)).IsSolid)
+            {
+                return false;
+            }
             IBlock block = dimension.GetBlock<IBlock>(location);
             return block.IsSolid && !block.IsDangerous;
         }

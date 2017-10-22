@@ -96,7 +96,13 @@ namespace YksMC.MinecraftModel.World
 
         public IWorld ReplaceWindow(IWindow window)
         {
-            IWindowCollection windows = _windows.ReplaceWindow(window);
+            IWindowCollection windows = _windows.WithWindow(window);
+            return new World(_players, _localPlayer, _dimensions, _currentDimension, windows);
+        }
+
+        public IWorld WithoutWindow(int windowId)
+        {
+            IWindowCollection windows = _windows.WithoutWindow(windowId);
             return new World(_players, _localPlayer, _dimensions, _currentDimension, windows);
         }
     }

@@ -8,7 +8,9 @@ namespace YksMC.MinecraftModel.Window
     {
         IWindow this[int id] { get; }
 
-        IWindowCollection ReplaceWindow(IWindow window);
+        IWindowCollection WithWindow(IWindow window);
+        IWindowCollection WithoutWindow(int windowId);
+
         IWindow GetNewestWindow();
         bool ContainsWindow(int id);
     }

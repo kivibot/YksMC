@@ -14,7 +14,7 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 namespace YksMC.Behavior.PacketHandlers
 {
     public class WindowPacketHandler : WorldEventHandler, IWorldEventHandler<WindowItemsPacket>, IWorldEventHandler<SetWindowSlotPacket>,
-        IWorldEventHandler<HeldItemChangePacket>, IWorldEventHandler<OpenWindowPacket>
+        IWorldEventHandler<HeldItemChangePacket>, IWorldEventHandler<OpenWindowPacket>, IWorldEventHandler<CloseWindowPacket>
     {
         private readonly IGameObjectRegistry<IItemStack> _itemStackRegistry;
         private readonly IGameObjectRegistry<IWindow> _windowRegistry;
@@ -91,6 +91,19 @@ namespace YksMC.Behavior.PacketHandlers
 
             world = world.ReplaceWindow(window);
 
+            return Result(world);
+        }
+
+        public IWorldEventResult Handle(IWorldEvent<CloseWindowPacket> message)
+        {
+            CloseWindowPacket packet = message.Event;
+            IWorld world = message.World;
+            //TODO: ?
+            if (packet.WindowId == 0 || packet.WindowId == 255)
+            {
+                return Result(world);
+            }
+            world = world.WithoutWindow(packet.WindowId);
             return Result(world);
         }
     }

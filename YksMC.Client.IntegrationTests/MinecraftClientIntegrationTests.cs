@@ -156,7 +156,7 @@ namespace YksMC.Client.IntegrationTests
             dimensions[0] = dimension;
             IWindow inventoryWindow = windowRegistry.Get<IWindow>("yksmc:player");
             IWindowCollection windowCollection = new WindowCollection()
-                .ReplaceWindow(inventoryWindow);
+                .WithWindow(inventoryWindow);
             IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, null, windowCollection);
             builder.RegisterInstance(world);
 

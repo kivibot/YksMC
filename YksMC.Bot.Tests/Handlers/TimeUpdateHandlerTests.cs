@@ -45,7 +45,7 @@ namespace YksMC.Bot.Tests.Handlers
             dimensions[0] = dimension;
             IWindow inventoryWindow = new Window("inventory").WithUniqueSlots(10);
             IWindowCollection windowCollection = new WindowCollection()
-                .ReplaceWindow(inventoryWindow);
+                .WithWindow(inventoryWindow);
             IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, dimension, windowCollection);
             return world;
         }

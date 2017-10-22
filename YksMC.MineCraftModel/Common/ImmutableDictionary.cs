@@ -45,10 +45,17 @@ namespace YksMC.MinecraftModel.Common
             return _dictionary.GetEnumerator();
         }
 
-        public IImmutableDictionary<TKey, TValue> Replace(TKey key, TValue value)
+        public IImmutableDictionary<TKey, TValue> WithEntry(TKey key, TValue value)
         {
             Dictionary<TKey, TValue> dictionary = _dictionary.ToDictionary(e => e.Key, e => e.Value);
             dictionary[key] = value;
+            return new ImmutableDictionary<TKey, TValue>(dictionary);
+        }
+
+        public IImmutableDictionary<TKey, TValue> WithoutEntry(TKey key)
+        {
+            Dictionary<TKey, TValue> dictionary = _dictionary.ToDictionary(e => e.Key, e => e.Value);
+            dictionary.Remove(key);
             return new ImmutableDictionary<TKey, TValue>(dictionary);
         }
     }

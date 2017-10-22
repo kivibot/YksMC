@@ -6,6 +6,7 @@ namespace YksMC.MinecraftModel.Common
 {
     public interface IImmutableDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
     {
-        IImmutableDictionary<TKey, TValue> Replace(TKey key, TValue value);        
+        IImmutableDictionary<TKey, TValue> WithEntry(TKey key, TValue value);
+        IImmutableDictionary<TKey, TValue> WithoutEntry(TKey key);
     }
 }

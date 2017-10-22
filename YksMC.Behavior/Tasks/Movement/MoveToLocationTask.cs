@@ -36,9 +36,9 @@ namespace YksMC.Behavior.Tasks.Movement
 
         public override IBehaviorTaskEventResult OnStart(IWorld world)
         {
-            _timeout = (int)(_timeoutFactor * _command.Location.AsVector()
+            _timeout = (int)(_timeoutFactor * Math.Ceiling(_command.Location.AsVector()
                 .Substract(world.GetPlayerEntity().Location.AsVector())
-                .Length());
+                .Length()));
             return Result(world);
         }
         

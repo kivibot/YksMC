@@ -23,20 +23,27 @@ namespace YksMC.MinecraftModel.Window
             _windows = windows;
         }
 
-        public IWindowCollection ReplaceWindow(IWindow window)
+        public IWindowCollection WithWindow(IWindow window)
         {
-            IImmutableDictionary<int, IWindow> windows = _windows.Replace(window.Id, window);
+            IImmutableDictionary<int, IWindow> windows = _windows.WithEntry(window.Id, window);
             return new WindowCollection(windows);
         }
 
         public IWindow GetNewestWindow()
         {
+            //TODO: implement correctly
             return _windows.Values.OrderByDescending(w => w.Id).First();
         }
 
         public bool ContainsWindow(int id)
         {
             return _windows.ContainsKey(id);
+        }
+
+        public IWindowCollection WithoutWindow(int windowId)
+        {
+            IImmutableDictionary<int, IWindow> windows = _windows.WithoutEntry(windowId);
+            return new WindowCollection(windows);
         }
     }
 }
