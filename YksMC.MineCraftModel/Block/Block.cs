@@ -9,11 +9,11 @@ namespace YksMC.MinecraftModel.Block
     public class Block : IBlock
     {
         // Ram usage optimization
-        private readonly BlockTypeInfo _typeInfo;
-        private readonly byte _lightFromBlocks;
-        private readonly byte _lightFromSky;
-        private readonly IBiome _biome;
-        private readonly byte _dataValue;
+        protected readonly BlockTypeInfo _typeInfo;
+        protected readonly byte _lightFromBlocks;
+        protected readonly byte _lightFromSky;
+        protected readonly IBiome _biome;
+        protected readonly byte _dataValue;
 
         public string Name => _typeInfo.Name;
         public byte LightFromBlocks => _lightFromBlocks;

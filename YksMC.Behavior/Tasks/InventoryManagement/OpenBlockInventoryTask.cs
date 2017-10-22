@@ -17,7 +17,7 @@ namespace YksMC.Behavior.Tasks.InventoryManagement
     /// <summary>
     /// Clicks the target block using the offhand which currently should not contain anything.
     /// </summary>
-    public class OpenBlockWindowTask : BehaviorTask<OpenBlockWindowCommand>
+    public class OpenBlockInventoryTask : BehaviorTask<OpenBlockInventoryCommand>
     {
         private const int _timeout = 3 * 20;
 
@@ -25,7 +25,7 @@ namespace YksMC.Behavior.Tasks.InventoryManagement
 
         public override string Name => $"OpenBlockWindow({_command.Location})";
 
-        public OpenBlockWindowTask(OpenBlockWindowCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler) 
+        public OpenBlockInventoryTask(OpenBlockInventoryCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler) 
             : base(command, minecraftClient, taskScheduler)
         {
         }
@@ -67,6 +67,7 @@ namespace YksMC.Behavior.Tasks.InventoryManagement
             IWindow window = world.Windows.GetNewestWindow();
             if(window.Id != 0 && window.IsFilled)
             {
+                _taskScheduler.EnqueueCommand(new KeepBlockInventoryUpdatedCommand(_command.Location, window.Id));
                 return Success(world);
             }
             if(_ticksWaited > _timeout)

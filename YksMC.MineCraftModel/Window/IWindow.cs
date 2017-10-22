@@ -12,6 +12,7 @@ namespace YksMC.MinecraftModel.Window
         string Title { get; }
         IItemStack[] Slots { get; }
         bool IsFilled { get; }
+        int UniqueSlotCount { get; }
 
         IWindow WithId(int id);
         IWindow WithUniqueSlots(int slotCount);

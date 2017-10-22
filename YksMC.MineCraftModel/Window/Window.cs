@@ -22,6 +22,8 @@ namespace YksMC.MinecraftModel.Window
 
         public bool IsFilled => _slots.Length != 0 && _slots[0] != null;
 
+        public int UniqueSlotCount => _slots.Length - _playerInventorySize;
+
         public Window(string name)
         {
             _name = name;

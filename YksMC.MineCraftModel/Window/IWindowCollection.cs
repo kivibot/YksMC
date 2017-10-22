@@ -10,5 +10,6 @@ namespace YksMC.MinecraftModel.Window
 
         IWindowCollection ReplaceWindow(IWindow window);
         IWindow GetNewestWindow();
+        bool ContainsWindow(int id);
     }
 }

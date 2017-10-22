@@ -5,13 +5,15 @@ using YksMC.MinecraftModel.Chunk;
 
 namespace YksMC.Behavior.Tasks.InventoryManagement
 {
-    public class OpenBlockWindowCommand
+    public class KeepBlockInventoryUpdatedCommand
     {
         public IBlockLocation Location { get; set; }
+        public int WindowId { get; set; }
 
-        public OpenBlockWindowCommand(IBlockLocation location)
+        public KeepBlockInventoryUpdatedCommand(IBlockLocation location, int windowId)
         {
             Location = location;
+            WindowId = windowId;
         }
     }
 }

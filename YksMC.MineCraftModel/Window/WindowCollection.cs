@@ -33,5 +33,10 @@ namespace YksMC.MinecraftModel.Window
         {
             return _windows.Values.OrderByDescending(w => w.Id).First();
         }
+
+        public bool ContainsWindow(int id)
+        {
+            return _windows.ContainsKey(id);
+        }
     }
 }

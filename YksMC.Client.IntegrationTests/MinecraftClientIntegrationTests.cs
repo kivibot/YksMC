@@ -51,6 +51,14 @@ using YksMC.Behavior.Tasks.Building;
 
 namespace YksMC.Client.IntegrationTests
 {
+    public static class ContainerExtensions
+    {
+        public static void RegisterTask<TTask, TCommand>(this ContainerBuilder builder) where TTask : IBehaviorTask
+        {
+            builder.RegisterType<TTask>().AsImplementedInterfaces().Named<IBehaviorTask>($"bt-{typeof(TCommand).Name}");
+        }
+    }
+
     [TestFixture]
     public class MinecraftClientIntegrationTests
     {
@@ -115,7 +123,8 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<ChangeHeldItemTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-ChangeHeldItemCommand");
             builder.RegisterType<HarvestBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-HarvestBlockCommand");
             builder.RegisterType<PlaceHeldBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-PlaceHeldBlockCommand");
-            builder.RegisterType<OpenBlockWindowTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-OpenBlockWindowCommand");
+            builder.RegisterTask<OpenBlockInventoryTask, OpenBlockInventoryCommand>();
+            builder.RegisterTask<KeepBlockInventoryUpdatedTask, KeepBlockInventoryUpdatedCommand>();
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 
@@ -228,9 +237,9 @@ namespace YksMC.Client.IntegrationTests
             ));
             manager.AddUrge(new Urge(
                 "OpenBlockWindowHardCoded",
-                new OpenBlockWindowCommand(new BlockLocation(2676, 4, -796)),
+                new OpenBlockInventoryCommand(new BlockLocation(2676, 4, -796)),
                 new IUrgeScorer[] {
-                    new ConstantScorer(-0.6)
+                    new ConstantScorer(0.6)
                 },
                 new IUrgeCondition[] {
                     new LoggedInCondition(),
@@ -331,7 +340,7 @@ namespace YksMC.Client.IntegrationTests
             blockRegistry.Register(new Block("minecraft:fire", false, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 51, "minecraft:fire");
             blockRegistry.Register(new Block("minecraft:mob_spawner", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 52, "minecraft:mob_spawner");
             blockRegistry.Register(new Block("minecraft:oak_stairs", true, true, 2, HarvestTier.Hand, BlockMaterial.Wood, false, false), 53, "minecraft:oak_stairs");
-            blockRegistry.Register(new Block("minecraft:chest", true, true, 2.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 54, "minecraft:chest");
+            blockRegistry.Register(new ContainerBlock("minecraft:chest", true, true, 2.5, HarvestTier.Hand, BlockMaterial.Wood, false, false, new ChestInventory()), 54, "minecraft:chest");
             blockRegistry.Register(new Block("minecraft:redstone_wire", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 55, "minecraft:redstone_wire");
             blockRegistry.Register(new Block("minecraft:diamond_ore", true, true, 3, HarvestTier.Iron, BlockMaterial.Rock, false, false), 56, "minecraft:diamond_ore");
             blockRegistry.Register(new Block("minecraft:diamond_block", true, true, 5, HarvestTier.Iron, BlockMaterial.Rock, false, false), 57, "minecraft:diamond_block");
@@ -423,7 +432,7 @@ namespace YksMC.Client.IntegrationTests
             blockRegistry.Register(new Block("minecraft:wooden_button", false, true, 0.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 143, "minecraft:wooden_button");
             blockRegistry.Register(new Block("minecraft:skull", true, true, 1, HarvestTier.Hand, BlockMaterial.Normal, false, false), 144, "minecraft:skull");
             blockRegistry.Register(new Block("minecraft:anvil", true, true, 5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 145, "minecraft:anvil");
-            blockRegistry.Register(new Block("minecraft:trapped_chest", true, true, 2.5, HarvestTier.Hand, BlockMaterial.Wood, false, false), 146, "minecraft:trapped_chest");
+            blockRegistry.Register(new ContainerBlock("minecraft:trapped_chest", true, true, 2.5, HarvestTier.Hand, BlockMaterial.Wood, false, false, new ChestInventory()), 146, "minecraft:trapped_chest");
             blockRegistry.Register(new Block("minecraft:light_weighted_pressure_plate", false, true, 0.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 147, "minecraft:light_weighted_pressure_plate");
             blockRegistry.Register(new Block("minecraft:heavy_weighted_pressure_plate", false, true, 0.5, HarvestTier.Wooden, BlockMaterial.Rock, false, false), 148, "minecraft:heavy_weighted_pressure_plate");
             blockRegistry.Register(new Block("minecraft:unpowered_comparator", true, true, 0, HarvestTier.Hand, BlockMaterial.Normal, false, false), 149, "minecraft:unpowered_comparator");
