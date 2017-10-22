@@ -4,6 +4,7 @@ using System.Text;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
@@ -12,23 +13,28 @@ namespace YksMC.Behavior.Tasks
 {
     public class LookAtTask : BehaviorTask<LookAtCommand>
     {
-        public override string Name => $"LookAt({_command.Location.X}, {_command.Location.Y}, {_command.Location.Z})";
+        public override string Name => $"LookAt({_command.Location})";
 
-        public LookAtTask(LookAtCommand command) : base(command)
+        public LookAtTask(LookAtCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler) 
+            : base(command, minecraftClient, taskScheduler)
         {
         }
+        
+        public override bool IsPossible(IWorld world)
+        {
+            return true;
+        }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
         {
             IEntity localEntity = world.GetPlayerEntity()
                 .LookAt(_command.Location);
-            Complete();
-            return Result(world.ChangeCurrentDimension(dimension => dimension.ReplaceEntity(localEntity)));
+            return Success(world.ChangeCurrentDimension(dimension => dimension.ReplaceEntity(localEntity)));
         }
 
-        public override void OnTick(IWorld world, IGameTick tick)
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
         {
-            return;
+            return Result(world);
         }
     }
 }

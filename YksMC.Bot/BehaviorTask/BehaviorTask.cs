@@ -1,41 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.World;
 
 namespace YksMC.Bot.BehaviorTask
 {
-    public abstract class BehaviorTask<T> : WorldEventHandler, IBehaviorTask
+    public abstract class BehaviorTask<T> : IBehaviorTask
     {
-        private bool _isCompleted;
-        private bool _isFailed;
+        protected readonly T _command;
+        protected readonly IMinecraftClient _minecraftClient;
+        protected readonly IBehaviorTaskScheduler _taskScheduler;
 
-        protected T _command;
+        private BehaviorTaskPriority _priority;
 
         public abstract string Name { get; }
-        public bool IsCompleted => _isCompleted;
-        public bool IsFailed => _isFailed;
+        public BehaviorTaskPriority Priority => _priority;
 
-        public BehaviorTask(T command)
+        public BehaviorTask(T command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler)
         {
             _command = command;
+            _minecraftClient = minecraftClient;
+            _taskScheduler = taskScheduler;
+            _priority = BehaviorTaskPriority.Normal;
         }
 
-        public abstract IWorldEventResult OnStart(IWorld world);
-
-        public abstract void OnTick(IWorld world, IGameTick tick);
-
-        protected void Fail()
+        protected void ChangePriority(BehaviorTaskPriority priority)
         {
-            _isFailed = true;
-            _isCompleted = true;
+            _priority = priority;
         }
 
-        protected void Complete()
+        protected IBehaviorTaskEventResult Failure(IWorld world)
         {
-            _isCompleted = true;
+            return new BehaviorTaskEventResult(world, true, true);
         }
+
+        protected IBehaviorTaskEventResult Success(IWorld world)
+        {
+            return new BehaviorTaskEventResult(world, false, true);
+        }
+
+        protected IBehaviorTaskEventResult Result(IWorld world)
+        {
+            return new BehaviorTaskEventResult(world, false, false);
+        }
+
+        public abstract bool IsPossible(IWorld world);
+
+        public abstract IBehaviorTaskEventResult OnStart(IWorld world);
+
+        public virtual Task<bool?> OnStartAsync(IWorld world) => Task.FromResult<bool?>(null);
+
+        public abstract IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick);
+      
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
@@ -20,21 +21,24 @@ namespace YksMC.Behavior.Tasks.Building
 
         public override string Name => $"PlaceHeldBlock({_command.Location})";
 
-        public PlaceHeldBlockTask(PlaceHeldBlockCommand command)
-            : base(command)
+        public PlaceHeldBlockTask(PlaceHeldBlockCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler) 
+            : base(command, minecraftClient, taskScheduler)
         {
-
         }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override bool IsPossible(IWorld world)
         {
             IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
             if (!block.IsEmpty)
             {
-                Fail();
-                return Result(world);
+                return false;
             }
+            return true;
+        }
 
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
+        {
+            IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
             PlayerBlockPlacementPacket packet = new PlayerBlockPlacementPacket()
             {
                 Location = new Position(_command.Location.X, _command.Location.Y, _command.Location.Z),
@@ -44,23 +48,25 @@ namespace YksMC.Behavior.Tasks.Building
                 CursorY = 0,
                 CursorZ = 0
             };
-            return Result(world, packet);
+
+            _minecraftClient.SendPacket(packet);
+
+            return Result(world);
         }
 
-        public override void OnTick(IWorld world, IGameTick tick)
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
         {
             IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
             if (!block.IsEmpty)
             {
-                Complete();
-                return;
+                return Success(world);
             }
             if(_ticksWaited > _timeout)
             {
-                Fail();
-                return;
+                return Failure(world);
             }
             _ticksWaited++;
+            return Result(world);
         }
     }
 }

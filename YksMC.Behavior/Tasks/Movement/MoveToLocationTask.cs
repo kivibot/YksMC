@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.World;
 
@@ -15,60 +17,58 @@ namespace YksMC.Behavior.Tasks.Movement
         private const double _velocity = 0.2;
         private const double _timeoutFactor = 2 / _velocity;
 
-        private readonly IBehaviorTaskScheduler _taskScheduler;
-
         public override string Name => $"MoveToLocation({_command.Location.X}, {_command.Location.Y}, {_command.Location.Z})";
 
-        private IBehaviorTask _task;
+        private Task _task;
         private int _tickCount;
         private int _timeout;
 
-        public MoveToLocationTask(MoveToLocationCommand command, IBehaviorTaskScheduler taskScheduler)
-            : base(command)
+        public MoveToLocationTask(MoveToLocationCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler)
+            : base(command, minecraftClient, taskScheduler)
         {
-            _taskScheduler = taskScheduler;
             _tickCount = 0;
         }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override bool IsPossible(IWorld world)
+        {
+            return true;
+        }
+
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
         {
             _timeout = (int)(_timeoutFactor * _command.Location.AsVector()
                 .Substract(world.GetPlayerEntity().Location.AsVector())
                 .Length());
             return Result(world);
         }
-
-
-        public override void OnTick(IWorld world, IGameTick tick)
+        
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
         {
             IVector3<double> delta = _command.Location.AsVector()
                 .Add(new Vector3d(0, _targetYOffset, 0))
                 .Substract(world.GetPlayerEntity().Location.AsVector());
             if (delta.Length() <= _command.MinimumDistance)
             {
-                Complete();
-                return;
+                return Success(world);
             }
             if (_tickCount > _timeout)
             {
-                Fail();
-                return;
+                return Failure(world);
             }
             _tickCount++;
             if (_task != null && !_task.IsCompleted)
             {
-                return;
+                return Result(world);
             }
             delta = new Vector3d(delta.X, 0, delta.Z);
-            if(delta.Length() == 0)
+            if (delta.Length() == 0)
             {
-                Complete();
-                return;
+                return Success(world);
             }
             IVector3<double> nextMovement = delta.Normalize().Multiply(Math.Min(delta.Length(), _velocity));
-            _task = _taskScheduler.EnqueueTask(new MoveLinearCommand(nextMovement));
-            _taskScheduler.EnqueueTask(new LookAtCommand(_command.Location));
-            return;
+            _task = _taskScheduler.RunCommandAsync(new MoveLinearCommand(nextMovement));
+            _taskScheduler.EnqueueCommand(new LookAtCommand(_command.Location));
+            return Result(world);
         }
     }
 }

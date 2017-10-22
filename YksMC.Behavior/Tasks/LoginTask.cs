@@ -8,38 +8,47 @@ using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
 using YksMC.Bot.WorldEvent;
 using YksMC.Bot.Core;
+using YksMC.Protocol.Models.Constants;
+using System.Threading.Tasks;
 
 namespace YksMC.Behavior.Tasks
 {
     [Obsolete("uses task.wait!!!")]
     public class LoginTask : BehaviorTask<LoginCommand>
     {
-        private readonly IMinecraftClient _minecraftClient;
         private readonly ILoginService _loginService;
 
         public override string Name => "Login";
 
-        public LoginTask(LoginCommand command, ILoginService loginService, IMinecraftClient minecraftClient)
-            : base(command)
+        private IPlayerInfo _playerInfo;
+
+        public LoginTask(LoginCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler, ILoginService loginService) 
+            : base(command, minecraftClient, taskScheduler)
         {
             _loginService = loginService;
-            _minecraftClient = minecraftClient;
         }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override bool IsPossible(IWorld world)
         {
-            _minecraftClient.ConnectAsync("localhost", 25565).Wait();
-
-            IPlayerInfo playerInfo = _loginService.LoginAsync().Result;
-
-            Complete();
-            //TODO: should this be removed from here?
-            return Result(world.ReplaceLocalPlayer(new Player(Guid.Parse(playerInfo.Id), playerInfo.Username)));
+            return _minecraftClient.State == ConnectionState.None;
         }
 
-        public override void OnTick(IWorld world, IGameTick tick)
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
         {
-            return;
+            LoginAsync().GetAwaiter().GetResult();
+            world = world.ReplaceLocalPlayer(new Player(Guid.Parse(_playerInfo.Id), _playerInfo.Username));
+            return Success(world);
+        }
+
+        private async Task LoginAsync()
+        {
+            await _minecraftClient.ConnectAsync("localhost", 25565);
+            _playerInfo = await _loginService.LoginAsync();
+        }
+
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
+        {
+            return Result(world);
         }
     }
 }

@@ -10,10 +10,9 @@ namespace YksMC.Bot.BehaviorTask
 {
     public interface IBehaviorTaskScheduler
     {
-        void EnqueueTask(IBehaviorTask task);
-        IBehaviorTask EnqueueTask(object command);
-        IWorldEventResult HandleTick(IWorld world, IGameTick tick);
-        Task RunTaskAsync(IBehaviorTask task);
-        Task<IBehaviorTask> RunTaskAsync(object command);
+        void EnqueueCommand(object command);
+        Task<bool> RunCommandAsync(object command);
+
+        IWorld HandleTick(IWorld world, IGameTick tick);
     }
 }

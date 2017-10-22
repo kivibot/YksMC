@@ -7,6 +7,7 @@ using YksMC.Behavior.Tasks.InventoryManagement;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
@@ -19,46 +20,48 @@ namespace YksMC.Behavior.Tasks
 {
     public class HarvestBlockTask : BehaviorTask<HarvestBlockCommand>
     {
-        private readonly IBehaviorTaskScheduler _taskScheduler;
-
         public override string Name => $"HarvestBlock({_command.Location})";
 
-        public HarvestBlockTask(HarvestBlockCommand command, IBehaviorTaskScheduler taskScheduler)
-            : base(command)
+        public HarvestBlockTask(HarvestBlockCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler) 
+            : base(command, minecraftClient, taskScheduler)
         {
-            _taskScheduler = taskScheduler;
         }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override bool IsPossible(IWorld world)
         {
             IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
             if (!block.IsDiggable)
-            {
-                Fail();
-                return Result(world);
+            {                
+                return false;
             }
-            IEntity entity = world.GetPlayerEntity();
-            IPlayer player = world.GetLocalPlayer();
-            IPlayerInventory inventory = player.GetInventory();
+            return true;
+        }
 
-            HarvestBlockAsync(block, inventory);
-
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
+        {
             return Result(world);
         }
 
-        private async void HarvestBlockAsync(IBlock block, IPlayerInventory inventory)
+        public override async Task<bool?> OnStartAsync(IWorld world)
+        {
+            IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
+            IEntity entity = world.GetPlayerEntity();
+            IPlayer player = world.GetLocalPlayer();
+            IPlayerInventory inventory = player.GetInventory();
+            return await HarvestBlockAsync(block, inventory);
+        }
+
+        private async Task<bool> HarvestBlockAsync(IBlock block, IPlayerInventory inventory)
         {
             if (!await SelectBestToolInHotbarAsync(block, inventory))
             {
-                Fail();
-                return;
+                return false;
             }
-            if ((await _taskScheduler.RunTaskAsync(new BreakBlockCommand(_command.Location))).IsFailed)
+            if (!(await _taskScheduler.RunCommandAsync(new BreakBlockCommand(_command.Location))))
             {
-                Fail();
-                return;
+                return false;
             }
-            Complete();
+            return true;
         }
 
         private async Task<bool> SelectBestToolInHotbarAsync(IBlock block, IPlayerInventory inventory)
@@ -87,17 +90,17 @@ namespace YksMC.Behavior.Tasks
             {
                 return !_command.FailWhenNoRightToolAvailable;
             }
-            if ((await _taskScheduler.RunTaskAsync(new ChangeHeldItemCommand(bestToolSlot))).IsFailed)
+            if (!(await _taskScheduler.RunCommandAsync(new ChangeHeldItemCommand(bestToolSlot))))
             {
-                Fail();
                 return false;
             }
             return true;
         }
 
-        public override void OnTick(IWorld world, IGameTick tick)
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
         {
-            return;
+            return Result(world);
         }
+
     }
 }

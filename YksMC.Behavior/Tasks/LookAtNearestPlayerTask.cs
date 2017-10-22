@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
@@ -15,29 +17,35 @@ namespace YksMC.Behavior.Tasks
 {
     public class LookAtNearestPlayerTask : BehaviorTask<LookAtNearestPlayerCommand>
     {
-        private readonly IBehaviorTaskScheduler _taskScheduler;
-
         public override string Name => "LookAtNearestPlayer";
 
-        public LookAtNearestPlayerTask(LookAtNearestPlayerCommand command, IBehaviorTaskScheduler taskScheduler)
-            : base(command)
+        public LookAtNearestPlayerTask(LookAtNearestPlayerCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler) 
+            : base(command, minecraftClient, taskScheduler)
         {
-            _taskScheduler = taskScheduler;
         }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override bool IsPossible(IWorld world)
         {
             IPlayer localPlayer = world.GetLocalPlayer();
             if (localPlayer == null)
             {
-                Fail();
-                return Result(world);
+                return false;
             }
             if (!localPlayer.HasEntity)
             {
-                Fail();
-                return Result(world);
+                return false;
             }
+            return true;
+        }
+
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
+        {            
+            return Result(world);
+        }
+
+        public override async Task<bool?> OnStartAsync(IWorld world)
+        {
+            IPlayer localPlayer = world.GetLocalPlayer();
             IDimension dimension = world.GetCurrentDimension();
             IEntity localEntity = dimension.Entities[localPlayer.EntityId];
             IEntityLocation nearest = world.GetPlayers()
@@ -47,27 +55,19 @@ namespace YksMC.Behavior.Tasks
                 .FirstOrDefault();
             if (nearest == null)
             {
-                Fail();
-                return Result(world);
+                return false;
             }
+            
+            if (!(await _taskScheduler.RunCommandAsync(new LookAtCommand(nearest))))
+            {
+                return false;
+            }
+            return true;
+        }
 
-            PerformLookAsync(nearest);
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
+        {
             return Result(world);
         }
-
-        private async void PerformLookAsync(IEntityLocation location)
-        {
-            if((await _taskScheduler.RunTaskAsync(new LookAtCommand(location))).IsFailed)
-            {
-                Fail();
-            }
-            Complete();
-        }
-
-        public override void OnTick(IWorld world, IGameTick tick)
-        {
-            return;
-        }
-
     }
 }

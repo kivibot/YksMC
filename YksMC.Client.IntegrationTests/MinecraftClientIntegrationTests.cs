@@ -70,7 +70,7 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<StreamMinecraftConnection>().AsSelf();
             builder.RegisterType<MinecraftClientWorker>().AsImplementedInterfaces();
             builder.RegisterInstance(new MinecraftClientWorkerOptions() { IgnoreUnsupportedPackets = true });
-            builder.RegisterInstance(new LoggerConfiguration().MinimumLevel.Verbose().WriteTo.Seq("http://localhost:5341").CreateLogger()).As<ILogger>();
+            builder.RegisterInstance(new LoggerConfiguration().MinimumLevel.Verbose().WriteTo.Seq("http://localhost:5341", period: TimeSpan.FromMilliseconds(100)).CreateLogger()).As<ILogger>();
             PacketTypeMapper typeMapper = new PacketTypeMapper();
             typeMapper.RegisterVanillaPackets();
             builder.RegisterInstance(typeMapper).AsImplementedInterfaces();
@@ -230,7 +230,7 @@ namespace YksMC.Client.IntegrationTests
                 "OpenBlockWindowHardCoded",
                 new OpenBlockWindowCommand(new BlockLocation(2676, 4, -796)),
                 new IUrgeScorer[] {
-                    new ConstantScorer(0.6)
+                    new ConstantScorer(-0.6)
                 },
                 new IUrgeCondition[] {
                     new LoggedInCondition(),

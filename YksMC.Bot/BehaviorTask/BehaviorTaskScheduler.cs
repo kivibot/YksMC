@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,87 +14,132 @@ namespace YksMC.Bot.BehaviorTask
     public class BehaviorTaskScheduler : IBehaviorTaskScheduler
     {
         private readonly IBehaviorTaskManager _taskManager;
+        private readonly ILogger _logger;
 
-        private ConcurrentQueue<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> _pendingTasks;
-        private IList<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> _runningTasks;
+        private readonly ConcurrentQueue<TaskPair> _pendingTasks;
+        private readonly SortedDictionary<BehaviorTaskPriority, IList<TaskPair>> _tasks;
 
-        public BehaviorTaskScheduler(IBehaviorTaskManager taskManager)
+        public BehaviorTaskScheduler(IBehaviorTaskManager taskManager, ILogger logger)
         {
-            _pendingTasks = new ConcurrentQueue<Tuple<IBehaviorTask, TaskCompletionSource<bool>>>();
-            _runningTasks = new List<Tuple<IBehaviorTask, TaskCompletionSource<bool>>>();
             _taskManager = taskManager;
+            _pendingTasks = new ConcurrentQueue<TaskPair>();
+            _tasks = new SortedDictionary<BehaviorTaskPriority, IList<TaskPair>>();
+            _logger = logger;
         }
 
-        public void EnqueueTask(IBehaviorTask task)
+        public async void EnqueueCommand(object command)
         {
-            _pendingTasks.Enqueue(new Tuple<IBehaviorTask, TaskCompletionSource<bool>>(task, null));
+            await RunCommandAsync(command);
         }
 
-        public IBehaviorTask EnqueueTask(object command)
+        public IWorld HandleTick(IWorld world, IGameTick tick)
         {
-            IBehaviorTask task = _taskManager.GetTask(command);
-            EnqueueTask(task);
-            return task;
+            world = HandlePending(world);
+            world = HandleRunning(world, tick);
+            return world;
         }
 
-        public IWorldEventResult HandleTick(IWorld world, IGameTick tick)
+        private IWorld HandlePending(IWorld world)
         {
-            List<object> replyPackets = new List<object>();
-
-            List<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> runningTasks = TickExistingTasks(world, tick, _runningTasks).ToList();
-
-            do
+            while (_pendingTasks.TryDequeue(out TaskPair pair))
             {
-                List<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> newTasks = new List<Tuple<IBehaviorTask, TaskCompletionSource<bool>>>();
-                world = StartPendingTasks(world, replyPackets, newTasks);
-                runningTasks.AddRange(TickExistingTasks(world, tick, newTasks));
-            } while (!_pendingTasks.IsEmpty);
-
-            _runningTasks = runningTasks;
-
-            return new WorldEventResult(world, replyPackets);
-        }
-
-        private IEnumerable<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> TickExistingTasks(IWorld world, IGameTick tick, IList<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> runningTasks)
-        {
-            foreach (Tuple<IBehaviorTask, TaskCompletionSource<bool>> task in runningTasks)
-            {
-                if (task.Item1.IsCompleted)
+                if (pair.TaskCompletionSource.Task.IsCompleted)
                 {
-                    task.Item2?.TrySetResult(true);
                     continue;
                 }
-                task.Item1.OnTick(world, tick);
-                yield return task;
+                IBehaviorTaskEventResult result = pair.Task.OnStart(world);
+                world = result.World;
+                if (result.IsCompleted)
+                {
+                    pair.TaskCompletionSource.TrySetResult(!result.IsFailed);
+                    continue;
+                }
+                AddTaskToDictionary(pair);
+                HandleSinglePendingAsync(pair, world);
             }
+            return world;
         }
 
-        private IWorld StartPendingTasks(IWorld world, List<object> replyPackets, IList<Tuple<IBehaviorTask, TaskCompletionSource<bool>>> newTasks)
+        private IWorld HandleRunning(IWorld world, IGameTick tick)
         {
-            while (_pendingTasks.TryDequeue(out Tuple<IBehaviorTask, TaskCompletionSource<bool>> task))
+            IEnumerable<IList<TaskPair>> lists = _tasks.Values.ToList();
+            _tasks.Clear();
+
+            foreach (IList<TaskPair> list in lists)
             {
-                newTasks.Add(task);
-                IWorldEventResult result = task.Item1.OnStart(world);
-                world = result.World;
-                replyPackets.AddRange(result.ReplyPackets);
+                world = HandleRunning(list, world, tick);
             }
 
             return world;
         }
 
-        public async Task RunTaskAsync(IBehaviorTask task)
+        private IWorld HandleRunning(IList<TaskPair> tasks, IWorld world, IGameTick tick)
         {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-            _pendingTasks.Enqueue(new Tuple<IBehaviorTask, TaskCompletionSource<bool>>(task, tcs));
-            await tcs.Task;
+            foreach (TaskPair pair in tasks)
+            {
+                if(pair.TaskCompletionSource.Task.IsCompleted)
+                {
+                    continue;
+                }
+                IBehaviorTaskEventResult result = pair.Task.OnTick(world, tick);
+                world = result.World;
+                if (result.IsCompleted)
+                {
+                    pair.TaskCompletionSource.TrySetResult(!result.IsFailed);
+                    continue;
+                }
+                AddTaskToDictionary(pair);
+            }
+            return world;
         }
 
-        public async Task<IBehaviorTask> RunTaskAsync(object command)
+        private async void HandleSinglePendingAsync(TaskPair pair, IWorld world)
+        {
+            await Task.Yield();
+            bool? success = await pair.Task.OnStartAsync(world);
+            if (!success.HasValue)
+            {
+                return;
+            }
+            pair.TaskCompletionSource.TrySetResult(success.Value);
+        }
+
+        private void AddTaskToDictionary(TaskPair pair)
+        {
+            if (!_tasks.TryGetValue(pair.Task.Priority, out IList<TaskPair> taskList))
+            {
+                taskList = new List<TaskPair>();
+                _tasks[pair.Task.Priority] = taskList;
+            }
+            taskList.Add(pair);
+        }
+
+        public async Task<bool> RunCommandAsync(object command)
         {
             IBehaviorTask task = _taskManager.GetTask(command);
-            await RunTaskAsync(task);
-            return task;
+
+            _logger.Debug("Task queued: {Name}", task.Name);
+
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            _pendingTasks.Enqueue(new TaskPair(task, tcs));
+
+            bool success = await tcs.Task;
+
+            _logger.Debug("Task completed: {Name}, Success: {Success}", task.Name, success);
+
+            return success;
         }
 
+        private class TaskPair
+        {
+            public IBehaviorTask Task { get; }
+            public TaskCompletionSource<bool> TaskCompletionSource { get; }
+
+            public TaskPair(IBehaviorTask task, TaskCompletionSource<bool> taskCompletionSource)
+            {
+                Task = task;
+                TaskCompletionSource = taskCompletionSource;
+            }
+        }
     }
 }

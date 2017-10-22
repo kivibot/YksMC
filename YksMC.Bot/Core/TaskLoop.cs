@@ -26,21 +26,19 @@ namespace YksMC.Bot.Core
 
         private readonly ILogger _logger;
         private readonly IUrgeManager _urgeManager;
-        private readonly IBehaviorTaskManager _behaviorTaskManager;
         private readonly IMinecraftClient _minecraftClient;
         private readonly IEventBus _eventBus;
         private readonly IBehaviorTaskScheduler _taskScheduler;
         private readonly ConcurrentQueue<object> _packetQueue;
 
-        private IBehaviorTask _task;
+        private Task _task;
         private IWorld _world;
 
-        public TaskLoop(ILogger logger, IUrgeManager urgeManager, IBehaviorTaskManager behaviorTaskManager,
-            IMinecraftClient minecraftClient, IEventBus eventBus, IBehaviorTaskScheduler taskScheduler, IWorld world)
+        public TaskLoop(ILogger logger, IUrgeManager urgeManager, IMinecraftClient minecraftClient,
+            IEventBus eventBus, IBehaviorTaskScheduler taskScheduler, IWorld world)
         {
             _logger = logger;
             _urgeManager = urgeManager;
-            _behaviorTaskManager = behaviorTaskManager;
             _minecraftClient = minecraftClient;
             _eventBus = eventBus;
             _taskScheduler = taskScheduler;
@@ -64,7 +62,7 @@ namespace YksMC.Bot.Core
                 long tickEnd = stopwatch.ElapsedMilliseconds;
                 nextTickMilliseconds += _millisecondsPerTick;
 
-                while(tickEnd - nextTickMilliseconds > _skipTicksThreshold * _millisecondsPerTick)
+                while (tickEnd - nextTickMilliseconds > _skipTicksThreshold * _millisecondsPerTick)
                 {
                     _logger.Information("Skipping {Count} ticks", _skipTicksThreshold);
                     nextTickMilliseconds += _skipTicksThreshold * _millisecondsPerTick;
@@ -120,8 +118,7 @@ namespace YksMC.Bot.Core
                 return;
             }
             _logger.Information("Largest urge: {Name}, {Score}", urge.Name, urge.GetScore(_world));
-            _task = _behaviorTaskManager.GetTask(urge.Command);
-            _taskScheduler.EnqueueTask(_task);
+            _task = _taskScheduler.RunCommandAsync(urge.Command);
         }
 
         private void HandlePackets()
@@ -159,12 +156,7 @@ namespace YksMC.Bot.Core
         {
             GameTick tick = new GameTick();
 
-            IWorldEventResult taskResult = _taskScheduler.HandleTick(_world, tick);
-            foreach (object replyPacket in taskResult.ReplyPackets)
-            {
-                _minecraftClient.SendPacket(replyPacket);
-            }
-            _world = taskResult.World;
+            _world = _taskScheduler.HandleTick(_world, tick);
 
             IWorldEventResult result = _eventBus.HandleAsPipeline<IWorldEvent<IGameTick>, IWorldEventResult>(
                 new WorldEvent<IGameTick>(_world, tick),

@@ -5,6 +5,7 @@ using YksMC.Behavior.Misc;
 using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.Common;
 using YksMC.MinecraftModel.Entity;
 using YksMC.MinecraftModel.World;
@@ -14,39 +15,37 @@ namespace YksMC.Behavior.Tasks.Movement
     public class MoveLinearTask : BehaviorTask<MoveLinearCommand>
     {
         private readonly IPlayerCollisionDetectionService _playerCollisionDetectionService;
-        private readonly IBehaviorTaskScheduler _taskScheduler;
 
         public override string Name => "MoveLinear";
 
-        public MoveLinearTask(MoveLinearCommand command, IPlayerCollisionDetectionService playerCollisionDetectionService, IBehaviorTaskScheduler taskScheduler)
-            : base(command)
+        public MoveLinearTask(MoveLinearCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler, IPlayerCollisionDetectionService playerCollisionDetectionService) 
+            : base(command, minecraftClient, taskScheduler)
         {
-            _command = command;
             _playerCollisionDetectionService = playerCollisionDetectionService;
-            _taskScheduler = taskScheduler;
         }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override bool IsPossible(IWorld world)
         {
             IEntity entity = world.GetPlayerEntity();
-
-            if(entity == null)
+            if (entity == null)
             {
-                Fail();
-                return Result(world);
+                return false;
             }
-
-            IVector3<double> vector = _command.Movement;
-            
-            entity = _playerCollisionDetectionService.UpdatePlayerPosition(world, vector);
-
-            Complete();
-            return Result(world.ChangeCurrentDimension(d => d.ReplaceEntity(entity)));
+            return true;
         }
 
-        public override void OnTick(IWorld world, IGameTick tick)
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
         {
+            IEntity entity = world.GetPlayerEntity();
+            IVector3<double> vector = _command.Movement;            
+            entity = _playerCollisionDetectionService.UpdatePlayerPosition(world, vector);
+            world = world.ChangeCurrentDimension(d => d.ReplaceEntity(entity));
+            return Success(world);
+        }
 
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
+        {
+            return Result(world);
         }
     }
 }

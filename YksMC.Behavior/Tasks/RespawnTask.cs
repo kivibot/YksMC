@@ -6,6 +6,7 @@ using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
 using YksMC.Client;
 using YksMC.MinecraftModel.Entity;
+using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Serverbound;
 
@@ -19,32 +20,53 @@ namespace YksMC.Behavior.Tasks
 
         public override string Name => "Respawn";
 
-        public RespawnTask(RespawnCommand command)
-            : base(command)
+        public RespawnTask(RespawnCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler) 
+            : base(command, minecraftClient, taskScheduler)
         {
         }
+        
+        public override bool IsPossible(IWorld world)
+        {
+            IPlayer player = world.GetLocalPlayer();
+            if(player == null)
+            {
+                return false;
+            }
+            if (!player.HasEntity)
+            {
+                return false;
+            }
+            IEntity entity = world.GetPlayerEntity();
+            if (entity.IsAlive)
+            {
+                return false;
+            }
+            return true;
+        }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
         {
             ClientStatusPacket reply = new ClientStatusPacket()
             {
                 ActionId = ClientStatusPacket.Respawn
             };
-            return Result(world, reply);
+            _minecraftClient.SendPacket(reply);
+            return Result(world);
         }
 
-        public override void OnTick(IWorld world, IGameTick tick)
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
         {
             IEntity entity = world.GetPlayerEntity();
             if (entity.IsAlive)
             {
-                Complete();
+                return Success(world);
             }
             if (_ticksWaited > _timeout)
             {
-                Fail();
+                return Failure(world);
             }
             _ticksWaited++;
+            return Result(world);
         }
     }
 }

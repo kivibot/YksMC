@@ -5,6 +5,7 @@ using YksMC.Bot.BehaviorTask;
 using YksMC.Bot.Core;
 using YksMC.Bot.GameObjectRegistry;
 using YksMC.Bot.WorldEvent;
+using YksMC.Client;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.Entity;
@@ -20,8 +21,7 @@ namespace YksMC.Behavior.Tasks
     {
         private const int _ticksPerSecond = 20;
         private const int _timeout = 2 * _ticksPerSecond;
-
-        private readonly IBehaviorTaskScheduler _taskScheduler;
+        
         private readonly IHarvestingTool _handTool;
 
         private int _ticksWaited;
@@ -29,22 +29,26 @@ namespace YksMC.Behavior.Tasks
 
         public override string Name => $"BreakBlock({_command.Location.X}, {_command.Location.Y}, {_command.Location.Z})";
 
-        public BreakBlockTask(BreakBlockCommand command, IBehaviorTaskScheduler taskScheduler, IGameObjectRegistry<IItemStack> items)
-            : base(command)
+        public BreakBlockTask(BreakBlockCommand command, IMinecraftClient minecraftClient, IBehaviorTaskScheduler taskScheduler, IGameObjectRegistry<IItemStack> items)
+            : base(command, minecraftClient, taskScheduler)
         {
-            _taskScheduler = taskScheduler;
             _handTool = items.Get<IHarvestingTool>("yksmc:hand");
             _ticksWaited = 0;
         }
 
-        public override IWorldEventResult OnStart(IWorld world)
+        public override bool IsPossible(IWorld world)
         {
             IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
             if (!block.IsDiggable)
             {
-                Fail();
-                return Result(world);
+                return false;
             }
+            return true;
+        }
+
+        public override IBehaviorTaskEventResult OnStart(IWorld world)
+        {
+            IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
             IEntity entity = world.GetPlayerEntity();
             IPlayer player = world.GetLocalPlayer();
             IHarvestingTool tool = player.GetInventory().GetHeldItem<IHarvestingTool>() ?? _handTool;
@@ -64,25 +68,27 @@ namespace YksMC.Behavior.Tasks
                 Face = 0,
             };
 
-            _taskScheduler.EnqueueTask(new LookAtCommand(new EntityLocation(_command.Location.X + 0.5, _command.Location.Y, _command.Location.Z + 0.5)));
+            _minecraftClient.SendPacket(startPacket);
+            _minecraftClient.SendPacket(endPacket);
 
-            return Result(world, startPacket, endPacket);
+            _taskScheduler.EnqueueCommand(new LookAtCommand(new EntityLocation(_command.Location.X + 0.5, _command.Location.Y, _command.Location.Z + 0.5)));
+
+            return Result(world);
         }
 
-        public override void OnTick(IWorld world, IGameTick tick)
+        public override IBehaviorTaskEventResult OnTick(IWorld world, IGameTick tick)
         {
             IBlock block = world.GetCurrentDimension().GetBlock<IBlock>(_command.Location);
             if (block.IsEmpty)
             {
-                Complete();
-                return;
+                return Success(world);
             }
             if (_ticksWaited > _ticksNeeded + _timeout)
             {
-                Fail();
-                return;
+                return Failure(world);
             }
             _ticksWaited++;
+            return Result(world);
         }
 
         private void CalculateTicksNeeded(IBlock blockType, IHarvestingTool tool)

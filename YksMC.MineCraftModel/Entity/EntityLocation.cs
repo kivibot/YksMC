@@ -32,6 +32,11 @@ namespace YksMC.MinecraftModel.Entity
             return new Vector3d(_x, _y, _z);
         }
 
+        public override string ToString()
+        {
+            return $"{_x}, {_y}, {_z}";
+        }
+
         public static readonly IEntityLocation Origin = new EntityLocation(0, 0, 0);
     }
 }
