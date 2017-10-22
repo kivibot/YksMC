@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YksMC.MinecraftModel.ItemStack;
 
 namespace YksMC.MinecraftModel.Window
 {
     public interface IWindow
     {
         int Id { get; }
+        string Name { get; }
         string Title { get; }
-        IReadOnlyList<IWindowSlot> Slots { get; }
+        IItemStack[] Slots { get; }
 
-        IWindow ReplaceSlot(IWindowSlot slot);
+        IWindow WithId(int id);
+        IWindow WithUniqueSlots(int slotCount);
+        IWindow WithTitle(string title);
+        IWindow WithSlot(int slotIndex, IItemStack slot);
     }
 }

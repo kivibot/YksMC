@@ -23,7 +23,7 @@ namespace YksMC.MinecraftModel.Inventory
 
         public virtual IInventory ChangeSlot(int slotIndex, IItemStack itemStack)
         {
-            if (slotIndex < 0 || slotIndex > _slots.Length)
+            if (slotIndex < 0 || slotIndex >= _slots.Length)
             {
                 throw new ArgumentException(nameof(slotIndex));
             }
@@ -34,7 +34,7 @@ namespace YksMC.MinecraftModel.Inventory
 
         public virtual TSlot GetSlot<TSlot>(int slotIndex) where TSlot : class, IItemStack
         {
-            if (slotIndex < 0 || slotIndex > _slots.Length)
+            if (slotIndex < 0 || slotIndex >= _slots.Length)
             {
                 throw new ArgumentException(nameof(slotIndex));
             }

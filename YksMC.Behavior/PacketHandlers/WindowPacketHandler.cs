@@ -14,13 +14,15 @@ using YksMC.Protocol.Packets.Play.Clientbound;
 namespace YksMC.Behavior.PacketHandlers
 {
     public class WindowPacketHandler : WorldEventHandler, IWorldEventHandler<WindowItemsPacket>, IWorldEventHandler<SetWindowSlotPacket>,
-        IWorldEventHandler<HeldItemChangePacket>
+        IWorldEventHandler<HeldItemChangePacket>, IWorldEventHandler<OpenWindowPacket>
     {
-        private readonly IGameObjectRegistry<IItemStack> _itemStacks;
+        private readonly IGameObjectRegistry<IItemStack> _itemStackRegistry;
+        private readonly IGameObjectRegistry<IWindow> _windowRegistry;
 
-        public WindowPacketHandler(IGameObjectRegistry<IItemStack> itemStacks)
+        public WindowPacketHandler(IGameObjectRegistry<IItemStack> itemStackRegistry, IGameObjectRegistry<IWindow> windowRegistry)
         {
-            _itemStacks = itemStacks;
+            _itemStackRegistry = itemStackRegistry;
+            _windowRegistry = windowRegistry;
         }
 
         public IWorldEventResult Handle(IWorldEvent<WindowItemsPacket> message)
@@ -33,11 +35,11 @@ namespace YksMC.Behavior.PacketHandlers
             for (int index = 0; index < packet.Slots.Count; index++)
             {
                 WindowSlotData slotData = packet.Slots.Values[index];
-                IItemStack itemStack = _itemStacks.Get<IItemStack>(slotData.BlockId)
+                IItemStack itemStack = _itemStackRegistry.Get<IItemStack>(slotData.BlockId)
                     .ChangeSize(slotData.ItemCount);
                 //.ChangeDurability(slotData.ItemDamage);
 
-                inventory = (IPlayerInventory)inventory.ChangeSlot(index, itemStack);
+                //inventory = (IPlayerInventory)inventory.ChangeSlot(index, itemStack);
             }
 
             player = player.ChangeInvetory(inventory);
@@ -57,11 +59,11 @@ namespace YksMC.Behavior.PacketHandlers
             IPlayer player = world.GetLocalPlayer();
             IPlayerInventory inventory = player.GetInventory();
 
-            IItemStack itemStack = _itemStacks.Get<IItemStack>(packet.Slot.BlockId)
+            IItemStack itemStack = _itemStackRegistry.Get<IItemStack>(packet.Slot.BlockId)
                     .ChangeSize(packet.Slot.ItemCount);
             //.ChangeDurability(packet.Slot.ItemDamage);
 
-            inventory = (IPlayerInventory)inventory.ChangeSlot(packet.SlotId, itemStack);
+            //inventory = (IPlayerInventory)inventory.ChangeSlot(packet.SlotId, itemStack);
             player = player.ChangeInvetory(inventory);
             world = world.ReplaceLocalPlayer(player);
             return Result(world);
@@ -78,6 +80,21 @@ namespace YksMC.Behavior.PacketHandlers
 
             player = player.ChangeInvetory(inventory);
             world = world.ReplaceLocalPlayer(player);
+            return Result(world);
+        }
+
+        public IWorldEventResult Handle(IWorldEvent<OpenWindowPacket> message)
+        {
+            OpenWindowPacket packet = message.Event;
+            IWorld world = message.World;
+
+            IWindow window = _windowRegistry.Get<IWindow>(packet.WindowType)
+                .WithId(packet.WindowId)
+                .WithTitle(packet.WindowTitle.Value)
+                .WithUniqueSlots(packet.WindowSlotCount);
+
+            world = world.ReplaceWindow(window);
+
             return Result(world);
         }
     }

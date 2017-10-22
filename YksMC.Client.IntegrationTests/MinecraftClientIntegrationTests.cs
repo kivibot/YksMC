@@ -42,7 +42,6 @@ using YksMC.MinecraftModel.Common;
 using YksMC.Behavior.Tasks.Movement;
 using YksMC.Behavior.Misc.Pathfinder;
 using YksMC.MinecraftModel.Window;
-using YksMC.Data.Json.Window;
 using YksMC.Data.Json.ItemType;
 using YksMC.Bot.GameObjectRegistry;
 using YksMC.MinecraftModel.Inventory;
@@ -94,7 +93,6 @@ namespace YksMC.Client.IntegrationTests
 
             builder.RegisterType<JsonBiomeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonEntityTypeRepository>().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<JsonWindowTypeRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonItemTypeRepository>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<UrgeManager>().AsImplementedInterfaces().SingleInstance();
@@ -136,13 +134,18 @@ namespace YksMC.Client.IntegrationTests
             RegisterVanillaBlocks(blockRegistry);
             builder.RegisterInstance(blockRegistry).As<IGameObjectRegistry<IBlock>>();
 
+            IGameObjectRegistry<IWindow> windowRegistry = new GameObjectRegistry<IWindow>();
+            RegisterVanillaWindows(windowRegistry);
+            builder.RegisterInstance(windowRegistry).As<IGameObjectRegistry<IWindow>>();
+
+
             IBlock emptyBlock = blockRegistry.Get<IBlock>("minecraft:air")
                 .WithBiome(new Biome("void"));
             IChunk emptyChunk = new Chunk(emptyBlock);
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
             dimensions[0] = dimension;
-            IWindow inventoryWindow = new Window(0, "inventory", new List<IWindowSlot>());
+            IWindow inventoryWindow = windowRegistry.Get<IWindow>("yksmc:player");
             IWindowCollection windowCollection = new WindowCollection()
                 .ReplaceWindow(inventoryWindow);
             IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, null, windowCollection);
@@ -227,7 +230,7 @@ namespace YksMC.Client.IntegrationTests
                 "OpenBlockWindowHardCoded",
                 new OpenBlockWindowCommand(new BlockLocation(2676, 4, -796)),
                 new IUrgeScorer[] {
-                    new ConstantScorer(-0.6)
+                    new ConstantScorer(0.6)
                 },
                 new IUrgeCondition[] {
                     new LoggedInCondition(),
@@ -252,6 +255,25 @@ namespace YksMC.Client.IntegrationTests
         }
 
 #region Game objects
+
+        private void RegisterVanillaWindows(IGameObjectRegistry<IWindow> windowRegistry)
+        {
+            windowRegistry.Register(new Window("yksmc:player").WithUniqueSlots(10), "yksmc:player");
+            windowRegistry.Register(new Window("minecraft:container"), "minecraft:container");
+            windowRegistry.Register(new Window("minecraft:chest"), "minecraft:chest");
+            windowRegistry.Register(new Window("minecraft:crafting_table"), "minecraft:crafting_table");
+            windowRegistry.Register(new Window("minecraft:furnace"), "minecraft:furnace");
+            windowRegistry.Register(new Window("minecraft:dispenser"), "minecraft:dispenser");
+            windowRegistry.Register(new Window("minecraft:enchanting_table"), "minecraft:enchanting_table");
+            windowRegistry.Register(new Window("minecraft:brewing_stand"), "minecraft:brewing_stand");
+            windowRegistry.Register(new Window("minecraft:villager"), "minecraft:villager");
+            windowRegistry.Register(new Window("minecraft:beacon"), "minecraft:beacon");
+            windowRegistry.Register(new Window("minecraft:anvil"), "minecraft:anvil");
+            windowRegistry.Register(new Window("minecraft:hopper"), "minecraft:hopper");
+            windowRegistry.Register(new Window("minecraft:dropper"), "minecraft:dropper");
+            windowRegistry.Register(new Window("minecraft:shulker_box"), "minecraft:shulker_box");
+            windowRegistry.Register(new Window("EntityHorse"), "EntityHorse");
+        }
 
         private void RegisterVanillaBlocks(IGameObjectRegistry<IBlock> blockRegistry)
         {

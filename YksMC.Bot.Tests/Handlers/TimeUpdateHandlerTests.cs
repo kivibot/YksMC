@@ -43,7 +43,7 @@ namespace YksMC.Bot.Tests.Handlers
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
             dimensions[0] = dimension;
-            IWindow inventoryWindow = new Window(0, "inventory", new List<IWindowSlot>());
+            IWindow inventoryWindow = new Window("inventory").WithUniqueSlots(10);
             IWindowCollection windowCollection = new WindowCollection()
                 .ReplaceWindow(inventoryWindow);
             IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, dimension, windowCollection);
