@@ -47,6 +47,12 @@ namespace YksMC.Bot.BehaviorTask
                 {
                     continue;
                 }
+                if(!pair.Task.IsPossible(world))
+                {
+                    _logger.Verbose("Task not possible: {Name}", pair.Task.Name);
+                    pair.TaskCompletionSource.TrySetResult(false);
+                    continue;
+                }
                 IBehaviorTaskEventResult result = pair.Task.OnStart(world);
                 world = result.World;
                 if (result.IsCompleted)
