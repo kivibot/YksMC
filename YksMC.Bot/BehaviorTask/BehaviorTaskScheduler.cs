@@ -49,7 +49,7 @@ namespace YksMC.Bot.BehaviorTask
                 }
                 if(!pair.Task.IsPossible(world))
                 {
-                    _logger.Verbose("Task not possible: {Name}", pair.Task.Name);
+                    _logger.Verbose("Task is not possible: {Name}", pair.Task.Name);
                     pair.TaskCompletionSource.TrySetResult(false);
                     continue;
                 }
