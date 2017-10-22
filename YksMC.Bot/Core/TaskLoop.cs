@@ -22,6 +22,7 @@ namespace YksMC.Bot.Core
     {
         private const long _ticksPerSecond = 20;
         private const long _millisecondsPerTick = 1000 / _ticksPerSecond;
+        private const long _skipTicksThreshold = 20;
 
         private readonly ILogger _logger;
         private readonly IUrgeManager _urgeManager;
@@ -62,6 +63,13 @@ namespace YksMC.Bot.Core
 
                 long tickEnd = stopwatch.ElapsedMilliseconds;
                 nextTickMilliseconds += _millisecondsPerTick;
+
+                while(tickEnd - nextTickMilliseconds > _skipTicksThreshold * _millisecondsPerTick)
+                {
+                    _logger.Information("Skipping {Count} ticks", _skipTicksThreshold);
+                    nextTickMilliseconds += _skipTicksThreshold * _millisecondsPerTick;
+                }
+
                 long sleepMilliseconds = Math.Max(nextTickMilliseconds - tickEnd, 0);
                 _logger.ForContext("TickEnd", tickEnd)
                     .ForContext("NextTick", nextTickMilliseconds)

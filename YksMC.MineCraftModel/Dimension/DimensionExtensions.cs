@@ -13,11 +13,11 @@ namespace YksMC.MinecraftModel.Dimension
             return dimension.ChangeAgeAndTime(getAgeAndTime(dimension.AgeAndTime));
         }
 
-        public static IBlock GetBlock(this IDimension dimension, IBlockLocation blockLocation)
+        public static T GetBlock<T>(this IDimension dimension, IBlockLocation blockLocation) where T : class, IBlock
         {
             IChunkCoordinate chunkLocation = new ChunkCoordinate(blockLocation);
             IChunk chunk = dimension.GetChunk(chunkLocation);
-            return chunk.GetBlock(blockLocation);
+            return chunk.GetBlock<T>(blockLocation);
         }
     }
 }

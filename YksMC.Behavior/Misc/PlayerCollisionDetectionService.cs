@@ -127,7 +127,7 @@ namespace YksMC.Behavior.Misc
             int blockX = GetBlockCoordinateScalar(entityLocation.X, velocity.X, hit.HitX);
             int blockY = GetBlockCoordinateScalar(entityLocation.Y, velocity.Y, hit.HitY);
             int blockZ = GetBlockCoordinateScalar(entityLocation.Z, velocity.Z, hit.HitZ);
-            return dimension.GetBlock(new BlockLocation(blockX, blockY, blockZ));
+            return dimension.GetBlock<IBlock>(new BlockLocation(blockX, blockY, blockZ));
         }
 
         private int GetBlockCoordinateScalar(double location, double direction, bool hitAxis)

@@ -67,7 +67,7 @@ namespace YksMC.Behavior.PacketHandlers
             int blockId = networkId >> 4;
             byte blockMetadata = (byte)(networkId & 0b1111);
 
-            IBlock oldBlock = chunk.GetBlock(position);
+            IBlock oldBlock = chunk.GetBlock<IBlock>(position);
 
             IBlock block = _blockRegistry.Get<IBlock>(blockId)
                 .WithDataValue(blockMetadata)

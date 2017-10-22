@@ -41,10 +41,10 @@ namespace YksMC.MinecraftModel.Chunk
             return new Chunk(sections);
         }
 
-        public IBlock GetBlock(IBlockLocation position)
+        public T GetBlock<T>(IBlockLocation position) where T : class, IBlock
         {
             ChunkSection section = GetSection(position);
-            return section.GetBlock(position);
+            return section.GetBlock(position) as T;
         }
 
         private ChunkSection GetSection(IBlockLocation position)

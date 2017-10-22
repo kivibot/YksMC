@@ -29,8 +29,7 @@ namespace YksMC.Behavior.PacketHandlers
         {
             WindowItemsPacket packet = message.Event;
             IWorld world = message.World;
-            IPlayer player = world.GetLocalPlayer();
-            IPlayerInventory inventory = player.GetInventory();
+            IWindow window = world.Windows[packet.WindowId];
 
             for (int index = 0; index < packet.Slots.Count; index++)
             {
@@ -39,11 +38,10 @@ namespace YksMC.Behavior.PacketHandlers
                     .ChangeSize(slotData.ItemCount);
                 //.ChangeDurability(slotData.ItemDamage);
 
-                //inventory = (IPlayerInventory)inventory.ChangeSlot(index, itemStack);
+                window = window.WithSlot(index, itemStack);
             }
 
-            player = player.ChangeInvetory(inventory);
-            world = world.ReplaceLocalPlayer(player);
+            world = world.ReplaceWindow(window);
             return Result(world);
         }
 
@@ -56,16 +54,14 @@ namespace YksMC.Behavior.PacketHandlers
                 return Result(world);
             }
 
-            IPlayer player = world.GetLocalPlayer();
-            IPlayerInventory inventory = player.GetInventory();
+            IWindow window = world.Windows[packet.WindowId];
 
             IItemStack itemStack = _itemStackRegistry.Get<IItemStack>(packet.Slot.BlockId)
                     .ChangeSize(packet.Slot.ItemCount);
             //.ChangeDurability(packet.Slot.ItemDamage);
 
-            //inventory = (IPlayerInventory)inventory.ChangeSlot(packet.SlotId, itemStack);
-            player = player.ChangeInvetory(inventory);
-            world = world.ReplaceLocalPlayer(player);
+            window = window.WithSlot(packet.SlotId, itemStack);
+            world = world.ReplaceWindow(window);
             return Result(world);
         }
 

@@ -143,7 +143,7 @@ namespace YksMC.Behavior.Misc.Pathfinder
         private bool IsValidLocation(IBlockLocation location, IDimension dimension, int width = 1, bool requireSolidFloor = false, int height = 2)
         {
             //TODO: handle unloaded chunks
-            if (!dimension.GetChunk(new ChunkCoordinate(location)).GetBlock(new BlockLocation(0, 0, 0)).IsSolid)
+            if (!dimension.GetChunk(new ChunkCoordinate(location)).GetBlock<IBlock>(new BlockLocation(0, 0, 0)).IsSolid)
             {
                 return false;
             }
@@ -153,13 +153,13 @@ namespace YksMC.Behavior.Misc.Pathfinder
                 {
                     for (int y = 0; y < height; y++)
                     {
-                        IBlock block = dimension.GetBlock(location.Add(x, y, z));
+                        IBlock block = dimension.GetBlock<IBlock>(location.Add(x, y, z));
                         if (block.IsSolid || block.IsDangerous)
                         {
                             return false;
                         }
                     }
-                    IBlock floorBlock = dimension.GetBlock(location.Add(x, -1, z));
+                    IBlock floorBlock = dimension.GetBlock<IBlock>(location.Add(x, -1, z));
                     if (requireSolidFloor)
                     {
                         if (!floorBlock.IsSolid)
@@ -178,7 +178,7 @@ namespace YksMC.Behavior.Misc.Pathfinder
 
         private bool IsSolidAndSafe(IBlockLocation location, IDimension dimension)
         {
-            IBlock block = dimension.GetBlock(location);
+            IBlock block = dimension.GetBlock<IBlock>(location);
             return block.IsSolid && !block.IsDangerous;
         }
 

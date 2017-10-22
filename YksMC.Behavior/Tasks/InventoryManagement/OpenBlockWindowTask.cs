@@ -6,6 +6,7 @@ using YksMC.Bot.Core;
 using YksMC.Bot.WorldEvent;
 using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.Dimension;
+using YksMC.MinecraftModel.Window;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Models.Types;
 using YksMC.Protocol.Packets.Play.Serverbound;
@@ -17,16 +18,25 @@ namespace YksMC.Behavior.Tasks.InventoryManagement
     /// </summary>
     public class OpenBlockWindowTask : BehaviorTask<OpenBlockWindowCommand>
     {
+        private const int _timeout = 3 * 20;
+
+        private int _ticksWaited = 0;
+
+        public override string Name => $"OpenBlockWindow({_command.Location})";
+
         public OpenBlockWindowTask(OpenBlockWindowCommand command) : base(command)
         {
         }
 
-        public override string Name => throw new NotImplementedException();
-
         public override IWorldEventResult OnStart(IWorld world)
         {
-            IBlock block = world.GetCurrentDimension().GetBlock(_command.Location);
-            if (block.IsEmpty)
+            IContainerBlock block = world.GetCurrentDimension().GetBlock<IContainerBlock>(_command.Location);
+            if (block == null || block.IsEmpty)
+            {
+                Fail();
+                return Result(world);
+            }
+            if(world.Windows.GetNewestWindow().Id != 0)
             {
                 Fail();
                 return Result(world);
@@ -45,6 +55,18 @@ namespace YksMC.Behavior.Tasks.InventoryManagement
 
         public override void OnTick(IWorld world, IGameTick tick)
         {
+            IWindow window = world.Windows.GetNewestWindow();
+            if(window.Id != 0 && window.IsFilled)
+            {
+                Complete();
+                return;
+            }
+            if(_ticksWaited > _timeout)
+            {
+                Fail();
+                return;
+            }
+            _ticksWaited++;
             return;
         }
     }

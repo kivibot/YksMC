@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using YksMC.Bot.Urge;
+using YksMC.MinecraftModel.Block;
 using YksMC.MinecraftModel.Chunk;
 using YksMC.MinecraftModel.Dimension;
 using YksMC.MinecraftModel.World;
@@ -21,7 +22,7 @@ namespace YksMC.Behavior.UrgeConditions
 
         public bool IsPossible(IWorld world)
         {
-            return world.GetCurrentDimension().GetBlock(_location).IsSolid;
+            return world.GetCurrentDimension().GetBlock<IBlock>(_location).IsSolid;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace YksMC.MinecraftModel.Window
         public IItemStack[] Slots => _slots;
         public string Name => _name;
 
+        public bool IsFilled => _slots.Length != 0 && _slots[0] != null;
+
         public Window(string name)
         {
             _name = name;
