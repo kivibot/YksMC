@@ -125,6 +125,9 @@ namespace YksMC.Client.IntegrationTests
             builder.RegisterType<PlaceHeldBlockTask>().AsImplementedInterfaces().Named<IBehaviorTask>("bt-PlaceHeldBlockCommand");
             builder.RegisterTask<OpenBlockInventoryTask, OpenBlockInventoryCommand>();
             builder.RegisterTask<KeepBlockInventoryUpdatedTask, KeepBlockInventoryUpdatedCommand>();
+            builder.RegisterTask<KeepPlayerInventoryUpdatedTask, KeepPlayerInventoryUpdatedCommand>();
+            builder.RegisterTask<SwapWindowSlotsTask, SwapWindowSlotsCommand>();
+            builder.RegisterTask<PickUpWindowSlotTask, PickUpWindowSlotCommand>();
 
             builder.RegisterType<BehaviorTaskScheduler>().AsImplementedInterfaces().SingleInstance();
 
@@ -154,8 +157,10 @@ namespace YksMC.Client.IntegrationTests
             IDimension dimension = new MinecraftModel.Dimension.Dimension(0, new DimensionType(true), emptyChunk);
             Dictionary<int, IDimension> dimensions = new Dictionary<int, IDimension>();
             dimensions[0] = dimension;
-            IWindow inventoryWindow = windowRegistry.Get<IWindow>("yksmc:player");
+            IWindow inventoryWindow = windowRegistry.Get<IWindow>("yksmc:player").WithId(0);
+            IWindow cursorWindow = windowRegistry.Get<IWindow>("yksmc:cursor").WithId(255);
             IWindowCollection windowCollection = new WindowCollection()
+                .WithWindow(cursorWindow)
                 .WithWindow(inventoryWindow);
             IWorld world = new World(new Dictionary<Guid, IPlayer>(), null, dimensions, null, windowCollection);
             builder.RegisterInstance(world);
@@ -247,6 +252,18 @@ namespace YksMC.Client.IntegrationTests
                     new SolidBlockCondition(new BlockLocation(2676, 4, -796))
                 }
             ));
+            manager.AddUrge(new Urge(
+                "OpenBlockWindowHardCoded",
+                new SwapWindowSlotsCommand(1, 0, 1),
+                new IUrgeScorer[] {
+                    new RandomScorer(0, 0.61, random)
+                },
+                new IUrgeCondition[] {
+                    new LoggedInCondition(),
+                    new AliveCondition(),
+                    new SolidBlockCondition(new BlockLocation(2676, 4, -796))
+                }
+            ));
         }
 
         [TearDown]
@@ -268,6 +285,7 @@ namespace YksMC.Client.IntegrationTests
         private void RegisterVanillaWindows(IGameObjectRegistry<IWindow> windowRegistry)
         {
             windowRegistry.Register(new Window("yksmc:player").WithUniqueSlots(10), "yksmc:player");
+            windowRegistry.Register(new Window("yksmc:cursor").WithUniqueSlots(1), "yksmc:cursor");
             windowRegistry.Register(new Window("minecraft:container"), "minecraft:container");
             windowRegistry.Register(new Window("minecraft:chest"), "minecraft:chest");
             windowRegistry.Register(new Window("minecraft:crafting_table"), "minecraft:crafting_table");

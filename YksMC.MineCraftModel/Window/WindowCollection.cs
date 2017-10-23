@@ -31,8 +31,8 @@ namespace YksMC.MinecraftModel.Window
 
         public IWindow GetNewestWindow()
         {
-            //TODO: implement correctly
-            return _windows.Values.OrderByDescending(w => w.Id).First();
+            //TODO: implement correctly, magic number are bad too
+            return _windows.Values.OrderByDescending(w => w.Id).Where(w => w.Id != 255).First();
         }
 
         public bool ContainsWindow(int id)
@@ -44,6 +44,11 @@ namespace YksMC.MinecraftModel.Window
         {
             IImmutableDictionary<int, IWindow> windows = _windows.WithoutEntry(windowId);
             return new WindowCollection(windows);
+        }
+
+        public IWindow GetCursorWindow()
+        {
+            return _windows[255]; //TODO: magic numbers are a bad idea
         }
     }
 }

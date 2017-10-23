@@ -71,5 +71,27 @@ namespace YksMC.MinecraftModel.ItemStack
         {
             return new ItemStack(name, size, maxSize, durability, maxDurability);
         }
+
+        public override bool Equals(object obj)
+        {
+            var stack = obj as IItemStack;
+            return stack != null &&
+                   Name == stack.Name &&
+                   Size == stack.Size &&
+                   MaxSize == stack.MaxSize &&
+                   Durability == stack.Durability &&
+                   MaxDurability == stack.MaxDurability;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -316797286;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + Size.GetHashCode();
+            hashCode = hashCode * -1521134295 + MaxSize.GetHashCode();
+            hashCode = hashCode * -1521134295 + Durability.GetHashCode();
+            hashCode = hashCode * -1521134295 + MaxDurability.GetHashCode();
+            return hashCode;
+        }
     }
 }

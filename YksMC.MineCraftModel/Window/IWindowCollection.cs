@@ -12,6 +12,8 @@ namespace YksMC.MinecraftModel.Window
         IWindowCollection WithoutWindow(int windowId);
 
         IWindow GetNewestWindow();
+        IWindow GetCursorWindow();
+
         bool ContainsWindow(int id);
     }
 }

@@ -10,11 +10,13 @@ using YksMC.MinecraftModel.Player;
 using YksMC.MinecraftModel.Window;
 using YksMC.MinecraftModel.World;
 using YksMC.Protocol.Packets.Play.Clientbound;
+using YksMC.Protocol.Packets.Play.Common;
 
 namespace YksMC.Behavior.PacketHandlers
 {
     public class WindowPacketHandler : WorldEventHandler, IWorldEventHandler<WindowItemsPacket>, IWorldEventHandler<SetWindowSlotPacket>,
-        IWorldEventHandler<HeldItemChangePacket>, IWorldEventHandler<OpenWindowPacket>, IWorldEventHandler<CloseWindowPacket>
+        IWorldEventHandler<HeldItemChangePacket>, IWorldEventHandler<OpenWindowPacket>, IWorldEventHandler<CloseWindowPacket>,
+        IWorldEventHandler<ConfirmTransactionPacket>
     {
         private readonly IGameObjectRegistry<IItemStack> _itemStackRegistry;
         private readonly IGameObjectRegistry<IWindow> _windowRegistry;
@@ -49,10 +51,7 @@ namespace YksMC.Behavior.PacketHandlers
         {
             SetWindowSlotPacket packet = message.Event;
             IWorld world = message.World;
-            if (packet.WindowId == 255 && packet.SlotId == -1)
-            {
-                return Result(world);
-            }
+            packet.SlotId = packet.SlotId < 0 ? (short)0 : packet.SlotId;
 
             IWindow window = world.Windows[packet.WindowId];
 
@@ -105,6 +104,11 @@ namespace YksMC.Behavior.PacketHandlers
             }
             world = world.WithoutWindow(packet.WindowId);
             return Result(world);
+        }
+
+        public IWorldEventResult Handle(IWorldEvent<ConfirmTransactionPacket> message)
+        {
+            return Result(message.World, message.Event);
         }
     }
 }

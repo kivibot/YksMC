@@ -10,6 +10,7 @@ using YksMC.Bot.WorldEvent;
 using YksMC.Bot.Core;
 using YksMC.Protocol.Models.Constants;
 using System.Threading.Tasks;
+using YksMC.Behavior.Tasks.InventoryManagement;
 
 namespace YksMC.Behavior.Tasks
 {
@@ -37,6 +38,8 @@ namespace YksMC.Behavior.Tasks
         {
             LoginAsync().GetAwaiter().GetResult();
             world = world.ReplaceLocalPlayer(new Player(Guid.Parse(_playerInfo.Id), _playerInfo.Username));
+            //TODO: remove from here?
+            _taskScheduler.EnqueueCommand(new KeepPlayerInventoryUpdatedCommand());
             return Success(world);
         }
 
